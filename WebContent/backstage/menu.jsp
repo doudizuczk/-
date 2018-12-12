@@ -39,6 +39,7 @@
  						</c:choose>	
  					</c:forEach>
  				</tr>
+ 				<!-- 注释1 -->
  				</c:forEach>
  			</tbody>
  		</table>
