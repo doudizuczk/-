@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<!-- 	***************************************第一种事务方法*************************************************************** -->
+	<!-- 事务管理 -->
+<!-- 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+<!-- 		<property name="dataSource" ref="dataSource"></property> -->
+<!-- 	</bean> -->
+	
+	<!-- 事务管理通知 -->
+<!-- 	<tx:advice id="txAdvice" transaction-manager="transactionManager"> -->
+<!-- 		<tx:attributes> -->
+			<!-- 
+				1、脏读(Read uncommitted)：事务A读到了事务B还没有提交的数据，比如银行取钱，事务A开启事务，此时切换到事务B，事务B开启事务===取走100元，此时切换回事务A，事务A读取的肯定是数据库里面的原始数据，因为事务B取走了100块钱，并没有提交，数据库里面的账务余额肯定还是原始余额，这就是脏读。
+　　				2、不可重复读(Read committed)：在一个事务里面读取了两次某个数据，读出来的数据不一致。还是以银行取钱为例，事务A开启事务===查出银行卡余额为1000元，此时切换到事务B事务B开启事务===事务B取走100元===提交，数据库里面余额变为900元，此时切换回事务A，事务A再查一次查出账户余额为900元，这样对事务A而言，在同一个事务内两次读取账户余额数据不一致，这就是不可重复读。
+　　				3、幻读(Repeatable read)：在一个事务里面的操作中发现了未被操作的数据。比如学生信息，事务A开启事务===修改所有学生当天签到状况为false，此时切换到事务B，事务B开启事务===事务B插入了一条学生数据，此时切换回事务A，事务A提交的时候发现了一条自己没有修改过的数据，这就是幻读，就好像发生了幻觉一样。幻读出现的前提是并发的事务中有事务发生了插入、删除操作。
+				4、串行化(serializable)：事务串行化顺序执行，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。
+				重点：isolation - 事务隔离级别， MySQL默认是repeatable-read. Oracle默认是read-committed
+				propagation - 事务传播特性，最常用的是REQUIRED, REQUIRES_NEW
+			 -->
+<!-- 			<tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/> -->
+<!-- 			<tx:method name="add*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/> -->
+<!-- 			<tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="java.lang.Exception"/> -->
+<!-- 		</tx:attributes> -->
+<!-- 	</tx:advice> -->
+	
+	<!-- 事务切面 -->
+<!-- 	<aop:config> -->
+<!-- 		<aop:advisor advice-ref="txAdvice" pointcut="execution( * org.great.service.*.*(..) )"/> -->
+<!-- 	</aop:config> -->
+	
+<!-- 	***************************************第二种事务方法*************************************************************** -->
+
+	<!-- 事务管理 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 使用注解事务，需要添加Transactional注解属性 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>

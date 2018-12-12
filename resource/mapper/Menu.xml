@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.MenuMapper">
+	<select id="queryAllMenu" resultType="HashMap">
+		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_PID "menuPid",MENU_SEQ "menuSeq"  from T_MENU
+	</select>
+	
+</mapper>
