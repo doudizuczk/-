@@ -33,7 +33,7 @@
  							</c:when>
  						<c:otherwise>
  							<c:if test="${menu.menuPid==0}">
- 								<td>${menu.menuName}</td>
+ 								<td>1</td>
  							</c:if>
  						</c:otherwise>
  						</c:choose>	
