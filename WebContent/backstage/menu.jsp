@@ -32,8 +32,8 @@
  								<td>${menutwo.menuName}</td>	
  							</c:when>
  						<c:otherwise>
- 							<c:if test="${menu.menuPid==0}">
- 								<td>${menu.menuName}</td>
+ 							<c:if test="${menutwo.menuPid==0&&menutwo.menuId==menu.menuId}">
+ 								<td>${menutwo.menuName}</td>
  							</c:if>
  						</c:otherwise>
  						</c:choose>	
