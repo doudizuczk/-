@@ -22,5 +22,11 @@ public class MenuServiceImpl implements IMenuService{
 		menuList=menuMapper.queryAllMenu();
 		return menuList;
 	}
+
+	@Override //查询一级菜单
+	public List<Map<String, Object>> queryFirstMenu() {
+		
+		return null;
+	}
 	
 }

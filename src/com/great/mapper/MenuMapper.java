@@ -6,5 +6,6 @@ import java.util.Map;
 import com.great.bean.Menu;
 
 public interface MenuMapper {
-	public List<Map<String,Object>> queryAllMenu();
+	public List<Map<String,Object>> queryAllMenu();//查询所有菜单
+	public List<Map<String,Object>> queryFirstMenu();//查询一级菜单
 }

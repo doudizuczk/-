@@ -4,7 +4,10 @@
     
 <mapper namespace="com.great.mapper.MenuMapper">
 	<select id="queryAllMenu" resultType="HashMap">
-		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_PID "menuPid",MENU_SEQ "menuSeq"  from T_MENU
+		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq",  
+		b.MENU_NAME "menuPname" from T_MENU a,T_MENU b where a.MENU_PID=b.MENU_ID
 	</select>
-	
+	<select id="" resultType="HashMap">
+		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_SEQ "menuSeq",MENU_PID "menuPid"
+	</select>
 </mapper>
