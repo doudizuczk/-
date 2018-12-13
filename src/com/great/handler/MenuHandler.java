@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
@@ -27,10 +28,36 @@ public class MenuHandler {
 	@RequestMapping("/menuList.action")
 	public ModelAndView queryAllMenu(HttpServletRequest request,Integer pageNum,Integer searchNum) {
 		ModelAndView model=new ModelAndView();
-		//Page<Object> page=PageHelper.startPage(pageNum, searchNum);
+		Integer pages=1;
+		Page<Object> page=PageHelper.startPage(pages, 10);
 		List<Map<String,Object>> menuList=menuService.queryAllMenu();
+		Integer nowNum=page.getPageNum();//当前页数
+		Integer allNum=page.getPages();//总页数
 		model.addObject("menuList",menuList);
+		model.addObject("pageNum", nowNum);
+		model.addObject("allNum", allNum);
 		model.setViewName("forward:/backstage/menu.jsp");
+		return model;
+	}
+	//翻页请求
+	@RequestMapping(value="/pageMenuList.action",method = RequestMethod.GET)
+	public ModelAndView pageMenuList(HttpServletRequest request,Integer pageNum) {
+		ModelAndView model=new ModelAndView();
+		Page<Object> page=PageHelper.startPage(pageNum, 10);
+		List<Map<String,Object>> menuList=menuService.queryAllMenu();
+		Integer nowNum=page.getPageNum();//当前页数
+		Integer allNum=page.getPages();//总页数
+		model.addObject("menuList",menuList);
+		model.addObject("pageNum", nowNum);
+		model.addObject("allNum", allNum);
+		model.setViewName("forward:/backstage/menu.jsp");
+		return model;
+	}
+	//新增菜单
+	@RequestMapping(value="/createMenu.action")
+	public ModelAndView createMenu() {
+		ModelAndView model=new ModelAndView();
+		
 		return model;
 	}
 }
