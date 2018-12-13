@@ -116,7 +116,5 @@ function changeCode() {
 	$("#imageCode").attr("src","<%=request.getContextPath()%>/validateCode/validateCode.action?"+Math.random());
 };
 </script>
-
-
 </body>
 </html>
