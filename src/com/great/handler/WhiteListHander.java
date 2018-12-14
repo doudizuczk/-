@@ -27,7 +27,6 @@ public class WhiteListHander {
 	
 	@RequestMapping("/whiteList.action")
 	public ModelAndView queryAllWhiteList(HttpServletRequest request,Integer pageNum) {
-		System.out.println(pageNum);
 		if(pageNum==null) {
 			pageNum=1;
 		}
