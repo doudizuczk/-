@@ -17,18 +17,17 @@ public class Menu implements Serializable{
 	private String menuName;
 	private String menuUrl;
 	private Integer menuPid;
-	private String menuSeq;
-	public Menu(Integer menuId, String menuName, String menuUrl, Integer menuPid, String menuSeq) {
+	private Integer menuSeq;
+	public Menu() {
+		
+	}
+	public Menu(Integer menuId, String menuName, String menuUrl, Integer menuPid, Integer menuSeq) {
 		super();
 		this.menuId = menuId;
 		this.menuName = menuName;
 		this.menuUrl = menuUrl;
 		this.menuPid = menuPid;
 		this.menuSeq = menuSeq;
-	}
-	public Menu() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Integer getMenuId() {
 		return menuId;
@@ -54,10 +53,10 @@ public class Menu implements Serializable{
 	public void setMenuFid(Integer menuPid) {
 		this.menuPid = menuPid;
 	}
-	public String getMenuSeq() {
+	public Integer getMenuSeq() {
 		return menuSeq;
 	}
-	public void setMenuSeq(String menuSeq) {
+	public void setMenuSeq(Integer menuSeq) {
 		this.menuSeq = menuSeq;
 	}
 	public static long getSerialversionuid() {

@@ -70,11 +70,11 @@
 						class="selected"></span>
 				</a></li>
 				<li class=""><a href="javascript:;"> <i class="icon-cogs"></i>
-						<span class="title">菜单2</span> <span class="arrow "></span>
+						<span class="title">菜单管理</span> <span class="arrow "></span>
 				</a>
 					<ul class="sub-menu">
-						<li><a href="<%=request.getContextPath()%>/menuHandler/menuList.action" target="center">菜单管理</a></li>
-						<li><a href="">2</a></li>
+						<li><a href="<%=request.getContextPath()%>/menuHandler/menuList.action" target="center">菜单列表</a></li>
+						<li><a href="<%=request.getContextPath()%>/menuHandler/createMenu.action" target="center">新增菜单</a></li>
 					</ul></li>
 				<li class=""><a href="javascript:;"> <i
 						class="icon-bookmark-empty"></i> <span class="title">菜单3</span> <span
