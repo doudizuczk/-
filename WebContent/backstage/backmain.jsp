@@ -44,7 +44,7 @@
 				<ul class="nav pull-right">
 					<!-- 用户名属性=======================================================================================-->
 					<li class="dropdown user"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-					<img alt="" src="media/image/avatar1_small.jpg" /> <span class="username">${sessionScope.loggingAdmin.account}</span>
+					<img alt="" src="<%=request.getContextPath()%>/media/image/avatar1_small.jpg" /> <span class="username">${sessionScope.loggingAdmin.account}</span>
 							<i class="icon-angle-down"></i>
 					</a>
 						<ul class="dropdown-menu">
@@ -70,11 +70,11 @@
 						class="selected"></span>
 				</a></li>
 				<li class=""><a href="javascript:;"> <i class="icon-cogs"></i>
-						<span class="title">菜单2</span> <span class="arrow "></span>
+						<span class="title">菜单管理</span> <span class="arrow "></span>
 				</a>
 					<ul class="sub-menu">
-						<li><a href="<%=request.getContextPath()%>/menuHandler/menuList.action" target="center">菜单管理</a></li>
-						<li><a href="">2</a></li>
+						<li><a href="<%=request.getContextPath()%>/menuHandler/menuList.action" target="center">菜单列表</a></li>
+						<li><a href="<%=request.getContextPath()%>/menuHandler/createMenu.action" target="center">新增菜单</a></li>
 					</ul></li>
 				<li class=""><a href="javascript:;"> <i
 						class="icon-bookmark-empty"></i> <span class="title">菜单3</span> <span
@@ -86,10 +86,10 @@
 					</ul></li>
 
 				<li class=""><a href="javascript:;"> <i class="icon-table"></i>
-						<span class="title">菜单4</span> <span class="arrow "></span>
+						<span class="title">车辆管理</span> <span class="arrow "></span>
 				</a>
 					<ul class="sub-menu">
-						<li><a href=""> 1</a></li>
+						<li><a href="<%=request.getContextPath()%>/whiteListHander/whiteList.action" target="center"> 白名单管理</a></li>
 						<li><a href="">2</a></li>
 					</ul></li>
 

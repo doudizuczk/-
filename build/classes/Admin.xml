@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.AdminMapper">
+	<select id="queryAdmin" parameterType="com.great.bean.Admin" resultType="com.great.bean.Admin">
+		select ADMIN_ID "adminId",ADMIN_ACCOUNT "account",ADMIN_PWD "password",ADMIN_NAME "name",ROLE_ID "roleId"
+		,ADMIN_STATE "state",to_char(ADMIN_CDATE,'YYYY-MM-DD') "createTime" from T_ADMIN
+		<where>
+			<if test="adminId!=null">
+				and ADMIN_ID=#{adminId}
+			</if>
+			<if test="account!=null and account!=''">
+				and ADMIN_ACCOUNT=#{account}
+			</if>
+			<if test="password!=null and password!=''">
+				and ADMIN_PWD=#{password}
+			</if>
+			<if test="state!=null">
+				and ADMIN_STATE=#{state}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

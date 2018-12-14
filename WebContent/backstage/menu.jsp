@@ -28,9 +28,6 @@ margin-left: 950px;
 </style>
 </head>
 <body>
-	<div>
-		<input type="button" id="createMenu"  value="新增菜单" class="btn btn-primary" style="background-color: green;">
-	</div>
  	<form>
  		<table class="table table-striped table-hover">
  			<tbody>
@@ -44,14 +41,13 @@ margin-left: 950px;
  				</tr>
  				<c:forEach items="${menuList}" var="menu">
  				<tr>
- 					<td>${menu.menuId}</td>
+ 					<td>${menu.menuId-10}<input type="hidden" id="menuId" value="${menu.menuId}"></td>
  					<td>${menu.menuName}</td>
  					<td>${menu.menuUrl}</td>
  					<td>${menu.menuPname}</td>
- 					<td></td>
+ 					<td>${menu.menuState==1?'启用':'禁用'}</td>
  					<td><input type="button" value="启用" id="canUsed" class="btn btn-primary"><input type="button" value="禁用" id="noUsed" class="btn btn-primary"></td>
  				</tr>
- 				<!-- 注释1 -->
  				</c:forEach>
  			</tbody>
  		</table>
@@ -62,6 +58,7 @@ margin-left: 950px;
  	</div>
 </body>
 <script>
+/* 上一页翻页*/
 $("#upPage").click(function(){
 	var nowPage=$("#pageNum").val();
 	if(nowPage>1){
@@ -71,6 +68,7 @@ $("#upPage").click(function(){
 		return;
 	}
 });
+/*下一页翻页*/
 $("#nextPage").click(function(){
 	var nowPage=$("#pageNum").val();
 	var allPage=$("#allNum").val();
@@ -82,8 +80,13 @@ $("#nextPage").click(function(){
 	}
 	
 });
-$("#createMenu").click(function(){
-	window.location="<%=request.getContextPath()%>/"
+$("#canUsed").click(function(){
+	var menuId=$("#menuId").val();
+	$.ajax({
+		type:"post",
+		url:path+"/menuHandler/controlMenu.action",
+		data:{"menuId":menuId},
+	})
 });
 </script>
 </html>
