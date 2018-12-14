@@ -9,6 +9,8 @@
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <style>
 #noUsed{
 margin-left: 25px;
@@ -46,7 +48,7 @@ margin-left: 950px;
  					<td>${menu.menuUrl}</td>
  					<td>${menu.menuPname}</td>
  					<td>${menu.menuState==1?'启用':'禁用'}</td>
- 					<td><input type="button" value="启用" id="canUsed" class="btn btn-primary"><input type="button" value="禁用" id="noUsed" class="btn btn-primary"></td>
+ 					<td><input type="button" value="启用" id="canUsed" class="btn btn-primary" onClick="startMenu(${menu.menuId})"><input type="button" value="禁用" id="noUsed" class="btn btn-primary" onClick="stopMenu(${menu.menuId})"></td>
  				</tr>
  				</c:forEach>
  			</tbody>
@@ -80,13 +82,44 @@ $("#nextPage").click(function(){
 	}
 	
 });
-$("#canUsed").click(function(){
-	var menuId=$("#menuId").val();
+/* 启用*/
+function startMenu(menuId){
 	$.ajax({
 		type:"post",
-		url:path+"/menuHandler/controlMenu.action",
+		url:"<%=request.getContextPath()%>/menuHandler/controlMenu.action",
 		data:{"menuId":menuId},
-	})
-});
+		dataType:"json",
+		success:function(data){
+			if(data=="1"){
+				window.location="<%=request.getContextPath()%>/menuHandler/menuList.action";
+				alert("启用成功");
+			}else{
+				alert("启用失败");
+			}
+		},
+		error:function(){
+			alert("启用出错");
+		}
+	});
+};
+function stopMenu(menuId){
+	$.ajax({
+		type:"post",
+		url:"<%=request.getContextPath()%>/menuHandler/stopMenu.action",
+		data:{"menuId":menuId},
+		dataType:"json",
+		success:function(data){
+			if(data=="1"){
+				window.location="<%=request.getContextPath()%>/menuHandler/menuList.action";
+				alert("禁用成功");
+			}else{
+				alert("禁用失败");
+			}
+		},
+		error:function(){
+			alert("禁用出错");
+		}
+	});
+};
 </script>
 </html>

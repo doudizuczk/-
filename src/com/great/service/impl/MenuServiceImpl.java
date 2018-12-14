@@ -34,5 +34,15 @@ public class MenuServiceImpl implements IMenuService{
 	public Integer createNewMenu(Menu menu) {
 		return menuMapper.createNewMenu(menu);
 	}
+
+	@Override//¹ÜÀí²Ëµ¥
+	public Integer manageMenu(Integer menuId) {
+		return menuMapper.manageMenu(menuId);
+	}
+
+	@Override
+	public Integer stopMenu(Integer menuId) {
+		return menuMapper.stopMenu(menuId);
+	}
 	
 }

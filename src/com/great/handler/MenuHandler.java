@@ -26,9 +26,9 @@ public class MenuHandler {
 	@Autowired
 	@Qualifier("menuServiceImpl")
 	private IMenuService menuService;
-	
+	//请求菜单列表
 	@RequestMapping("/menuList.action")
-	public ModelAndView queryAllMenu(HttpServletRequest request,Integer pageNum,Integer searchNum) {
+	public ModelAndView queryAllMenu(HttpServletRequest request) {
 		ModelAndView model=new ModelAndView();
 		Integer pages=1;//页数
 		Page<Object> page=PageHelper.startPage(pages, 5);
@@ -75,10 +75,26 @@ public class MenuHandler {
 				return "0";
 			}
 	}
-	@RequestMapping(value="/controlMenu.action")
-	public ModelAndView controlMenu() {
-		ModelAndView model=new ModelAndView();
-		
-		return model;
+	//管理菜单，启用
+	@RequestMapping(value="/controlMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+	public @ResponseBody String startMenu(HttpServletRequest request, Integer menuId) {
+		//System.out.println("获取到的id="+menuId);
+		Integer result=menuService.manageMenu(menuId);
+		if(result>0) {
+			return "1";
+		}else {
+			return "0";
+		}
+	}
+	//禁用菜单
+	@RequestMapping(value="/stopMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+	public @ResponseBody String stopMenu(HttpServletRequest request, Integer menuId) {
+		//System.out.println("获取到的id="+menuId);
+		Integer result=menuService.stopMenu(menuId);
+		if(result>0) {
+			return "1";
+		}else {
+			return "0";
+		}
 	}
 }
