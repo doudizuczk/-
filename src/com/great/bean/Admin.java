@@ -1,17 +1,29 @@
 package com.great.bean;
 
 import java.io.Serializable;
-
+/*
+ * 后台用户实体对象 @linanp
+ * */
 public class Admin implements Serializable {
 	public static final  long serialVersionUID=135996869L;
-	private Integer adminId;//管理员id
-	private String account;//管理员帐户
-	private String password;//密码
-	private String name;//姓名
-	private Integer roleId;//角色id
-	private String roleName;//角色名
-	private Integer state;//状态
-	private String  createTime;//创建时间
+	/*
+	 * 管理员id
+	 * 管理员帐户
+	 * 密码
+	 * 姓名
+	 * 角色id
+	 * 角色名
+	 * 状态
+	 * 创建时间
+	 * */
+	private Integer adminId;
+	private String account;
+	private String password;
+	private String name;
+	private Integer roleId;
+	private String roleName;
+	private Integer state;
+	private String  createTime;
 	
 	
 	public Admin() {
