@@ -25,8 +25,14 @@ public class MenuServiceImpl implements IMenuService{
 
 	@Override //查询一级菜单
 	public List<Map<String, Object>> queryFirstMenu() {
-		
-		return null;
+		List<Map<String,Object>> firstMenuList=null;
+		firstMenuList=menuMapper.queryFirstMenu();
+		return firstMenuList;
+	}
+
+	@Override//新增菜单
+	public Integer createNewMenu(Menu menu) {
+		return menuMapper.createNewMenu(menu);
 	}
 	
 }
