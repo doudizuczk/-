@@ -7,3 +7,5 @@
 /applicationContext-tx.xml
 /com/
 /mybatis-config.xml
+/Parm.xml
+/Role.xml

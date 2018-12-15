@@ -119,11 +119,11 @@
 						<li><a href="">2</a></li>
 					</ul></li>
 				<li class=""><a href="javascript:;"> <i class="icon-user"></i>
-						<span class="title">菜单9</span> <span class="arrow "></span>
+						<span class="title">用户管理</span> <span class="arrow "></span>
 				</a>
 					<ul class="sub-menu">
-						<li><a href="">1</a></li>
-						<li><a href="">2</a></li>
+						<li><a href="<%=request.getContextPath()%>/admin/adminList.action" target="center">后台用户管理</a></li>
+						<li><a href="">前台用户管理</a></li>
 					</ul></li>
 				<li class=""><a href="javascript:;"> <i class="icon-th"></i>
 						<span class="title">菜单10</span> <span class="arrow "></span>
