@@ -16,7 +16,7 @@ public class MenuServiceImpl implements IMenuService{
 	@Autowired
 	private MenuMapper menuMapper;
 
-	@Override//查询所有菜单
+	@Override//查询所有菜单1
 	public  List<Map<String,Object>> queryAllMenu(){
 		List<Map<String,Object>> menuList=null;
 		menuList=menuMapper.queryAllMenu();
@@ -33,6 +33,21 @@ public class MenuServiceImpl implements IMenuService{
 	@Override//新增菜单
 	public Integer createNewMenu(Menu menu) {
 		return menuMapper.createNewMenu(menu);
+	}
+
+	@Override//管理菜单（启用）
+	public Integer manageMenu(Integer menuId) {
+		return menuMapper.manageMenu(menuId);
+	}
+
+	@Override//禁用菜单
+	public Integer stopMenu(Integer menuId) {
+		return menuMapper.stopMenu(menuId);
+	}
+
+	@Override//查询主页左侧菜单（只查询可用菜单）
+	public List<Map<String, Object>> queryLeftMenu(int roleId) {
+		return menuMapper.queryLeftMenu(roleId);
 	}
 	
 }
