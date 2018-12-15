@@ -5,17 +5,26 @@
 <mapper namespace="com.great.mapper.RuleMapper">
 	<select id="queryRule" parameterType="com.great.bean.Rule" resultType="com.great.bean.Rule">
 		select RULE_ID "ruleId",RULE_NAME "ruleName",RULE_SEQ "sequence",RULE_HOURS "criticalHours",RULE_FIXCOST "fixCost",RULE_OUTCOST "outCost"
-		,RULE_STATE "state",to_char(RULE_CDATE,'YYYY-MM-DD') "createTime" from T_RULE
+		,RULE_STATE "state",PARM_VAL "stateName",to_char(RULE_CDATE,'YYYY-MM-DD') "createTime" from T_RULE r,T_PARM p
 		<where>
-			<if test="ruleName!=null">
-				and RULE_NAME=#{ruleName}
+			r.RULE_STATE=p.PARM_VAL and p.PARM_PID=12
+			<if test="ruleName!=null and ruleName!=''">
+				and RULE_NAME like '%${ruleName}%'
 			</if>
-			<if test="sequence!=null">
+			<if test="sequence!=0">
 				and RULE_SEQ=#{sequence}
 			</if>
-			<if test="state!=null">
+			<if test="state!=0">
 				and RULE_STATE=#{state}
 			</if>
+			<if test="sTime!=null and sTime!=''">
+           	and RULE_CDATE &gt;=to_date('${sTime}','YYYY-MM-DD')
+        	</if>
+			<if test="eTime!=null and eTime!=''">
+           	and RULE_CDATE &lt;=to_date('${eTime}','YYYY-MM-DD')
+        	</if>
+        
+       		order by RULE_CDATE desc,RULE_SEQ asc
 		</where>
 	</select>
 	
