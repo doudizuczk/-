@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<!-- 白名单管理 1-->    
+<!-- 白名单管理 12-->    
 <mapper namespace="com.great.mapper.WhiteListMapper">
 	<select id="queryAllWhiteList" resultType="HashMap">
 		select a.car_id "carId",a.car_color "carColor",a.car_type "carType",a.car_cdate "carCdate",a.ower_id "owerId",
