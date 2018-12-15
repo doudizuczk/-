@@ -11,4 +11,5 @@ public interface IMenuService {
 	public Integer createNewMenu(Menu menu);//新增菜单
 	public Integer manageMenu(Integer menuId);//管理菜单(启用)
 	public Integer stopMenu(Integer menuId);//禁用菜单
+	public List<Map<String,Object>> queryLeftMenu();//查询主页左侧菜单（只查询可用菜单）
 }

@@ -20,7 +20,12 @@
 	<update id="manageMenu" parameterType="Integer">
 		update T_MENU set MENU_STATE=1 where MENU_ID=#{0}
 	</update>
+	
 	<update id="stopMenu" parameterType="Integer">
 		update T_MENU set MENU_STATE=2  where MENU_ID=#{0}
 	</update>
+	
+	<select id="queryLeftMenu" resultType="HashMap">
+		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_PID "menuPid",MENU_SEQ "menuSeq" from T_MENU where MENU_STATE=1
+	</select>
 </mapper>

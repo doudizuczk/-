@@ -78,7 +78,6 @@ public class MenuHandler {
 	//管理菜单，启用
 	@RequestMapping(value="/controlMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String startMenu(HttpServletRequest request, Integer menuId) {
-		//System.out.println("获取到的id="+menuId);
 		Integer result=menuService.manageMenu(menuId);
 		if(result>0) {
 			return "1";
@@ -89,12 +88,23 @@ public class MenuHandler {
 	//禁用菜单
 	@RequestMapping(value="/stopMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String stopMenu(HttpServletRequest request, Integer menuId) {
-		//System.out.println("获取到的id="+menuId);
 		Integer result=menuService.stopMenu(menuId);
 		if(result>0) {
 			return "1";
 		}else {
 			return "0";
 		}
+	}
+	//左侧菜单
+	@RequestMapping(value="/getLeftMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+	public  ModelAndView getLeftMenu(HttpServletRequest request) {
+		ModelAndView mav=new ModelAndView();
+		List<Map<String,Object>> menuList=menuService.queryLeftMenu();
+		if(menuList.size()>0) {
+			System.out.println(menuList);
+			mav.addObject("menuList", menuList);
+			mav.setViewName("forward:/backstage/backmain.jsp");
+		}
+		return mav;
 	}
 }

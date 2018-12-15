@@ -35,14 +35,19 @@ public class MenuServiceImpl implements IMenuService{
 		return menuMapper.createNewMenu(menu);
 	}
 
-	@Override//管理菜单
+	@Override//管理菜单（启用）
 	public Integer manageMenu(Integer menuId) {
 		return menuMapper.manageMenu(menuId);
 	}
 
-	@Override
+	@Override//禁用菜单
 	public Integer stopMenu(Integer menuId) {
 		return menuMapper.stopMenu(menuId);
+	}
+
+	@Override//查询主页左侧菜单（只查询可用菜单）
+	public List<Map<String, Object>> queryLeftMenu() {
+		return menuMapper.queryLeftMenu();
 	}
 	
 }
