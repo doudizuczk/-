@@ -1,10 +1,6 @@
-/Admin.xml
-/Menu.xml
-/Rule.xml
 /WhiteList.xml
-/applicationContext-aoplog.xml
-/applicationContext-mybatis.xml
-/applicationContext-springmvc.xml
-/applicationContext-tx.xml
 /com/
+
 /mybatis-config.xml
+/Rule.xml
+

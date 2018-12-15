@@ -27,20 +27,20 @@
 		</bean>
 		
 		<!-- 拦截器 -->
-<!-- 		<mvc:interceptors>  -->
-<!-- 	        <mvc:interceptor>  -->
-<!-- 	         拦截所有URL中包含/login/的请求 -->
-<!-- 	            <mvc:mapping path="/**"/> -->
-<!-- 				排除 以下 -->
-<!-- 				<mvc:exclude-mapping path="/backstage/backlogin.jsp"/> -->
-<!-- 	            <mvc:exclude-mapping path="/frontstage/login.jsp"/>  -->
-<!-- 	            <mvc:exclude-mapping path="/login/adminLogin.action"/>  -->
-<!-- 	            <mvc:exclude-mapping path="/login/userLogin.action"/> -->
-<!-- 	            <mvc:exclude-mapping path="/admin/login.action"/>  -->
-<!-- 	            <mvc:exclude-mapping path="/validateCode/validateCode.action"/>  -->
-<!--  	            <bean class="com.great.interceptor.LoginInterceptor"></bean> -->
-<!-- 	        </mvc:interceptor>  -->
-<!--     	</mvc:interceptors>  -->
+		<mvc:interceptors> 
+	        <mvc:interceptor> 
+	         <!-- 拦截所有URL中包含/login/的请求 -->
+	            <mvc:mapping path="/**"/>
+				<!-- 排除 以下 -->
+				<mvc:exclude-mapping path="/backstage/backlogin.jsp"/>
+	            <mvc:exclude-mapping path="/frontstage/login.jsp"/> 
+	            <mvc:exclude-mapping path="/login/adminLogin.action"/> 
+	            <mvc:exclude-mapping path="/login/userLogin.action"/>
+	            <mvc:exclude-mapping path="/admin/login.action"/> 
+	            <mvc:exclude-mapping path="/validateCode/validateCode.action"/> 
+ 	            <bean class="com.great.interceptor.LoginInterceptor"></bean>
+	        </mvc:interceptor> 
+    	</mvc:interceptors> 
 		
 		
 		<!-- 文件上传 -->
