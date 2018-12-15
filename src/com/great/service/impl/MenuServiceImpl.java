@@ -16,36 +16,37 @@ public class MenuServiceImpl implements IMenuService{
 	@Autowired
 	private MenuMapper menuMapper;
 
-	@Override//²éÑ¯ËùÓĞ²Ëµ¥1
+	@Override//æŸ¥è¯¢æ‰€æœ‰èœå•1
 	public  List<Map<String,Object>> queryAllMenu(){
 		List<Map<String,Object>> menuList=null;
 		menuList=menuMapper.queryAllMenu();
 		return menuList;
 	}
 
-	@Override //²éÑ¯Ò»¼¶²Ëµ¥
+	@Override //æŸ¥è¯¢ä¸€çº§èœå•
 	public List<Map<String, Object>> queryFirstMenu() {
 		List<Map<String,Object>> firstMenuList=null;
 		firstMenuList=menuMapper.queryFirstMenu();
 		return firstMenuList;
 	}
 
-	@Override//ĞÂÔö²Ëµ¥
+	@Override//æ–°å¢èœå•
 	public Integer createNewMenu(Menu menu) {
 		return menuMapper.createNewMenu(menu);
 	}
 
-	@Override//¹ÜÀí²Ëµ¥£¨ÆôÓÃ£©
+	@Override//ç®¡ç†èœå•ï¼ˆå¯ç”¨ï¼‰
 	public Integer manageMenu(Integer menuId) {
 		return menuMapper.manageMenu(menuId);
 	}
 
-	@Override//½ûÓÃ²Ëµ¥
+	@Override//ç¦ç”¨èœå•
 	public Integer stopMenu(Integer menuId) {
 		return menuMapper.stopMenu(menuId);
 	}
 
-	@Override//²éÑ¯Ö÷Ò³×ó²à²Ëµ¥£¨Ö»²éÑ¯¿ÉÓÃ²Ëµ¥£©11111
+
+	@Override//æŸ¥è¯¢ä¸»é¡µå·¦ä¾§èœå•ï¼ˆåªæŸ¥è¯¢å¯ç”¨èœå•ï¼‰11111
 	public List<Map<String, Object>> queryLeftMenu(int roleId) {
 		return menuMapper.queryLeftMenu(roleId);
 	}
