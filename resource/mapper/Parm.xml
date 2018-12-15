@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.great.mapper.ParmMapper">
+	<select id="queryAllParm" resultType="HashMap">
+		select a.PARM_ID "parmId",a.PARM_NAME "parmName",a.PARM_TYPE "parmType",a.PARM_VAL "parmVal",a.PARM_PID "parmPid"
+		 from T_PARM a,T_PARM b where a.PARM_PID=b.PARM_ID
+	</select>
+	
+	<select id="changeParm" parameterType="Integer" resultType="com.great.bean.Parm">
+		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
+		 from T_PARM  where  PARM_ID=#{0}
+	</select>
+	
+	<select id="queryParmType" resultType="HashMap">
+		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
+		 from T_PARM where PARM_PID=0
+	</select>
+	
+	<select id="searchType" parameterType="Integer" resultType="com.great.bean.Parm">
+		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
+		 from T_PARM where PARM_ID=#{0}
+	</select>
+	
+	<update id="savechange" parameterType="com.great.bean.Parm">
+		update T_PARM set PARM_NAME=#{parmName},PARM_TYPE=#{parmType} where PARM_ID=#{parmId}
+	</update>
+	
+	<insert id="createParm" parameterType="com.great.bean.Parm">
+		insert into T_PARM(PARM_ID,PARM_NAME,_PARM_TYPE,PARM_VAL,PARM_PID)values(seq_t_parm.nextval,#{parmName},#{parmType},#{parmVal},#{parmPid})
+	</insert>
+</mapper>
