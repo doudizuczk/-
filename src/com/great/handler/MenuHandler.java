@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.bean.Admin;
 import com.great.bean.Menu;
 import com.great.service.IMenuService;
 
@@ -99,12 +101,14 @@ public class MenuHandler {
 	@RequestMapping(value="/getLeftMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public  ModelAndView getLeftMenu(HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
-		List<Map<String,Object>> menuList=menuService.queryLeftMenu();
+		HttpSession session=request.getSession();
+		Admin admin=(Admin)session.getAttribute("loggingAdmin");
+		List<Map<String,Object>> menuList=menuService.queryLeftMenu(admin.getRoleId());
 		if(menuList.size()>0) {
-			System.out.println(menuList);
 			mav.addObject("menuList", menuList);
 			mav.setViewName("forward:/backstage/backmain.jsp");
 		}
 		return mav;
 	}
+
 }

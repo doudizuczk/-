@@ -25,7 +25,8 @@
 		update T_MENU set MENU_STATE=2  where MENU_ID=#{0}
 	</update>
 	
-	<select id="queryLeftMenu" resultType="HashMap">
-		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_PID "menuPid",MENU_SEQ "menuSeq" from T_MENU where MENU_STATE=1
+	<select id="queryLeftMenu" parameterType="Integer" resultType="HashMap">
+		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq" from T_MENU a,T_PERM b
+		where a.MENU_STATE=1 and b.ROLE_ID=#{0} and a.MENU_ID=b.MENU_ID
 	</select>
 </mapper>

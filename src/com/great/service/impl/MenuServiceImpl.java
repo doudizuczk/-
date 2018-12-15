@@ -46,8 +46,8 @@ public class MenuServiceImpl implements IMenuService{
 	}
 
 	@Override//查询主页左侧菜单（只查询可用菜单）
-	public List<Map<String, Object>> queryLeftMenu() {
-		return menuMapper.queryLeftMenu();
+	public List<Map<String, Object>> queryLeftMenu(int roleId) {
+		return menuMapper.queryLeftMenu(roleId);
 	}
 	
 }

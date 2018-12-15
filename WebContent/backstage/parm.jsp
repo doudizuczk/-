@@ -16,7 +16,7 @@
 margin-left: 25px;
 }
 #nextPage{
-margin-left:50px;
+margin-left:100px;
 }
 #upPage{
 margin-left:320px;
@@ -34,16 +34,16 @@ margin-left: 950px;
  		<table class="table table-striped table-hover">
  			<tbody>
  				<tr>
- 					<th>菜单编号</th>
- 					<th>菜单名称</th>
+ 					<th>参数编号</th>
+ 					<th>参数名称</th>
  					<th>菜单链接</th>
  					<th>父级菜单</th>
  					<th>状态</th>
  					<th>操作</th>
  				</tr>
- 				<c:forEach items="${menuList}" var="menu">
+ 				<c:forEach items="${menuList}" var="menu" step=1>
  				<tr>
- 					<td>${menu.menuId-10}<input type="hidden" id="menuId" value="${menu.menuId}"></td>
+ 					<td><input type="hidden" id="menuId" value="${menu.menuId}"></td>
  					<td>${menu.menuName}</td>
  					<td>${menu.menuUrl}</td>
  					<td>${menu.menuPname}</td>
@@ -56,9 +56,6 @@ margin-left: 950px;
  	</form>
  	<div>
  		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageNum}页 共${allNum}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
- 		<input type="text" class="input-group-addon" id="goPages" style="width: 100px;background-color:#FFFFFF;height:35px; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" placeholder="请输入页码...">
-        <input type="button" value="跳转" class="btn btn-primary" id="turnPage">
  		<input type="hidden" value="${pageNum}" id="pageNum"><input type="hidden" value="${allNum}" id="allNum">
  	</div>
 </body>
@@ -84,10 +81,6 @@ $("#nextPage").click(function(){
 		return;
 	}
 	
-});
-$("#turnPage").click(function(){
-	var nowPage=$("#goPages").val();
-	window.location="<%=request.getContextPath()%>/menuHandler/pageMenuList.action?pageNum="+nowPage;
 });
 /* 启用*/
 function startMenu(menuId){
