@@ -56,4 +56,6 @@ public class RuleHandler {
 	
 //	@RequestMapping("/ruleList.action")
 //	public ModelAndView queryRules(HttpServletRequest request,
+	
+//wangchi dao ci yi you
 }
