@@ -35,7 +35,7 @@
 	type="text/css" media="screen" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/media/image/favicon.ico" />
 <script>
-<%-- $(document).ready(function(){
+<%-- $(document).ready(function(){1111
 		$.ajax({
 			type:"post",
 			url:"<%=request.getContextPath()%>/menuHandler/getLeftMenu.action",
