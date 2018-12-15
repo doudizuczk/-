@@ -1,6 +1,5 @@
-/WhiteList.xml
-/com/
-
+/Admin.xml
+/applicationContext-aoplog.xml
+/applicationContext-tx.xml
 /mybatis-config.xml
-/Rule.xml
-
+/com/

@@ -9,18 +9,38 @@ import org.springframework.stereotype.Service;
 import com.great.mapper.WhiteListMapper;
 import com.great.service.IWhiteListService;
 
-/*åˆ›å»ºäººï¼š@lian shengwei
- * åˆ›å»ºæ—¥æœŸï¼š2018-12-13
- * ç™½åå•Serviceå®ç°ç±»
+/*´´½¨ÈË@lian shengwei
+ * ´´½¨ÈÕÆÚ£º2018-12-13
+ * °×Ãûµ¥ÒµÎñÊµÏÖÀà
  */
 @Service("whiteListServiceImpl")
 public class WhiteListServiceImpl implements IWhiteListService {
 	@Autowired
 	private WhiteListMapper whiteListMapper;
-	//æŸ¥è¯¢ç™½åå•åˆ—è¡¨
+	//°×Ãûµ¥ËÑË÷
 	@Override
 	public List<Map<String, Object>> queryAllWhiteList() {
 		return whiteListMapper.queryAllWhiteList();
+	}
+	//½ûÓÃ°×Ãûµ¥
+	@Override
+	public boolean stopWhiteList(int tranId) {
+		// TODO Auto-generated method stub
+		int count=whiteListMapper.stopWhiteList(tranId);
+		return count>0;
+	}
+	//ÆôÓÃ°×Ãûµ¥
+	@Override
+	public boolean starWhiteList(int tranId) {
+		// TODO Auto-generated method stub
+		int count=whiteListMapper.starWhiteList(tranId);
+		return count>0;
+	}
+	//°×Ãûµ¥·­Ò³ºÍÄ£ºı²éÑ¯
+	@Override
+	public List<Map<String, Object>> turnPageWhiteList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return whiteListMapper.turnPageWhiteList(map);
 	}
     
 }

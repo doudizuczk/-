@@ -3,20 +3,20 @@ package com.great.bean;
 import java.io.Serializable;
 
 
-/*åˆ›å»ºäººï¼š@lian shengwei
- * åˆ›å»ºæ—¥æœŸï¼š2018-12-13
- * è½¦è¾†å®ä½“å¯¹è±¡Car
+/*´´½¨ÈË@lian shengwei
+ * ´´½¨ÈÕÆÚ£º2018-12-13
+ * ³µÁ¾ÊµÌåÀàCar
  */
 public class Car implements Serializable {
 
 	private static final long serialVersionUID = 15666778890008L;
 	/**
-	 * è½¦è¾†IDï¼ˆè½¦ç‰Œå·ï¼‰ï¼šcarId
-	 * è½¦è¾†é¢œè‰²ï¼šcarColor
-	 * è½¦è¾†çŠ¶æ€ï¼šcarState
-	 * è½¦è¾†ç±»å‹ï¼šcarType
-	 * åˆ›å»ºæ—¶é—´ï¼šcarCdate
-	 * ç”¨æˆ·IDï¼šowerId
+	 * ³µÁ¾±àºÅ£¨³µÅÆºÅ£©£ºcarId
+	 * ³µÁ¾ÑÕÉ«£ºcarColor
+	 * ³µÁ¾×´Ì¬£ºcarState
+	 * ³µÁ¾ÀàĞÍ£ºcarType
+	 * ´´½¨Ê±¼ä£ºcarCdate
+	 * ÓÃ»§id£ºowerId
 	 */
 	private String carId;
 	private String carColor;
