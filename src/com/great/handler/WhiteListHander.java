@@ -22,7 +22,7 @@ import com.github.pagehelper.PageHelper;
 import com.great.service.IWhiteListService;
 
 /*创建人@lian shengwei
- * 创建日期：2018-12-13
+ * 创建日期：12018-12-13
  * 白名单
  */
 @Controller()

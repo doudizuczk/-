@@ -21,7 +21,7 @@
 <script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 </head>
 <script>
-<!-- 输入框 -->
+<!-- 输入框1 -->
 $(document).ready(function() {
 	$('.bs-select').selectpicker({});
 });
