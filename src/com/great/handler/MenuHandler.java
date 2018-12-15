@@ -97,7 +97,7 @@ public class MenuHandler {
 			return "0";
 		}
 	}
-	//左侧菜单,提交
+	//左侧菜单,提交1
 	@RequestMapping(value="/getLeftMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public  ModelAndView getLeftMenu(HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
