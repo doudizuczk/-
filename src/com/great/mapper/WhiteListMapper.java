@@ -2,10 +2,13 @@ package com.great.mapper;
 
 import java.util.List;
 import java.util.Map;
-/*åˆ›å»ºäººï¼š@lian shengwei
- * åˆ›å»ºæ—¥æœŸï¼š2018-12-13
- * ç™½åå•æ“ä½œæ•°æ®åº“æ¥å£ç±»
+/*´´½¨ÈË£º@lian shengwei
+ * ´´½¨ÈÕÆÚ£º2018-12-13
+ * 
  */
 public interface WhiteListMapper {
-	public List<Map<String, Object>> queryAllWhiteList();
+	public List<Map<String, Object>> queryAllWhiteList();//ËÑË÷°×Ãûµ¥ÁĞ±í
+	public List<Map<String, Object>> turnPageWhiteList(Map<String,Object> map);//°×Ãûµ¥·­Ò³ºÍÄ£ºı²éÑ¯
+	public int stopWhiteList(int tranId);//½ûÓÃ°×Ãûµ¥
+	public int starWhiteList(int tranId);//ÆôÓÃ°×Ãûµ¥
 }

@@ -2,10 +2,16 @@ package com.great.service;
 
 import java.util.List;
 import java.util.Map;
-/*åˆ›å»ºäººï¼š@lian shengwei
- * åˆ›å»ºæ—¥æœŸï¼š2018-12-13
- * ç™½åå•Serviceæ¥å£ç±»
+
+import javax.servlet.http.HttpServletRequest;
+/*´´½¨ÈË@lian shengwei
+ * ´´½¨ÈÕÆÚ£º2018-12-13
+ * °×Ãûµ¥ÒµÎñ½Ó¿Ú
  */
 public interface IWhiteListService {
-	public List<Map<String,Object>> queryAllWhiteList();//æŸ¥è¯¢ç™½åå•åˆ—è¡¨
+	public List<Map<String,Object>> queryAllWhiteList();//ËÑË÷°×Ãûµ¥ÁĞ±í
+	public List<Map<String,Object>> turnPageWhiteList(Map<String,Object> map);//°×Ãûµ¥·­Ò³ºÍÄ£ºı²éÑ¯
+	public boolean stopWhiteList(int tranId);//½ûÓÃ
+	public boolean starWhiteList(int tranId);//ÆôÓÃ
+	
 }

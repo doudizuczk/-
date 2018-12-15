@@ -4,7 +4,14 @@
     
 <mapper namespace="com.great.mapper.MenuMapper">
 	<select id="queryAllMenu" resultType="HashMap">
-		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_PID "menuPid",MENU_SEQ "menuSeq"  from T_MENU
+		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq", 
+		b.MENU_NAME "menuPname",a.MENU_STATE "menuState"  from T_MENU a,T_MENU b where a.MENU_PID=b.MENU_ID order by a.MENU_ID
 	</select>
-	
+	<select id="queryFirstMenu" resultType="HashMap">
+		select MENU_ID "menuId",MENU_NAME "menuName",MENU_URL "menuUrl",MENU_SEQ "menuSeq",MENU_PID "menuPid" from T_MENU 
+		where MENU_PID=0
+	</select>
+	<insert id="createNewMenu" parameterType="com.great.bean.Menu">
+	insert into T_MENU(MENU_ID,MENU_NAME,MENU_URL,MENU_PID,MENU_SEQ)values(seq_t_menu.nextval,#{menuName},#{menuUrl},#{menuPid},#{menuSeq})
+	</insert>
 </mapper>
