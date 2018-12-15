@@ -87,13 +87,13 @@ public class AdminHandler {
 		List<Map<String,Object>> adminList = adminService.queryAdminList();//管理员列表
 		
 		List<Map<String,Object>> roleList = roleService.queryAllRoleList();//角色列表
-		int curPage=page.getPageNum();//当前页数
+		int curePage=page.getPageNum();//当前页数
 		int totalPage=page.getPages();//总页数
 		int totalNum=(int) page.getTotal();//总记录数
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("adminList", adminList);
 		dates.put("roleList", roleList);
-		PageInfo pageInfo=new PageInfo(curPage, totalPage, totalNum,dates);//分页信息类
+		PageInfo pageInfo=new PageInfo(curePage, totalPage, totalNum,dates);//分页信息类
 		
 		mav.addObject("pageInfo",pageInfo);
 		mav.setViewName("forward:/backstage/admin_list.jsp");

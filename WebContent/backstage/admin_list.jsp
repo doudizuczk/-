@@ -76,8 +76,8 @@ margin-left: 950px;
  		</table>
  	</form>
  	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
- 		<input type="hidden" value="${pageInfo.curPage}" id="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curePage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 		<input type="hidden" value="${pageInfo.curePage}" id="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax">
  	</div>
 </body>
 <script>

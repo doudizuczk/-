@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.RoleMapper">
+	
+	<select id="queryAllRole" resultType="HashMap">
+		select role_id, role_name, role_state, role_cdate from T_ROLE 
+	</select>
+	
+</mapper>
