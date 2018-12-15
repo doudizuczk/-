@@ -46,7 +46,7 @@ public class AdminHandler {
 		//if (keyCode.toLowerCase().equals(code.toLowerCase())) {
 			if (temp != null) {
 				session.setAttribute("loggingAdmin", temp);
-				mav.setViewName("forward:/backstage/backmain.jsp");
+				mav.setViewName("forward:/menuHandler/getLeftMenu.action");//不要改这句话
 			} else {
 				mav.setViewName("forward:/backstage/backlogin.jsp");
 			}
