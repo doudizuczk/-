@@ -26,5 +26,9 @@
         <if test="stage!= '' and stage!= null">
             and c.tran_state=${stage}
         </if>
+	</select>
+	<!-- 检测白名单用户 -->
+	<select id="chechCarId" parameterType="String" resultType="int">
+	select count(0) from t_car where car_type=3 and car_id=#{carId}
 	</select>	
 </mapper>

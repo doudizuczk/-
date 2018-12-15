@@ -13,5 +13,6 @@ public interface IWhiteListService {
 	public List<Map<String,Object>> turnPageWhiteList(Map<String,Object> map);//白名单翻页和模糊查询
 	public boolean stopWhiteList(int tranId);//禁用
 	public boolean starWhiteList(int tranId);//启用
+	public boolean chechCarId(String carId);//检测车牌号
 	
 }

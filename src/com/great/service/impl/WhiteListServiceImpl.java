@@ -42,5 +42,11 @@ public class WhiteListServiceImpl implements IWhiteListService {
 		// TODO Auto-generated method stub
 		return whiteListMapper.turnPageWhiteList(map);
 	}
+	//¼ì²â³µÅÆºÅ
+	@Override
+	public boolean chechCarId(String carId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
     
 }

@@ -11,4 +11,5 @@ public interface WhiteListMapper {
 	public List<Map<String, Object>> turnPageWhiteList(Map<String,Object> map);//白名单翻页和模糊查询
 	public int stopWhiteList(int tranId);//禁用白名单
 	public int starWhiteList(int tranId);//启用白名单
+	public int chechCarId(int carId);//检测白名单车牌号
 }
