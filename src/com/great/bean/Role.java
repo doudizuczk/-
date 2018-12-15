@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Role implements Serializable {
 
-	/**
+	/**修改
 	 * 角色实体对象 @linanp
 	 */
 	private static final long serialVersionUID = 1L;
