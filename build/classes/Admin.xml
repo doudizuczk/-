@@ -22,4 +22,9 @@
 		</where>
 	</select>
 	
+		<select id="queryAdminList" resultType="HashMap">
+		select a.ADMIN_ID,a.ADMIN_ACCOUNT,a.admin_pwd, a.admin_name,a.admin_cdate,a.role_id,t.role_name ,p.parm_type,a.admin_state,p.PARM_NAME from t_admin a,t_parm p, t_role t 
+where a.admin_state=p.parm_val and p.parm_pid=2 and a.role_id=t.role_id
+	</select>
+	
 </mapper>

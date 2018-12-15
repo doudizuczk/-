@@ -1,5 +1,6 @@
 package com.great.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ public class AdminServiceImpl implements IAdminService {
 		Admin admins=AdminMapper.queryAdmin(admin);
 		return admins;
 		
+	}
+	
+	@Override
+	public List<Map<String,Object>> queryAdminList() {
+		// TODO Auto-generated method stub
+		List<Map<String,Object>> adminList=AdminMapper.queryAdminList();
+		return adminList;
 	}
 
 }
