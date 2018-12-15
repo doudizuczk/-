@@ -11,7 +11,7 @@ import com.great.service.IWhiteListService;
 
 /*创建人@lian shengwei
  * 创建日期：2018-12-13
- * 白名单业务实现类
+ * 白名单业务实现类1
  */
 @Service("whiteListServiceImpl")
 public class WhiteListServiceImpl implements IWhiteListService {

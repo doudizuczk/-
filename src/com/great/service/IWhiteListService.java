@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 /*创建人@lian shengwei
  * 创建日期：2018-12-13
- * 白名单业务接口
+ * 白名单业务接口1
  */
 public interface IWhiteListService {
 	public List<Map<String,Object>> queryAllWhiteList();//搜索白名单列表
