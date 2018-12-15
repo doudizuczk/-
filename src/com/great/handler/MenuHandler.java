@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.great.bean.Admin;
 import com.great.bean.Menu;
 import com.great.service.IMenuService;
 
@@ -28,9 +26,9 @@ public class MenuHandler {
 	@Autowired
 	@Qualifier("menuServiceImpl")
 	private IMenuService menuService;
-	//请求菜单列表
+	
 	@RequestMapping("/menuList.action")
-	public ModelAndView queryAllMenu(HttpServletRequest request) {
+	public ModelAndView queryAllMenu(HttpServletRequest request,Integer pageNum,Integer searchNum) {
 		ModelAndView model=new ModelAndView();
 		Integer pages=1;//页数
 		Page<Object> page=PageHelper.startPage(pages, 5);
@@ -77,38 +75,10 @@ public class MenuHandler {
 				return "0";
 			}
 	}
-	//管理菜单，启用
-	@RequestMapping(value="/controlMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-	public @ResponseBody String startMenu(HttpServletRequest request, Integer menuId) {
-		Integer result=menuService.manageMenu(menuId);
-		if(result>0) {
-			return "1";
-		}else {
-			return "0";
-		}
+	@RequestMapping(value="/controlMenu.action")
+	public ModelAndView controlMenu() {
+		ModelAndView model=new ModelAndView();
+		
+		return model;
 	}
-	//禁用菜单
-	@RequestMapping(value="/stopMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-	public @ResponseBody String stopMenu(HttpServletRequest request, Integer menuId) {
-		Integer result=menuService.stopMenu(menuId);
-		if(result>0) {
-			return "1";
-		}else {
-			return "0";
-		}
-	}
-	//左侧菜单
-	@RequestMapping(value="/getLeftMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-	public  ModelAndView getLeftMenu(HttpServletRequest request) {
-		ModelAndView mav=new ModelAndView();
-		HttpSession session=request.getSession();
-		Admin admin=(Admin)session.getAttribute("loggingAdmin");
-		List<Map<String,Object>> menuList=menuService.queryLeftMenu(admin.getRoleId());
-		if(menuList.size()>0) {
-			mav.addObject("menuList", menuList);
-			mav.setViewName("forward:/backstage/backmain.jsp");
-		}
-		return mav;
-	}
-
 }

@@ -34,28 +34,6 @@
 <link href="<%=request.getContextPath()%>/media/css/jquery.easy-pie-chart.css" rel="stylesheet"
 	type="text/css" media="screen" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/media/image/favicon.ico" />
-<script>
-<%-- $(document).ready(function(){
-		$.ajax({
-			type:"post",
-			url:"<%=request.getContextPath()%>/menuHandler/getLeftMenu.action",
-			dataType:"json",
-			success:function(data){
-				alert("返回"+data);
-// 				var menuList=eval(data);
-// 				alert("数据成功返回"+menuList);s
-// 				alert("数据成功返回"+menuList);
-				var str="<li><div class='sidebar-toggler hidden-phone'></div></li>";
-				for(var i=0;i<data.length;i++){
-					if(data[i].menuPid==0){
-					str+="<li><i class='icon-cogs'></i><span class='title'>"+data[i].menuName+"</span> <span class='arrow '></span></li>"
-					}
-				}
-				$("#menuUl").html(str);
-			}
-		});
-	}); --%>
-</script>
 </head>
 <body class="page-header-fixed">
 	<!-- 1====================================================================================================== -->
@@ -83,24 +61,98 @@
 	<!--2====================================================================================================== -->
 	<div class="page-container">
 		<div class="page-sidebar nav-collapse collapse">
-			<ul class="page-sidebar-menu" id="menuUl">
+			<ul class="page-sidebar-menu">
 				<li>
-					<div class="sidebar-toggler hidden-phone"></div>
+					<div class="sidebar-toggler hidden-phone"></div> <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 				</li>
-				<c:forEach items="${menuList}" var="menu">
-					<c:if test="${menu.menuPid eq 0 }">
-						<li  class=""><a href="javascript:;"> <i class="icon-cogs"></i>
-							<span class="title">${menu.menuName}</span> <span class="arrow "></span> </a>
-							<ul class="sub-menu"> 
-						<c:forEach items="${menuList}" var="menutwo">
-							<c:if test="${menutwo.menuPid eq menu.menuId}">
-							<li><a href="<%=request.getContextPath()%>/${menutwo.menuUrl}" target="center">${menutwo.menuName}</a></li>
-							</c:if>
-						</c:forEach>
-							</ul>
-						</li>
-					</c:if>
-				</c:forEach>
+				<li class="start active "><a href="index.html"> <i
+						class="icon-home"></i> <span class="title">菜单1</span> <span
+						class="selected"></span>
+				</a></li>
+				<li class=""><a href="javascript:;"> <i class="icon-cogs"></i>
+						<span class="title">菜单管理</span> <span class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="<%=request.getContextPath()%>/menuHandler/menuList.action" target="center">菜单列表</a></li>
+						<li><a href="<%=request.getContextPath()%>/menuHandler/createMenu.action" target="center">新增菜单</a></li>
+					</ul></li>
+				<li class=""><a href="javascript:;"> <i
+						class="icon-bookmark-empty"></i> <span class="title">菜单3</span> <span
+						class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href=""> 1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+
+				<li class=""><a href="javascript:;"> <i class="icon-table"></i>
+						<span class="title">车辆管理</span> <span class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="<%=request.getContextPath()%>/whiteListHander/whiteList.action" target="center"> 白名单管理</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+
+				<li class=""><a href="javascript:;"> <i
+						class="icon-briefcase"></i> <span class="title">菜单5</span> <span
+						class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+
+				<li class=""><a href="javascript:;"> <i class="icon-gift"></i>
+
+						<span class="title">菜单6</span> <span class="arrow "></span>
+
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+				<li><a href="javascript:;"> <i class="icon-folder-open"></i>
+						<span class="title">菜单8</span> <span class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+				<li class=""><a href="javascript:;"> <i class="icon-user"></i>
+						<span class="title">菜单9</span> <span class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+				<li class=""><a href="javascript:;"> <i class="icon-th"></i>
+						<span class="title">菜单10</span> <span class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+
+				<li class=""><a href="javascript:;"> <i
+						class="icon-file-text"></i> <span class="title">菜单11</span> <span
+						class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+
+				<li class=""><a href="javascript:;"> <i
+						class="icon-map-marker"></i><span class="title">菜单12</span> <span
+						class="arrow "></span>
+				</a>
+					<ul class="sub-menu">
+						<li><a href="">1</a></li>
+						<li><a href="">2</a></li>
+					</ul></li>
+				<li class="last "><a href="charts.html"> <i
+						class="icon-bar-chart"></i> <span class="title">菜单13</span>
+				</a></li>
 			</ul>
 		</div>
 
