@@ -1,7 +1,7 @@
 package com.great.bean;
 
 import java.io.Serializable;
-//参数实体类，@su_yang
+//参数实体类，@su_yang啊
 public class Parm implements Serializable{
 	public static final  long serialVersionUID=135996860L;
 	/*
