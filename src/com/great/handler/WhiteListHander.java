@@ -23,7 +23,7 @@ import com.great.service.IWhiteListService;
 
 /*创建人@lian shengwei
  * 创建日期：12018-12-13
- * 白名单
+ * 白名单:最新
  */
 @Controller()
 @RequestMapping("/whiteListHander")
@@ -31,6 +31,24 @@ public class WhiteListHander {
 	@Autowired
 	@Qualifier("whiteListServiceImpl")
 	private IWhiteListService whiteListService;
+	//白名单办理检测chechCarId.action
+	@RequestMapping(value ="/chechCarId.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String chechCarId(HttpServletRequest request, String carId) {
+		boolean result=false;
+		
+		if(result) {
+			return "1";
+		}else {
+			return "2";
+		}
+	}
+	//新增白名单列表
+	@RequestMapping("/addWhiteList.action")
+	public ModelAndView addWhiteList(HttpServletRequest request) {
+		ModelAndView model=new ModelAndView();
+		model.setViewName("forward:/backstage/add_whitelist.jsp");
+		return model;		
+	}
 	//获取白名单列表
 	@RequestMapping("/whiteList.action")
 	public ModelAndView queryAllWhiteList(HttpServletRequest request,Integer pageNum) {
@@ -58,6 +76,7 @@ public class WhiteListHander {
         	int stage=Integer.parseInt(stages);
         	map.put("stage",stage);
         }
+        Page<Object> page=PageHelper.startPage(pageNum, 10);
 		List<Map<String,Object>> whiteList=whiteListService.turnPageWhiteList(map);
 		return whiteList;
 	}

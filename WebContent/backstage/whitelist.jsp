@@ -8,16 +8,11 @@
 <title>白名单管理</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
-<script
-	src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/popper.min.js"></script>
-<link
-	href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap-select.css"
-	rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 </head>
 <script>
@@ -42,11 +37,13 @@ $(document).ready(function() {
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="button" onclick="search()">搜索</button>
 			</span>
+			<span class="input-group-btn" style="float:right;">
+			<input type="button" value="+新增白名单" onclick="addWhiteList()" class="btn btn-info btn-small">
+			</span>
 		</div>
 		<!-- /input-group -->
 	</div>
 	<!-- 输入框END -->
-
 	<table class="table table-hover">
 		<caption>白名单列表</caption>
 		<thead>
@@ -93,6 +90,10 @@ $(document).ready(function(){
 	 
 	 
 });
+function addWhiteList(){
+	alert("跳转新增页");
+	window.location="<%=request.getContextPath()%>/whiteListHander/addWhiteList.action";
+}
 //跳转
 function Go(){
 	var goPages=$("#goPages").val();
