@@ -16,37 +16,37 @@ public class MenuServiceImpl implements IMenuService{
 	@Autowired
 	private MenuMapper menuMapper;
 
-	@Override//æŸ¥è¯¢æ‰€æœ‰èœå•1
+	@Override//²éÑ¯ËùÓĞ²Ëµ¥
 	public  List<Map<String,Object>> queryAllMenu(){
 		List<Map<String,Object>> menuList=null;
 		menuList=menuMapper.queryAllMenu();
 		return menuList;
 	}
 
-	@Override //æŸ¥è¯¢ä¸€çº§èœå•
+	@Override //²éÑ¯¸¸¼¶²Ëµ¥
 	public List<Map<String, Object>> queryFirstMenu() {
 		List<Map<String,Object>> firstMenuList=null;
 		firstMenuList=menuMapper.queryFirstMenu();
 		return firstMenuList;
 	}
 
-	@Override//æ–°å¢èœå•
+	@Override//ĞÂÔö²Ëµ¥
 	public Integer createNewMenu(Menu menu) {
 		return menuMapper.createNewMenu(menu);
 	}
 
-	@Override//ç®¡ç†èœå•ï¼ˆå¯ç”¨ï¼‰
+	@Override//¹ÜÀí²Ëµ¥ÆôÓÃ
 	public Integer manageMenu(Integer menuId) {
 		return menuMapper.manageMenu(menuId);
 	}
 
-	@Override//ç¦ç”¨èœå•
+	@Override//½ûÓÃ²Ëµ¥
 	public Integer stopMenu(Integer menuId) {
 		return menuMapper.stopMenu(menuId);
 	}
 
 
-	@Override//æŸ¥è¯¢ä¸»é¡µå·¦ä¾§èœå•ï¼ˆåªæŸ¥è¯¢å¯ç”¨èœå•ï¼‰11111
+	@Override//µÇÂ¼³É¹¦£¬»ñÈ¡×ó²à²Ëµ¥
 	public List<Map<String, Object>> queryLeftMenu(int roleId) {
 		return menuMapper.queryLeftMenu(roleId);
 	}
