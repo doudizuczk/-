@@ -1,5 +1,9 @@
 /Admin.xml
-/applicationContext-aoplog.xml
+/Menu.xml
+/Rule.xml
+/WhiteList.xml
+/applicationContext-mybatis.xml
+/applicationContext-springmvc.xml
 /applicationContext-tx.xml
-/mybatis-config.xml
 /com/
+/mybatis-config.xml

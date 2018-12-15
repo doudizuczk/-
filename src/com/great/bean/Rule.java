@@ -16,21 +16,24 @@ public class Rule implements Serializable {
 	 *规则状态
 	 *创建时间
 	 * */
-	private Integer ruleId;
+	private int  ruleId;
 	private String ruleName;
-	private Integer sequence;
-	private Integer criticalHours;
-	private Double fixCost;
-	private Double outCost;
-	private Integer state;
+	private int  sequence;
+	private int  criticalHours;
+	private double fixCost;
+	private double outCost;
+	private int state;
+	private String stateName;
 	private String  createTime;
+	private String sTime;
+	private String eTime;
 	
 	public Rule() {
 		super();
 	}
 
-	public Rule(Integer ruleId, String ruleName,Integer sequence,Integer criticalHours, Double fixCost, Double outCost, Integer state,
-			String createTime) {
+	public Rule(int  ruleId, String ruleName,int  sequence,int  criticalHours, double fixCost, double outCost, int  state,
+			String stateName,String createTime,String sTime,String eTime) {
 		super();
 		this.ruleId = ruleId;
 		this.ruleName = ruleName;
@@ -39,22 +42,23 @@ public class Rule implements Serializable {
 		this.fixCost = fixCost;
 		this.outCost = outCost;
 		this.state = state;
+		this.stateName = stateName;
 		this.createTime = createTime;
 	}
 
-	public Integer getRuleId() {
+	public int  getRuleId() {
 		return ruleId;
 	}
 
-	public Integer getSequence() {
+	public int  getSequence() {
 		return sequence;
 	}
 
-	public void setSequence(Integer sequence) {
+	public void setSequence(int  sequence) {
 		this.sequence = sequence;
 	}
 
-	public void setRuleId(Integer ruleId) {
+	public void setRuleId(int  ruleId) {
 		this.ruleId = ruleId;
 	}
 
@@ -66,36 +70,44 @@ public class Rule implements Serializable {
 		this.ruleName = ruleName;
 	}
 
-	public Integer getCriticalHours() {
+	public int  getCriticalHours() {
 		return criticalHours;
 	}
 
-	public void setCriticalHours(Integer criticalHours) {
+	public void setCriticalHours(int  criticalHours) {
 		this.criticalHours = criticalHours;
 	}
 
-	public Double getFixCost() {
+	public double getFixCost() {
 		return fixCost;
 	}
 
-	public void setFixCost(Double fixCost) {
+	public void setFixCost(double fixCost) {
 		this.fixCost = fixCost;
 	}
 
-	public Double getOutCost() {
+	public double getOutCost() {
 		return outCost;
 	}
 
-	public void setOutCost(Double outCost) {
+	public void setOutCost(double outCost) {
 		this.outCost = outCost;
 	}
 
-	public Integer getState() {
+	public int  getState() {
 		return state;
 	}
 
-	public void setState(Integer state) {
+	public void setState(int  state) {
 		this.state = state;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
 	}
 
 	public String getCreateTime() {
@@ -104,6 +116,22 @@ public class Rule implements Serializable {
 
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	public String getsTime() {
+		return sTime;
+	}
+
+	public void setsTime(String sTime) {
+		this.sTime = sTime;
+	}
+
+	public String geteTime() {
+		return eTime;
+	}
+
+	public void seteTime(String eTime) {
+		this.eTime = eTime;
 	}
 	
 	
