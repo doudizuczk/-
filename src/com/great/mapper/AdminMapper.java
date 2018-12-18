@@ -11,4 +11,6 @@ public interface AdminMapper {
 	
 	
 	public List<Map<String,Object>> queryAdminList();//czk查询管理员列表
+
+	public List<Map<String,Object>> conditionQueryAdminList(Admin admin);//czk条件模糊查询管理员列表
 }

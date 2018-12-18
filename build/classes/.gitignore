@@ -1,5 +1,7 @@
 /Admin.xml
 /Menu.xml
+/Parm.xml
+/Role.xml
 /Rule.xml
 /WhiteList.xml
 /applicationContext-mybatis.xml
@@ -7,5 +9,4 @@
 /applicationContext-tx.xml
 /com/
 /mybatis-config.xml
-/Parm.xml
-/Role.xml
+/CzkPer.xml

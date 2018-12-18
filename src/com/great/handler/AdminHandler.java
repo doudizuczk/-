@@ -56,59 +56,37 @@ public class AdminHandler {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/adminList.action")//CZK
+	//CZK-菜单点击adminlist页面跳转
+	@RequestMapping(value = "/adminList.action")
+	//ModelAndView是一个容器，不可用ajax返回
 	public ModelAndView adminList(HttpServletRequest request, Admin admin
 			,@RequestParam(value = "pageCurr", required = true, defaultValue = "1")int pageCurr) {//pageCurr不能为空，并初始化
 		ModelAndView mav = new ModelAndView();
-		Admin  ad = admin;
-		Page<Object> page=PageHelper.startPage(pageCurr, 5);
-		List<Map<String,Object>> adminList = adminService.queryAdminList();//管理员列表
-		
 		List<Map<String,Object>> roleList = roleService.queryAllRoleList();//角色列表
-		int curPage=page.getPageNum();//当前页数
-		int totalPage=page.getPages();//总页数
-		int totalNum=(int) page.getTotal();//总记录数
 		Map<String, Object> dates=new HashMap<String, Object>();
-		dates.put("adminList", adminList);
 		dates.put("roleList", roleList);
-		PageInfo pageInfo=new PageInfo(curPage, totalPage, totalNum,dates);//分页信息类
-		
-		mav.addObject("pageInfo",pageInfo);
+		mav.addObject("dates",dates);
 		mav.setViewName("forward:/backstage/admin_list.jsp");
 		return mav;
-		
 	}
-	@RequestMapping(value = "/queryAdminList.action", method = RequestMethod.POST)//CZK条件查找管理员
-	public ModelAndView queryAdminList(HttpServletRequest request,@RequestBody Admin admin
+	//CZK条件查找管理员
+	@RequestMapping(value = "/queryAdminList.action", method = RequestMethod.POST)
+	public @ResponseBody PageInfo queryAdminList(HttpServletRequest request,@RequestBody Admin admin
 			,@RequestParam(value = "pageCurr", required = true, defaultValue = "1")int pageCurr) {//pageCurr不能为空，并初始化
-		ModelAndView mav = new ModelAndView();
-		Admin  ad = admin;
-		Page<Object> page=PageHelper.startPage(pageCurr, 6);
-		List<Map<String,Object>> adminList = adminService.queryAdminList();//管理员列表
-		
-		List<Map<String,Object>> roleList = roleService.queryAllRoleList();//角色列表
-		int curPage=page.getPageNum();//当前页数
+//		Map<String, Object>  ad = admin;//接收ajax传回的值
+		Page<Object> page=PageHelper.startPage(pageCurr, 5);
+		List<Map<String,Object>> adminList = adminService.conditionQueryAdminList(admin);//管理员列表
+		int curePage=page.getPageNum();//当前页数
 		int totalPage=page.getPages();//总页数
 		int totalNum=(int) page.getTotal();//总记录数
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("adminList", adminList);
-		dates.put("roleList", roleList);
-		PageInfo pageInfo=new PageInfo(curPage, totalPage, totalNum,dates);//分页信息类
-		
-		mav.addObject("pageInfo",pageInfo);
-		mav.setViewName("forward:/backstage/admin_list.jsp");
-		return mav;
-		
+//		dates.put("queryAdmin", admin);//查询条件回填查询文本框
+		PageInfo pageInfo=new PageInfo(curePage, totalPage, totalNum,dates);//分页信息类
+		return pageInfo;
 	}
-//	@RequestMapping(value="/queryAdminList.action",method = RequestMethod.POST)
-//	public @ResponseBody String createMenu(@RequestBody Menu menu) {
-//		
-//		System.out.println("ddddd");
-//		
-//		return null;
-//			
-//			
-//	}
+
+	
 	
 
 }
