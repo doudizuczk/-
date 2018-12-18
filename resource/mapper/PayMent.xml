@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.PayMentMapper">
+	
+<select id="queryWeekCount"  resultType="HashMap">
+select '星期1' name,count(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw') from dual),'YYYY-MM-DD') and charge_type!=3
+union
+select '星期2' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+1 from dual),'YYYY-MM-DD') and charge_type!=3
+union
+select '星期3' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+2 from dual),'YYYY-MM-DD') and charge_type!=3
+union
+select '星期4' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+3 from dual),'YYYY-MM-DD') and charge_type!=3
+union
+select '星期5' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+4 from dual),'YYYY-MM-DD') and charge_type!=3
+union
+select '星期6' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+5 from dual),'YYYY-MM-DD') and charge_type!=3
+union
+select '星期7' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+6 from dual),'YYYY-MM-DD') and charge_type!=3 
+</select>
+
+<select id="queryWeekPayCount" resultType="HashMap">
+select '星期1' name,count(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw') from dual),'YYYY-MM-DD') and charge_type=3
+union
+select '星期2' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+1 from dual),'YYYY-MM-DD') and charge_type=3
+union
+select '星期3' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+2 from dual),'YYYY-MM-DD') and charge_type=3
+union
+select '星期4' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+3 from dual),'YYYY-MM-DD') and charge_type=3
+union
+select '星期5' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+4 from dual),'YYYY-MM-DD') and charge_type=3
+union
+select '星期6' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+5 from dual),'YYYY-MM-DD') and charge_type=3
+union
+select '星期7' xdate,count(charge_cost) counts from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+6 from dual),'YYYY-MM-DD') and charge_type=3
+</select>
+<select id="queryWeekMouthPay" resultType="HashMap">
+select '星期1' name,count(tran_id) value from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw') from dual),'YYYY-MM-DD') 
+union
+select '星期2' xdate,count(tran_id) counts from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+1 from dual),'YYYY-MM-DD')
+union
+select '星期3' xdate,count(tran_id) counts from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+2 from dual),'YYYY-MM-DD') 
+union
+select '星期4' xdate,count(tran_id) counts from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+3 from dual),'YYYY-MM-DD') 
+union
+select '星期5' xdate,count(tran_id) counts from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+4 from dual),'YYYY-MM-DD') 
+union
+select '星期6' xdate,count(tran_id) counts from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+5 from dual),'YYYY-MM-DD') 
+union
+select '星期7' xdate,count(tran_id) counts from t_transact where to_char(tran_stime,'YYYY-MM-DD')=to_char((select trunc(sysdate, 'iw')+6 from dual),'YYYY-MM-DD')
+</select>
+
+<select id="queryMouthCountOne" parameterType="Map" resultType="HashMap">
+select '第1周' name,count(0) count from t_charge where  charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') 
+union
+ select '第2周' name,count(0) count from t_charge where  charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS "第一个星期日" from dual)+7,'YYYY-MM-DD') 
+ union
+select '第3周' name,count(0) count from t_charge where charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD') 
+ union
+ select '第4周' name,count(0) count from t_charge where  charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD') 
+ union
+ select '第5周' name,count(0) count from t_charge where charge_type!=3 and  to_char(charge_cdate,'YYYY-MM-DD') between 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD') 
+</select>
+<select id="queryMouthCountTwo" parameterType="Map"  resultType="HashMap">
+select '第1周' name,count(0) count from t_charge where  charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') 
+union
+ select '第2周' name,count(0) count from t_charge where  charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS "第一个星期日" from dual)+7,'YYYY-MM-DD') 
+ union
+select '第3周' name,count(0) count from t_charge where charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD') 
+ union
+ select '第4周' name,count(0) count from t_charge where  charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD') 
+ union
+ select '第5周' name,count(0) count from t_charge where charge_type=3 and  to_char(charge_cdate,'YYYY-MM-DD') between 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD') 
+</select>
+<select id="queryMouthCountThree" parameterType="Map" resultType="HashMap">
+select '第1周' name,count(0) count from t_transact where   to_char(tran_stime,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') 
+union
+ select '第2周' name,count(0) count from t_transact where   to_char(tran_stime,'YYYY-MM-DD') between 
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS "第一个星期日" from dual)+7,'YYYY-MM-DD') 
+ union
+select '第3周' name,count(0) count from t_transact where  to_char(tran_stime,'YYYY-MM-DD') between 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD') 
+ union
+ select '第4周' name,count(0) count from t_transact where   to_char(tran_stime,'YYYY-MM-DD') between 
+ to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD') 
+ union
+ select '第5周' name,count(0) count from t_transact where   to_char(tran_stime,'YYYY-MM-DD') between 
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+to_char((select CASE  WHEN TO_CHAR(to_date('${time}','yyyymm'), 'D') = '1'  THEN to_date('${time}','yyyymm') ELSE  next_day(to_date('${time}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD') 
+</select>
+
+<select id="querySixMouthOne" resultType="HashMap">
+select '6' name,count(0) count from t_charge where charge_type!=3 and  to_char(charge_cdate,'YYYY-MM-DD') between
+				to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '5' name,count(0) count from t_charge where charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between
+				 to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '4' name,count(0) count from t_charge where charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between
+				 to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '3' name,count(0) count from t_charge where charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '2' name,count(0) count from t_charge where charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '1' name,count(0) count from t_charge where charge_type!=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD')
+</select>
+<select id="querySixMouthTwo" resultType="HashMap">
+select '6' name,count(0) count from t_charge where charge_type=3 and  to_char(charge_cdate,'YYYY-MM-DD') between
+				to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '5' name,count(0) count from t_charge where charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between
+				 to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '4' name,count(0) count from t_charge where charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between
+				 to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '3' name,count(0) count from t_charge where charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '2' name,count(0) count from t_charge where charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '1' name,count(0) count from t_charge where charge_type=3 and to_char(charge_cdate,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD')
+</select>
+<select id="querySixMouthThree" resultType="HashMap">
+select '6' name,count(0) count from t_transact where   to_char(tran_stime,'YYYY-MM-DD') between
+				to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '5' name,count(0) count from t_transact where  to_char(tran_stime,'YYYY-MM-DD') between
+				 to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '4' name,count(0) count from t_transact where   to_char(tran_stime,'YYYY-MM-DD') between
+				 to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '3' name,count(0) count from t_transact where  to_char(tran_stime,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '2' name,count(0) count from t_transact where  to_char(tran_stime,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+				 to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD')
+				 union
+				 select '1' name,count(0) count from t_transact where  to_char(tran_stime,'YYYY-MM-DD') between 
+				 to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and
+				 to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD')
+</select>
+</mapper>
