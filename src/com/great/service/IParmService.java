@@ -6,7 +6,7 @@ import java.util.Map;
 import com.great.bean.Parm;
 
 public interface IParmService {
-	public List<Map<String,Object>> queryAllParm();//查询所有参数
+	public List<Map<String,Object>> queryAllParm();//查询所有参数无参数
 	public Parm changeParm(Integer parmId);//修改参数之前，根据id查询参数信息
 	public List<Map<String,Object>> queryParmType();//查询参数类型
 	public List<Parm> queryParmByPid(int parmPid);//查询参数名
