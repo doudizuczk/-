@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.LogMapper">
+	<select id="logList"  parameterType="com.great.bean.SearchUtil"  resultType="HashMap">
+		select a.LOG_ID "logId",a.ADMIN_ID "adminId",to_char(a.LOG_TIME,'yyyy-mm-dd hh24:mm:ss') logTime,a.LOG_INFO "logInfo",
+		b.ADMIN_NAME "adminName" from T_LOG a,T_ADMIN b 
+		<where>
+		 a.ADMIN_ID=b.ADMIN_ID 
+		<if test="startTime!=null and startTime!='' and finalTime!=null and finalTime!=''">
+			and to_char(a.LOG_TIME,'YYYY-MM-DD') between '${startTime}'  and '${finalTime}'
+		</if>
+		<if test="adminAccount!=null and adminAccount!=''">
+			and b.ADMIN_ACCOUNT like '%${adminAccount}%'
+		</if>
+		</where>
+	</select>
+	
+	<insert id="addLog" parameterType="com.great.bean.Log">
+		insert into T_LOG(LOG_ID,ADMIN_ID,LOG_INFO)values(seq_t_log.nextval,'${adminId}','${logInfo}')
+	</insert>
+	
+</mapper>
