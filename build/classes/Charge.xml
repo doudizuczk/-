@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.great.mapper.ChargeMapper">
+    <select id="queryAllChargeList" resultType="HashMap">
+    select a.charge_id "chargeId",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
+    c.parm_name "parmName",b.admin_account "adminAccount"
+    from t_charge a,t_admin b,t_parm c where b.admin_id = a.admin_id and c.parm_val=a.charge_type and c.parm_pid=4 order by a.charge_id
+    </select>  
+    <select id="turnPageChargeList" resultType="HashMap" parameterType="Map">
+    select a.charge_id "chargeId",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
+    c.parm_name "parmName",b.admin_account "adminAccount"
+    from t_charge a,t_admin b,t_parm c where b.admin_id = a.admin_id and c.parm_val=a.charge_type and c.parm_pid=4 
+    <if test="carId!= '' and carId!= null">
+            and a.car_id like '%${carId}%'
+     </if>
+     <if test="endTime!= '' and endTime!= null and starTime!='' and starTime!=null ">
+            and to_char(a.charge_cdate, 'YYYY-MM-DD') between '${starTime}' and '${endTime}'
+     </if>
+     order by a.charge_id
+    </select>
+    <!--     周总统计 -->
+    <select id="queryAllWeekChart" resultType="HashMap" parameterType="Map">
+    select '周1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw') from dual),'YYYY-MM-DD')
+    union
+    select '周2' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+1 from dual),'YYYY-MM-DD')
+    union
+    select '周3' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+2 from dual),'YYYY-MM-DD')
+    union
+    select '周4' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+3 from dual),'YYYY-MM-DD')
+    union
+    select '周5' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+4 from dual),'YYYY-MM-DD')
+    union
+    select '周6' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+5 from dual),'YYYY-MM-DD')
+    union
+    select '周7' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+6 from dual),'YYYY-MM-DD') 
+    </select> 
+    <!--     自助缴费1周统计 -->
+    <select id="querySelfHelpWeekChart" resultType="HashMap">
+    select '周1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw') from dual),'YYYY-MM-DD') and charge_type=1
+    union
+    select '周2' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+1 from dual),'YYYY-MM-DD') and charge_type=1
+    union
+    select '周3' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+2 from dual),'YYYY-MM-DD') and charge_type=1
+    union
+    select '周4' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+3 from dual),'YYYY-MM-DD') and charge_type=1
+    union
+    select '周5' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+4 from dual),'YYYY-MM-DD') and charge_type=1
+    union
+    select '周6' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+5 from dual),'YYYY-MM-DD') and charge_type=1
+    union
+    select '周7' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+6 from dual),'YYYY-MM-DD') and charge_type=1
+    </select> 
+    <!--     人工缴费2周统计 -->
+    <select id="queryLaborWeekChart" resultType="HashMap">
+    select '周1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw') from dual),'YYYY-MM-DD') and charge_type=2
+    union
+    select '周2' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+1 from dual),'YYYY-MM-DD') and charge_type=2
+    union
+    select '周3' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+2 from dual),'YYYY-MM-DD') and charge_type=2
+    union
+    select '周4' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+3 from dual),'YYYY-MM-DD') and charge_type=2
+    union
+    select '周5' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+4 from dual),'YYYY-MM-DD') and charge_type=2
+    union
+    select '周6' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+5 from dual),'YYYY-MM-DD') and charge_type=2
+    union
+    select '周7' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+6 from dual),'YYYY-MM-DD') and charge_type=2
+    </select> 
+    <!--     月缴充值3周统计 -->
+    <select id="queryRechargeWeekChart" resultType="HashMap">
+    select '周1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw') from dual),'YYYY-MM-DD') and charge_type=3
+    union
+    select '周2' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+1 from dual),'YYYY-MM-DD') and charge_type=3
+    union
+    select '周3' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+2 from dual),'YYYY-MM-DD') and charge_type=3
+    union
+    select '周4' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+3 from dual),'YYYY-MM-DD') and charge_type=3
+    union
+    select '周5' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+4 from dual),'YYYY-MM-DD') and charge_type=3
+    union
+    select '周6' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+5 from dual),'YYYY-MM-DD') and charge_type=3
+    union
+    select '周7' wDate,sum(charge_cost) count from t_charge where to_char(charge_cdate,'YYYY-MM-DD')=to_char((select trunc(SYSDATE, 'iw')+6 from dual),'YYYY-MM-DD') and charge_type=3
+    </select> 
+   <!--月总统计 -->
+    <select id="queryAllMouthChart" resultType="HashMap" parameterType="java.lang.String">
+    select '第1周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and  
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') 
+    union
+    select '第2周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+7,'YYYY-MM-DD')
+    union
+    select '第3周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD')
+    union
+    select '第4周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD')
+    union
+    select '第5周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD')
+    </select>
+   <!--自助缴费1月统计 -->
+    <select id="querySelfHelpMouthChart" resultType="HashMap" parameterType="java.lang.String">
+    select '第1周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and  
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '第2周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+7,'YYYY-MM-DD')  and t_charge.charge_type=1
+    union
+    select '第3周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '第4周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '第5周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD') and t_charge.charge_type=1
+    </select>
+    <!--     人工缴费2月统计 -->
+    <select id="queryLaborMouthChart" resultType="HashMap" parameterType="java.lang.String">
+     select '第1周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and  
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '第2周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+7,'YYYY-MM-DD')  and t_charge.charge_type=2
+    union
+    select '第3周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '第4周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '第5周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD') and t_charge.charge_type=2
+    </select>
+    <!--     月缴充值3月统计 -->
+    <select id="queryRechargeMouthChart" resultType="HashMap" parameterType="java.lang.String">
+     select '第1周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between to_char((select trunc(sysdate,'mm') from dual),'YYYY-MM-DD') and  
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '第2周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+1,'YYYY-MM-DD') and 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+7,'YYYY-MM-DD')  and t_charge.charge_type=3
+    union
+    select '第3周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+8,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+14,'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '第4周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+15,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+21,'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '第5周' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+22,'YYYY-MM-DD') and
+    to_char((select CASE  WHEN TO_CHAR(to_date('${mouth}','yyyymm'), 'D') = '1'  THEN to_date('${mouth}','yyyymm') ELSE  next_day(to_date('${mouth}','yyyymm'),'星期日')  END  AS  "第一个星期日" from dual)+28,'YYYY-MM-DD') and t_charge.charge_type=3
+    </select>
+   <!--     近半年 -->
+    <select id="queryAllHalfyearChart" resultType="HashMap">
+    select '6' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD') 
+    union
+    select '5' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD')
+    union
+    select '4' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD')
+    union
+    select '3' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD')
+    union
+    select '2' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD')
+    union
+    select '1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD')
+    </select>
+    <!-- 自助缴费1近半年 -->
+    <select id="querySelfHelpHalfyearChart" resultType="HashMap">
+    select '6' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '5' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '4' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '3' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '2' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    union
+    select '1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=1
+    </select>
+    <!-- 人工缴费2近半年 -->
+    <select id="queryLaborHalfyearChart" resultType="HashMap">
+       select '6' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '5' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '4' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '3' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '2' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    union
+    select '1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=2
+    </select>
+    <!-- 月缴充值3近半年 -->
+    <select id="queryRechargeHalfyearChart" resultType="HashMap">
+       select '6' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-0),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-0)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '5' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-1),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-1)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '4' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-2),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-2)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '3' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between
+    to_char((select trunc(add_months(sysdate,-3),'mm') first_day from dual),'YYYY-MM-DD') and
+    to_char((select last_day(add_months(sysdate,-3)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '2' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-4),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-4)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    union
+    select '1' name,sum(charge_cost) value from t_charge where to_char(charge_cdate,'YYYY-MM-DD') between 
+    to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and 
+    to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
+    </select>
+</mapper>

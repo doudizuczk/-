@@ -37,9 +37,9 @@ $(document).ready(function() {
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="button" onclick="search()">搜索</button>
 			</span>
-			<span class="input-group-btn" style="float:right;">
-			<input type="button" value="+新增白名单" onclick="addWhiteList()" class="btn btn-info btn-small">
-			</span>
+<!-- 			<span class="input-group-btn" style="float:right;"> -->
+<!-- 			<input type="button" value="+新增白名单" onclick="addWhiteList()" class="btn btn-info btn-small"> -->
+<!-- 			</span> -->
 		</div>
 		<!-- /input-group -->
 	</div>
@@ -66,10 +66,9 @@ $(document).ready(function() {
 					<td>${wlist.parkZone}</td>
 					<td>${wlist.parkId}</td>
 					<td>${wlist.parmName}</td>
-					<td><input type="button" value="禁用"
-						onclick="stopState(${wlist.tranId},'${wlist.owerName}')">&nbsp;<input
-						type="button" value="启用"
-						onclick="starState(${wlist.tranId},'${wlist.owerName}')">
+					<td>
+					    <input type="button" value="禁用" onclick="stopState(${wlist.tranId},'${wlist.owerName}')">
+						<input type="button" value="启用" onclick="starState(${wlist.tranId},'${wlist.owerName}')">
 					</td>
 				</tr>
 			</c:forEach>
@@ -80,15 +79,13 @@ $(document).ready(function() {
 	<a id="pages" value="${pages}">总页码：${pages}</a>
 	<input type="button" value="下一页" onclick="nextPage()" class="btn btn-info btn-small">
 	<!-- 跳转页码输入校验 -->
-	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
+	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
 	<input type="button" value="GO" onclick="Go()" class="btn btn-info btn-small">
 
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-	 
-	 
+	 	 
 });
 function addWhiteList(){
 	alert("跳转新增页");
@@ -101,8 +98,6 @@ function Go(){
 		alert("输入页码必须在总页码范围内")
 		return;
 	}
-	$("#pageNum").text("当前页码:"+goPages);
-	$("#pageNum").val(goPages);
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/whiteListHander/turnPageWhiteList.action",
 		type:"POST",
@@ -110,20 +105,25 @@ function Go(){
 		dataType:"json",
 		success : function(data){
 			var str="";
-			for(var i=0;i<data.length;i++){
+			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
 				str+="<td>"+data[i].owerName+"</td>";
 				str+="<td>"+data[i].owerPhone+"</td>";
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
-				str+="<td>"+data[i].parmName+"</td>"; 
-				str+="<td><input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",'"+data[i].owerName+"')'>&nbsp;<input type='button' value='启用'  onclick='starState("+data[i].tranId+",'"+data[i].owerName+"')'>";
+				str+="<td>"+data[i].parmName+"</td>";
+				str+="<td>";
+				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
-			
+			$("#pageNum").text("当前页码:"+data[0].pageNum);
+			$("#pageNum").val(data[0].pageNum);
+			$("#pages").text("总页码:"+data[0].pages);
+			$("#pages").val(data[0].pages);	
 		}
 });
 }
@@ -161,7 +161,7 @@ function starState(tranId,owerName){
 			}
 		}
 });
-};
+}
 //上一页
 function previousPage(){
 	var pageNum=$("#pageNum").attr("value");
@@ -170,8 +170,6 @@ function previousPage(){
 	if(pageNums==0){
 		pageNums=1;
 	}
-	$("#pageNum").text("当前页码:"+pageNums);
-	$("#pageNum").val(pageNums);
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/whiteListHander/turnPageWhiteList.action",
 		type:"POST",
@@ -179,20 +177,25 @@ function previousPage(){
 		dataType:"json",
 		success : function(data){
 			var str="";
-			for(var i=0;i<data.length;i++){
+			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
 				str+="<td>"+data[i].owerName+"</td>";
 				str+="<td>"+data[i].owerPhone+"</td>";
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
-				str+="<td>"+data[i].parmName+"</td>"; 
-				str+="<td><input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",'"+data[i].owerName+"')'>&nbsp;<input type='button' value='启用'  onclick='starState("+data[i].tranId+",'"+data[i].owerName+"')'>";
+				str+="<td>"+data[i].parmName+"</td>";
+				str+="<td>";
+				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
-			
+		    $("#pageNum").text("当前页码:"+data[0].pageNum);
+		    $("#pageNum").val(data[0].pageNum);
+		    $("#pages").text("总页码:"+data[0].pages);
+		    $("#pages").val(data[0].pages);
 		}
 });
 	
@@ -205,8 +208,6 @@ function nextPage(){
 	if(pageNums>=pages){
 		pageNums=pages;
 	}
-	$("#pageNum").text("当前页码:"+pageNums);
-	$("#pageNum").val(pageNums);
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/whiteListHander/turnPageWhiteList.action",
 		type:"POST",
@@ -214,7 +215,7 @@ function nextPage(){
 		dataType:"json",
 		success : function(data){
 			var str="";
-			for(var i=0;i<data.length;i++){
+			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
 				str+="<td>"+data[i].owerName+"</td>";
@@ -222,11 +223,17 @@ function nextPage(){
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
 				str+="<td>"+data[i].parmName+"</td>"; 
-				str+="<td><input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",'"+data[i].owerName+"')'>&nbsp;<input type='button' value='启用'  onclick='starState("+data[i].tranId+",'"+data[i].owerName+"')'>";
+				str+="<td>";
+				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#pageNum").text("当前页码:"+data[0].pageNum);
+			$("#pageNum").val(data[0].pageNum);
+			$("#pages").text("总页码:"+data[0].pages);
+			$("#pages").val(data[0].pages);
 		}
 });
 	
@@ -240,7 +247,7 @@ function search(){
 		dataType:"json",
 		success : function(data){
 			var str="";
-			for(var i=0;i<data.length;i++){
+			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
 				str+="<td>"+data[i].owerName+"</td>";
@@ -248,11 +255,17 @@ function search(){
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
 				str+="<td>"+data[i].parmName+"</td>"; 
-				str+="<td><input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",'"+data[i].owerName+"')'>&nbsp;<input type='button' value='启用'  onclick='starState("+data[i].tranId+",'"+data[i].owerName+"')'>";
+				str+="<td>";
+				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#pageNum").text("当前页码:"+data[0].pageNum);
+			$("#pageNum").val(data[0].pageNum);
+			$("#pages").text("总页码:"+data[0].pages);
+			$("#pages").val(data[0].pages);
 		}
 });
 }

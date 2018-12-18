@@ -76,8 +76,12 @@ public class WhiteListHander {
         	int stage=Integer.parseInt(stages);
         	map.put("stage",stage);
         }
+        Map<String, Object> map2 = new HashMap<String, Object>();  
         Page<Object> page=PageHelper.startPage(pageNum, 10);
 		List<Map<String,Object>> whiteList=whiteListService.turnPageWhiteList(map);
+		map2.put("pageNum",page.getPageNum());  
+        map2.put("pages", page.getPages());  
+        whiteList.add(0, map2);
 		return whiteList;
 	}
 	//½ûÓÃ°×Ãûµ¥
