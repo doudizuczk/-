@@ -28,8 +28,10 @@ public class PayMentHandler {
 	public ModelAndView queryWeekCount() {
 		ModelAndView model=new ModelAndView();
 		SimpleDateFormat simpl=new SimpleDateFormat("yyyyMM");
+		SimpleDateFormat simplmouth=new SimpleDateFormat("MM");
 		DateUtils date=new DateUtils();
 		String time=simpl.format(date.getBeginDayOfWeek());
+		String mouth=simplmouth.format(date.getBeginDayOfWeek());
 		Map map=new HashMap();
 		map.put("time", time);
 		List<Map<String,Object>> list=payMentService.queryWeekCount();
@@ -50,6 +52,7 @@ public class PayMentHandler {
 		model.addObject("list7", list7);
 		model.addObject("list8", list8);
 		model.addObject("list9", list9);
+		model.addObject("mouth", mouth);
 		model.setViewName("forward:/backstage/count.jsp");
 		return model;
 	}

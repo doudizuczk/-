@@ -139,12 +139,12 @@ function halfyear(){
 	<thead>
 		<tr>
 			<td></td>
-			<th scope="col">第一个月</th>
-			<th scope="col">第二个月</th>
-			<th scope="col">第三个月</th>
-			<th scope="col">第四个月</th>
-			<th scope="col">第五个月</th>
-			<th scope="col">第六个月</th>
+			<th scope="col">${mouth-5}月</th>
+			<th scope="col">${mouth-4}月</th>
+			<th scope="col">${mouth-3}月</th>
+			<th scope="col">${mouth-2}月</th>
+			<th scope="col">${mouth-1}月</th>
+			<th scope="col">${mouth}月</th>
 		</tr>
 	</thead>
 	<tbody>
