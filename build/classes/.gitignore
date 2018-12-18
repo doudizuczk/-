@@ -1,6 +1,8 @@
 /Admin.xml
+/CzkPer.xml
 /Menu.xml
 /Parm.xml
+/PayMent.xml
 /Role.xml
 /Rule.xml
 /WhiteList.xml
@@ -8,5 +10,5 @@
 /applicationContext-springmvc.xml
 /applicationContext-tx.xml
 /com/
+/log.xml
 /mybatis-config.xml
-/CzkPer.xml
