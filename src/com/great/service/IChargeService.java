@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * 收支明细
  */
 public interface IChargeService{
+	public double getParkingCost(String carId);//临时车辆自动计算停车费用
 	  public List<Map<String,Object>> queryRechargeWeekChart();//月缴充值周统计总
 	  public List<Map<String,Object>> queryLaborWeekChart();//人工缴费周统计
 	  public List<Map<String,Object>> querySelfHelpWeekChart();//自助缴费周统计

@@ -13,7 +13,7 @@ public class PageInfo implements Serializable {
 	 *总记录数
 	 *结果数据
 	 * */
-	private Integer curePage;
+	private Integer curPage;
 	private Integer totalPage;
 	private Integer totalNum;
 	private Map<String, Object> dates;
@@ -22,20 +22,20 @@ public class PageInfo implements Serializable {
 		super();
 	}
 
-	public PageInfo(Integer curePage, Integer totalPage, Integer totalNum, Map<String, Object> dates) {
+	public PageInfo(Integer curPage, Integer totalPage, Integer totalNum, Map<String, Object> dates) {
 		super();
-		this.curePage = curePage;
+		this.curPage = curPage;
 		this.totalPage = totalPage;
 		this.totalNum = totalNum;
 		this.dates = dates;
 	}
 
-	public Integer getCurePage() {
-		return curePage;
+	public Integer getcurPage() {
+		return curPage;
 	}
 
-	public void setCurePage(Integer curePage) {
-		this.curePage = curePage;
+	public void setcurPage(Integer curPage) {
+		this.curPage = curPage;
 	}
 
 	public Integer getTotalPage() {

@@ -17,6 +17,11 @@
 		 from T_PARM where PARM_PID=0
 	</select>
 	
+	<select id="queryParmByPid" resultType="com.great.bean.Parm">
+		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
+		 from T_PARM where PARM_PID=#{0}
+	</select>
+	
 	<select id="searchType" parameterType="Integer" resultType="com.great.bean.Parm">
 		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
 		 from T_PARM where PARM_ID=#{0}

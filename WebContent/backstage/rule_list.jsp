@@ -38,14 +38,15 @@ margin-left: 950px;
 	    <label for="type">规则状态:</label>
 	    <select class="form-control" id="state" name="state" >
 	    	<option value="0" ${param.state==0?'selected':'' }>请选择</option>
-	    	<option value="1" ${param.state==1?'selected':'' }>启用</option>
-	    	<option value="2" ${param.state==2?'selected':'' }>禁用</option>
+	    	<c:forEach items="${requestScope.pageInfo.dates.stateList }" var="state">
+	    		<option value="${state.parmVal }" ${param.state==state.parmVal?'selected':'' }>${state.parmName }</option>
+	    	</c:forEach>
 	    </select>
 	    <br><br><label for="ruleName"> 规则名称:</label>
 	    <input class="form-control" id="ruleName" name="ruleName" value="${param.ruleName}"/>
 	    <button type="submit" class="btn btn-primary">查询</button>
+		<a class="btn btn-info btn-small" href="<%=request.getContextPath()%>/backstage/createRule.jsp">新增</a>
   	</form>
-	
  	<form>
  		<table class="table table-striped table-hover" id="datatable">
  			<thead>
@@ -65,8 +66,13 @@ margin-left: 950px;
  					<td>${rule.stateName}</td>
  					<td>${rule.createTime}</td>
  					<td>
- 					<c:if test="${rule.state==2}"><input type="button" value="启用" onclick="enable(${rule.sequence})" class="btn btn-primary"></c:if>
- 					<input type="button" value="删除" onclick="delete(${rule.sequence})" class="btn btn-primary"></td>
+ 					<c:if test="${rule.state==1}">启动中无法更改</c:if>
+ 					<c:if test="${rule.state==2}">
+ 						<input type="button" value="启用" onclick="enable(${rule.sequence})" class="btn btn-primary">
+ 						<input type="button" value="修改" onclick="update(${rule.sequence})" class="btn btn-primary">
+ 						<input type="button" value="删除" onclick="delet(${rule.sequence})" class="btn btn-primary">
+ 					</c:if>
+ 					<c:if test="${rule.state==3}">已删除</c:if></td>
  				</tr>
  				</c:forEach>
  			</tbody>
@@ -86,30 +92,18 @@ margin-left: 950px;
 <script>
 //启用
 function enable(sequence){
-	$.ajax({
-		type:"post",
-		url:"<%=request.getContextPath()%>/ruleHandler/enbleRule.action",
-		data:{"sequence":sequence,"curPage":curPage},
-		success:function(data){
-			if (data == '1') {
-				window.alert("启用成功！新入库车辆采用此规则计费");
-				window.location.href= getContextPath()+"/frontstage/login.jsp";
-			} else if (data == '2'){
-				window.alert("启用失败！");
-			}
-		},
-		error : function() {
-			window.alert("系统错误！");
-		}
-	});
+	window.location.href="<%=request.getContextPath()%>/ruleHandler/enableRule.action?sTime="+$("#sTime").val()+"&eTime="+$("#eTime").val()+"&state="+$("#state").val()+"&ruleName="+$("#ruleName").val()+"&sequence="+sequence+"&curPage="+num;
 }
 
 //删除
-function enable(sequence){
-	
+function delet(sequence){
+	window.location.href="<%=request.getContextPath()%>/ruleHandler/deleteRule.action?sTime="+$("#sTime").val()+"&eTime="+$("#eTime").val()+"&state="+$("#state").val()+"&ruleName="+$("#ruleName").val()+"&sequence="+sequence+"&curPage="+num;
 }
 
-
+//修改
+function update(sequence){
+	window.location.href="<%=request.getContextPath()%>/ruleHandler/updatingRule.action?sequence="+sequence;
+}
 
 
 var num=parseInt($("#curPage").text());

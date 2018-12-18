@@ -4,8 +4,8 @@
     
 <mapper namespace="com.great.mapper.RuleMapper">
 	<select id="queryRule" parameterType="com.great.bean.Rule" resultType="com.great.bean.Rule">
-		select RULE_ID "ruleId",RULE_NAME "ruleName",RULE_SEQ "sequence",RULE_HOURS "criticalHours",RULE_FIXCOST "fixCost",RULE_OUTCOST "outCost"
-		,RULE_STATE "state",PARM_VAL "stateName",to_char(RULE_CDATE,'YYYY-MM-DD') "createTime" from T_RULE r,T_PARM p
+			select RULE_ID "ruleId",RULE_NAME "ruleName",RULE_SEQ "sequence",RULE_HOURS "criticalHours",RULE_FIXCOST "fixCost",RULE_OUTCOST "outCost"
+			,RULE_STATE "state",PARM_NAME "stateName",to_char(RULE_CDATE,'YYYY-MM-DD') "createTime" from T_RULE r,T_PARM p
 		<where>
 			r.RULE_STATE=p.PARM_VAL and p.PARM_PID=12
 			<if test="ruleName!=null and ruleName!=''">
@@ -23,9 +23,63 @@
 			<if test="eTime!=null and eTime!=''">
            	and RULE_CDATE &lt;=to_date('${eTime}','YYYY-MM-DD')
         	</if>
-        
        		order by RULE_CDATE desc,RULE_SEQ asc
 		</where>
 	</select>
+	
+	<select id="getCurRule" parameterType="double" resultType="com.great.bean.Rule">
+		select * from (select RULE_ID "ruleId",RULE_NAME "ruleName",RULE_SEQ "sequence",RULE_HOURS "criticalHours"
+		 ,RULE_FIXCOST "fixCost",RULE_OUTCOST "outCost",RULE_STATE "state",PARM_NAME "stateName",to_char(RULE_CDATE,'YYYY-MM-DD') 
+		 "createTime" from T_RULE r,T_PARM p where r.RULE_STATE=p.PARM_VAL and p.PARM_PID=12 and RULE_STATE=1 and RULE_HOURS&lt;=#{_parameter}
+		  order by RULE_HOURS desc) where rownum&lt;=1
+	</select>
+	
+	<select id="checkRuleName" parameterType="com.great.bean.Rule" resultType="java.util.Map">
+		select RULE_NAME from T_RULE where RULE_NAME=#{ruleName}
+	</select>
+	
+	<select id="queryRuleList" parameterType="com.great.bean.Rule" resultType="com.great.bean.Rule">
+		select RULE_NAME "ruleName",RULE_SEQ "sequence",RULE_STATE "state",PARM_NAME "stateName",to_char(RULE_CDATE,'YYYY-MM-DD')
+		 "createTime" from T_RULE r,T_PARM p
+		<where>
+			r.RULE_STATE=p.PARM_VAL and p.PARM_PID=12
+			<if test="ruleName!=null and ruleName!=''">
+				and RULE_NAME like '%${ruleName}%'
+			</if>
+			<if test="state!=0">
+				and RULE_STATE=#{state}
+			</if>
+			<if test="sTime!=null and sTime!=''">
+           	and RULE_CDATE &gt;=to_date('${sTime}','YYYY-MM-DD')
+        	</if>
+			<if test="eTime!=null and eTime!=''">
+           	and RULE_CDATE &lt;=to_date('${eTime}','YYYY-MM-DD')
+        	</if>
+       		group by RULE_NAME,RULE_SEQ,RULE_STATE,PARM_NAME,RULE_CDATE
+		</where>
+	</select>
+	
+	<select id="getRuleSeq" resultType="java.lang.Integer">
+		select SEQ_RULE.nextval from dual
+	</select>
+	
+	<update id="updateRule" parameterType="com.great.bean.Rule">
+		update T_RULE
+		<set>
+			<if test="state!=0">RULE_STATE=#{state}</if>
+		</set>
+		<where>
+			RULE_SEQ=#{sequence}
+		</where>
+	</update>
+	
+	<delete id="deleteRule" parameterType="com.great.bean.Rule">
+		delete from t_rule where rule_seq=#{sequence}
+	</delete>
+	
+	<insert id="addRule" parameterType="com.great.bean.Rule">
+		insert into T_RULE(RULE_ID,RULE_NAME,RULE_SEQ,RULE_HOURS,RULE_FIXCOST,RULE_OUTCOST) 
+		 values(SEQ_T_RULE.nextval,#{ruleName},#{sequence},#{criticalHours},#{fixCost},#{outCost})
+	</insert>
 	
 </mapper>

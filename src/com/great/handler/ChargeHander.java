@@ -31,7 +31,7 @@ import com.great.util.DateUtils;
 @RequestMapping("/chargeHander")
 public class ChargeHander {
 	@Autowired
-	@Qualifier("chargeImpl")
+	@Qualifier("chargeServiceImpl")
 	private IChargeService chargeService;
 	private DateUtils dateUtils;
 	// 获取收支明细列表

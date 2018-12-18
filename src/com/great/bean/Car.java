@@ -22,6 +22,7 @@ public class Car implements Serializable {
 	private String carColor;
 	private Integer carState;
 	private Integer carType;
+	private String carTypeName;
 	private String carCdate;
 	private Integer owerId;
 	
@@ -29,15 +30,21 @@ public class Car implements Serializable {
 		super();
 	}
 	
-	public Car(String carId, String carColor, Integer carState, Integer carType, String carCdate, Integer owerId) {
+	
+
+	public Car(String carId, String carColor, Integer carState, Integer carType, String carTypeName, String carCdate,
+			Integer owerId) {
 		super();
 		this.carId = carId;
 		this.carColor = carColor;
 		this.carState = carState;
 		this.carType = carType;
+		this.carTypeName = carTypeName;
 		this.carCdate = carCdate;
 		this.owerId = owerId;
 	}
+
+
 
 	public String getCarId() {
 		return carId;
@@ -63,6 +70,19 @@ public class Car implements Serializable {
 	public void setCarType(Integer carType) {
 		this.carType = carType;
 	}
+	
+	public String getCarTypeName() {
+		return carTypeName;
+	}
+
+
+
+	public void setCarTypeName(String carTypeName) {
+		this.carTypeName = carTypeName;
+	}
+
+
+
 	public String getCarCdate() {
 		return carCdate;
 	}

@@ -1,10 +1,14 @@
 /Admin.xml
+/Car.xml
+/Charge.xml
 /CzkPer.xml
+/Dock.xml
 /Menu.xml
 /Parm.xml
 /PayMent.xml
 /Role.xml
 /Rule.xml
+/Transact.xml
 /WhiteList.xml
 /applicationContext-mybatis.xml
 /applicationContext-springmvc.xml
@@ -12,3 +16,4 @@
 /com/
 /log.xml
 /mybatis-config.xml
+/test/

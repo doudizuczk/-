@@ -37,5 +37,10 @@ public class ParmServiceImpl implements IParmService {
 	public int createParm(Parm parm) {
 		return parmMapper.createParm(parm);
 	}
+	@Override
+	public List<Parm> queryParmByPid(int parmPid) {
+		// TODO Auto-generated method stub
+		return parmMapper.queryParmByPid(parmPid);
+	}
 
 }
