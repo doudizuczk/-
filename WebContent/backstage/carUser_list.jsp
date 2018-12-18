@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>管理员列表</title>
+<title>车主列表</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
@@ -31,38 +31,39 @@ margin-left: 950px;
 </head>
 <body>
 	<div>
-		<input type="button" id="createAdmin"  value="新增管理员" class="btn btn-primary" style="background-color: green;">
+		
 	</div>
 	<form class="bs-example bs-example-form"  action="" method="post" id="queryForm">
 	按条件查找:<input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-primary" style="background-color: Orange;">
     <div style="margin:5px 0px;">
-				<input type="text" placeholder="账号查询..." name="account" id="account"/>
-				<input type="text" placeholder="姓名查询..." name="name" id="name"/>
-				<select name="roleId" id="roleId">
-						<option value="">请选择角色...</option>
-						<c:forEach items="${dates.roleList}" var="role">
-							<option value="${role.ROLE_ID}">${role.ROLE_NAME}</option>
-						</c:forEach>
+				<input type="text" placeholder="姓名查询..." name="owerName" id="owerName"/>
+				<input type="text" placeholder="账号查询..." name="owerAccount" id="owerAccount"/>
+				<select name="owerSex" id="owerSex">
+						<option value="">请选择性别...</option>
+						<option value="1">男</option>
+						<option value="2">女</option>
 				</select>
-				<select name="state" id="state">
+
+				<select name="owerState" id="owerState">
 						<option value="">请选择状态...</option>
 						<option value="1">启用</option>
 						<option value="2">禁用</option>
-						
 				</select>
 			</div>
 	</form>
-	
  	<form>
  		<table class="table table-striped table-hover" >
  				<tr>
  			<thand >
- 					<th>编号</th>
- 					<th>管理员账号</th>
- 					<th>管理员姓名</th>
- 					<th>角色</th>
+ 					<th>ID编号</th>
+ 					<th>车主员姓名</th>
+ 					<th>车主账号</th>
+ 					<th>电话号</th>
+ 					<th>性别</th>
+ 					<th>身份证</th>
+ 					<th>年龄</th>
+ 					<th>车主状态</th>
  					<th>创建时间</th>
- 					<th>管理员状态</th>
  					<th>操作</th>
  				</tr>
  			</thand>
@@ -72,7 +73,8 @@ margin-left: 950px;
  		</table>
  	</form>
  	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curePage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curePage}页 共${pageInfo.totalPage}页</label>
+ 		<input type="button" value="下一页" id="nextPage" class="btn btn-primary">
  		<input type="hidden" value="${pageInfo.curePage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
  		<!-- 跳转页码输入校验 -->
 	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
@@ -83,10 +85,7 @@ margin-left: 950px;
 </body>
 <script>
 
-$(function(){  
-    var page = 1;
-	queryNameAndzh(page);
-});
+
 //跳转
 function Go(){
 	var pageCurr=$("#goPages").val();
@@ -123,16 +122,16 @@ $("#nextPage").click(function(){
 	}else{
 		return;
 	}
-	
 });
 
 $("#createMenu").click(function(){
 	window.location="<%=request.getContextPath()%>/"
 });
-
-
-
-
+//页面初始化加载方法
+$(function(){  
+    var page = 1;
+	queryNameAndzh(page);
+});
 //条件查找
 var path="<%=request.getContextPath()%>";
 function queryNameAndzh(pageCurr){
@@ -141,10 +140,9 @@ var page=1;
 		if (pageCurr!=null){
 		page=pageCurr
 		}
-
 	$.ajax({
 		type:"post",
-		url:path+"/admin/queryAdminList.action?pageCurr="+page,
+		url:path+"/czkPer/queryOwerList.action?pageCurr="+page,
 		data:JSON.stringify($("#queryForm").serializeJSON()),
 		contentType:"application/json",
 		dataType:"json",
@@ -153,14 +151,19 @@ var page=1;
 			for(var i=0;i<data.dates.adminList.length;i++){
 				var state=data.dates.adminList[i].ADMIN_STATE==1?'禁用':'启用'
 						console.log(state);
+				var sex=data.dates.adminList[i].OWER_SEX==1?'男':'女'
 				str+="<tr>";
-				str+="<td>"+data.dates.adminList[i].ADMIN_ID+"</td>";
-				str+="<td>"+data.dates.adminList[i].ADMIN_ACCOUNT+"</td>";
-				str+="<td>"+data.dates.adminList[i].ADMIN_NAME+"</td>";
-				str+="<td>"+data.dates.adminList[i].ROLE_NAME+"</td>";
-				str+="<td>"+data.dates.adminList[i].ADMIN_CDATE+"</td>";
+				str+="<td>"+data.dates.adminList[i].OWER_ID+"</td>";
+				str+="<td>"+data.dates.adminList[i].OWER_NAME+"</td>";
+				str+="<td>"+data.dates.adminList[i].OWER_ACCOUNT+"</td>";
+				str+="<td>"+data.dates.adminList[i].OWER_PHONE+"</td>";
+				str+="<td>"+sex+"</td>";
+				str+="<td>"+data.dates.adminList[i].OWER_IDCARD+"</td>";
+				str+="<td>"+data.dates.adminList[i].OWER_AGE+"</td>"; 
+				
 				str+="<td>"+data.dates.adminList[i].PARM_NAME+"</td>"; 
-				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateAdmin("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")'  class='btn btn-primary'  >";
+				str+="<td>"+data.dates.adminList[i].OWER_CDATE+"</td>"; 
+ 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  class='btn btn-primary' >";
 				str+="</td>"; 
 				str+="</tr>";
 			}
@@ -193,7 +196,6 @@ function starState(adminId,state){
 			window.alert("操作出错");
 		}
 	})
-	
 }
 </script>
 </html>

@@ -1,11 +1,1 @@
-/Admin.xml
-/Menu.xml
-/Rule.xml
-/WhiteList.xml
-/applicationContext-mybatis.xml
-/applicationContext-springmvc.xml
-/applicationContext-tx.xml
 /com/
-/mybatis-config.xml
-/Parm.xml
-/Role.xml

@@ -123,7 +123,7 @@
 				</a>
 					<ul class="sub-menu">
 						<li><a href="<%=request.getContextPath()%>/admin/adminList.action" target="center">后台用户管理</a></li>
-						<li><a href="">前台用户管理</a></li>
+						<li><a href="<%=request.getContextPath()%>/czkPer/userList.action" target="center">前台用户管理</a></li>
 					</ul></li>
 				<li class=""><a href="javascript:;"> <i class="icon-th"></i>
 						<span class="title">菜单10</span> <span class="arrow "></span>

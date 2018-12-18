@@ -31,4 +31,11 @@ public class AdminServiceImpl implements IAdminService {
 		return adminList;
 	}
 
+	@Override
+	public List<Map<String, Object>> conditionQueryAdminList(Admin admin) {
+		// TODO Auto-generated method stub
+		List<Map<String,Object>> list = AdminMapper.conditionQueryAdminList(admin);
+		return list;
+	}
+
 }
