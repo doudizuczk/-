@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.aoplog.Log;
 import com.great.bean.Admin;
 import com.great.bean.Menu;
@@ -33,10 +34,10 @@ public class AdminHandler {
 	@Qualifier("adminServiceImpl")
 	private IAdminService adminService;
 	@Autowired
-	@Qualifier("roleServiceImp")
+	@Qualifier("roleServiceImpl")
 	private IRoleService roleService;
 	
-	
+	@AfterLog(operationType="登录操作",operationName="管理员登录")
 	@RequestMapping(value = "/login.action")
 	public ModelAndView adminLogin(HttpServletRequest request, Admin admin, String code) {
 		HttpSession session = request.getSession();
