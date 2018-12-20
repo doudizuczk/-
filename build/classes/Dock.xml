@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.DockMapper">
+	<select id="queryDock" parameterType="com.great.bean.Dock" resultType="com.great.bean.Dock">
+		select CAR_ID "carId",PARK_ID "carLocationId",to_char(d.DOCK_STIME,'yyyy-MM-dd HH24:mi:ss') "startTime",to_char(d.DOCK_ETIME,'yyyy-MM-dd HH24:mi:ss') "endTime",DOCK_STATE "state",PARM_NAME "stateName" from t_dock d,t_parm p
+		<where>
+			d.DOCK_STATE=p.PARM_VAL and p.PARM_PID=6
+			<if test="carId!=null and carId!=''">and CAR_ID=#{carId}</if>
+			<if test="state!=0">and DOCK_STATE=#{state}</if>
+		</where>
+	</select>
+</mapper>

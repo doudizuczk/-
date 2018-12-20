@@ -1,8 +1,11 @@
 package com.great.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.great.bean.Dock;
 import com.great.mapper.DockMapper;
 import com.great.service.IDockService;
 
@@ -12,9 +15,9 @@ public class DockServiceImpl implements IDockService{
 	private DockMapper dockMapper;
 	
 	@Override
-	public String getDockSTime(String carId) {
+	public List<Dock> queryDock(Dock dock) {
 		// TODO Auto-generated method stub
-		return dockMapper.getDockSTime(carId);
+		return dockMapper.queryDock(dock);
 	}
 
 }

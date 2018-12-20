@@ -4,7 +4,7 @@
     
 <mapper namespace="com.great.mapper.TransactMapper">
 	<select id="getTransactETime" parameterType="java.lang.String" resultType="java.lang.String">
-		select tranETime from (select to_char(CAR_CDATE,'yyyy-MM-dd HH24:mi:ss') tranETime from t_car c,t_transact t
+		select tranETime from (select to_char(TRAN_ETIME,'yyyy-MM-dd HH24:mi:ss') tranETime from t_car c,t_transact t
 		 where c.car_id=t.car_id and t.tran_state=2 and c.car_id=#{0} order by t.TRAN_ETIME desc) where rownum&lt;=1
 	</select>
 </mapper>

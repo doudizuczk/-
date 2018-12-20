@@ -5,7 +5,7 @@
 <mapper namespace="com.great.mapper.CarMapper">
 	<select id="queryCarById" parameterType="com.great.bean.Car" resultType="com.great.bean.Car">
 		select CAR_ID "carId",CAR_COLOR "carColor",CAR_STATE "carState",CAR_TYPE "carType",PARM_NAME "carTypeName"
-		,to_char(c.CAR_CDATE,'yyyy-MM-dd HH24:mi:ss') "carCdate",OWER_ID "owerId" from t_car c,t_parm p where c.CAR_TYPE=p.PARM_VAL and p.PARM_PID=3 
+		,to_char(c.CAR_CDATE,'yyyy-MM-dd HH24:mi:ss') "carCdate",OWER_ID "owerId" from t_car c,t_parm p
 		 
 		<where>
 			c.CAR_TYPE=p.PARM_VAL and p.PARM_PID=3

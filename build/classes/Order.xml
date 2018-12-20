@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.OrderMapper">
+	<select id="queryOrder" parameterType="com.great.bean.Order" resultType="com.great.bean.Order">
+		select ORDER_ID "orderId",ORDER_AMOUNT "amount",ORDER_CASH "cash",ORDER_COUNT "count",ORDER_IAMOUNT "invAmount"
+		,ORDER_ICOUNT "invCount",ORDER_SHIFT "shift",to_char(ORDER_CDATE,'yyyy-MM-dd') "createTime" from t_order 
+		 where ORDER_SHIFT=#{shift} and to_char(ORDER_CDATE,'yyyy-MM-dd')=#{createTime}
+	</select>
+</mapper>

@@ -13,9 +13,9 @@ public class CarServiceImpl implements ICarService {
 	private CarMapper carMapper;
 	
 	@Override
-	public Car queryCarById(String carId) {
+	public Car queryCarById(Car car) {
 		// TODO Auto-generated method stub
-		return null;
+		return carMapper.queryCarById(car);
 	}
 
 }

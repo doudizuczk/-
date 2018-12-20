@@ -1,4 +1,4 @@
-package com.great.service.impl;
+	package com.great.service.impl;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,6 +10,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.great.bean.Charge;
+import com.great.bean.Dock;
 import com.great.bean.Rule;
 import com.great.mapper.ChargeMapper;
 import com.great.mapper.DockMapper;
@@ -29,25 +31,53 @@ public class ChargeServiceImpl implements IChargeService {
 	private ChargeMapper chargeMapper;
 	
 	@Override
+	public boolean addCharge(Charge charge) {
+		// TODO Auto-generated method stub
+		int count=chargeMapper.addCharge(charge);
+		return count>0;
+	}
+	
+	@Override
 	public double getParkingCost(String carId) {
 		// TODO Auto-generated method stub
-		String dockSTime=dockMapper.getDockSTime(carId);
+		Dock temp=new Dock();
+		temp.setCarId(carId);
+		temp.setState(1);
+		Dock dock=dockMapper.queryDock(temp).get(0);
+		
+		String dockSTime=dock.getStartTime();
+		String dockETime=dock.getEndTime();
 		String transactEtime=transactMapper.getTransactETime(carId);
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now=new Date();
 		double cost=0;
 		
 		try {
-			Date now=new Date();
+			Date dockSDate = df.parse(dockSTime);
+			
+		/**************************以下为自助缴费超时20min后的追加费用******************************/
+			if (dockETime!=null) {
+				Date dockEDate = df.parse(dockETime);
+				Long lateTime=(long) (20*60*1000);
+				if ((now.getTime()-dockEDate.getTime())>lateTime) {
+					dockSDate=new Date(dockEDate.getTime()+lateTime);
+				}
+			}
+		
+		/*******************************************************************************/
+			
 			long minutes=0;
 			// 办理表查询确认是否在停车过程中套餐过期
 			if (transactEtime == null || dockSTime.compareTo(transactEtime) >= 0) {// 停车前就是临时车辆
 				// 计算停车时长
-				Date dockSDate = df.parse(dockSTime);
 				minutes=(now.getTime()-dockSDate.getTime())/1000/60;
 				
-			} else {// 停车时套餐过期
+			}else if (dockSTime.compareTo(transactEtime) < 0&&transactEtime.compareTo(df.format(now))<0) {// 停车时套餐过期
 				Date transactEDate = df.parse(transactEtime);
 				minutes=(now.getTime()-transactEDate.getTime())/1000/60;
+				
+			}else if(transactEtime.compareTo(df.format(now)) >= 0){//套餐未过期
+				return 0;
 			}
 			//计算相关费用
 			double hours=1.0*minutes/60;
@@ -144,5 +174,6 @@ public class ChargeServiceImpl implements IChargeService {
 			// TODO Auto-generated method stub
 			return chargeMapper.queryRechargeHalfyearChart();
 		}
+
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.bean.Admin;
+import com.great.bean.Charge;
+import com.great.bean.Dock;
 import com.great.service.IChargeService;
+import com.great.service.IDockService;
 import com.great.util.DateUtils;
 
 /*创建人@lian shengwei
@@ -33,7 +38,46 @@ public class ChargeHander {
 	@Autowired
 	@Qualifier("chargeServiceImpl")
 	private IChargeService chargeService;
+	@Autowired
+	@Qualifier("dockServiceImpl")
+	private IDockService dockService;
+	
 	private DateUtils dateUtils;
+	
+	//获取停车缴费信息
+	@RequestMapping("/addCharge.action")
+	public @ResponseBody String addCharge(HttpServletRequest request,Charge charge) {
+		if (charge.getAdminId()==0) {//人工缴费
+			HttpSession session=request.getSession();
+			int adminId=((Admin)session.getAttribute("loggingAdmin")).getAdminId();
+			charge.setAdminId(adminId);
+		}
+		
+		if (chargeService.addCharge(charge)) {
+			return "1";
+		}else {
+			return "0";
+		}
+	}
+	
+	//获取停车缴费信息
+	@RequestMapping("/payment.action")
+	public @ResponseBody Dock payment(HttpServletRequest request,String carId) {
+		Dock temp=new Dock();
+		temp.setCarId(carId);
+		temp.setState(1);
+		List<Dock> list=dockService.queryDock(temp);
+		if (list.size()==1) {
+			Dock dock=list.get(0);
+			double cost=chargeService.getParkingCost(carId);
+			dock.setCost(cost);
+			return dock;
+			
+		}else {
+			return null;
+		}
+	}
+	
 	// 获取收支明细列表
 	@RequestMapping("/statisticalChart.action")
 	public ModelAndView statisticalChart() {

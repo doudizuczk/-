@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-/*创建人@lian shengwei
+
+import com.great.bean.Charge;
+/*创建人@lian shengwei,linanping
  * 创建日期：20181216
  * 收支明细
  */
 public interface ChargeMapper {
+	public int addCharge(Charge charge);//添加收费记录
+	
 	public List<Map<String,Object>> queryAllChargeList();//搜索账单列表
 	public List<Map<String,Object>> turnPageChargeList(Map<String,Object> map);//账单列表翻页和模糊查询
 	
