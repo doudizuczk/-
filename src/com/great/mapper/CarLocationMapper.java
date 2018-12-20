@@ -1,6 +1,7 @@
 package com.great.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,5 +14,7 @@ public interface CarLocationMapper {
 	//public int updateCarLocation(int carLocationId);//更新车位状态
 	public int forbidden(int carLocationId);//车位禁用
 	public int permission(int carLocationId);//车位启
+	public List<Map<String, Object>> getParkIdList();//获取车位
+	public int updateParkStateById(Map<String, Object> park);//更改车位表状态
 	
 }
