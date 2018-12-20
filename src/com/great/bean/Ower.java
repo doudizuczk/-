@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Ower implements Serializable {
 	/**
-	 * czk
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -30,7 +30,7 @@ public class Ower implements Serializable {
 	private int owerAge;
 	private int owerState;
 	private String owerCdate;
-	private int owerBalance;
+	
 	
 	
 	public Ower() {
@@ -39,7 +39,7 @@ public class Ower implements Serializable {
 
 	
 	public Ower(int owerId, String owerName, String owerAccount, String owerPwd, String owerPhone, int owerSex,
-			String owerIdcard, int owerAge, int owerState, String owerCdate,int owerBalance) {
+			String owerIdcard, int owerAge, int owerState, String owerCdate) {
 		super();
 		this.owerId = owerId;
 		this.owerName = owerName;
@@ -51,17 +51,6 @@ public class Ower implements Serializable {
 		this.owerAge = owerAge;
 		this.owerState = owerState;
 		this.owerCdate = owerCdate;
-		this.owerBalance=owerBalance;
-	}
-	
-
-	public int getOwerBalance() {
-		return owerBalance;
-	}
-
-
-	public void setOwerBalance(int owerBalance) {
-		this.owerBalance = owerBalance;
 	}
 
 

@@ -16,9 +16,5 @@ public class AisServiceImpl implements IAisTranService{
 	public List<TranSact> queryAllTran() {
 		return aisTranMapper.queryAllTran();
 	}
-	@Override
-	public int updateTranSactState(int tranId) {
-		return aisTranMapper.updateTranSactState(tranId);
-	}
 
 }
