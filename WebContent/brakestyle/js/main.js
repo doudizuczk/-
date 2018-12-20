@@ -3640,11 +3640,11 @@
     }
   };
 
-  // Display the image and its details and begin preload neighboring images.
+  // Display the image and its details and begin preload neighboring images.move
   Lightbox.prototype.showImage = function() {
     this.$lightbox.find('.lb-loader').stop(true).hide();
     this.$lightbox.find('.lb-image').fadeIn(this.options.imageFadeDuration);
-
+    
     this.updateNav();
     this.updateDetails();
     this.preloadNeighboringImages();
@@ -3662,23 +3662,23 @@
       alwaysShowNav = (this.options.alwaysShowNavOnTouchDevices) ? true : false;
     } catch (e) {}
 
-    this.$lightbox.find('.lb-nav').show();
+//    this.$lightbox.find('.lb-nav').show();
 
     if (this.album.length > 1) {
       if (this.options.wrapAround) {
         if (alwaysShowNav) {
           this.$lightbox.find('.lb-prev, .lb-next').css('opacity', '1');
         }
-        this.$lightbox.find('.lb-prev, .lb-next').show();
+//        this.$lightbox.find('.lb-prev, .lb-next').show();
       } else {
         if (this.currentImageIndex > 0) {
-          this.$lightbox.find('.lb-prev').show();
+//          this.$lightbox.find('.lb-prev').show();
           if (alwaysShowNav) {
             this.$lightbox.find('.lb-prev').css('opacity', '1');
           }
         }
         if (this.currentImageIndex < this.album.length - 1) {
-          this.$lightbox.find('.lb-next').show();
+//          this.$lightbox.find('.lb-next').show();
           if (alwaysShowNav) {
             this.$lightbox.find('.lb-next').css('opacity', '1');
           }

@@ -145,40 +145,40 @@
                             $respTabs.find('.resp-tab-content-active.' + options.tabidentify).slideUp('', function () {
                                 $(this).addClass('resp-accordion-closed');
                             });
-                            $currentTab.removeClass('resp-tab-active').css({
-                                'background-color': options.inactive_bg,
-                                'border-color': 'none'
-                            });
+//                            $currentTab.removeClass('resp-tab-active').css({
+//                                'background-color': options.inactive_bg,
+//                                'border-color': 'none'
+//                            });
                             return false;
                         }
-                        if (!$currentTab.hasClass('resp-tab-active') && $currentTab.hasClass('resp-accordion')) {
-                            $respTabs.find('.resp-tab-active.' + options.tabidentify).removeClass('resp-tab-active').css({
-                                'background-color': options.inactive_bg,
-                                'border-color': 'none'
-                            });
-                            $respTabs.find('.resp-tab-content-active.' + options.tabidentify).slideUp().removeClass('resp-tab-content-active resp-accordion-closed');
-                            $respTabs.find("[aria-controls=" + $tabAria + "]").addClass('resp-tab-active').css({
-                                'background-color': options.activetab_bg,
-                                'border-color': options.active_border_color
-                            });
+//                        if (!$currentTab.hasClass('resp-tab-active') && $currentTab.hasClass('resp-accordion')) {
+//                            $respTabs.find('.resp-tab-active.' + options.tabidentify).removeClass('resp-tab-active').css({
+//                                'background-color': options.inactive_bg,
+//                                'border-color': 'none'
+//                            });
+//                            $respTabs.find('.resp-tab-content-active.' + options.tabidentify).slideUp().removeClass('resp-tab-content-active resp-accordion-closed');
+//                            $respTabs.find("[aria-controls=" + $tabAria + "]").addClass('resp-tab-active').css({
+//                                'background-color': options.activetab_bg,
+//                                'border-color': options.active_border_color
+//                            });
 
-                            $respTabs.find('.resp-tab-content[aria-labelledby = ' + $tabAria + '].' + options.tabidentify).slideDown().addClass('resp-tab-content-active');
-                        } else {
-                            //console.log('here');
-                            $respTabs.find('.resp-tab-active.' + options.tabidentify).removeClass('resp-tab-active').css({
-                                'background-color': options.inactive_bg,
-                                'border-color': 'none'
-                            });
-
-                            $respTabs.find('.resp-tab-content-active.' + options.tabidentify).removeAttr('style').removeClass('resp-tab-content-active').removeClass('resp-accordion-closed');
-
-                            $respTabs.find("[aria-controls=" + $tabAria + "]").addClass('resp-tab-active').css({
-                                'background-color': options.activetab_bg,
-                                'border-color': options.active_border_color
-                            });
-
-                            $respTabs.find('.resp-tab-content[aria-labelledby = ' + $tabAria + '].' + options.tabidentify).addClass('resp-tab-content-active').attr('style', 'display:block');
-                        }
+//                            $respTabs.find('.resp-tab-content[aria-labelledby = ' + $tabAria + '].' + options.tabidentify).slideDown().addClass('resp-tab-content-active');
+//                        } else {
+//                            //console.log('here');
+//                            $respTabs.find('.resp-tab-active.' + options.tabidentify).removeClass('resp-tab-active').css({
+//                                'background-color': options.inactive_bg,
+//                                'border-color': 'none'
+//                            });
+//
+//                            $respTabs.find('.resp-tab-content-active.' + options.tabidentify).removeAttr('style').removeClass('resp-tab-content-active').removeClass('resp-accordion-closed');
+//
+//                            $respTabs.find("[aria-controls=" + $tabAria + "]").addClass('resp-tab-active').css({
+//                                'background-color': options.activetab_bg,
+//                                'border-color': options.active_border_color
+//                            });
+//
+//                            $respTabs.find('.resp-tab-content[aria-labelledby = ' + $tabAria + '].' + options.tabidentify).addClass('resp-tab-content-active').attr('style', 'display:block');
+//                        }
                         //Trigger tab activation event
                         $currentTab.trigger('tabactivate', $currentTab);
 
@@ -198,12 +198,12 @@
 							}
 					
                             if (currentHash != "") {
-                               newHash = '#' + newHash;
+//                               newHash = '#' + newHash;
                             }
                             else {
        
 								if(active_Hash == true){
-									newHash = '#' + newHash;
+//									newHash = '#' + newHash;
 								}else {
 									newHash = '' + newHash;
 								}

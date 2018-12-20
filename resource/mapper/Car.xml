@@ -6,13 +6,43 @@
 	<select id="queryCarById" parameterType="com.great.bean.Car" resultType="com.great.bean.Car">
 		select CAR_ID "carId",CAR_COLOR "carColor",CAR_STATE "carState",CAR_TYPE "carType",PARM_NAME "carTypeName"
 		,to_char(c.CAR_CDATE,'yyyy-MM-dd HH24:mi:ss') "carCdate",OWER_ID "owerId" from t_car c,t_parm p
-		 
 		<where>
 			c.CAR_TYPE=p.PARM_VAL and p.PARM_PID=3
 			<if test="carId!=null and carId!=''">
 				and CAR_ID=#{carId}
 			</if>
-		</where> 
-		
+		</where> 		
 	</select>
+	<select id="queryWhiteListCarByCarId" parameterType="java.lang.String" resultType="HashMap">
+	   select a.car_id "carId",a.car_color "carColor",a.car_type "carType",a.car_cdate "carCdate",a.ower_id "owerId",
+       b.ower_name "owerName",b.ower_phone "owerPhone",c.park_id "parkId",c.tran_id "tranId",c.tran_state "tranState",d.park_zone "parkZone",e.parm_name "parmName" 
+       from  t_car a,t_ower b,t_transact c,t_park d,t_parm e
+       where b.ower_id = a.ower_id and c.car_id = a.car_id and d.park_id = c.park_id and e.parm_val=c.tran_state and e.parm_pid=11 and c.tran_state=1 and a.car_type=3
+		<if test="carId!=null and carId!=''">
+				and a.CAR_ID=#{carId}
+		</if>
+	</select>
+	<select id="querymouthListCarByCarId" parameterType="java.lang.String" resultType="HashMap">
+	   select a.car_id "carId",a.car_color "carColor",a.car_type "carType",a.car_cdate "carCdate",a.ower_id "owerId",
+       b.ower_name "owerName",b.ower_phone "owerPhone",c.tran_id "tranId",c.tran_state "tranState",e.parm_name "parmName" 
+       from  t_car a,t_ower b,t_transact c,t_parm e
+       where b.ower_id = a.ower_id and c.car_id = a.car_id and  e.parm_val=c.tran_state and e.parm_pid=11 and c.tran_state=1 and a.car_type=2
+		<if test="carId!=null and carId!=''">
+				and a.CAR_ID=#{carId}
+		</if>
+	</select>
+	<!-- 创建车辆账户 -->
+	<insert id="createCarWithNewUser" parameterType="java.lang.String">
+	insert into t_car(car_id,car_state,car_type,car_cdate)values(#{carId},1,1,sysdate)
+	</insert>
+	<!-- 根据车辆ID搜索车辆账户 -->
+	<select id="selectCarById" parameterType="java.lang.String" resultType="HashMap">
+	 select car_id "carId",car_color "carColor",car_type "carType",car_cdate "carCdate",ower_id "owerId" from t_car where car_id=#{carId}
+	</select>
+	<!-- 搜索车辆类型 -->
+	<select id="selectCarForType" parameterType="java.lang.String" resultType="HashMap">
+	 select a.car_id "carId",a.car_color "carColor",a.car_type "carType",a.car_cdate "carCdate",a.ower_id "owerId",b.parm_name "parmName" from t_car a,t_parm b where a.car_type=b.parm_val and b.parm_pid=3
+	 and car_id=#{carId}
+	</select>
+	
 </mapper>

@@ -6,7 +6,7 @@ import java.util.Date;
  * 日志实体
  * 
  * @author zx
- * 
+ * aaaaa
  */
 public class SystemLog {
 	private String id;

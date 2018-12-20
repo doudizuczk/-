@@ -11,4 +11,14 @@
 			<if test="state!=0">and DOCK_STATE=#{state}</if>
 		</where>
 	</select>
+	<insert id="creatDockByCar" parameterType="Map">
+	insert into t_dock(car_id,park_id,dock_stime,dock_state)values(#{carId},#{parkId},sysdate,1)
+	</insert>
+	<select id="queryParkIdByCar" parameterType="java.lang.String" resultType="com.great.bean.Dock">
+	select to_char(DOCK_STIME,'yyyy-MM-dd HH24:mi:ss') "dockSTime",park_id "parkId" from t_dock where dock_state=1 
+	and car_id=#{carId} 
+	</select>
+	<update id="updateDockState" parameterType="Map">
+	 update t_dock set dock_etime=sysdate,dock_state=#{dockState} where car_id=#{carId} and dock_state=1
+	</update>
 </mapper>
