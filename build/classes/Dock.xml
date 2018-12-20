@@ -15,7 +15,7 @@
 	insert into t_dock(car_id,park_id,dock_stime,dock_state)values(#{carId},#{parkId},sysdate,1)
 	</insert>
 	<select id="queryParkIdByCar" parameterType="java.lang.String" resultType="com.great.bean.Dock">
-	select to_char(DOCK_STIME,'yyyy-MM-dd HH24:mi:ss') "dockSTime",park_id "parkId" from t_dock where dock_state=1 
+	select to_char(DOCK_STIME,'yyyy-MM-dd HH24:mi:ss') "startTime",park_id "carLocationId" from t_dock where dock_state=1 
 	and car_id=#{carId} 
 	</select>
 	<update id="updateDockState" parameterType="Map">
