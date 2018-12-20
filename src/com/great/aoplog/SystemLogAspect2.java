@@ -85,7 +85,7 @@ public class SystemLogAspect2 {
 		Log log=new Log();
 		log.setLogInfo(logInfo);
 		log.setadminId(admin.getAdminId());
-		//logService.addLog(log);
+		logService.addLog(log);
 	}
 
 }

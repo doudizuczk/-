@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.RoleMapper">
+	
+	<select id="queryAllRole" resultType="HashMap">
+		select role_id, role_name, role_state, role_cdate from T_ROLE 
+	</select>
+	
+	<select id="queryRole" parameterType="com.great.bean.Role" resultType="HashMap">
+		select ROLE_ID "roleId",ROLE_NAME "roleName",ROLE_STATE "roleState",to_char(ROLE_CDATE,'YYYY-MM-DD') "roleCdate"
+		from T_ROLE
+		<where>
+			<if test="roleName!=null and roleName!=''">
+			and ROLE_NAME like '%${roleName}%'
+			</if>
+		</where>
+	</select>
+	
+	<update id="startRole" parameterType="int">
+		update T_ROLE set ROLE_STATE=1  where ROLE_ID=#{_parameter}
+	</update>
+	 
+	<update id="stopRole" parameterType="int">
+		update T_ROLE set ROLE_STATE=2  where ROLE_ID=#{_parameter}
+	</update>
+	
+	<insert id="createRole" parameterType="String">
+		insert into T_ROLE(ROLE_ID,ROLE_NAME)values(seq_t_role.nextval,'#{roleName}')
+	</insert>
+</mapper>
