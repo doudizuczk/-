@@ -1,6 +1,7 @@
 package com.great.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,4 +14,7 @@ public interface ICarLocationService {
 	//public boolean updateCarLocation(int carLocationId);//更新车位状态
 	public int forbidden(int carLocationId);//车位禁用
 	public int permission(int carLocationId);//车位启用
+	public List<Map<String, Object>> getParkIdList();//获取车位
+	public boolean updateParkStateById(Map<String, Object> park);//更改车位表状态
+	
 }

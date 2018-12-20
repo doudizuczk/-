@@ -73,7 +73,7 @@ jQuery.noConflict()(function($) {
                 var $info = $('#nested-tabInfo');
                 var $name = $('span', $info);
                 $name.text($tab.text());
-                $info.show();
+//                $info.show();
             }
         });
         
@@ -165,7 +165,7 @@ jQuery.noConflict()(function($) {
                 var $info = $('#nested-tabInfo2');
                 var $name = $('span', $info);
                 $name.text($tab.text());
-                $info.show();
+//                $info.show();
             }
         });
         
@@ -185,7 +185,7 @@ jQuery.noConflict()(function($) {
             }
         });
             
-        /* ---------------------------------------------------------------------- */
+        /* -------------------------------#--------------------------------------- */
         /* ------------------------- Effect tabs -------------------------------- */
         /* ---------------------------------------------------------------------- */
 

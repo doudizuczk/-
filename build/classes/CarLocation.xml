@@ -32,6 +32,12 @@
 	<update id="permission" parameterType="int">
 		update T_PARK set PARK_STATE=1 where PARK_ID=#{0}
 	</update>
+	<select id="getParkIdList" resultType="HashMap">
+	  select park_id "parkId",park_state "parkState",park_zone "parkZone",park_cdate "parkCdate" from t_park where park_state=1
+	</select>
+	<update id="updateParkStateById" parameterType="Map">
+	update T_PARK set PARK_STATE=#{parkState} where PARK_ID=#{parkId}
+	</update>
 </mapper>
 	
 	
