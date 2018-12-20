@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,34 +28,34 @@ public class ParmHandler {
 	private IParmService parmService;
 	//获取参数列表
 	@RequestMapping(value="/parmList.action")
-	public ModelAndView parmList() {
+	public ModelAndView parmList(HttpServletRequest request,Parm parm,@RequestParam(value = "pageNum", required = true, defaultValue = "1")int pageNum) {
 		ModelAndView mav=new ModelAndView();
-		Integer pages=1;//页数
-		Page<Object> page=PageHelper.startPage(pages, 5);
+		
+		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> parmList=parmService.queryAllParm();
 		mav.addObject("parmList", parmList);
-		Integer nowNum=page.getPageNum();//当前页数
 		Integer allNum=page.getPages();//总页数
-		mav.addObject("pageNum", nowNum);
+		mav.addObject("pageNum", pageNum);
 		mav.addObject("allNum", allNum);
+		mav.addObject("parm", parm);
 		mav.setViewName("forward:/backstage/parm.jsp");
 		
 		return mav;
 	}
 	//翻页请求
-	@RequestMapping(value="/pageParmList.action",method = RequestMethod.GET)
-	public ModelAndView pageMenuList(HttpServletRequest request,Integer pageNum) {
-		ModelAndView model=new ModelAndView();
-		Page<Object> page=PageHelper.startPage(pageNum, 5);
-		List<Map<String,Object>> parmList=parmService.queryAllParm();
-		Integer nowNum=page.getPageNum();//当前页数
-		Integer allNum=page.getPages();//总页数
-		model.addObject("parmList",parmList);
-		model.addObject("pageNum", nowNum);
-		model.addObject("allNum", allNum);
-		model.setViewName("forward:/backstage/parm.jsp");
-		return model;
-	}
+//	@RequestMapping(value="/pageParmList.action",method = RequestMethod.GET)
+//	public ModelAndView pageMenuList(HttpServletRequest request,Integer pageNum) {
+//		ModelAndView model=new ModelAndView();
+//		Page<Object> page=PageHelper.startPage(pageNum, 5);
+//		List<Map<String,Object>> parmList=parmService.queryAllParm();
+//		Integer nowNum=page.getPageNum();//当前页数
+//		Integer allNum=page.getPages();//总页数
+//		model.addObject("parmList",parmList);
+//		model.addObject("pageNum", nowNum);
+//		model.addObject("allNum", allNum);
+//		model.setViewName("forward:/backstage/parm.jsp");
+//		return model;
+//	}
 	//修改之前查询参数信息
 	@RequestMapping(value="/beforeChange.action",method = RequestMethod.GET)
 	public ModelAndView beforeChange(int parmId) {
@@ -93,7 +94,13 @@ public class ParmHandler {
 	//新增参数
 	@RequestMapping(value="/createParm.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String createParm(@RequestBody Parm parm) {
-		//int result=parmService.createParm(parm);
-		return "1";
+		Parm theparm=parmService.searchType(parm.getParmPid());
+		parm.setParmType(theparm.getParmName());
+		int result=parmService.createParm(parm);
+		if(result>0) {
+			return "1";
+		}else {
+			return "0";
+		}
 	}
 }

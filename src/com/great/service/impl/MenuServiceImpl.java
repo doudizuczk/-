@@ -17,9 +17,9 @@ public class MenuServiceImpl implements IMenuService{
 	private MenuMapper menuMapper;
 
 	@Override//查询所有菜单
-	public  List<Map<String,Object>> queryAllMenu(){
+	public  List<Map<String,Object>> queryAllMenu(Menu menu){
 		List<Map<String,Object>> menuList=null;
-		menuList=menuMapper.queryAllMenu();
+		menuList=menuMapper.queryAllMenu(menu);
 		return menuList;
 	}
 

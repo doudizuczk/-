@@ -34,28 +34,6 @@
 <link href="<%=request.getContextPath()%>/media/css/jquery.easy-pie-chart.css" rel="stylesheet"
 	type="text/css" media="screen" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/media/image/favicon.ico" />
-<script>
-<%-- $(document).ready(function(){1111
-		$.ajax({
-			type:"post",
-			url:"<%=request.getContextPath()%>/menuHandler/getLeftMenu.action",
-			dataType:"json",
-			success:function(data){
-				alert("返回"+data);
-// 				var menuList=eval(data);
-// 				alert("数据成功返回"+menuList);s
-// 				alert("数据成功返回"+menuList);
-				var str="<li><div class='sidebar-toggler hidden-phone'></div></li>";
-				for(var i=0;i<data.length;i++){
-					if(data[i].menuPid==0){
-					str+="<li><i class='icon-cogs'></i><span class='title'>"+data[i].menuName+"</span> <span class='arrow '></span></li>"
-					}
-				}
-				$("#menuUl").html(str);
-			}
-		});
-	}); --%>
-</script>
 </head>
 <body class="page-header-fixed">
 	<!-- 1====================================================================================================== -->

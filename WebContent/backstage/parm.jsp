@@ -25,9 +25,19 @@ margin-left:320px;
 margin-left: 50px;
 }
 </style>
+<script>
+function search(){
+	var parmName=$("#parmName").val();
+	window.location="<%=request.getContextPath()%>/parm/parmList.action?parmName="+parmName;
+};
+</script>
 </head>
 <body>
  	<form>
+ 	<div>
+ 		<input type="button" class="btn btn-default" value="参数名称" id="btn1"><input id="parmName" name="parmName"  placeholder="参数名称..." value="${parm.parmName}" >
+		<input type="button" value="搜索" class="btn btn-primary" id="btn4" onClick="search()">
+ 		</div>
  		<table class="table table-striped table-hover">
  			<tbody>
  				<tr>
@@ -60,23 +70,25 @@ margin-left: 50px;
 <script>
 /* 上一页翻页*/
 $("#upPage").click(function(){
+	var parmName=$("#parmName").val();
 	var nowPage=$("#pageNum").val();
 	if(nowPage>1){
 		nowPage--;
-		window.location="<%=request.getContextPath()%>/parm/pageParmList.action?pageNum="+nowPage;
+		window.location="<%=request.getContextPath()%>/parm/parmList.action?pageNum="+nowPage+"&parmName="+parmName;
 	}else{
-		return;
+		window.location="<%=request.getContextPath()%>/parm/parmList.action?pageNum="+nowPage+"&parmName="+parmName;
 	}
 });
 /*下一页翻页*/
 $("#nextPage").click(function(){
+	var parmName=$("#parmName").val();
 	var nowPage=$("#pageNum").val();
 	var allPage=$("#allNum").val();
 	if(nowPage<allPage){
 		nowPage++;
-		window.location="<%=request.getContextPath()%>/parm/pageParmList.action?pageNum="+nowPage;
+		window.location="<%=request.getContextPath()%>/parm/parmList.action?pageNum="+nowPage+"&parmName="+parmName;
 	}else{
-		return;
+		window.location="<%=request.getContextPath()%>/parm/parmList.action?pageNum="+nowPage+"&parmName="+parmName;
 	}
 	
 });
@@ -86,12 +98,13 @@ function changeParm(parmId){
 };
 /*跳转*/
 $("#turnPage").click(function(){
+	var parmName=$("#parmName").val();
 	var nowPage=$("#goPages").val();
 	var allPage=$("#allNum").val()
 	if(nowPage>allPage){
 		alert("超出页码范围");
 	}else{
-	window.location="<%=request.getContextPath()%>/parm/pageParmList.action?pageNum="+nowPage;
+		window.location="<%=request.getContextPath()%>/parm/parmList.action?pageNum="+nowPage+"&parmName="+parmName;
 	}
 });
 </script>

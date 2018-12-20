@@ -3,9 +3,16 @@
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
     
 <mapper namespace="com.great.mapper.MenuMapper">
-	<select id="queryAllMenu" resultType="HashMap">
+	<select id="queryAllMenu"  parameterType="com.great.bean.Menu" resultType="HashMap">
 		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq", 
-		b.MENU_NAME "menuPname",a.MENU_STATE "menuState"  from T_MENU a,T_MENU b where a.MENU_PID=b.MENU_ID order by a.MENU_ID
+		b.MENU_NAME "menuPname",a.MENU_STATE "menuState"  from T_MENU a,T_MENU b 
+		<where>
+			a.MENU_PID=b.MENU_ID
+			<if test="menuName!=null and menuName!=''">
+			and a.MENU_NAME like '%${menuName}%'
+			</if>
+		</where>
+		 order by a.MENU_ID
 	</select>
 	
 	<select id="queryFirstMenu" resultType="HashMap">
