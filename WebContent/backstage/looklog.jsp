@@ -36,6 +36,7 @@ $(function(){
 	var date = date_now.getDate() < 10 ? "0"+date_now.getDate() : date_now.getDate();
 	$("#startTime").attr("max",year+"-"+month+"-"+date);
 	$("#finalTime").attr("max",year+"-"+month+"-"+date);
+
 });
 function search(){
 	var startTime=$("#startTime").val();
