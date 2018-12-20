@@ -38,7 +38,7 @@ public class CzkPersonalHandler {
 	@Qualifier("czkPerServiceImpl")
 	private ICzkPersonalService czkService;
 	@Autowired
-	@Qualifier("roleServiceImp")
+	@Qualifier("roleServiceImpl")
 	private IRoleService roleService;
 	
 	//adminlist.jsp添加管理员跳转
