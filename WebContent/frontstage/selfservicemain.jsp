@@ -109,6 +109,15 @@ function payment(){
 
 //立即缴费
 function pay(cost,carId){
+	if(window.confirm('是否开局发票？')){
+        //alert("确定");
+        return true;
+     }else{
+        //alert("取消");
+        return false;
+    }
+	
+	
 	$.ajax({
 		type : "post",
 		url : "<%=request.getContextPath()%>/chargeHander/addCharge.action",

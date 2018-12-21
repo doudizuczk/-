@@ -1,5 +1,6 @@
 package com.great.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import com.great.bean.Charge;
  */
 public interface ChargeMapper {
 	public int addCharge(Charge charge);//添加收费记录
+	public Map<String,Object> queryChargeOrder(Charge charge);//生成日结算
 	
 	public List<Map<String,Object>> queryAllChargeList();//搜索账单列表
 	public List<Map<String,Object>> turnPageChargeList(Map<String,Object> map);//账单列表翻页和模糊查询

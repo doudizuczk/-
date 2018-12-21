@@ -1,5 +1,6 @@
 	package com.great.service.impl;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +31,15 @@ public class ChargeServiceImpl implements IChargeService {
 	@Autowired 
 	private ChargeMapper chargeMapper;
 	
+	//查询结算单数据
+	@Override
+	public BigDecimal queryChargeOrder(Charge charge) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map=chargeMapper.queryChargeOrder(charge);
+		return (BigDecimal)map.get("val");
+	}
+	
+	//添加收费记录
 	@Override
 	public boolean addCharge(Charge charge) {
 		// TODO Auto-generated method stub
@@ -37,6 +47,7 @@ public class ChargeServiceImpl implements IChargeService {
 		return count>0;
 	}
 	
+	//停车计费接口
 	@Override
 	public double getParkingCost(String carId) {
 		// TODO Auto-generated method stub

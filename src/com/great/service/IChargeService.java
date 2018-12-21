@@ -1,5 +1,6 @@
 package com.great.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.great.bean.Charge;
 public interface IChargeService{
 	public double getParkingCost(String carId);//临时车辆自动计算停车费用
 	public boolean addCharge(Charge charge);//添加收费记录
+	public BigDecimal queryChargeOrder(Charge charge);//查询结算单数据
 	
 	public List<Map<String,Object>> queryRechargeWeekChart();//月缴充值周统计总
 	public List<Map<String,Object>> queryLaborWeekChart();//人工缴费周统计

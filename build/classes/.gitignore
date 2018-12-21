@@ -17,3 +17,6 @@
 /applicationContext-mybatis.xml
 /applicationContext-springmvc.xml
 /com/
+/log.xml
+/mybatis-config.xml
+/test/

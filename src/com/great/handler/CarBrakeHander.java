@@ -20,6 +20,7 @@ import com.great.bean.Dock;
 import com.great.service.ICarBrakeService;
 import com.great.service.ICarLocationService;
 import com.great.service.ICarService;
+import com.great.service.IChargeService;
 import com.great.service.IDockService;
 import com.great.service.IWhiteListService;
 
@@ -45,6 +46,12 @@ public class CarBrakeHander {
 	@Autowired
 	@Qualifier("dockServiceImpl")
 	private IDockService dockService;
+	
+	@Autowired
+	@Qualifier("chargeServiceImpl")
+	private IChargeService chargeServices;
+	
+	
 	//车辆入场
 	@RequestMapping(value ="/carGoIn.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody Map<String,Object> carGoIn(@RequestParam String carId) {
@@ -159,7 +166,7 @@ public class CarBrakeHander {
 			//根据停靠表判断车辆所处的车位
 			Dock dock=dockService.queryParkIdByCar(carIds);
 			//接口查看费用
-			
+			double cost=chargeServices.getParkingCost(carIds);
 			Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
 			dockAndPark.put("carId", carIds);
 			dockAndPark.put("parkId", dock.getCarLocationId());
@@ -175,7 +182,7 @@ public class CarBrakeHander {
 			carInformation.put("parkId",dock.getCarLocationId());
 			carInformation.put("dockSTime",dock.getStartTime());	
 			carInformation.put("carType",car.get("parmName"));
-			
+			carInformation.put("money",cost);
 		}
 		return carInformation;
 	}
