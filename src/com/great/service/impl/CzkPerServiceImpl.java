@@ -34,5 +34,24 @@ public class CzkPerServiceImpl implements ICzkPersonalService {
 		// TODO Auto-generated method stub
 		return CzkPersonalMapper.conditionQueryCarUserList(o);
 	}
+	
+	@Override
+	public int addUpdateAdmin(Admin admin) {
+		// TODO Auto-generated method stub
+		return CzkPersonalMapper.addUpdateAdmin(admin);
+	}
+
+	@Override
+	public int updateUserState(Ower ower) {
+		// TODO Auto-generated method stub
+		return CzkPersonalMapper.updateUserState(ower);
+	}
+
+	@Override
+	public int addupdateUser(Ower ower) {
+		// TODO Auto-generated method stub
+		return CzkPersonalMapper.addupdateUser(ower);
+	}
+
 
 }

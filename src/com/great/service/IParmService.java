@@ -13,4 +13,6 @@ public interface IParmService {
 	public Parm searchType(int parmPid);//查询参数类型
 	public int savechange(Parm parm);//保存参数修改
 	public int createParm(Parm parm);//新增菜单
+	
+	public List<Map<String,Object>>IdQueryParmName(int pId);//czk-更具父id查询参数
 }
