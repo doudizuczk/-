@@ -4,17 +4,32 @@
     
 <mapper namespace="com.great.mapper.CzkPersonalMapper">
 
-	  <!--  czk修改管理员的属性，包括状态，修改属性 -->
+	  <!--  czk修改管理员的状态 -->
 	<update id="updateAdminAtt" parameterType="com.great.bean.Admin" >
 		<if test="adminId!=null and adminId!='' and state!=null and state!='' ">
 			update t_admin set admin_state=#{state} where admin_id=#{adminId}
 		</if>
 	</update>
 	
+		  <!--  czk修改车主状态 -->
+	<update id="updateUserState" parameterType="com.great.bean.Ower" >
+		<if test="owerId!=null and owerId!='' and owerState!=null and owerState!='' ">
+			update T_OWER set OWER_STATE=#{owerState} where OWER_ID=#{owerId}
+		</if>
+	</update>
+	<!-- 修改车主属性 -->
+	<update id="addupdateUser"  parameterType="com.great.bean.Ower">
+		 update t_ower set ower_name=#{owerName} ,ower_account=#{owerAccount},ower_pwd=#{owerPwd},ower_sex=#{owerSex},ower_idcard=#{owerIdcard},ower_age=#{owerAge}  where ower_id=#{owerId}
+	</update>
+	
 	<!-- 添加管理员 -->
 	<insert id="addAdmin"  parameterType="com.great.bean.Admin">
 	insert into t_admin (ADMIN_ID,ADMIN_NAME,ADMIN_ACCOUNT,ADMIN_PWD,ROLE_ID) values(SEQ_T_ADMIN.nextval,#{name},#{account}, #{password}, #{roleId})
 	</insert>
+	<!-- 修改管理员属性 -->
+	<update id="addUpdateAdmin"  parameterType="com.great.bean.Admin">
+		 update t_admin set admin_account=#{account} ,admin_pwd=#{password},admin_name=#{name},role_id=#{roleId} where admin_id=#{adminId}
+	</update>
 	
 		  <!--  czk条件模糊查询车主列表 -->
 		<select id="conditionQueryCarUserList" parameterType="com.great.bean.Ower" resultType="HashMap">
@@ -31,6 +46,9 @@
 			</if>
 			<if test="owerSex!=0">
 				and o.OWER_SEX=#{owerSex}
+			</if>
+			<if test="owerId!=0">
+				and o.OWER_ID=#{owerId}
 			</if>
 			 order by o.OWER_ID asc
 	</select>

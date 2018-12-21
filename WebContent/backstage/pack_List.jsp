@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>车主列表</title>
+<title>套餐列表</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
@@ -30,26 +30,33 @@ margin-left: 950px;
 </style>
 </head>
 <body>
+	
 	<div>
-		
-	</div>
+		<input type="button" id="createPack"  value="新增套餐" class="btn btn-primary" style="background-color: green;">
+	</div>	
 	<form class="bs-example bs-example-form"  action="" method="post" id="queryForm">
 	按条件查找:<input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-primary" style="background-color: Orange;">
     <div style="margin:5px 0px;">
-				<input type="text" placeholder="姓名查询..." name="owerName" id="owerName"/>
-				<input type="text" placeholder="账号查询..." name="owerAccount" id="owerAccount"/>
-				<select name="owerSex" id="owerSex">
-						<option value="">请选择性别...</option>
-						<option value="1">男</option>
-						<option value="2">女</option>
-				</select>
-
-				<select name="owerState" id="owerState">
+				<input type="text" placeholder="套餐名称查询..." name="packName" id="packName"/>
+				<select name="pactState" id="pactState">
 						<option value="">请选择状态...</option>
-						<c:forEach items="${dates.StatePack}" var="state">
-							<option value="${state.PARM_VAL}">${state.PARM_NAME}</option>
-						</c:forEach>
+					<c:forEach items="${dates.StatePack}" var="state">
+						<option value="${state.PARM_VAL}">${state.PARM_NAME}</option>
+					</c:forEach>
 				</select>
+				
+				<select name="packType" id="packType">
+						<option value="">请选择类型...</option>
+					<c:forEach items="${dates.Type}" var="ttt">
+						<option value="${ttt.PARM_VAL}">${ttt.PARM_NAME}</option>
+					</c:forEach>
+				</select>
+<%-- 				<select name="packType" id="packType">
+						<option value="">请选择状态...</option>
+					<c:forEach items="${dates.Type}" var="type">
+						<option value="${type.PARM_VAL}">${type.PARM_NAME}</option>
+					</c:forEach>
+				</select> --%>
 			</div>
 	</form>
  	<form>
@@ -57,13 +64,11 @@ margin-left: 950px;
  				<tr>
  			<thand >
  					<th>ID编号</th>
- 					<th>车主员姓名</th>
- 					<th>车主账号</th>
- 					<th>电话号</th>
- 					<th>性别</th>
- 					<th>身份证</th>
- 					<th>年龄</th>
- 					<th>车主状态</th>
+ 					<th>套餐名称</th>
+ 					<th>套餐时间(/月)</th>
+ 					<th>费用(/元)</th>
+ 					<th>套餐类型</th>
+ 					<th>套餐状态</th>
  					<th>创建时间</th>
  					<th>操作</th>
  				</tr>
@@ -85,7 +90,7 @@ margin-left: 950px;
  	</div>
 </body>
 <script>
-
+//新增套餐点击事件
 
 //跳转
 function Go(){
@@ -132,7 +137,7 @@ $("#nextPage").click(function(){
  //页面初始化加载方法
 $(function(){  
     var page = 1;
-	queryNameAndzh(page);
+	queryNameAndzh(page); 
 });
 //条件查找
 var path="<%=request.getContextPath()%>";
@@ -144,28 +149,24 @@ var page=1;
 		}
 	$.ajax({
 		type:"post",
-		url:path+"/czkPer/queryOwerList.action?pageCurr="+page,
+		url:path+"/pack/queryPackList.action?pageCurr="+page,
 		data:JSON.stringify($("#queryForm").serializeJSON()),
 		contentType:"application/json",
 		dataType:"json",
 		success:function(data){
 			var str="";
-			for(var i=0;i<data.dates.adminList.length;i++){
-				var state=data.dates.adminList[i].OWER_STATE==1?'禁用':'启用'
-						console.log(state);
-				var sex=data.dates.adminList[i].OWER_SEX==1?'男':'女'
+			for(var i=0;i<data.dates.packList.length;i++){
+				var state=data.dates.packList[i].PACK_STATE==1?'禁用':'启用'
+					console.log(state);
 				str+="<tr>";
-				str+="<td>"+data.dates.adminList[i].OWER_ID+"</td>";
-				str+="<td>"+data.dates.adminList[i].OWER_NAME+"</td>";
-				str+="<td>"+data.dates.adminList[i].OWER_ACCOUNT+"</td>";
-				str+="<td>"+data.dates.adminList[i].OWER_PHONE+"</td>";
-				str+="<td>"+sex+"</td>";
-				str+="<td>"+data.dates.adminList[i].OWER_IDCARD+"</td>";
-				str+="<td>"+data.dates.adminList[i].OWER_AGE+"</td>"; 
-				
-				str+="<td>"+data.dates.adminList[i].PARM_NAME+"</td>"; 
-				str+="<td>"+data.dates.adminList[i].OWER_CDATE+"</td>"; 
- 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].OWER_ID+","+data.dates.adminList[i].OWER_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateUser("+data.dates.adminList[i].OWER_ID+")'  class='btn btn-primary'  >";
+				str+="<td>"+data.dates.packList[i].PACK_ID+"</td>";
+				str+="<td>"+data.dates.packList[i].PACK_NAME+"</td>";
+				str+="<td>"+data.dates.packList[i].PACK_TIME+"</td>";
+				str+="<td>"+data.dates.packList[i].PACK_COST+"</td>";
+				str+="<td>"+data.dates.packList[i].PARM_NAME+"</td>";
+				str+="<td>"+data.dates.packList[i].PARM_NAME2+"</td>"; 
+				str+="<td>"+data.dates.packList[i].PACK_CDATE+"</td>"; 
+ 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.packList[i].PACK_ID+","+data.dates.packList[i].PACK_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateUser("+data.dates.packList[i].PACK_ID+")'  class='btn btn-primary'  >";
 				str+="</td>"; 
 				str+="</tr>";
 			}
@@ -184,9 +185,9 @@ var path="<%=request.getContextPath()%>";
 function starState(id,state){
 	console.log(id+"and"+state)
 	$.ajax({
-		url: "<%=request.getContextPath()%>/czkPer/updateUserState.action",
+		url: "<%=request.getContextPath()%>/pack/updatePackState.action",
 		type:"POST", 
-		data:{"userId":id,"state":state},
+		data:{"packId":id,"state":state},
 		dataType:"json",
 		success:function(data){
 			if(data==1){
@@ -201,9 +202,9 @@ function starState(id,state){
 	})
 }
 //修改
-function updateUser(userId){
-	console.log("点击修改用户id="+userId)
-	window.location="<%=request.getContextPath()%>/czkPer/updateUser.action?userId="+userId;
+function updateUser(id){
+	console.log("点击修改套餐id="+id)
+	window.location="<%=request.getContextPath()%>/pack/updatePack.action?packId="+id;
 }
 </script>
 </html>

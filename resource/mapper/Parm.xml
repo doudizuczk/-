@@ -34,4 +34,10 @@
 	<insert id="createParm" parameterType="com.great.bean.Parm">
 		insert into T_PARM(PARM_ID,PARM_NAME,_PARM_TYPE,PARM_VAL,PARM_PID)values(seq_t_parm.nextval,#{parmName},#{parmType},#{parmVal},#{parmPid})
 	</insert>
+		<!-- //czk-更具父id查询参数 -->
+	<select id="IdQueryParmName" parameterType="Integer" resultType="HashMap">
+		select PARM_ID ,PARM_NAME ,PARM_TYPE ,PARM_VAL ,PARM_PID 
+		 from T_PARM where PARM_PID=#{0}
+	</select>
+	
 </mapper>

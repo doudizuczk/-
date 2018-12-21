@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.PackMapper">
+	<select id="queryPackList" parameterType="com.great.bean.Pack" resultType="HashMap">
+		   select o.PACK_ID, o.PACK_NAME,o.PACK_TIME,o.PACK_COST,o.PACK_TYPE, p2.PARM_NAME ,o.PACK_STATE,p.parm_type,p.PARM_NAME "PARM_NAME2",
+ 								to_char(o.PACK_CDATE,'yyyy-mm-dd hh24:mi:ss')PACK_CDATE 
+ 				from T_PACK o,t_parm p,t_parm p2 where  p.parm_pid=10 and p2.parm_pid=9 and o.PACK_TYPE=p2.parm_val and o.PACK_STATE=p.parm_val 
+			<if test="packId!=0">
+				and PACK_ID=#{packId}
+			</if>
+			<if test="pactState!=0">
+				and PACK_STATE=#{pactState}
+			</if>
+			<if test="packType!=0">
+				and PACK_TYPE=#{packType}
+			</if>
+			<if test="packName!=null and packName!=''">
+				and PACK_NAME LIKE '%${packName}%'
+			</if>
+			order by o.PACK_ID asc
+	</select>
+	<!-- 修改套餐状态 -->
+	<update id="updatePackState" parameterType="com.great.bean.Pack">
+		     update T_PACK set PACK_STATE=#{pactState} where PACK_ID=#{packId}
+	</update>
+	<!-- 修改套餐属性 -->
+	<update id="updatePackAtt" parameterType="com.great.bean.Pack">
+	        update T_PACK set pack_name=#{packName},pack_time=#{packTime},pack_cost=#{packCost},pack_type=#{packType}  where pack_id=#{packId}
+	</update>
+	  
+	  	<!-- 添加套餐 -->
+	<insert id="addPackAtt"  parameterType="com.great.bean.Pack">
+	insert into t_pack (PACK_ID,PACK_NAME,PACK_TIME,PACK_COST,PACK_TYPE) 
+values(SEQ_T_PACK.nextval,#{packName},#{packTime}, #{packCost}, #{packType})
+	</insert>
+	 
+			<!-- czk新建套餐查存在 -->
+		<select id="addQueryPackExist"  parameterType="com.great.bean.Pack" resultType="HashMap">
+		  select o.PACK_ID, o.PACK_NAME,o.PACK_TIME,o.PACK_COST,o.PACK_TYPE, p2.PARM_NAME ,o.PACK_STATE,p.parm_type,p.PARM_NAME "PARM_NAME2",
+ 								to_char(o.PACK_CDATE,'yyyy-mm-dd hh24:mi:ss')PACK_CDATE 
+ 				from T_PACK o,t_parm p,t_parm p2 where  p.parm_pid=10 and p2.parm_pid=9 and o.PACK_STATE=p.parm_val and o.PACK_STATE=p2.parm_val 
+ 				and o.Pack_Name=#{packName}
+		</select>
+	
+</mapper>

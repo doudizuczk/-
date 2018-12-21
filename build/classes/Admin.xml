@@ -22,11 +22,19 @@
 		</where>
 	</select>
 	
-		   <!--  czk查询管理员列表 -->
+	   <!--  czk查询管理员列表 -->
 		<select id="queryAdminList" resultType="HashMap">
 		select a.ADMIN_ID,a.ADMIN_ACCOUNT,a.admin_pwd, a.admin_name,a.admin_cdate,a.role_id,t.role_name ,p.parm_type,a.admin_state,p.PARM_NAME from t_admin a,t_parm p, t_role t 
 where a.admin_state=p.parm_val and p.parm_pid=2 and a.role_id=t.role_id
-	</select>
+		</select>
+		<!-- czk新建用户查存在 -->
+		<select id="addQueryAdminExist"  parameterType="com.great.bean.Admin" resultType="HashMap">
+		select a.ADMIN_ID,a.ADMIN_ACCOUNT,a.admin_pwd, a.admin_name,a.admin_cdate,a.role_id,t.role_name ,p.parm_type,a.admin_state,p.PARM_NAME from t_admin a,t_parm p, t_role t 
+where a.admin_state=p.parm_val and p.parm_pid=2 and a.role_id=t.role_id
+			<if test="account!=null and account!=''">
+				 and a.ADMIN_ACCOUNT=#{account}
+			</if>
+		</select>
 	  <!--  czk条件模糊查询管理员列表 -->
 		<select id="conditionQueryAdminList" parameterType="com.great.bean.Admin" resultType="HashMap">
 		   select a.ADMIN_ID,a.ADMIN_ACCOUNT,a.admin_pwd, a.admin_name, to_char(a.admin_cdate,'yyyy-mm-dd hh24:mi:ss') admin_cdate,a.role_id,t.role_name ,p.parm_type,a.admin_state,p.PARM_NAME from t_admin a,t_parm p, t_role t 
@@ -44,7 +52,11 @@ where a.admin_state=p.parm_val and p.parm_pid=2 and a.role_id=t.role_id
 			<if test="roleId!=null">
 				and a.ROLE_ID=#{roleId}
 			</if>
+			<if test="adminId!=null">
+				and a.ADMIN_ID=#{adminId}
+			</if>
 			  order by a.ADMIN_ID asc
 	</select>
+	
 	
 </mapper>
