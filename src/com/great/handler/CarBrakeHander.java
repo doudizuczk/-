@@ -212,7 +212,6 @@ public class CarBrakeHander {
 		int parkNum=getParkList.size();
 		return parkNum;
 	}
-<<<<<<< HEAD
 	@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody String updatePhoto(MultipartFile img){ 
 	      System.out.println("开始上传");
