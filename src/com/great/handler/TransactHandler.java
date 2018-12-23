@@ -83,36 +83,30 @@ public class TransactHandler {
 		List<Map<String,Object>> tranList = transactService.CidQueryTransact(tran);//根据车牌号查套餐
 		String money = transactService.refund(carId);
 		Map<String, Object> dates=new HashMap<String, Object>();
-		dates.put("tran", tranList.get(0));//返回套餐办理表 的数据
-		dates.put("money", money);//可退金额
+		dates.put("tran", tranList.get(0));
+		dates.put("money", money);
 		return dates;
 	}
 	
 	//czk-点击退费办理
 	@RequestMapping(value = "/RefunndTransact.action")
 	public@ResponseBody Map<String,Object> RefunndTransact(HttpServletRequest request ) {
+		
 		String carId = request.getParameter("carId");
-		String CNY = request.getParameter("money");
-		Double money = Double.parseDouble(CNY);
-		int refundState = transactService.refundMoney(carId,money);//车牌退费退费的方法，返回1=余额退款  2=现金退款
+		String money = request.getParameter("money");
+		Map<String,Object> map = new HashMap<>();
+		map.put("carId", carId);
+		map.put("money", money);
+		Map<String,Object> refundMap = transactService.refundMoney(map);
+		
 		TranSact tran = new TranSact();
+		
 		tran.setCarId(carId);
 		List<Map<String,Object>> tranList = transactService.CidQueryTransact(tran);//根据车牌号查套餐
 		Map<String, Object> dates=new HashMap<String, Object>();
-		dates.put("tran", tranList.get(0));//该套餐
-		dates.put("money", money);//应退金额
-		dates.put("refundState", refundState);//退款方式
+		dates.put("tran", tranList.get(0));
+		dates.put("money", money);
 		return dates;
-	}
-	//czk-点击套餐办理
-	@RequestMapping(value = "/carIdPackTransact.action")
-	public@ResponseBody Map<String,Object> packTransact(HttpServletRequest request ) {
-		int packId = Integer.parseInt(request.getParameter("packId"));
-		String carID = request.getParameter("carAccount");
-		
-		Map<String,Object> add = transactService.carIdTransactPack(carID, packId);
-		
-		return add;
 	}
 	
 
