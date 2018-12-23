@@ -37,7 +37,7 @@
                 <li class="" data-tab-name=""><input type="text" id="carId"></li>
                 <li class="" data-tab-name=""><span class="tabs-text" onclick="goIn()">进</span></li>
                 <li class="" data-tab-name=""><span class="tabs-text" onclick="getOut()">出</span></li>             
-                <li class="" data-tab-name=""><span class="tabs-text">备用</span></li>
+                <li class="" data-tab-name=""><span class="tabs-text" onclick="carCanGetOut()">备用</span></li>
               </ul>
               <div class="resp-tabs-container hor_1 tabs_scroll">
                 <div class="fc-tab-1">
@@ -148,27 +148,41 @@ function goIn(){
 });
 }
 function getOut(){
+			alert("111111111");
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/carBrakeHander/carGetOut.action",
 		type:"POST",
 		data:{"carId":$("#carId").val()},
 		dataType:"json",
 		success : function(data){
-			if(data.result==true){
 				if(Number(data.money)!=0){
 					alert("请缴纳车费！");
+				}else{
+					alert("放行");
 				}
-				
 				$("#carIdsOut").text(data.carId);
 				$("#parkIdsOut").text(data.parkId);
 				$("#carTypesOut").text(data.carType);
 				$("#dockSTimeOut").text(data.dockSTime);
 				$("#money").text(data.money);
-				
-				getParkNum();
-				clearOut();
+		}
+});	
+}
+//放行
+function carCanGetOut(){
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/carBrakeHander/carCanGetOut.action",
+		type:"POST",
+		data:{"carId":$("#carId").val()},
+		dataType:"json",
+		success : function(data){
+			if(data==true){
+				alert("放行");
+			}else{
+				alert("放行失败");
 			}
-			
+			getParkNum();
+			clearOut();
 		}
 });
 	

@@ -31,6 +31,20 @@ public class ChargeServiceImpl implements IChargeService {
 	@Autowired 
 	private ChargeMapper chargeMapper;
 	
+	//修改收费表
+	@Override
+	public int updateCharge(Charge charge) {
+		// TODO Auto-generated method stub
+		return chargeMapper.updateCharge(charge);
+	}
+
+	//根据收费id查询记录
+	@Override
+	public Charge queryChargeById(int chargeId) {
+		// TODO Auto-generated method stub
+		return chargeMapper.queryChargeById(chargeId);
+	}
+	
 	//查询结算单数据
 	@Override
 	public BigDecimal queryChargeOrder(Charge charge) {
@@ -39,12 +53,17 @@ public class ChargeServiceImpl implements IChargeService {
 		return (BigDecimal)map.get("val");
 	}
 	
-	//添加收费记录
+	//添加收费记录(返回值：收费id)
 	@Override
-	public boolean addCharge(Charge charge) {
+	public int addCharge(Charge charge) {
 		// TODO Auto-generated method stub
+		int seq=chargeMapper.getChargeSeq();
+		charge.setChargeId(seq);
 		int count=chargeMapper.addCharge(charge);
-		return count>0;
+		if (count>0) {
+			return seq;
+		}
+		return 0;
 	}
 	
 	//停车计费接口

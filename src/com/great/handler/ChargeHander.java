@@ -1,5 +1,9 @@
 package com.great.handler;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,8 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -24,6 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.great.bean.Admin;
 import com.great.bean.Charge;
 import com.great.bean.Dock;
+import com.great.bean.Order;
 import com.great.service.IChargeService;
 import com.great.service.IDockService;
 import com.great.util.DateUtils;
@@ -44,6 +55,68 @@ public class ChargeHander {
 	
 	private DateUtils dateUtils;
 	
+	@RequestMapping("/exportCharge.action")
+	public ModelAndView exportCharge(HttpServletRequest request, HttpServletResponse response,int chargeId) throws IOException {
+		//1.读取excel模板
+		String path=request.getServletContext().getRealPath("/storage/invoice.xls");
+		InputStream is = new FileInputStream(path);
+		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+		//2.读取数据库数据/更改状态为已开票
+		Charge charge=chargeService.queryChargeById(chargeId);
+		
+		Charge temp=new Charge();
+		temp.setChargeId(chargeId);
+		temp.setInvoice(1);
+		int count=chargeService.updateCharge(temp);
+		if (count<=0) {
+			return null;
+		}
+		
+		//3.获取第一个sheet
+		HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
+		
+		if (sheet != null) {
+			//获取第3行
+			HSSFRow row2=sheet.getRow(2);
+			if (row2==null) {
+				row2=sheet.createRow(2);
+			}
+			//设置填充单元格
+			HSSFCell cell0=row2.getCell(0);
+			HSSFCell cell1=row2.getCell(1);
+			HSSFCell cell2=row2.getCell(2);
+			HSSFCell cell3=row2.getCell(3);
+			HSSFCell cell4=row2.getCell(4);
+			
+			cell0.setCellValue(charge.getCarId());
+			cell1.setCellValue(charge.getCost());
+			cell2.setCellValue(charge.getTypeName());
+			cell3.setCellValue(charge.getCreateTime());
+			cell4.setCellValue(charge.getAdminName());
+			
+			//添加备注
+			HSSFRow row3=sheet.createRow(3);
+			cell3=row3.createCell(3);
+			cell3.setCellValue("票据编号：ZNTC"+charge.getChargeId());
+			sheet.addMergedRegion(new CellRangeAddress(3,3,3,4));//合并单元格
+			
+			// 输出Excel文件
+			try {
+				OutputStream output = response.getOutputStream();
+				response.reset();
+				response.setHeader("Content-disposition", "attachment; filename=invoice.xls");
+				response.setContentType("application/msexcel");
+				hssfWorkbook.write(output);
+				output.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return null;
+	}
+	
 	//添加停车缴费信息
 	@RequestMapping("/addCharge.action")
 	public @ResponseBody String addCharge(HttpServletRequest request,Charge charge) {
@@ -53,8 +126,9 @@ public class ChargeHander {
 			charge.setAdminId(adminId);
 		}
 		
-		if (chargeService.addCharge(charge)) {
-			return "1";
+		int seq=chargeService.addCharge(charge);
+		if (seq>0) {
+			return ""+seq;
 		}else {
 			return "0";
 		}

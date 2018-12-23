@@ -14,6 +14,7 @@ public class Charge implements Serializable {
 	 * 车牌ID
 	 * 停车费用
 	 * 是否开具发票
+	 * 是否使用现金
 	 * 类型
 	 * 状态
 	 * 创建时间
@@ -21,8 +22,10 @@ public class Charge implements Serializable {
 	private int chargeId;
 	private String carId;
 	private int adminId;
+	private String adminName;
 	private double cost;
 	private int invoice;
+	private int isCash;
 	private int type;
 	private String typeName;
 	private int state;
@@ -35,14 +38,16 @@ public class Charge implements Serializable {
 		super();
 	}
 
-	public Charge(int chargeId, String carId, int adminId, double cost, int invoice,int type, String typeName, int state,
+	public Charge(int chargeId, String carId, int adminId, String adminName,double cost, int invoice,int isCash,int type, String typeName, int state,
 			String stateName, String createTime,String sTime,String eTime) {
 		super();
 		this.chargeId = chargeId;
 		this.carId = carId;
 		this.adminId = adminId;
+		this.adminName = adminName;
 		this.cost = cost;
 		this.invoice = invoice;
+		this.isCash = isCash;
 		this.type = type;
 		this.typeName = typeName;
 		this.state = state;
@@ -76,6 +81,14 @@ public class Charge implements Serializable {
 		this.adminId = adminId;
 	}
 
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
 	public double getCost() {
 		return cost;
 	}
@@ -90,6 +103,14 @@ public class Charge implements Serializable {
 
 	public void setInvoice(int invoice) {
 		this.invoice = invoice;
+	}
+
+	public int getIsCash() {
+		return isCash;
+	}
+
+	public void setIsCash(int isCash) {
+		this.isCash = isCash;
 	}
 
 	public int getType() {
