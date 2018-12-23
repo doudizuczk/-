@@ -34,6 +34,7 @@
 	<select id="searchPack" resultType="HashMap">
 		select PACK_ID "packId",PACK_NAME "packName",PACK_TIME "packTime",PACK_COST "packCost" from T_PACK where PACK_TYPE=1 and PACK_STATE=1
 	</select>
+
 	
 	<update id="addMessage" parameterType="com.great.bean.Ower">
 		update T_OWER set OWER_IDCARD='${owerIdcard}',OWER_AGE=${owerAge},OWER_SEX=${owerSex} where OWER_ID=${owerId}
@@ -51,4 +52,9 @@
 		select TRAN_ID "tranId",PACK_ID "packId",CAR_ID "carId",PARK_ID "parkId",to_char(TRAN_STIME,'YYYY-MM-dd hh24:mm') "tranStime",to_char(TRAN_ETIME,'YYYY-MM-dd hh24:mm') "tranEtime" ,TRAN_STATE "tranState"
 		from T_TRANSACT where CAR_ID='${carId}'
 	</select>
+
+	<update id="updateOwerBalance" parameterType="HashMap">
+		  update T_OWER set OWER_BALANCE=OWER_BALANCE+#{money} where  ower_id=#{owerId}
+	</update>
+
 </mapper>
