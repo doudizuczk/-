@@ -1,3 +1,4 @@
+
 /Admin.xml
 /AisTran.xml
 /Car.xml
@@ -19,6 +20,14 @@
 /applicationContext-mybatis.xml
 /applicationContext-springmvc.xml
 /com/
+<<<<<<< HEAD
 /log.xml
 /mybatis-config.xml
+=======
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-
 /test/
+<<<<<<< HEAD
+=======
+/mybatis-config.xml
+
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-

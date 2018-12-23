@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageHelper;
+import com.great.bean.CarInfo;
 import com.great.bean.CarLocation;
 import com.great.mapper.CarLocationMapper;
 import com.great.service.ICarLocationService;
@@ -58,6 +59,20 @@ public class CarLocationServiceImpl implements ICarLocationService {
 		// TODO Auto-generated method stub
 		int count=carLocationMapper.updateParkStateById(park);
 		return count>0;
+	}
+
+	@Override
+	public List<CarInfo> queryCarInfo(String carId) {
+		// TODO Auto-generated method stub
+		 List<CarInfo> list=carLocationMapper.queryCarInfo(carId);
+		 return list;
+	}
+
+	@Override
+	public List<CarLocation> querByArea(Integer state, String area) {
+		// TODO Auto-generated method stub
+		List<CarLocation> list=carLocationMapper.querByArea(state, area);
+		return list;
 	}
 
 
