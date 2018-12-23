@@ -12,6 +12,7 @@
 /Parm.xml
 /PayMent.xml
 /Role.xml
+/RoleMenu.xml
 /Rule.xml
 /Transact.xml
 /WhiteList.xml
@@ -20,4 +21,7 @@
 /applicationContext-springmvc.xml
 /com/
 /mybatis-config.xml
+<<<<<<< HEAD
+=======
 /test/
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-.git

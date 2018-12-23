@@ -1,8 +1,11 @@
 package com.great.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DateUtils {
 	
@@ -68,5 +71,41 @@ public class DateUtils {
             calendar.set(getNowYear(), getNowMonth() - 6, 1);
             return calendar.getTime();
         }
-     
+     //根据身份证号码算出年龄
+     public static Map<String, Object> getCarInfo15W(String card)
+ 			throws Exception {
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		String uyear = "19" + card.substring(8, 10);// 年份
+ 		//System.out.println("年份="+uyear);
+ 		String uyue = card.substring(10, 12);// 月份
+ 		//System.out.println("月份="+uyue);
+ 		String uday=card.substring(12, 14);//日
+ 		//System.out.println("日="+uday);
+ 		String usex = card.substring(16, 17);// 用户的性别
+ 		String sex;
+ 		if (Integer.parseInt(usex) % 2 == 0) {
+ 			sex = "女";
+ 		} else {
+ 			sex = "男";
+ 		}
+ 		Date date = new Date();// 得到当前的系统时间
+ 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+ 		String fyear = format.format(date).substring(0, 4);// 当前年份
+ 		String fyue = format.format(date).substring(5, 7);// 月份
+ 		String fri=format.format(date).substring(8, 10);
+ 		int age = 0;
+ 		if (Integer.parseInt(uyue) <= Integer.parseInt(fyue)) { 
+ 			// 当前月份大于用户出身的月份表示已过生
+ 			if(Integer.parseInt(uday)<=Integer.parseInt(fri)) {
+ 				age = Integer.parseInt(fyear) - Integer.parseInt(uyear) + 1;
+ 			}else {
+ 				age = Integer.parseInt(fyear) - Integer.parseInt(uyear);
+ 			}
+ 		} else {// 当前用户还没过生
+ 			age = Integer.parseInt(fyear) - Integer.parseInt(uyear);
+ 		}
+ 		map.put("sex", sex);
+ 		map.put("age", age);
+ 		return map;
+ 	}
 }

@@ -60,8 +60,10 @@
 			success:function(data){
 				if(data=="1"){
 					alert("绑定成功");
-				}else{
+				}else if(data=="0"){
 					alert("绑定失败");
+				}else{
+					alert("未通过实名认证，无法绑定");
 				}
 			}
 		});

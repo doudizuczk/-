@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.RoleMenuMapper">
+	<select id="queryAll" parameterType="int" resultType="HashMap">
+		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq", 
+		b.MENU_NAME "menuPname",a.MENU_STATE "menuState"  from T_MENU a,T_MENU b,T_PERM c
+		where a.MENU_PID=b.MENU_ID and  c.MENU_ID=a.MENU_ID and c.ROLE_ID=#{0}
+	</select>
+	
+	<delete id="deleteRoleMenu" parameterType="int">
+		delete from t_perm where role_id=#{0}
+	</delete>
+	
+	<insert id="addRoleMenu" parameterType="int">
+		insert into t_perm(role_id,menu_id)values(#{0},#{1})
+	</insert>
+</mapper>

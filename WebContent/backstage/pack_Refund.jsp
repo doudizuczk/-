@@ -79,7 +79,7 @@ var str ="";
 			 $("#packTbody").html(str); //回填列表
 		},
 		error:function(){
-			window.alert("操作出错");
+			window.alert("该车没有办理任何套餐");
 		}
 	})
 }
@@ -110,8 +110,12 @@ function yesbut(){
 			data:{"carId":$("#carId").val(),"money":money},
 			dataType:"json",
 			success:function(data){
-				if(data==1){
-				window.alert("添加成功")
+				if(data.refundState==1){
+				window.alert("余额退款成功")
+				check_licensePlate();
+				}
+				if(data.refundState==2){
+					window.alert("该车没有绑定账户,请现金退款"+data.money+"/元(人民币)")
 				}
 			},
 			error:function(){
