@@ -15,33 +15,55 @@
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <script>
 $().ready(function(){
-	$("#addAdminForm").validate({
+	$("#packForm").validate({
    	 rules: {
-   		name: {
+   		carAccount: {
    	        required: true,
    	      },
    	    },
-   	    
    	  messages: {
-   		name: {
-   	        required: "请填写姓名",
+   		carAccount: {
+   	        required: "请填写车牌号",
    	      },
    	     },
-   	  submitHandler: function(form) { addQueryAdminExist(); }
+   	  submitHandler: function(form) { check_licensePlate(); }
    })	
 });
+function check_licensePlate() {
+	console.info("进入到车牌校验");
+	var licensePlate = $("#carAccount").val()
+	var re = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
+	if(licensePlate.search(re) == -1) {
+		alert("您输入的车牌号不合格！")
+	} else {
+		CarIdPackTransact();
+	}
+}
+//办理套餐的方法
 var path="<%=request.getContextPath()%>";
-function createAdmin(){
+function CarIdPackTransact(){
+	var carId = $("#carAccount").val()
+	alert(carId);
 	var path="<%=request.getContextPath()%>";
 		$.ajax({
 			type:"post",
-			url:path+"/czkPer/addAdmin.action",
-			data:JSON.stringify($("#addAdminForm").serializeJSON()),
-			contentType:"application/json",
+			url:path+"/transact/carIdPackTransact.action",
+			data:{"carAccount":$("#carAccount").val(),"packId":$("#packId").val()},
 			dataType:"json",
 			success:function(data){
-				if(data==1){
-				window.alert("添加成功")
+				if(data.addState==1){
+				window.alert("套餐办理成功！")
+				}else if(data.addState==2){
+					window.alert("套餐续费成功！结束日期为"+data.eDate+"")
+				}else if(data.addState==3){
+					if(data.refundState==1){
+						window.alert("套餐办理成功！账户余额退款成功,退款"+data.money+"/元(人民币)")
+						check_licensePlate();
+						}
+					if(data.refundState==2){
+						window.alert("套餐办理成功！该车没有绑定账户,请现金退款"+data.money+"/元(人民币)")
+					}
+/* 					window.alert("该车没有绑定账户,请现金退款"+data.money+"/元(人民币)") */
 				}
 			},
 			error:function(){
@@ -124,7 +146,7 @@ function isLicenseNo(str) {
 </head>
 <body>
 <h3>套餐办理页</h3>
-	<form id="addAdminForm" >
+	<form id="packForm" >
 		<table class="table table-striped table-hover">
 				<tr>
 					<th></th>
