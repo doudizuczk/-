@@ -30,5 +30,7 @@
 	<select id="searchPack" resultType="HashMap">
 		select PACK_ID "packId",PACK_NAME "packName",PACK_TIME "packTime",PACK_COST "packCost" from T_PACK where PACK_TYPE=1 and PACK_STATE=1
 	</select>
-	
+	<update id="updateOwerBalance" parameterType="HashMap">
+		  update T_OWER set OWER_BALANCE=OWER_BALANCE+#{money} where  ower_id=#{owerId}
+	</update>
 </mapper>
