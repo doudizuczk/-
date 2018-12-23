@@ -11,8 +11,9 @@
 			<if test="carId!=null and carId!=''">
 				and CAR_ID=#{carId}
 			</if>
-		</where> 		
+		</where> 
 	</select>
+
 	<select id="queryWhiteListCarByCarId" parameterType="java.lang.String" resultType="HashMap">
 	   select a.car_id "carId",a.car_color "carColor",a.car_type "carType",a.car_cdate "carCdate",a.ower_id "owerId",
        b.ower_name "owerName",b.ower_phone "owerPhone",c.park_id "parkId",c.tran_id "tranId",c.tran_state "tranState",d.park_zone "parkZone",e.parm_name "parmName" 
