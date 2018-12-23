@@ -1,11 +1,14 @@
 package com.great.handler;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -23,6 +28,9 @@ import com.great.service.ICarService;
 import com.great.service.IChargeService;
 import com.great.service.IDockService;
 import com.great.service.IWhiteListService;
+import com.great.util.Sample;
+
+import sun.java2d.pipe.SpanShapeRenderer.Simple;
 
 /*创建人：@lian shengwei
  * 日期：20181219
@@ -193,6 +201,7 @@ public class CarBrakeHander {
 			carInformation.put("carId", carIds);
 			carInformation.put("carType",car.get("parmName"));
 			carInformation.put("money",cost);
+
 		}
 		return carInformation;
 	}
@@ -203,6 +212,28 @@ public class CarBrakeHander {
 		int parkNum=getParkList.size();
 		return parkNum;
 	}
+<<<<<<< HEAD
+	@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String updatePhoto(MultipartFile img){ 
+	      System.out.println("开始上传");
+	      String name =null;
+	      try {
+			JSONObject res =Sample.getCarId(img.getBytes());
+			if(res!=null) {
+				name = res.getJSONObject("words_result").getString("number");
+			}else {
+				System.out.println("无法识别");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      System.out.println(name);
+	      
+	      return name;
+	} 
+	
+
 	//放行
 		@RequestMapping(value ="/carCanGetOut.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 		public @ResponseBody boolean carCanGetOut(@RequestParam String carId) {
@@ -235,4 +266,5 @@ public class CarBrakeHander {
 			
 		
 			
+
 }

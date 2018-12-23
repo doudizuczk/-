@@ -45,16 +45,22 @@
 	</insert>
 	
     <select id="queryAllChargeList" resultType="HashMap">
-    select a.charge_id "chargeId",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
+    select a.charge_id "chargeId",a.charge_cash "chargeCash",a.charge_inv "chargeInv",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
     c.parm_name "parmName",b.admin_account "adminAccount"
     from t_charge a,t_admin b,t_parm c where b.admin_id = a.admin_id and c.parm_val=a.charge_type and c.parm_pid=4 order by a.charge_id
     </select>  
     <select id="turnPageChargeList" resultType="HashMap" parameterType="Map">
-    select a.charge_id "chargeId",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
+    select a.charge_id "chargeId",a.charge_cash "chargeCash",a.charge_inv "chargeInv",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
     c.parm_name "parmName",b.admin_account "adminAccount"
     from t_charge a,t_admin b,t_parm c where b.admin_id = a.admin_id and c.parm_val=a.charge_type and c.parm_pid=4 
     <if test="carId!= '' and carId!= null">
             and a.car_id like '%${carId}%'
+     </if>
+    <if test="chargeId!=0">
+            and a.charge_id=#{chargeId}
+     </if>
+     <if test="adminId!=0">
+            and a.admin_id=#{adminId}
      </if>
      <if test="endTime!= '' and endTime!= null and starTime!='' and starTime!=null ">
             and to_char(a.charge_cdate, 'YYYY-MM-DD') between '${starTime}' and '${endTime}'
