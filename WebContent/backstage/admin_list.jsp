@@ -46,9 +46,9 @@ margin-left: 950px;
 				</select>
 				<select name="state" id="state">
 						<option value="">请选择状态...</option>
-						<option value="1">启用</option>
-						<option value="2">禁用</option>
-						
+						<c:forEach items="${dates.StatePack}" var="state">
+							<option value="${state.PARM_VAL}">${state.PARM_NAME}</option>
+						</c:forEach>
 				</select>
 			</div>
 	</form>
@@ -72,8 +72,8 @@ margin-left: 950px;
  		</table>
  	</form>
  	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curePage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
- 		<input type="hidden" value="${pageInfo.curePage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 		<input type="hidden" value="${pageInfo.curPage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
  		<!-- 跳转页码输入校验 -->
 	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
@@ -82,7 +82,7 @@ margin-left: 950px;
  	</div>
 </body>
 <script>
-
+//页面加载时更新页面，之后的都是ajax局部刷新
 $(function(){  
     var page = 1;
 	queryNameAndzh(page);
@@ -96,6 +96,7 @@ function Go(){
 	}
 	queryNameAndzh(pageCurr);
 }
+//新增管理员点击事件
 $("#createAdmin").click(function(){
 	window.location="<%=request.getContextPath()%>/czkPer/addAdmin.action";
 });
@@ -126,12 +127,6 @@ $("#nextPage").click(function(){
 	
 });
 
-$("#createMenu").click(function(){
-	window.location="<%=request.getContextPath()%>/"
-});
-
-
-
 
 //条件查找
 var path="<%=request.getContextPath()%>";
@@ -160,14 +155,14 @@ var page=1;
 				str+="<td>"+data.dates.adminList[i].ROLE_NAME+"</td>";
 				str+="<td>"+data.dates.adminList[i].ADMIN_CDATE+"</td>";
 				str+="<td>"+data.dates.adminList[i].PARM_NAME+"</td>"; 
-				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateAdmin("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")'  class='btn btn-primary'  >";
+				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateAdmin("+data.dates.adminList[i].ADMIN_ID+")'  class='btn btn-primary'  >";
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			 $("#adminList").html(str); //回填列表
-			 $("input[name=pageCurr]").eq(0).val(data.curePage);//回填input隐藏域
+			 $("input[name=pageCurr]").eq(0).val(data.curPage);//回填input隐藏域
 			 $("input[name=pageMax]").eq(0).val(data.totalPage);//回填input隐藏域
-			 $("#myPage").html("当前第"+data.curePage+"页 共"+data.totalPage+"页"); //回填显示信息
+			 $("#myPage").html("当前第"+data.curPage+"页 共"+data.totalPage+"页"); //回填显示信息
 		},
 		error:function(){
 			window.alert("查询出错");
@@ -178,7 +173,6 @@ var page=1;
 var path="<%=request.getContextPath()%>";
 function starState(adminId,state){
 	console.log(adminId+"and"+state)
-	alert("提交修改")
 	$.ajax({
 		url: "<%=request.getContextPath()%>/czkPer/updateAdminState.action",
 		type:"POST", 
@@ -187,13 +181,19 @@ function starState(adminId,state){
 		success:function(data){
 			if(data==1){
 			window.alert("修改状态成功!");
+			var a = $("#pageCurr").val();
+			queryNameAndzh(a);
 			}
 		},
 		error:function(){
 			window.alert("操作出错");
 		}
 	})
-	
+}
+//修改
+function updateAdmin(adminId){
+	console.log("点击修改管理员id="+adminId)
+	window.location="<%=request.getContextPath()%>/czkPer/updateAdmin.action?adminId="+adminId;
 }
 </script>
 </html>

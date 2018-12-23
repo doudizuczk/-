@@ -14,4 +14,9 @@ public interface ICzkPersonalService {
 	
 	public List<Map<String,Object>> conditionQueryCarUserList(Ower o);//模糊查询车主列表
 
+	public int addUpdateAdmin(Admin admin);//修改管理员数据
+	
+	public int updateUserState(Ower ower);//车主状态修改，
+	
+	public int addupdateUser(Ower ower);//添加修改车主信息
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>新增管理员页</title>
+<title>新增套餐页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
@@ -17,53 +17,44 @@
 $().ready(function(){
 	$("#addAdminForm").validate({
    	 rules: {
-   		name: {
+   		packType: {
    	        required: true,
    	      },
    	   account: {
-   		required: true,
+   		packName: true,
    	      },
-   	   password:{
+   	   packTime:{
    		 required: true,
    	   },
-   	adminPassword2:{
+   	packCost:{
   		 required: true,
   	   },
-  	 roleId:{
-  	  		 required: true,
-  	  	   },
    	    },
    	    
    	  messages: {
-   		name: {
-   	        required: "请填写姓名",
+   		packType: {
+   	        required: "请选择套餐类型！",
    	      },
-   	   account: {
-   	        required: "请填写账号",
+   	   packName: {
+   	        required: "请输入套餐名称",
    	      },
-   	   adminPassword:{
-   		required:"请填写密码"
+   	   packTime:{
+   		required:"请输入套餐时常"
    	   },
-   	password:{
-      		required:"请确认密码"
+   	packCost:{
+      		required:"请输入套餐费用"
       	   },
-    	 roleId:{
-       		required:"请确选择要添加的角色"
-       	   },
    	     },
-   	  submitHandler: function(form) { addQueryAdminExist(); }
+   	  submitHandler: function(form) { addQuerypackExist(); }
    })	
 });
-//添加管理员
+//添加套餐
 var path="<%=request.getContextPath()%>";
 function createAdmin(){
-	console.log("添加管理员的AJAX")
-	//添加管理员
 	var path="<%=request.getContextPath()%>";
-			console.log("新增管理员");
 		$.ajax({
 			type:"post",
-			url:path+"/czkPer/addAdmin.action",
+			url:path+"/pack/addpack.action",
 			data:JSON.stringify($("#addAdminForm").serializeJSON()),
 			contentType:"application/json",
 			dataType:"json",
@@ -77,22 +68,15 @@ function createAdmin(){
 			}
 		})
 }
-//打开页面加载失去焦点判断
-/* $(document).ready(function(){
-	$("#account").blur(function(){
-		console.log("失去焦点");
-		addQueryAdminExist();
-	})
-}) */
+
 //查存在
-function addQueryAdminExist(){
-	console.log(name+"=对其查存");	
-	var account = $("#account").val();
+function addQuerypackExist(){
+	var packName = $("#packName").val();
 var path="<%=request.getContextPath()%>";
 	$.ajax({
-		url:path+"/czkPer/addQueryAdminExist.action",
+		url:path+"/pack/addQuerypackExist.action",
 		type:"POST", 
-		data:{"account":account},
+		data:{"packName":packName},
 		dataType:"json",
 		success:function(data){
 			if(data==1){
@@ -106,11 +90,6 @@ var path="<%=request.getContextPath()%>";
 		}
 	})
 }
-<%-- var path="<%=request.getContextPath()%>";
-function starState(adminId,state){
-	console.log(adminId+"and"+state)
-	alert("提交修改")
-} --%>
 
 </script>
 <style>
@@ -120,7 +99,7 @@ function starState(adminId,state){
 </style>
 </head>
 <body>
-<h3>新增管理员页</h3>
+<h3>新增套餐页</h3>
 	<form id="addAdminForm" >
 		<table class="table table-striped table-hover">
 			<tbody>
@@ -129,31 +108,27 @@ function starState(adminId,state){
 					<th></th>
 				</tr>
 				<tr>
-				<td>选择要添加的角色：</td>
+				<td>选择要添加的套餐类型：</td>
 					<td>
-					<select name="roleId" id="roleId">
-						<option value="">请选择</option>
-						<c:forEach items="${dates.roleList}" var="role">
-							<option value="${role.ROLE_ID}">${role.ROLE_NAME}</option>
-						</c:forEach>
-					</select>
+				<select name="packType" id="packType">
+						<option value="">请选择类型...</option>
+					<c:forEach items="${dates.TypePack}" var="ttt">
+						<option value="${ttt.PARM_VAL}">${ttt.PARM_NAME}</option>
+					</c:forEach>
+				</select>
 					</td>
 				</tr>
 				<tr>
-					<td>管理员姓名：</td>
-					<td><input type="text" name="name" id="name" placeholder="请输入管理员姓名..."></td>
+					<td>套餐名称：</td>
+					<td><input type="text" name="packName" id="packName" placeholder="请输入套餐名称..."></td>
 				</tr>
 				<tr>
-					<td>管理员账号：</td>
-					<td><input type="text" name="account" id="account" placeholder="请输入账号名称..."></td>
+					<td>套餐时长(月/30天)：</td>
+					<td><input type="text" name="packTime" id="packTime" placeholder="套餐时长..."></td>
 				</tr>
 				<tr>
-					<td>密码：</td>
-					<td><input type="password" id="password" name="password" placeholder="请输入密码..."></td>
-				</tr>
-								<tr>
-					<td>确认密码：</td>
-					<td><input type="password" id="adminPassword2" name="adminPassword2" placeholder="请再次输入密码..."></td>
+					<td>套餐费用(/元)：</td>
+					<td><input type="text" id="packCost" name="packCost" placeholder="请输套餐费用..."></td>
 				</tr>
 				
 			</tbody>
