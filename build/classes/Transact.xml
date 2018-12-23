@@ -8,6 +8,7 @@
 		 where c.car_id=t.car_id and t.tran_state=2 and c.car_id=#{0} order by t.TRAN_ETIME desc) where rownum&lt;=1
 	</select>
 	
+
 		<select id="CidQueryTransact" parameterType="com.great.bean.TranSact" resultType="HashMap">
 		    select t.TRAN_ID,t.PACK_ID,t.CAR_ID,t.PARK_ID, to_char(t.TRAN_STIME,'yyyy-MM-dd HH:mm')TRAN_STIME,to_char(t.TRAN_ETIME,'yyyy-MM-dd HH:mm')TRAN_ETIME ,t.TRAN_STATE,
    			 p.pack_name,p.pack_time,p.pack_cost,p.pack_state
@@ -33,5 +34,6 @@
 	<update id="updateTransactTime" parameterType="com.great.bean.TranSact">
 		update T_TRANSACT set TRAN_ETIME=to_date(#{tranEtime},'yyyy-mm-dd hh24:mi') where CAR_ID=#{carId} and TRAN_STATE=1
 	</update> 
+
 	
 </mapper>

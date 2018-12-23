@@ -32,8 +32,8 @@
 					<img src="<%=request.getContextPath()%>/userstyle/img/user2.jpg" class="radius-o col-12" />
 				</div>
 				<div class="userbox-r fl w41 pl4 pt3 color8">
-					<p class="f60">${sessionScope.loginOwer.owerName}</p>
-					<p class="f34"><b>${sessionScope.loginOwer.owerAccount}</b></p>
+					<p class="f60">${ower.owerName}</p>
+					<p class="f34"><b>${ower.owerAccount}</b></p>
 				</div>
 			</section>
 			<ul class="mt5 mb5 f36 color3">
@@ -50,8 +50,19 @@
 				</li>
 			</ul>
 			<ul class="mt5 mb5 f36 color3">
+			<li class="bg-color8 clearfix">
+					<a href="<%=request.getContextPath()%>/owerHandler/getMeans.action?owerId=${sessionScope.loginOwer.owerId}">
+						<p class="w15 t-c fl">
+							<i class="icon iconfont icon-deletefill f42 color-primary"></i>
+						</p>
+						<p class="w60 fl">
+							<font class="fr pr5"><i class="icon iconfont icon-arrow-right"></i></font>
+							我的资料
+						</p>
+					</a>
+				</li> 
 				<li class="bg-color8 clearfix">
-					<a href="myaccount.jsp">
+					<a href="<%=request.getContextPath()%>/frontstage/myaccount.jsp">
 						<p class="w15 t-c fl">
 							<i class="icon iconfont icon-cartfill f42 color-danger"></i>
 						</p>
@@ -69,6 +80,17 @@
 						<p class="w60 fl">
 							<font class="fr pr5"><i class="icon iconfont icon-arrow-right"></i></font>
 							新增车辆
+						</p>
+					</a>
+				</li> 
+				<li class="bg-color8 clearfix">
+					<a href="<%=request.getContextPath()%>/frontstage/checkage.jsp">
+						<p class="w15 t-c fl">
+							<i class="icon iconfont icon-deletefill f42 color-primary"></i>
+						</p>
+						<p class="w60 fl">
+							<font class="fr pr5"><i class="icon iconfont icon-arrow-right"></i></font>
+							实名认证
 						</p>
 					</a>
 				</li> 

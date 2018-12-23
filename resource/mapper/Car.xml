@@ -51,4 +51,8 @@
 	
 	
 	
+	<!-- 修改车辆状态 @author su_yang -->
+	<update id="changeCarType" parameterType="java.lang.String">
+		update T_CAR set CAR_TYPE=1 where CAR_ID=#{carId}
+	</update>
 </mapper>

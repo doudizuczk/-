@@ -89,7 +89,7 @@ function owerLogin(){
 		success:function(data){
 			if(data=="1"){
 				window.alert("欢迎回来");
-				window.location="<%=request.getContextPath()%>/frontstage/user_main.jsp"
+				window.location="<%=request.getContextPath()%>/owerHandler/getOwerCarMess.action";
 			}else {
 				window.alert("用户名密码出错!");
 			}
