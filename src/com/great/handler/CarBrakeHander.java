@@ -1,11 +1,14 @@
 package com.great.handler;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +27,9 @@ import com.great.service.ICarLocationService;
 import com.great.service.ICarService;
 import com.great.service.IDockService;
 import com.great.service.IWhiteListService;
+import com.great.util.Sample;
+
+import sun.java2d.pipe.SpanShapeRenderer.Simple;
 
 /*创建人：@lian shengwei
  * 日期：20181219
@@ -159,22 +167,25 @@ public class CarBrakeHander {
 			//根据停靠表判断车辆所处的车位
 			Dock dock=dockService.queryParkIdByCar(carIds);
 			//接口查看费用
-			
-			Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
-			dockAndPark.put("carId", carIds);
-			dockAndPark.put("parkId", dock.getCarLocationId());
-			dockAndPark.put("parkState", 1);
-			dockAndPark.put("dockState", 2);
-			
-			//车位状态改为2
-			boolean result2=carLocationService.updateParkStateById(dockAndPark);
-			//修改停靠表状态
-			boolean result3=dockService.updateDockState(dockAndPark);
-			carInformation.put("result", true);
-			carInformation.put("carId", carIds);
-			carInformation.put("parkId",dock.getCarLocationId());
-			carInformation.put("dockSTime",dock.getStartTime());	
-			carInformation.put("carType",car.get("parmName"));
+			if(dock!=null) {
+				Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
+				dockAndPark.put("carId", carIds);
+				dockAndPark.put("parkId", dock.getCarLocationId());
+				dockAndPark.put("parkState", 1);
+				dockAndPark.put("dockState", 2);
+				
+				//车位状态改为2
+				boolean result2=carLocationService.updateParkStateById(dockAndPark);
+				//修改停靠表状态
+				boolean result3=dockService.updateDockState(dockAndPark);
+				carInformation.put("result", true);
+				carInformation.put("carId", carIds);
+				carInformation.put("parkId",dock.getCarLocationId());
+				carInformation.put("dockSTime",dock.getStartTime());	
+				carInformation.put("carType",car.get("parmName"));
+			}else {
+				carInformation.put("result", false);
+			}
 			
 		}
 		return carInformation;
@@ -186,6 +197,24 @@ public class CarBrakeHander {
 		int parkNum=getParkList.size();
 		return parkNum;
 	}
-	
+	@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String updatePhoto(MultipartFile img){ 
+	      System.out.println("开始上传");
+	      String name =null;
+	      try {
+			JSONObject res =Sample.getCarId(img.getBytes());
+			if(res!=null) {
+				name = res.getJSONObject("words_result").getString("number");
+			}else {
+				System.out.println("无法识别");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      System.out.println(name);
+	      
+	      return name;
+	} 
 	
 }

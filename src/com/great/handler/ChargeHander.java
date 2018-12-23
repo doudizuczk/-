@@ -139,7 +139,11 @@ public class ChargeHander {
 		ModelAndView model=new ModelAndView();
 		Page<Object> page=PageHelper.startPage(pageNum, 10);
 		List<Map<String,Object>> chargeList=chargeService.queryAllChargeList();
-		model.addObject("pageNum",page.getPageNum());//当前页码
+		if(page.getPages()==0) {
+			model.addObject("pageNum",0);//当前页码
+		}else {
+			model.addObject("pageNum",page.getPageNum());//当前页码
+		}
 		model.addObject("pages",page.getPages());//总页码数
 		model.addObject("chargeList",chargeList);
 		model.setViewName("forward:/backstage/charge_list.jsp");
@@ -147,8 +151,10 @@ public class ChargeHander {
 	}
 	  //支明细列表翻页和查询
 		@RequestMapping(value ="/turnPageChargeList.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-		public @ResponseBody List<Map<String,Object>> turnPageChargeList(@RequestParam String carId,String endTime,String starTime,int pageNums) {		
+		public @ResponseBody List<Map<String,Object>> turnPageChargeList(@RequestParam String carId,String endTime,String starTime,int pageNums,int adminId,int chargeId) {		
 	        Map<String,Object> map = new HashMap<String,Object>(); 
+	        map.put("chargeId",chargeId);
+	        map.put("adminId",adminId);
 	        map.put("carId",carId);
 	        map.put("endTime",endTime);
 	        map.put("starTime",starTime);

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>收支明细</title>
+<title>个人收支明细</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
@@ -55,14 +54,11 @@ $(function(){
 				<button class="btn btn-default" type="button">截止日期</button>
 			</span> 
 			 <input type='date' class="form-control" id='endTime' />
-			 <span class="input-group-btn">
+			 <span class="input-group-btn" style="display: none;">
 				<button class="btn btn-default" type="button">车牌号</button>
-			</span> <input type="text" class="form-control" id="carId"> 
-			<span class="input-group-btn">
+			</span> <input type="text" class="form-control" id="carId" style="display: none;"> 
+			<span class="input-group-btn" style="display: none;">
 				<button class="btn btn-default" type="button" onclick="search()">搜索</button>
-			</span>
-			<span class="input-group-btn" style="float: right;">
-				<button  type="button" onclick="count()" class="btn btn-info btn-small">统计报表</button>
 			</span>
 		</div>
 		<!-- /input-group -->
@@ -84,24 +80,11 @@ $(function(){
 			</tr>
 		</thead>
 		<tbody id="whiteList">
-			<c:forEach items="${chargeList}" var="chargeList">
-				<tr>
-					<td>${chargeList.chargeId}</td>
-					<td>${chargeList.carId}</td>
-					<td>${chargeList.chargeCost}</td>
-					<td>${chargeList.parmName}</td>
-					<td>${chargeList.adminAccount}</td>
-					<td>${chargeList.chargeCdate}</td>
-					<td>${chargeList.chargeInv eq 1?"已开发票":"未开发票"}</td>
-					<td>${chargeList.chargeCash eq 1?"现金支付":"线上支付"}</td>
-					<td><input type="button" value="开发票" onclick="" class="btn btn-info btn-small"></td>
-				</tr>
-			</c:forEach>
 		</tbody>
 	</table>
 	<input type="button" value="上一页" onclick="previousPage()" class="btn btn-info btn-small">
-	<a id="pageNum" value="${pageNum}">当前页码：${pageNum}</a>/
-	<a id="pages" value="${pages}">总页码：${pages}</a>
+	<a id="pageNum" value=""></a>/
+	<a id="pages" value=""></a>
 	<input type="button" value="下一页" onclick="nextPage()" class="btn btn-info btn-small">
 	<!-- 跳转页码输入校验 -->
 	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
@@ -110,16 +93,55 @@ $(function(){
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-	 
+	starCharge();
 	 
 });
-function count(){
-	window.location="<%=request.getContextPath()%>/chargeHander/statisticalChart.action";
+//初始化列表
+function starCharge(){
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/chargeHander/turnPageChargeList.action",
+		type:"POST",
+		data:{"pageNums":1,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val(),"adminId":0,"chargeId":0},
+		dataType:"json",
+		success : function(data){
+			var str="";
+			for(var i=1;i<data.length;i++){
+				str+="<tr>";
+				str+="<td>"+data[i].chargeId+"</td>";
+				str+="<td>"+data[i].carId+"</td>";
+				str+="<td>"+data[i].chargeCost+"</td>";
+				str+="<td>"+data[i].parmName+"</td>";
+				str+="<td>"+data[i].adminAccount+"</td>";
+				str+="<td>"+data[i].chargeCdate+"</td>";
+				if(data[i].chargeInv==1){
+					str+="<td>已开发票</td>";	
+				}else{
+					str+="<td>未开发票</td>";	
+				}
+				if(data[i].chargeCash==1){
+					str+="<td>现金支付</td>";	
+				}else{
+					str+="<td>线上支付</td>";	
+				}
+				str+="<td><input type='button' value='打印发票' onclick='invoice("+data[i].chargeId+")' class='btn btn-info btn-small'></td>";
+				str+="</tr>";
+			}
+			$("#whiteList").html(str);
+			$("#pageNum").text("当前页码:"+data[0].pageNum);
+			$("#pageNum").val(data[0].pageNum);
+			$("#pages").text("总页码:"+data[0].pages);
+			$("#pages").val(data[0].pages);
+		}
+});
+}
+//开发票
+function invoice(chargeId){
+	alert("账单编号"+chargeId);
 }
 //跳转
 function Go(){
 	var goPages=$("#goPages").val();
-	if(goPages>$("#pages").attr("value")||goPages==""){
+	if(goPages>$("#pages").val()||goPages==""){
 		alert("输入页码必须在总页码范围内")
 		return;
 	}
@@ -137,7 +159,7 @@ function Go(){
 				str+="<td>"+data[i].chargeCost+"</td>";
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
-				str+="<td>"+data[i].chargeCdate+"</td>";  
+				str+="<td>"+data[i].chargeCdate+"</td>";
 				if(data[i].chargeInv==1){
 					str+="<td>已开发票</td>";	
 				}else{
@@ -161,8 +183,8 @@ function Go(){
 }
 //上一页
 function previousPage(){
-	var pageNum=$("#pageNum").attr("value");
-	var pages=$("#pages").attr("value");
+	var pageNum=$("#pageNum").val();
+	var pages=$("#pages").val();
 	var pageNums=--pageNum;
 	if(pageNums==0){
 		pageNums=1;
@@ -181,7 +203,7 @@ function previousPage(){
 				str+="<td>"+data[i].chargeCost+"</td>";
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
-				str+="<td>"+data[i].chargeCdate+"</td>";  
+				str+="<td>"+data[i].chargeCdate+"</td>";
 				if(data[i].chargeInv==1){
 					str+="<td>已开发票</td>";	
 				}else{
@@ -206,8 +228,8 @@ function previousPage(){
 }
 //下一页
 function nextPage(){
-	var pageNum=$("#pageNum").attr("value");
-	var pages=$("#pages").attr("value");
+	var pageNum=$("#pageNum").val();
+	var pages=$("#pages").val();
 	var pageNums=++pageNum;
 	if(pageNums>pages){
 		pageNums=pages;
@@ -226,7 +248,7 @@ function nextPage(){
 				str+="<td>"+data[i].chargeCost+"</td>";
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
-				str+="<td>"+data[i].chargeCdate+"</td>";  
+				str+="<td>"+data[i].chargeCdate+"</td>";
 				if(data[i].chargeInv==1){
 					str+="<td>已开发票</td>";	
 				}else{
@@ -265,7 +287,7 @@ function search(){
 				str+="<td>"+data[i].chargeCost+"</td>";
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
-				str+="<td>"+data[i].chargeCdate+"</td>";  
+				str+="<td>"+data[i].chargeCdate+"</td>";
 				if(data[i].chargeInv==1){
 					str+="<td>已开发票</td>";	
 				}else{

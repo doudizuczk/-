@@ -19,6 +19,7 @@
         <script src="<%=request.getContextPath()%>/brakestyle/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
     <body>
+              
     <div class="preloader">
       <div class="spinner">
         <div class="dot1"></div>
@@ -37,7 +38,8 @@
                 <li class="" data-tab-name=""><input type="text" id="carId"></li>
                 <li class="" data-tab-name=""><span class="tabs-text" onclick="goIn()">进</span></li>
                 <li class="" data-tab-name=""><span class="tabs-text" onclick="getOut()">出</span></li>             
-                <li class="" data-tab-name=""><span class="tabs-text">备用</span></li>
+                <li class="" data-tab-name=""><span class="tabs-text" onclick="updatePhoto()">备用
+                </span></li>
               </ul>
               <div class="resp-tabs-container hor_1 tabs_scroll">
                 <div class="fc-tab-1">
@@ -58,6 +60,14 @@
                           </p>
                           <div class="primary-button">
                             <a href="#">进入识别</a>
+                          </div>
+                          <br>
+                          <div>
+                          <form>
+                           <input type="file" name="file" id="file">
+                           <br>
+                           <input type="button" value="upload" onclick=""/>
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -122,6 +132,23 @@ setInterval(
 $(document).ready(function(){
 	getParkNum();
 })
+//上传图片
+function updatePhoto(){
+	alert("上传图片");
+	var Form = new FormData();
+	Form.append('img', document.getElementById("file").files[0]);
+	$.ajax({
+		url: "<%=request.getContextPath()%>/carBrakeHander/updatePhoto.action",
+		type:"POST",
+		data:Form,
+		contentType: false,
+	    processData: false,
+		dataType:"json",
+		success : function(data){
+			alert("0000000000");
+		}
+	})
+}
 function goIn(){
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/carBrakeHander/carGoIn.action",
