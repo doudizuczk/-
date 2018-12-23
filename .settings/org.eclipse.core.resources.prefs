@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//WebContent/index.jsp=UTF-8
+=======
+encoding//src/com/great/util/Simple.java=UTF-8
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-.git

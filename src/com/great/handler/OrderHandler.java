@@ -1,38 +1,33 @@
 package com.great.handler;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.great.bean.Car;
+import com.great.bean.Charge;
 import com.great.bean.Menu;
 import com.great.bean.Order;
 import com.great.bean.PageInfo;
@@ -40,6 +35,7 @@ import com.great.bean.Parm;
 import com.great.bean.Role;
 import com.great.bean.Rule;
 import com.great.service.ICarService;
+import com.great.service.IChargeService;
 import com.great.service.IMenuService;
 import com.great.service.IOrderService;
 import com.great.service.IParmService;
@@ -52,12 +48,18 @@ import com.mysql.fabric.xmlrpc.base.Data;
  * 车辆处理对象 @linanping
  * */
 @Controller()
+@EnableScheduling
+@Lazy(false)  
 @RequestMapping("/orderHandler")
 public class OrderHandler {
 	@Autowired
 	@Qualifier("orderServiceImpl")
 	private IOrderService orderService;
+	@Autowired
+	@Qualifier("chargeServiceImpl")
+	private IChargeService chargeService;
 	
+	//导出结算单
 	@RequestMapping("/exportOrderExcel.action")
 	public ModelAndView exportOrderExcel(HttpServletRequest request, HttpServletResponse response,Order temp) throws IOException {
 		//1.读取excel模板
@@ -65,10 +67,12 @@ public class OrderHandler {
 		InputStream is = new FileInputStream(path);
 		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
 		//2.读取数据库数据
-		Order od=new Order();
-		od.setShift(1);
-		od.setCreateTime("2018-12-20");
-		Order order=orderService.queryOrder(od);
+		Order order=orderService.queryOrder(temp);
+		if (order==null) {
+			ModelAndView mav=new ModelAndView();
+			mav.setViewName("redirect:/backstage/export_statement.jsp");
+			return mav;
+		}
 		//3.获取第一个sheet
 		HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
 		
@@ -111,12 +115,11 @@ public class OrderHandler {
 			cell3.setCellValue(order.getInvAmount());
 			cell4.setCellValue(order.getCount());
 			
-			
 			// 输出Excel文件
 			try {
 				OutputStream output = response.getOutputStream();
 				response.reset();
-				response.setHeader("Content-disposition", "attachment; filename=abc.xls");
+				response.setHeader("Content-disposition", "attachment; filename=order.xls");
 				response.setContentType("application/msexcel");
 				hssfWorkbook.write(output);
 				output.close();
@@ -129,20 +132,54 @@ public class OrderHandler {
 		return null;
 	}
 	
-	/**
-     *根据当前row行，来创建index标记的列数,并赋值数据
-     */
-    private void createRowAndCell(Object obj, HSSFRow row, HSSFCell cell, int index) {
-        cell = row.getCell(index);
-        if (cell == null) {
-            cell = row.createCell(index);
-        }
-
-        if (obj != null)
-            cell.setCellValue(obj.toString());
-        else 
-            cell.setCellValue("");
-    }
-
-
+	//自动生成结算单
+	@Scheduled(cron = "0 0 0,8,16 * * ?")//每天上午0点，8点，下午16点
+//	@Scheduled(fixedRate = 5000)
+	public void autoSettlement() {
+		Date now=new Date();
+		System.out.println(new Date()+" 自动生成结算单任务执行...");
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:00:00");
+		String hour = new SimpleDateFormat("HH").format(now);
+		
+		//获取8小时前
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(now);  
+		calendar.add(Calendar.HOUR_OF_DAY, -8);
+		Date sDate=calendar.getTime();
+		
+		Charge charge=new Charge();
+		charge.setsTime(sdf.format(sDate));
+		charge.seteTime(sdf.format(now));
+		
+		//查询开票金额 
+		charge.setChargeId(1);
+		double invAmount=chargeService.queryChargeOrder(charge).doubleValue();
+		//查询开票数量
+		charge.setChargeId(2);
+		int invCount= chargeService.queryChargeOrder(charge).intValue();
+		//查询交易金额
+		charge.setChargeId(3);
+		double amount=chargeService.queryChargeOrder(charge).doubleValue();
+		//查询交易数量
+		charge.setChargeId(4);
+		int count= chargeService.queryChargeOrder(charge).intValue();
+		//查询现金金额
+		charge.setChargeId(5);
+		double cash=chargeService.queryChargeOrder(charge).doubleValue();
+		//查询班次
+		int shift=0;
+		if (hour.equals("16")) {//早班 08:00-16:00
+			shift=1;
+		}else if (hour.equals("00")){//中班 16:00-24:00
+			shift=2;
+		}else {//晚班 00:00-08:00
+			shift=3;
+		}
+		Order order=new Order(0, amount, cash, count, invAmount, invCount, shift, "");
+		orderService.addOrder(order);
+		
+		System.out.println(new Date()+" 自动生成结算单任务执行完毕");
+	}
+	
 }

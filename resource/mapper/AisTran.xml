@@ -4,10 +4,17 @@
     
 <mapper namespace="com.great.mapper.AisTranSactMapper">
 	<select id="queryAllTran" resultType="com.great.bean.TranSact">
-		select TRAN_ID "tranId",PACK_ID "packId",CAR_ID "carId",PARK_ID "parkId",to_char(TRAN_ETIME,'YYYY-MM-DD') "tranEtime",
-		to_char(TRAN_STIME,'YYYY-MM-DD') "tranStime" ,TRAN_STATE "tranState" from T_TRANSACT
+		select a.TRAN_ID "tranId",a.PACK_ID "packId",a.CAR_ID "carId",a.PARK_ID "parkId",to_char(a.TRAN_ETIME,'YYYY-MM-DD hh24:MM') "tranEtime",
+		to_char(a.TRAN_STIME,'YYYY-MM-DD hh24:MM') "tranStime" ,a.TRAN_STATE "tranState" from T_TRANSACT a ,T_CAR b
+		where a.CAR_ID=b.CAR_ID and b.CAR_TYPE!=1 and a.TRAN_STATE=1
 	</select>
-	<update id="updateTranSactState" parameterType="int">
-		update T_TRANSACT set TRAN_STATE=2 where TRAN_ID=#{_parameter}
+	
+	
+	<update id="updateTranState" parameterType="String">
+		update T_TRANSACT set TRAN_STATE=2 where CAR_ID=#{carId}
+	</update>
+	
+	<update id="updatePark" parameterType="int">
+		update T_PARK set PARK_STATE=2 where PARK_ID=#{0}
 	</update>
 </mapper>

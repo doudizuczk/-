@@ -36,6 +36,12 @@ public class AdminServiceImpl implements IAdminService {
 		List<Map<String,Object>> list = AdminMapper.conditionQueryAdminList(admin);
 		return list;
 	}
+
+	@Override
+	public List<Map<String, Object>> addQueryAdminExist(Admin ad) {
+		// TODO Auto-generated method stub
+		return AdminMapper.addQueryAdminExist(ad);
+	}
 	
 
 }

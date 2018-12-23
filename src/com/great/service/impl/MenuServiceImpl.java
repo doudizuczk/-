@@ -50,5 +50,11 @@ public class MenuServiceImpl implements IMenuService{
 	public List<Map<String, Object>> queryLeftMenu(int roleId) {
 		return menuMapper.queryLeftMenu(roleId);
 	}
+
+	@Override
+	public List<Map<String, Object>> queryMenu() {
+		// TODO Auto-generated method stub
+		return menuMapper.queryMenu();
+	}
 	
 }

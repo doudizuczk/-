@@ -8,4 +8,8 @@
 		,ORDER_ICOUNT "invCount",ORDER_SHIFT "shift",to_char(ORDER_CDATE,'yyyy-MM-dd') "createTime" from t_order 
 		 where ORDER_SHIFT=#{shift} and to_char(ORDER_CDATE,'yyyy-MM-dd')=#{createTime}
 	</select>
+	<insert id="addOrder" parameterType="com.great.bean.Order">
+		insert into T_ORDER(ORDER_ID,ORDER_AMOUNT,ORDER_CASH,ORDER_COUNT,ORDER_IAMOUNT,ORDER_ICOUNT,ORDER_SHIFT) 
+		 values(SEQ_T_ORDER.nextval,#{amount},#{cash},#{count},#{invAmount},#{invCount},#{shift})
+	</insert>
 </mapper>

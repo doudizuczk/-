@@ -25,6 +25,7 @@ import com.great.bean.Dock;
 import com.great.service.ICarBrakeService;
 import com.great.service.ICarLocationService;
 import com.great.service.ICarService;
+import com.great.service.IChargeService;
 import com.great.service.IDockService;
 import com.great.service.IWhiteListService;
 import com.great.util.Sample;
@@ -53,6 +54,12 @@ public class CarBrakeHander {
 	@Autowired
 	@Qualifier("dockServiceImpl")
 	private IDockService dockService;
+	
+	@Autowired
+	@Qualifier("chargeServiceImpl")
+	private IChargeService chargeServices;
+	
+	
 	//车辆入场
 	@RequestMapping(value ="/carGoIn.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody Map<String,Object> carGoIn(@RequestParam String carId) {
@@ -158,6 +165,7 @@ public class CarBrakeHander {
 		boolean result=false;
 		Map<String,Object> carInformation=new HashMap<String,Object>();
 		String CARID =carId;
+		double cost=0;
 		/*使用toUpperCase()方法实现大写转换*/
 		if(CARID!=null||CARID!="") {
 			String carIds = CARID.toUpperCase();
@@ -166,27 +174,34 @@ public class CarBrakeHander {
 			
 			//根据停靠表判断车辆所处的车位
 			Dock dock=dockService.queryParkIdByCar(carIds);
-			//接口查看费用
 			if(dock!=null) {
-				Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
-				dockAndPark.put("carId", carIds);
-				dockAndPark.put("parkId", dock.getCarLocationId());
-				dockAndPark.put("parkState", 1);
-				dockAndPark.put("dockState", 2);
-				
-				//车位状态改为2
-				boolean result2=carLocationService.updateParkStateById(dockAndPark);
-				//修改停靠表状态
-				boolean result3=dockService.updateDockState(dockAndPark);
-				carInformation.put("result", true);
-				carInformation.put("carId", carIds);
+				cost=chargeServices.getParkingCost(carIds);
+				if(cost>0) {
+					carInformation.put("result", false);
+				}else {
+					carInformation.put("result", true);
+				}
 				carInformation.put("parkId",dock.getCarLocationId());
-				carInformation.put("dockSTime",dock.getStartTime());	
-				carInformation.put("carType",car.get("parmName"));
+				carInformation.put("dockSTime",dock.getStartTime());
 			}else {
-				carInformation.put("result", false);
+				carInformation.put("parkId","未找到");
+				carInformation.put("dockSTime","");
 			}
+			//接口查看费用
+//			Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
+//			dockAndPark.put("carId", carIds);
+//			dockAndPark.put("parkId", dock.getCarLocationId());
+//			dockAndPark.put("parkState", 1);
+//			dockAndPark.put("dockState", 2);
 			
+			//车位状态改为2
+//			boolean result2=carLocationService.updateParkStateById(dockAndPark);
+			//修改停靠表状态
+//			boolean result3=dockService.updateDockState(dockAndPark);
+			carInformation.put("carId", carIds);
+			carInformation.put("carType",car.get("parmName"));
+			carInformation.put("money",cost);
+
 		}
 		return carInformation;
 	}
@@ -197,6 +212,7 @@ public class CarBrakeHander {
 		int parkNum=getParkList.size();
 		return parkNum;
 	}
+<<<<<<< HEAD
 	@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody String updatePhoto(MultipartFile img){ 
 	      System.out.println("开始上传");
@@ -217,4 +233,38 @@ public class CarBrakeHander {
 	      return name;
 	} 
 	
+
+	//放行
+		@RequestMapping(value ="/carCanGetOut.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+		public @ResponseBody boolean carCanGetOut(@RequestParam String carId) {
+			boolean result=false;
+			String CARID =carId;
+			/*使用toUpperCase()方法实现大写转换*/
+			if(CARID!=null||CARID!="") {
+				String carIds = CARID.toUpperCase();
+				//判断车辆类型
+				HashMap<String,Object> car=carService.selectCarForType(carIds);
+				
+				//根据停靠表判断车辆所处的车位
+				Dock dock=dockService.queryParkIdByCar(carIds);
+				if(dock!=null) {
+					//修改状态
+					Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
+					dockAndPark.put("carId", carIds);
+					dockAndPark.put("parkId", dock.getCarLocationId());
+					dockAndPark.put("parkState", 1);
+					dockAndPark.put("dockState", 2);
+					//车位状态改为2
+					boolean result2=carLocationService.updateParkStateById(dockAndPark);
+					//修改停靠表状态
+					boolean result3=dockService.updateDockState(dockAndPark);
+					result=true;
+				}
+			}
+			return result;
+		}
+			
+		
+			
+
 }

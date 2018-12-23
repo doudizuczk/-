@@ -42,5 +42,11 @@ public class ParmServiceImpl implements IParmService {
 		// TODO Auto-generated method stub
 		return parmMapper.queryParmByPid(parmPid);
 	}
+	
+	@Override
+	public List<Map<String, Object>> IdQueryParmName(int pId) {
+		// TODO Auto-generated method stub
+		return parmMapper.IdQueryParmName(pId);
+	}
 
 }

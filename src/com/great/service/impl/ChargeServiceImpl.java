@@ -1,5 +1,6 @@
 	package com.great.service.impl;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,13 +31,42 @@ public class ChargeServiceImpl implements IChargeService {
 	@Autowired 
 	private ChargeMapper chargeMapper;
 	
+	//修改收费表
 	@Override
-	public boolean addCharge(Charge charge) {
+	public int updateCharge(Charge charge) {
 		// TODO Auto-generated method stub
-		int count=chargeMapper.addCharge(charge);
-		return count>0;
+		return chargeMapper.updateCharge(charge);
+	}
+
+	//根据收费id查询记录
+	@Override
+	public Charge queryChargeById(int chargeId) {
+		// TODO Auto-generated method stub
+		return chargeMapper.queryChargeById(chargeId);
 	}
 	
+	//查询结算单数据
+	@Override
+	public BigDecimal queryChargeOrder(Charge charge) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map=chargeMapper.queryChargeOrder(charge);
+		return (BigDecimal)map.get("val");
+	}
+	
+	//添加收费记录(返回值：收费id)
+	@Override
+	public int addCharge(Charge charge) {
+		// TODO Auto-generated method stub
+		int seq=chargeMapper.getChargeSeq();
+		charge.setChargeId(seq);
+		int count=chargeMapper.addCharge(charge);
+		if (count>0) {
+			return seq;
+		}
+		return 0;
+	}
+	
+	//停车计费接口
 	@Override
 	public double getParkingCost(String carId) {
 		// TODO Auto-generated method stub

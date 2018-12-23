@@ -46,8 +46,9 @@ margin-left: 950px;
 
 				<select name="owerState" id="owerState">
 						<option value="">请选择状态...</option>
-						<option value="1">启用</option>
-						<option value="2">禁用</option>
+						<c:forEach items="${dates.StatePack}" var="state">
+							<option value="${state.PARM_VAL}">${state.PARM_NAME}</option>
+						</c:forEach>
 				</select>
 			</div>
 	</form>
@@ -73,9 +74,9 @@ margin-left: 950px;
  		</table>
  	</form>
  	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curePage}页 共${pageInfo.totalPage}页</label>
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label>
  		<input type="button" value="下一页" id="nextPage" class="btn btn-primary">
- 		<input type="hidden" value="${pageInfo.curePage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
+ 		<input type="hidden" value="${pageInfo.curPage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
  		<!-- 跳转页码输入校验 -->
 	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
@@ -124,10 +125,11 @@ $("#nextPage").click(function(){
 	}
 });
 
-$("#createMenu").click(function(){
+<%-- $("#createMenu").click(function(){
 	window.location="<%=request.getContextPath()%>/"
 });
-//页面初始化加载方法
+ --%>
+ //页面初始化加载方法
 $(function(){  
     var page = 1;
 	queryNameAndzh(page);
@@ -149,7 +151,7 @@ var page=1;
 		success:function(data){
 			var str="";
 			for(var i=0;i<data.dates.adminList.length;i++){
-				var state=data.dates.adminList[i].ADMIN_STATE==1?'禁用':'启用'
+				var state=data.dates.adminList[i].OWER_STATE==1?'禁用':'启用'
 						console.log(state);
 				var sex=data.dates.adminList[i].OWER_SEX==1?'男':'女'
 				str+="<tr>";
@@ -163,14 +165,14 @@ var page=1;
 				
 				str+="<td>"+data.dates.adminList[i].PARM_NAME+"</td>"; 
 				str+="<td>"+data.dates.adminList[i].OWER_CDATE+"</td>"; 
- 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  class='btn btn-primary' >";
+ 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].OWER_ID+","+data.dates.adminList[i].OWER_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateUser("+data.dates.adminList[i].OWER_ID+")'  class='btn btn-primary'  >";
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			 $("#adminList").html(str); //回填列表
-			 $("input[name=pageCurr]").eq(0).val(data.curePage);//回填input隐藏域
+			 $("input[name=pageCurr]").eq(0).val(data.curPage);//回填input隐藏域
 			 $("input[name=pageMax]").eq(0).val(data.totalPage);//回填input隐藏域
-			 $("#myPage").html("当前第"+data.curePage+"页 共"+data.totalPage+"页"); //回填显示信息
+			 $("#myPage").html("当前第"+data.curPage+"页 共"+data.totalPage+"页"); //回填显示信息
 		},
 		error:function(){
 			window.alert("查询出错");
@@ -179,23 +181,29 @@ var page=1;
 }
 //禁用启用
 var path="<%=request.getContextPath()%>";
-function starState(adminId,state){
-	console.log(adminId+"and"+state)
-	alert("提交修改")
+function starState(id,state){
+	console.log(id+"and"+state)
 	$.ajax({
-		url: "<%=request.getContextPath()%>/czkPer/updateAdminState.action",
+		url: "<%=request.getContextPath()%>/czkPer/updateUserState.action",
 		type:"POST", 
-		data:{"adminId":adminId,"state":state},
+		data:{"userId":id,"state":state},
 		dataType:"json",
 		success:function(data){
 			if(data==1){
 			window.alert("修改状态成功!");
+			var a = $("#pageCurr").val();
+			queryNameAndzh(a);
 			}
 		},
 		error:function(){
 			window.alert("操作出错");
 		}
 	})
+}
+//修改
+function updateUser(userId){
+	console.log("点击修改用户id="+userId)
+	window.location="<%=request.getContextPath()%>/czkPer/updateUser.action?userId="+userId;
 }
 </script>
 </html>

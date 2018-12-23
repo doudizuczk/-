@@ -69,6 +69,7 @@ $("#addCar").click(function(){
 function escBangDing(carIds){
 	var carId=carIds;
 	console.log("车牌号="+carId);
+	if(confirm("确定解除绑定吗？")){
 	$.ajax({
 		type:"post",
 		url:"<%=request.getContextPath()%>/owerHandler/escCars.action",
@@ -82,6 +83,7 @@ function escBangDing(carIds){
 			}
 		}
 	});
+	}
 };
 </script>
 </html>

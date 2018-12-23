@@ -40,6 +40,8 @@
                 <li class="" data-tab-name=""><span class="tabs-text" onclick="getOut()">出</span></li>             
                 <li class="" data-tab-name=""><span class="tabs-text" onclick="updatePhoto()">备用
                 </span></li>
+                <li class="" data-tab-name=""><span class="tabs-text" onclick="carCanGetOut()">备用</span></li>
+
               </ul>
               <div class="resp-tabs-container hor_1 tabs_scroll">
                 <div class="fc-tab-1">
@@ -91,6 +93,7 @@
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;车位编号 :<em id="parkIdsOut" style="color: red;"></em>
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;车辆类型: <em id="carTypesOut" style="color: red;"></em>
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;入库时间: <em id="dockSTimeOut" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;应缴金额: <em id="money" style="color: red;"></em>
                           </p>
                           <div class="primary-button" style="width: 390px;height: 300px">
                             <a href="#">出口识别</a>
@@ -174,21 +177,41 @@ function goIn(){
 });
 }
 function getOut(){
+			alert("111111111");
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/carBrakeHander/carGetOut.action",
 		type:"POST",
 		data:{"carId":$("#carId").val()},
 		dataType:"json",
 		success : function(data){
-			if(data.result==true){
+				if(Number(data.money)!=0){
+					alert("请缴纳车费！");
+				}else{
+					alert("放行");
+				}
 				$("#carIdsOut").text(data.carId);
 				$("#parkIdsOut").text(data.parkId);
 				$("#carTypesOut").text(data.carType);
 				$("#dockSTimeOut").text(data.dockSTime);
-				getParkNum();
-				clearOut();
+				$("#money").text(data.money);
+		}
+});	
+}
+//放行
+function carCanGetOut(){
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/carBrakeHander/carCanGetOut.action",
+		type:"POST",
+		data:{"carId":$("#carId").val()},
+		dataType:"json",
+		success : function(data){
+			if(data==true){
+				alert("放行");
+			}else{
+				alert("放行失败");
 			}
-			
+			getParkNum();
+			clearOut();
 		}
 });
 	
@@ -210,6 +233,7 @@ function clearOut(){
 	$("#parkIdsOut").text("");
 	$("#carTypesOut").text("");
 	$("#dockSTimeOut").text("");
+	$("#money").text("");
 	}
 };
 // 实时获取空闲车位数

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -25,6 +26,7 @@
 		<script src="<%=request.getContextPath()%>/userstyle/js/swiper.min.js"></script>
 		<!-- animate.css -->
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/css/animate.css" />
+		<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	</head>
 
 	<body class="fadeIn animated">
@@ -133,7 +135,20 @@
 			<h2 class="color-danger f46">
 				我们的目标
 			</h2>
-			<p>没有Bug</p>
+			<p>没有Bug
+			<marquee onmouseout=this.start() onmouseover=this.stop() behavior="scroll" direction="up" width="850px" height="80px" SCROLLDELAY="320" >
+			<c:forEach items="${tranList}" var="tran">
+			<c:choose>
+			<c:when test="${tran.tranState ne 1}">
+				<h5>${tran.carId} 已套餐已逾期，请及时办理缴费</h5>
+			</c:when>
+			<c:otherwise>
+				<h5>${tran.carId} 套餐截止日期 ${tran.tranEtime}:00</h5>
+			</c:otherwise>
+			</c:choose>
+			</c:forEach>
+			</marquee>
+			</p>
 		</div>
 		<!-- 导航 -->
 		<section class="demo-nav t-c f28 clearfix">
@@ -266,7 +281,7 @@
 				</a>
 			</div>
 			<div class="w15 fl">
-				<a href="my.jsp">
+				<a href="<%=request.getContextPath()%>/owerHandler/beforeToMy.action">
 					<i class="f46 icon iconfont icon-servicefill"></i>
 					<p>我的</p>
 				</a>
