@@ -44,11 +44,5 @@
 	 select a.car_id "carId",a.car_color "carColor",a.car_type "carType",a.car_cdate "carCdate",a.ower_id "owerId",b.parm_name "parmName" from t_car a,t_parm b where a.car_type=b.parm_val and b.parm_pid=3
 	 and car_id=#{carId}
 	</select>
-		<!-- 根据车牌查车辆信息 -->
-	<select id="carIdQueryCar" parameterType="java.lang.String" resultType="Map">
-	 select CAR_ID,CAR_COLOR,CAR_STATE,CAR_TYPE,CAR_CDATE,OWER_ID from t_car  where car_id=#{0}
-	</select>
-	
-	
 	
 </mapper>

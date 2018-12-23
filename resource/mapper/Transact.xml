@@ -9,29 +9,18 @@
 	</select>
 	
 		<select id="CidQueryTransact" parameterType="com.great.bean.TranSact" resultType="HashMap">
-		    select t.TRAN_ID,t.PACK_ID,t.CAR_ID,t.PARK_ID, to_char(t.TRAN_STIME,'yyyy-MM-dd HH:mm')TRAN_STIME,to_char(t.TRAN_ETIME,'yyyy-MM-dd HH:mm')TRAN_ETIME ,t.TRAN_STATE,
+		    select t.TRAN_ID,t.PACK_ID,t.CAR_ID,t.PARK_ID, to_char(t.TRAN_STIME,'yyyy-mm-dd')TRAN_STIME,to_char(t.TRAN_ETIME,'yyyy-mm-dd')TRAN_ETIME ,t.TRAN_STATE,
    			 p.pack_name,p.pack_time,p.pack_cost,p.pack_state
     		from  t_transact t, t_pack p
      		where p.pack_state=1 and t.pack_id= p.pack_id
 			<if test="carId!=null and carId!=''">
 				and t.CAR_ID=#{carId}
 			</if>
-			<if test="tranState!=0">
-				and t.TRAN_STATE=#{tranState}
-			</if>
 	</select>
 	
 		<!-- 退费套餐车牌号改状态3 -->
 	<update id="updateTransactState" parameterType="String">
-		update T_TRANSACT set TRAN_STATE=3 where CAR_ID=#{0}
-	</update> 
-	<!-- 办理套餐插入套餐表 -->
-	<insert id="addTransact" parameterType="com.great.bean.TranSact">
-		 insert into T_TRANSACT(TRAN_ID,PACK_ID,CAR_ID,PARK_ID,TRAN_ETIME)values(SEQ_T_TRANSACT.nextval,#{packId},#{carId},#{parkId},to_date(#{tranEtime},'yyyy-mm-dd hh24:mi'))
-	</insert>
-			<!-- 续费修改结束日期-->
-	<update id="updateTransactTime" parameterType="com.great.bean.TranSact">
-		update T_TRANSACT set TRAN_ETIME=to_date(#{tranEtime},'yyyy-mm-dd hh24:mi') where CAR_ID=#{carId} and TRAN_STATE=1
+		update T_TRANSACT set TRAN_STATE=3 where CAR_ID='粤B12345'
 	</update> 
 	
 </mapper>
