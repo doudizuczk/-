@@ -16,4 +16,5 @@ public interface CarMapper {
 	public int createCarWithNewUser(@Param("carId") String carId);//新用户
 	public List<Map<String,Object>> selectCarById(@Param("carId") String carId);//判断车辆是否存在于库
 	public HashMap<String,Object> selectCarForType(@Param("carId") String carId);//搜索车辆类型
+	public int changeCarType(@Param("carId")String carId);//修改车辆类型--临时。月缴。vip白名单
 }

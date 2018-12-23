@@ -11,9 +11,12 @@
 /Parm.xml
 /PayMent.xml
 /Role.xml
+/RoleMenu.xml
 /Rule.xml
 /Transact.xml
 /WhiteList.xml
 /applicationContext-mybatis.xml
 /applicationContext-springmvc.xml
 /com/
+/log.xml
+/mybatis-config.xml

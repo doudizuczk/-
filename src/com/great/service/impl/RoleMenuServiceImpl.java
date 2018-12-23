@@ -18,5 +18,15 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		// TODO Auto-generated method stub
 		return roleMenuMapper.queryAll(roleId);
 	}
+	@Override
+	public int deleteRoleMenu(int roleId) {
+		// TODO Auto-generated method stub
+		return roleMenuMapper.deleteRoleMenu(roleId);
+	}
+	@Override
+	public int addRoleMenu(int roleId, int menuId) {
+		// TODO Auto-generated method stub
+		return roleMenuMapper.addRoleMenu(roleId, menuId);
+	}
 
 }

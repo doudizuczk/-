@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.great.bean.Car;
 import com.great.bean.Ower;
+import com.great.bean.TranSact;
 import com.great.mapper.OwerMapper;
 import com.great.service.IOwerService;
 
@@ -40,6 +41,26 @@ public class OwerServiceImpl implements IOwerService {
 	public List<Map<String, Object>> searchPack() {
 		// TODO Auto-generated method stub
 		return owerMapper.searchPack();
+	}
+	@Override
+	public int addMessage(Ower ower) {
+		// TODO Auto-generated method stub
+		return owerMapper.addMessage(ower);
+	}
+	@Override
+	public int changeMeans(Ower ower) {
+		// TODO Auto-generated method stub
+		return owerMapper.changeMeans(ower);
+	}
+	@Override
+	public List<Car> carList(int owerId) {
+		// TODO Auto-generated method stub
+		return owerMapper.carList(owerId);
+	}
+	@Override
+	public TranSact tranList(Car car) {
+		// TODO Auto-generated method stub
+		return owerMapper.tranList(car);
 	}
 
 

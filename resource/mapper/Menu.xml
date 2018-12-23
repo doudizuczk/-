@@ -36,4 +36,9 @@
 		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq" from T_MENU a,T_PERM b
 		where a.MENU_STATE=1 and b.ROLE_ID=#{0} and a.MENU_ID=b.MENU_ID
 	</select>
+	
+	<select id="queryMenu" resultType="HashMap">
+	select menu_id "menuId",menu_name "menuName",menu_url "menuUrl",menu_pid "menuPid",menu_seq "menuSeq" from t_menu
+	</select>
+	
 </mapper>
