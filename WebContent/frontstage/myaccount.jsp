@@ -33,7 +33,7 @@
 	<body class="pb12 fadeIn animated">
 		<header class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
 			<div class="ui-header-l fl w5">
-				<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
+				<a href="frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 			</div>
 			<div class="ui-header-c fl f30 w59">
 				我的账户
