@@ -6,15 +6,19 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.great.bean.CarInfo;
 import com.great.bean.CarLocation;
 
 public interface ICarLocationService {
-	public List<CarLocation> queryAll(CarLocation carLocation);//²éÑ¯ËùÓĞ³µÎ»
-	public List<CarLocation> queryForbid();//²éÑ¯ËùÓĞ½ûÓÃ³µÎ»
-	//public boolean updateCarLocation(int carLocationId);//¸üĞÂ³µÎ»×´Ì¬
-	public int forbidden(int carLocationId);//³µÎ»½ûÓÃ
-	public int permission(int carLocationId);//³µÎ»ÆôÓÃ
-	public List<Map<String, Object>> getParkIdList();//»ñÈ¡³µÎ»
-	public boolean updateParkStateById(Map<String, Object> park);//¸ü¸Ä³µÎ»±í×´Ì¬
-	
+	public List<CarLocation> queryAll(CarLocation carLocation);//æŸ¥è¯¢æ‰€æœ‰è½¦ä½
+	public List<CarLocation> queryForbid();//æŸ¥è¯¢æ‰€æœ‰ç¦ç”¨è½¦ä½
+	public int forbidden(int carLocationId);//è½¦ä½ç¦ç”¨
+	public int permission(int carLocationId);//è½¦ä½å¯ç”¨
+
+	public List<CarInfo> queryCarInfo(String carId);//æŸ¥è¯¢æŒ‡å®šè½¦ä½çš„è½¦è¾†ä¿¡æ¯
+	public List<CarLocation> querByArea(Integer state,String area);//æŒ‰åŒºåŸŸæŸ¥è¯¢æ€»è½¦ä½ï¼Œç¦ç”¨è½¦ä½
+
+	public List<Map<String, Object>> getParkIdList();//è·å–è½¦ä½
+	public boolean updateParkStateById(Map<String, Object> park);//æ›´æ”¹è½¦ä½è¡¨çŠ¶æ€
+
 }

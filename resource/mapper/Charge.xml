@@ -2,6 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="com.great.mapper.ChargeMapper">
+	<select id="queryChargeById" parameterType="int" resultType="com.great.bean.Charge">
+		select CHARGE_ID "chargeId",ADMIN_NAME "adminName",CAR_ID "carId",CHARGE_COST "cost",PARM_NAME "typeName",to_char(CHARGE_CDATE,'YYYY-MM-DD HH24:mi:ss') "createTime" 
+		from t_admin a,t_charge c,t_parm p where a.admin_id=c.admin_id and c.charge_type=p.PARM_VAL and PARM_PID=4 and CHARGE_ID=#{_parameter}
+	</select>
+
+	<select id="getChargeSeq" resultType="java.lang.Integer">
+		select SEQ_T_CHARGE.nextval from dual
+	</select>
+
+	<update id="updateCharge" parameterType="com.great.bean.Charge">
+		update T_CHARGE
+		<set>
+			<if test="invoice!=0">CHARGE_INV=#{invoice},</if>
+			CHARGE_CDATE=sysdate
+		</set>
+		where CHARGE_ID=#{chargeId}
+	</update>
+
 	<select id="queryChargeOrder" parameterType="com.great.bean.Charge" resultType="HashMap">
  		<if test="chargeId==1">	<!--查询开票金额  -->
 			select sum(CHARGE_COST) "val" from t_charge where CHARGE_INV=1 and CHARGE_CDATE &gt;=to_date(#{sTime},'YYYY-MM-DD HH24:mi:ss') and CHARGE_CDATE&lt;to_date(#{eTime},'YYYY-MM-DD HH24:mi:ss')
@@ -16,27 +34,33 @@
 			select count(0) "val" from t_charge where CHARGE_CDATE &gt;= to_date(#{sTime},'YYYY-MM-DD HH24:mi:ss') and CHARGE_CDATE&lt;to_date(#{eTime},'YYYY-MM-DD HH24:mi:ss')
 		</if>
 		<if test="chargeId==5">	<!--查询现金金额  -->
-			select sum(CHARGE_COST) "val" from t_charge where CHARGE_TYPE=2 and CHARGE_CDATE &gt;= to_date(#{sTime},'YYYY-MM-DD HH24:mi:ss') and CHARGE_CDATE&lt;to_date(#{eTime},'YYYY-MM-DD HH24:mi:ss')
+			select sum(CHARGE_COST) "val" from t_charge where CHARGE_CASH=1 and CHARGE_CDATE &gt;= to_date(#{sTime},'YYYY-MM-DD HH24:mi:ss') and CHARGE_CDATE&lt;to_date(#{eTime},'YYYY-MM-DD HH24:mi:ss')
 		</if>
 	</select>
 
 
 	<insert id="addCharge" parameterType="com.great.bean.Charge">
-		insert into t_charge(CHARGE_ID,CAR_ID,ADMIN_ID,CHARGE_COST,CHARGE_INV,CHARGE_TYPE)
-		 values(seq_t_charge.nextval,#{carId},#{adminId},#{cost},#{invoice},#{type})
+		insert into t_charge(CHARGE_ID,CAR_ID,ADMIN_ID,CHARGE_COST,CHARGE_INV,CHARGE_CASH,CHARGE_TYPE)
+		 values(#{chargeId},#{carId},#{adminId},#{cost},#{invoice},#{isCash},#{type})
 	</insert>
 	
     <select id="queryAllChargeList" resultType="HashMap">
-    select a.charge_id "chargeId",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
+    select a.charge_id "chargeId",a.charge_cash "chargeCash",a.charge_inv "chargeInv",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
     c.parm_name "parmName",b.admin_account "adminAccount"
     from t_charge a,t_admin b,t_parm c where b.admin_id = a.admin_id and c.parm_val=a.charge_type and c.parm_pid=4 order by a.charge_id
     </select>  
     <select id="turnPageChargeList" resultType="HashMap" parameterType="Map">
-    select a.charge_id "chargeId",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
+    select a.charge_id "chargeId",a.charge_cash "chargeCash",a.charge_inv "chargeInv",a.car_id "carId",a.charge_cost "chargeCost",a.charge_type "chargeType",a.charge_state "chargeState",to_char(a.charge_cdate, 'yyyy-MM-dd HH24:mi:ss')"chargeCdate",
     c.parm_name "parmName",b.admin_account "adminAccount"
     from t_charge a,t_admin b,t_parm c where b.admin_id = a.admin_id and c.parm_val=a.charge_type and c.parm_pid=4 
     <if test="carId!= '' and carId!= null">
             and a.car_id like '%${carId}%'
+     </if>
+    <if test="chargeId!=0">
+            and a.charge_id=#{chargeId}
+     </if>
+     <if test="adminId!=0">
+            and a.admin_id=#{adminId}
      </if>
      <if test="endTime!= '' and endTime!= null and starTime!='' and starTime!=null ">
             and to_char(a.charge_cdate, 'YYYY-MM-DD') between '${starTime}' and '${endTime}'

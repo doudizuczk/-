@@ -8,6 +8,7 @@
 		select role_id, role_name, role_state, role_cdate from T_ROLE 
 	</select>
 	
+
 	<select id="queryRole" parameterType="com.great.bean.Role" resultType="HashMap">
 		select ROLE_ID "roleId",ROLE_NAME "roleName",ROLE_STATE "roleState",to_char(ROLE_CDATE,'YYYY-MM-DD') "roleCdate"
 		from T_ROLE
@@ -33,4 +34,5 @@
 	<select id="">
 	
 	</select>
+
 </mapper>

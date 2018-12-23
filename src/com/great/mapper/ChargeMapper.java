@@ -13,6 +13,9 @@ import com.great.bean.Charge;
  */
 public interface ChargeMapper {
 	public int addCharge(Charge charge);//添加收费记录
+	public int getChargeSeq();//生成收费id
+	public int updateCharge(Charge charge);//修改收费表
+	public Charge queryChargeById(int chargeId);//根据收费id查询记录
 	public Map<String,Object> queryChargeOrder(Charge charge);//生成日结算
 	
 	public List<Map<String,Object>> queryAllChargeList();//搜索账单列表
