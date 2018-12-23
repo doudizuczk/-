@@ -14,7 +14,9 @@ import com.great.bean.Charge;
  */
 public interface IChargeService{
 	public double getParkingCost(String carId);//临时车辆自动计算停车费用
-	public boolean addCharge(Charge charge);//添加收费记录
+	public int addCharge(Charge charge);//添加收费记录
+	public int updateCharge(Charge charge);//修改收费表
+	public Charge queryChargeById(int chargeId);
 	public BigDecimal queryChargeOrder(Charge charge);//查询结算单数据
 	
 	public List<Map<String,Object>> queryRechargeWeekChart();//月缴充值周统计总

@@ -94,7 +94,7 @@ function payment(){
 				str+="车牌号："+data.carId+"<br>";
 				str+="入场时间："+data.startTime+"<br>";
 				str+="停车费："+data.cost+"元<br>";
-				str+="<button onclick='pay("+data.cost+","+data.carId+")'>立即缴费</button>";
+				str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
 				
 				$("#show").html(str);
 			} else {
@@ -109,23 +109,16 @@ function payment(){
 
 //立即缴费
 function pay(cost,carId){
-	if(window.confirm('是否开局发票？')){
-        //alert("确定");
-        return true;
-     }else{
-        //alert("取消");
-        return false;
-    }
-	
-	
+	alert(cost+","+carId);
 	$.ajax({
 		type : "post",
 		url : "<%=request.getContextPath()%>/chargeHander/addCharge.action",
-		data : {"cost" : cost ,"carId" : carId ,"type":1,"adminId":1},
+		data : {"cost" : cost ,"carId" : carId ,"isCash":2,"adminId":1,"type":1},
 		success : function(data) {
-			if (data == '1') {
+			if (data != '0') {
 				alert("缴费成功！");
-				var str="缴费成功！";
+				var str="缴费成功！此次编号："+data;
+				str+="<button onclick='invoice("+data+")'>开发票</button>";
 				$("#show").html(str);
 			} else {
 				alert("缴费失败！");
@@ -135,6 +128,11 @@ function pay(cost,carId){
 			window.alert("未知错误!");
 		}
 	});
+}
+
+//开具发票
+function invoice(chargeId){
+	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
 }
 
 </script>
