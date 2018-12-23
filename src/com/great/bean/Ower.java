@@ -2,10 +2,11 @@ package com.great.bean;
 
 import java.io.Serializable;
 
+/**
+ *车主实体对象czk--!
+ *@author 
+ */
 public class Ower implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	/*
@@ -19,6 +20,7 @@ public class Ower implements Serializable {
 	 * 车主年龄
 	 * 账号状态
 	 * 注册时间
+	 * 余额
 	 */
 	private int owerId;
 	private String owerName;
@@ -30,16 +32,24 @@ public class Ower implements Serializable {
 	private int owerAge;
 	private int owerState;
 	private String owerCdate;
+	private int balance;
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Ower [owerId=" + owerId + ", owerName=" + owerName + ", owerAccount=" + owerAccount + ", owerPwd="
+				+ owerPwd + ", owerPhone=" + owerPhone + ", owerSex=" + owerSex + ", owerIdcard=" + owerIdcard
+				+ ", owerAge=" + owerAge + ", owerState=" + owerState + ", owerCdate=" + owerCdate + "]";
+	}
+
+
 	public Ower() {
 		super();
 	}
 
-	
+
 	public Ower(int owerId, String owerName, String owerAccount, String owerPwd, String owerPhone, int owerSex,
-			String owerIdcard, int owerAge, int owerState, String owerCdate) {
+			String owerIdcard, int owerAge, int owerState, String owerCdate, int balance) {
 		super();
 		this.owerId = owerId;
 		this.owerName = owerName;
@@ -51,6 +61,17 @@ public class Ower implements Serializable {
 		this.owerAge = owerAge;
 		this.owerState = owerState;
 		this.owerCdate = owerCdate;
+		this.balance = balance;
+	}
+
+
+	public int getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(int balance) {
+		this.balance = balance;
 	}
 
 

@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.aoplog.Log;
 import com.great.bean.Admin;
 import com.great.bean.Menu;
 import com.great.bean.PageInfo;
 import com.great.service.IAdminService;
+import com.great.service.IParmService;
 import com.great.service.IRoleService;
 
 @Controller // 此注释的含义是将该类设置成为浏览器提交的上来的类
@@ -33,10 +35,14 @@ public class AdminHandler {
 	@Qualifier("adminServiceImpl")
 	private IAdminService adminService;
 	@Autowired
-	@Qualifier("roleServiceImp")
+	@Qualifier("roleServiceImpl")
 	private IRoleService roleService;
 	
+	@Autowired
+	@Qualifier("parmServiceImpl")
+	private IParmService parmService;
 	
+	@AfterLog(operationType="登录操作",operationName="管理员登录")
 	@RequestMapping(value = "/login.action")
 	public ModelAndView adminLogin(HttpServletRequest request, Admin admin, String code) {
 		HttpSession session = request.getSession();
@@ -63,8 +69,10 @@ public class AdminHandler {
 			,@RequestParam(value = "pageCurr", required = true, defaultValue = "1")int pageCurr) {//pageCurr不能为空，并初始化
 		ModelAndView mav = new ModelAndView();
 		List<Map<String,Object>> roleList = roleService.queryAllRoleList();//角色列表
+		List<Map<String,Object>> StatePack= parmService.IdQueryParmName(2);//管理员状态列表
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("roleList", roleList);
+		dates.put("StatePack", StatePack);
 		mav.addObject("dates",dates);
 		mav.setViewName("forward:/backstage/admin_list.jsp");
 		return mav;
@@ -76,16 +84,17 @@ public class AdminHandler {
 //		Map<String, Object>  ad = admin;//接收ajax传回的值
 		Page<Object> page=PageHelper.startPage(pageCurr, 5);
 		List<Map<String,Object>> adminList = adminService.conditionQueryAdminList(admin);//管理员列表
-		int curePage=page.getPageNum();//当前页数
+		int curPage=page.getPageNum();//当前页数
 		int totalPage=page.getPages();//总页数
 		int totalNum=(int) page.getTotal();//总记录数
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("adminList", adminList);
 //		dates.put("queryAdmin", admin);//查询条件回填查询文本框
-		PageInfo pageInfo=new PageInfo(curePage, totalPage, totalNum,dates);//分页信息类
+		PageInfo pageInfo=new PageInfo(curPage, totalPage, totalNum,dates);//分页信息类
 		return pageInfo;
 	}
 
+	
 	
 	
 

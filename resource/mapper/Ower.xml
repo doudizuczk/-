@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+    
+<mapper namespace="com.great.mapper.OwerMapper">
+	
+	<select id="owerLogin" parameterType="com.great.bean.Ower" resultType="com.great.bean.Ower">
+		select OWER_ID "owerId",OWER_ACCOUNT "owerAccount",OWER_NAME "owerName",OWER_PHONE "owerPhone",OWER_SEX "owerSex",OWER_IDCARD "owerIdcard",OWER_AGE "owerAge",OWER_STATE "owerState",
+		OWER_BALANCE "owerBalance" from T_OWER where  OWER_STATE=1
+		<if test="owerPwd!=null and owerPwd!='' and owerAccount!=null and owerAccount!=''">
+			and OWER_PWD='${owerPwd}' and OWER_ACCOUNT='${owerAccount}' 
+		</if>
+		<if test="owerId!=null and owerId!=''">
+			and OWER_ID=${owerId}
+		</if>
+	</select>
+	<insert id="addOwer" parameterType="com.great.bean.Ower">
+		insert into T_OWER(OWER_ID,OWER_ACCOUNT,OWER_PWD,OWER_PHONE)values(seq_t_ower.nextval,'${owerAccount}','${owerPwd}','${owerPhone}')
+	</insert>
+	
+	<select id="searchOwersCar" parameterType="int" resultType="HashMap">
+		select CAR_ID "carId",CAR_COLOR,to_char(CAR_CDATE,'YYYY-MM-DD') "carCdate",CAR_TYPE "carType"
+		 from T_CAR  where OWER_ID=#{_parameter} and CAR_STATE=1
+	</select>
+	
+	<insert id="addCars" parameterType="com.great.bean.Car">
+		insert into T_CAR(CAR_ID,CAR_COLOR,CAR_TYPE,OWER_ID)values('${carId}','${carColor}',1,${owerId})
+	</insert>
+	
+	<update id="escCars" parameterType="String">
+		update T_CAR set CAR_STATE=2 where CAR_ID=#{0}
+	</update>
+	
+	<select id="searchPack" resultType="HashMap">
+		select PACK_ID "packId",PACK_NAME "packName",PACK_TIME "packTime",PACK_COST "packCost" from T_PACK where PACK_TYPE=1 and PACK_STATE=1
+	</select>
+
+	
+	<update id="addMessage" parameterType="com.great.bean.Ower">
+		update T_OWER set OWER_IDCARD='${owerIdcard}',OWER_AGE=${owerAge},OWER_SEX=${owerSex} where OWER_ID=${owerId}
+	</update>
+	
+	<update id="changeMeans" parameterType="com.great.bean.Ower">
+		update T_OWER set OWER_NAME='${owerName}',OWER_PHONE='${owerPhone}' where OWER_ID=${owerId}
+	</update>
+	
+	<select id="carList" parameterType="int" resultType="com.great.bean.Car">
+		select CAR_ID "carId",CAR_COLOR "carColor",to_char(CAR_CDATE,'YYYY-MM-DD') "carCdate",CAR_TYPE "carType" from T_CAR  where OWER_ID=#{_parameter} and CAR_STATE=1
+	</select>
+	
+	<select id="tranList" parameterType="com.great.bean.Car" resultType="com.great.bean.TranSact">
+		select TRAN_ID "tranId",PACK_ID "packId",CAR_ID "carId",PARK_ID "parkId",to_char(TRAN_STIME,'YYYY-MM-dd hh24:mm') "tranStime",to_char(TRAN_ETIME,'YYYY-MM-dd hh24:mm') "tranEtime" ,TRAN_STATE "tranState"
+		from T_TRANSACT where CAR_ID='${carId}'
+	</select>
+
+	<update id="updateOwerBalance" parameterType="HashMap">
+		  update T_OWER set OWER_BALANCE=OWER_BALANCE+#{money} where  ower_id=#{owerId}
+	</update>
+
+</mapper>

@@ -51,10 +51,10 @@ $().ready(function(){
        		required:"请确选择要添加的角色"
        	   },
    	     },
-   	  submitHandler: function(form) { createAdmin(); }
+   	  submitHandler: function(form) { addQueryAdminExist(); }
    })	
 });
-
+//添加管理员
 var path="<%=request.getContextPath()%>";
 function createAdmin(){
 	console.log("添加管理员的AJAX")
@@ -76,10 +76,41 @@ function createAdmin(){
 				window.alert("查询出错");
 			}
 		})
-	
-
 }
-
+//打开页面加载失去焦点判断
+/* $(document).ready(function(){
+	$("#account").blur(function(){
+		console.log("失去焦点");
+		addQueryAdminExist();
+	})
+}) */
+//查存在
+function addQueryAdminExist(){
+	console.log(name+"=对其查存");	
+	var account = $("#account").val();
+var path="<%=request.getContextPath()%>";
+	$.ajax({
+		url:path+"/czkPer/addQueryAdminExist.action",
+		type:"POST", 
+		data:{"account":account},
+		dataType:"json",
+		success:function(data){
+			if(data==1){
+			window.alert("账号已存在!");
+			}else{
+				createAdmin();
+			}
+		},
+		error:function(){
+			window.alert("操作出错");
+		}
+	})
+}
+<%-- var path="<%=request.getContextPath()%>";
+function starState(adminId,state){
+	console.log(adminId+"and"+state)
+	alert("提交修改")
+} --%>
 
 </script>
 <style>
@@ -89,6 +120,7 @@ function createAdmin(){
 </style>
 </head>
 <body>
+<h3>新增管理员页</h3>
 	<form id="addAdminForm" >
 		<table class="table table-striped table-hover">
 			<tbody>

@@ -78,6 +78,9 @@ $(function(){
 				<th>类型</th>
 				<th>操作人</th>
 				<th>创建时间</th>
+				<th>发票</th>
+				<th>支付类型</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody id="whiteList">
@@ -89,6 +92,9 @@ $(function(){
 					<td>${chargeList.parmName}</td>
 					<td>${chargeList.adminAccount}</td>
 					<td>${chargeList.chargeCdate}</td>
+					<td>${chargeList.chargeInv eq 1?"已开发票":"未开发票"}</td>
+					<td>${chargeList.chargeCash eq 1?"现金支付":"线上支付"}</td>
+					<td><input type="button" value="开发票" onclick="" class="btn btn-info btn-small"></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -120,7 +126,7 @@ function Go(){
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/chargeHander/turnPageChargeList.action",
 		type:"POST",
-		data:{"pageNums":goPages,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val()},
+		data:{"pageNums":goPages,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val(),"adminId":0,"chargeId":0},
 		dataType:"json",
 		success : function(data){
 			var str="";
@@ -132,6 +138,17 @@ function Go(){
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
 				str+="<td>"+data[i].chargeCdate+"</td>";  
+				if(data[i].chargeInv==1){
+					str+="<td>已开发票</td>";	
+				}else{
+					str+="<td>未开发票</td>";	
+				}
+				if(data[i].chargeCash==1){
+					str+="<td>现金支付</td>";	
+				}else{
+					str+="<td>线上支付</td>";	
+				}
+				str+="<td><input type='button' value='打印发票' onclick='invoice("+data[i].chargeId+")' class='btn btn-info btn-small'></td>";
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
@@ -153,7 +170,7 @@ function previousPage(){
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/chargeHander/turnPageChargeList.action",
 		type:"POST",
-		data:{"pageNums":pageNums,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val()},
+		data:{"pageNums":pageNums,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val(),"adminId":0,"chargeId":0},
 		dataType:"json",
 		success : function(data){
 			var str="";
@@ -165,6 +182,17 @@ function previousPage(){
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
 				str+="<td>"+data[i].chargeCdate+"</td>";  
+				if(data[i].chargeInv==1){
+					str+="<td>已开发票</td>";	
+				}else{
+					str+="<td>未开发票</td>";	
+				}
+				if(data[i].chargeCash==1){
+					str+="<td>现金支付</td>";	
+				}else{
+					str+="<td>线上支付</td>";	
+				}
+				str+="<td><input type='button' value='打印发票' onclick='invoice("+data[i].chargeId+")' class='btn btn-info btn-small'></td>";
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
@@ -187,7 +215,7 @@ function nextPage(){
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/chargeHander/turnPageChargeList.action",
 		type:"POST",
-		data:{"pageNums":pageNums,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val()},
+		data:{"pageNums":pageNums,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val(),"adminId":0,"chargeId":0},
 		dataType:"json",
 		success : function(data){
 			var str="";
@@ -199,6 +227,17 @@ function nextPage(){
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
 				str+="<td>"+data[i].chargeCdate+"</td>";  
+				if(data[i].chargeInv==1){
+					str+="<td>已开发票</td>";	
+				}else{
+					str+="<td>未开发票</td>";	
+				}
+				if(data[i].chargeCash==1){
+					str+="<td>现金支付</td>";	
+				}else{
+					str+="<td>线上支付</td>";	
+				}
+				str+="<td><input type='button' value='打印发票' onclick='invoice("+data[i].chargeId+")' class='btn btn-info btn-small'></td>";
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
@@ -215,7 +254,7 @@ function search(){
 	$.ajax({
 	    url: "<%=request.getContextPath()%>/chargeHander/turnPageChargeList.action",
 		type:"POST",
-		data:{"pageNums":1,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val()},
+		data:{"pageNums":1,"starTime":$("#starTime").val(),"endTime":$("#endTime").val(),"carId":$("#carId").val(),"adminId":0,"chargeId":0},
 		dataType:"json",
 		success : function(data){
 			var str="";
@@ -227,6 +266,17 @@ function search(){
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>"+data[i].adminAccount+"</td>";
 				str+="<td>"+data[i].chargeCdate+"</td>";  
+				if(data[i].chargeInv==1){
+					str+="<td>已开发票</td>";	
+				}else{
+					str+="<td>未开发票</td>";	
+				}
+				if(data[i].chargeCash==1){
+					str+="<td>现金支付</td>";	
+				}else{
+					str+="<td>线上支付</td>";	
+				}
+				str+="<td><input type='button' value='打印发票' onclick='invoice("+data[i].chargeId+")' class='btn btn-info btn-small'></td>";
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);

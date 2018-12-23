@@ -17,9 +17,9 @@ public class MenuServiceImpl implements IMenuService{
 	private MenuMapper menuMapper;
 
 	@Override//查询所有菜单
-	public  List<Map<String,Object>> queryAllMenu(){
+	public  List<Map<String,Object>> queryAllMenu(Menu menu){
 		List<Map<String,Object>> menuList=null;
-		menuList=menuMapper.queryAllMenu();
+		menuList=menuMapper.queryAllMenu(menu);
 		return menuList;
 	}
 
@@ -49,6 +49,12 @@ public class MenuServiceImpl implements IMenuService{
 	@Override//登录成功，获取左侧菜单
 	public List<Map<String, Object>> queryLeftMenu(int roleId) {
 		return menuMapper.queryLeftMenu(roleId);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryMenu() {
+		// TODO Auto-generated method stub
+		return menuMapper.queryMenu();
 	}
 	
 }

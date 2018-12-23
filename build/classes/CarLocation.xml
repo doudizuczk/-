@@ -54,6 +54,7 @@
 	<update id="permission" parameterType="int">
 		update T_PARK set PARK_STATE=1 where PARK_ID=#{0}
 	</update>
+
 	
 	<!-- 对制定车位的车辆信息查询 -->
 	<select id="queryCarInfo" parameterType="String" resultType="com.great.bean.CarInfo">
@@ -62,6 +63,14 @@
 		where  t_dock.car_id=t_car.car_id and t_dock.park_id=t_park.park_id and t_car.ower_id=t_ower.ower_id
 		and t_car.car_id=#{0}
 	</select>
+
+	<select id="getParkIdList" resultType="HashMap">
+	  select park_id "parkId",park_state "parkState",park_zone "parkZone",park_cdate "parkCdate" from t_park where park_state=1
+	</select>
+	<update id="updateParkStateById" parameterType="Map">
+	update T_PARK set PARK_STATE=#{parkState} where PARK_ID=#{parkId}
+	</update>
+
 </mapper>
 	
 	

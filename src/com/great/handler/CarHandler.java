@@ -21,14 +21,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.bean.Car;
 import com.great.bean.Menu;
 import com.great.bean.PageInfo;
 import com.great.bean.Parm;
 import com.great.bean.Role;
 import com.great.bean.Rule;
+import com.great.service.ICarService;
 import com.great.service.IMenuService;
 import com.great.service.IParmService;
 import com.great.service.IRuleService;
+import com.great.service.impl.CarLocationServiceImpl;
+import com.great.service.impl.CarServiceImpl;
 import com.mysql.fabric.xmlrpc.base.Data;
 
 /*
@@ -37,13 +41,22 @@ import com.mysql.fabric.xmlrpc.base.Data;
 @Controller()
 @RequestMapping("/carHandler")
 public class CarHandler {
+	@Autowired
+	@Qualifier("carServiceImpl")
+	private ICarService carService;
 	
-	
-//	@RequestMapping("/carLogin.action")
-//	public @ResponseBody String carLogin(HttpServletRequest request, String carId) {
-//		HttpSession session=request.getSession();
-//		
-//	}
+	@RequestMapping("/carLogin.action")
+	public @ResponseBody String carLogin(HttpServletRequest request, String carId) {
+		Car temp=new Car();
+		temp.setCarId(carId);
+		Car car=carService.queryCarById(temp);
+		if (car!=null) {
+			HttpSession session=request.getSession();
+			session.setAttribute("logging", car);
+			return "1";
+		}
+		return "0";
+	}
 	
 	
 
