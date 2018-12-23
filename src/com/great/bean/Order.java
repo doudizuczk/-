@@ -22,7 +22,7 @@ public class Order implements Serializable {
 	private double invAmount;
 	private int invCount;
 	private int shift;
-	private String  createTime;
+	private String createTime;
 	
 	public Order() {
 		super();

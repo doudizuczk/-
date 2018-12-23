@@ -44,7 +44,7 @@ public class ChargeHander {
 	
 	private DateUtils dateUtils;
 	
-	//获取停车缴费信息
+	//添加停车缴费信息
 	@RequestMapping("/addCharge.action")
 	public @ResponseBody String addCharge(HttpServletRequest request,Charge charge) {
 		if (charge.getAdminId()==0) {//人工缴费

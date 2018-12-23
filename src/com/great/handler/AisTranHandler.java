@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,8 @@ import com.great.util.DateUtils;
 import com.great.util.ShutDownUtil;
 
 @Controller
+@EnableScheduling
+@Lazy(false) 
 @RequestMapping("/aisTran")
 public class AisTranHandler {
 	@Autowired
@@ -49,7 +53,7 @@ public class AisTranHandler {
 					}
 				}
 			}
-			System.out.println(date+" 任务执行完毕");
+			System.out.println(date+" 月缴用户到期判定任务执行完毕");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

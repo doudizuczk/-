@@ -18,4 +18,10 @@ public class OrderServiceImpl implements IOrderService {
 		return orderMapper.queryOrder(order);
 	}
 
+	@Override
+	public boolean addOrder(Order order) {
+		// TODO Auto-generated method stub
+		return orderMapper.addOrder(order)>0;
+	}
+
 }

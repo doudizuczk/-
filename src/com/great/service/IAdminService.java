@@ -13,4 +13,7 @@ public interface IAdminService {
 	public List<Map<String,Object>> queryAdminList();//czk查询管理员-显示列表
 
 	public List<Map<String,Object>> conditionQueryAdminList(Admin admin);//czk条件模糊查询管理员列表
+	
+	public List<Map<String,Object>> addQueryAdminExist(Admin ad);//新增管理员查存在
+
 }

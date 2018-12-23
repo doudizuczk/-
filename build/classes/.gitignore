@@ -8,6 +8,7 @@
 /Menu.xml
 /Order.xml
 /Ower.xml
+/Pack.xml
 /Parm.xml
 /PayMent.xml
 /Role.xml
@@ -20,3 +21,7 @@
 /com/
 /log.xml
 /mybatis-config.xml
+<<<<<<< HEAD
+=======
+/test/
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
