@@ -7,6 +7,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ucpaas.restDemo.client.AbsRestClient;
 import com.ucpaas.restDemo.client.JsonReqClient;
@@ -26,8 +29,8 @@ public class CheckCodeHandler {
 			e.printStackTrace();
 		}
 	}
-	@RequestMapping(value="/getMessageCode.action")
-	public void getMessageCode(HttpServletRequest request, String owerPhone) {
+	@RequestMapping(value="/getMessageCode.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String getMessageCode(HttpServletRequest request, @RequestParam(value = "owerPhone", required = true, defaultValue = "")String owerPhone) {
 		HttpSession session=request.getSession();
 		Random ran=new Random();
 		String result="";
@@ -43,16 +46,8 @@ public class CheckCodeHandler {
 		String param = result;
 		String mobile = owerPhone;
 		String uid = "";
+		System.out.println(owerPhone);
 		testSendSms(sid, token, appid, templateid, param, mobile, uid);
-	}
-	//获取到用户填写的验证码,进行验证
-	public String checkPhoneCode(HttpServletRequest requset,String owerCode) {
-		HttpSession session=requset.getSession();
-		String code=(String)session.getAttribute("Code");
-		if(code.equals(owerCode)) {
-			return "1";
-		}else {
-			return "0";
-		}
+		return "1";
 	}
 }

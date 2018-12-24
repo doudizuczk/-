@@ -47,19 +47,6 @@ public class CarLocationServiceImpl implements ICarLocationService {
 		List<CarLocation> list=carLocationMapper.queryForbid();
 		return list;
 	}
-//获取车位
-	@Override
-	public List<Map<String, Object>> getParkIdList() {
-		// TODO Auto-generated method stub
-		return carLocationMapper.getParkIdList();
-	}
-
-	@Override
-	public boolean updateParkStateById(Map<String, Object> park) {
-		// TODO Auto-generated method stub
-		int count=carLocationMapper.updateParkStateById(park);
-		return count>0;
-	}
 
 	@Override
 	public List<CarInfo> queryCarInfo(String carId) {
@@ -69,12 +56,31 @@ public class CarLocationServiceImpl implements ICarLocationService {
 	}
 
 	@Override
-	public List<CarLocation> querByArea(Integer state, String area) {
+	public List<Map<String, Object>> queryByArea() {
 		// TODO Auto-generated method stub
-		List<CarLocation> list=carLocationMapper.querByArea(state, area);
+		List<Map<String, Object>> list=carLocationMapper.queryByArea();
 		return list;
 	}
 
+	@Override
+	public Map<String, Object> statisAll() {
+		// TODO Auto-generated method stub
+		Map<String, Object> list=carLocationMapper.statisAll();
+		return list;
+	}
 
+	//获取车位
+		@Override
+		public List<Map<String, Object>> getParkIdList() {
+			// TODO Auto-generated method stub
+			return carLocationMapper.getParkIdList();
+		}
+
+		@Override
+		public boolean updateParkStateById(Map<String, Object> park) {
+			// TODO Auto-generated method stub
+			int count=carLocationMapper.updateParkStateById(park);
+			return count>0;
+		}
 
 }

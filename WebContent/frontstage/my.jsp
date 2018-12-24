@@ -117,7 +117,7 @@
 					</a>
 				</li> 
 				<li class="bg-color8 clearfix">
-					<a href="<%=request.getContextPath()%>/owerHandler/searchPack.action">
+					<a href="<%=request.getContextPath()%>/owerHandler/searchPack.action?owerId=${sessionScope.loginOwer.owerId}">
 						<p class="w15 t-c fl">
 							<i class="icon iconfont icon-cartfill f42 color-danger"></i>
 						</p>

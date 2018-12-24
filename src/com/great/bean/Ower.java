@@ -33,7 +33,7 @@ public class Ower implements Serializable {
 	private int owerState;
 	private String owerCdate;
 	private int balance;
-	
+	private String checkCode;
 	
 	@Override
 	public String toString() {
@@ -49,7 +49,7 @@ public class Ower implements Serializable {
 
 
 	public Ower(int owerId, String owerName, String owerAccount, String owerPwd, String owerPhone, int owerSex,
-			String owerIdcard, int owerAge, int owerState, String owerCdate, int balance) {
+			String owerIdcard, int owerAge, int owerState, String owerCdate, int balance,String checkCode) {
 		super();
 		this.owerId = owerId;
 		this.owerName = owerName;
@@ -62,6 +62,17 @@ public class Ower implements Serializable {
 		this.owerState = owerState;
 		this.owerCdate = owerCdate;
 		this.balance = balance;
+		this.checkCode=checkCode;
+	}
+
+
+	public String getCheckCode() {
+		return checkCode;
+	}
+
+
+	public void setCheckCode(String checkCode) {
+		this.checkCode = checkCode;
 	}
 
 

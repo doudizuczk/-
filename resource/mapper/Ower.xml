@@ -7,7 +7,7 @@
 	<select id="owerLogin" parameterType="com.great.bean.Ower" resultType="com.great.bean.Ower">
 		select OWER_ID "owerId",OWER_ACCOUNT "owerAccount",OWER_NAME "owerName",OWER_PHONE "owerPhone",OWER_SEX "owerSex",OWER_IDCARD "owerIdcard",OWER_AGE "owerAge",OWER_STATE "owerState",
 		OWER_BALANCE "owerBalance" from T_OWER where  OWER_STATE=1
-		<if test="owerPwd!=null and owerPwd!='' and owerAccount!=null and owerAccount!=''">
+		<if test=" owerAccount!=null and owerAccount!='' and owerPwd!=null and owerPwd!=''">
 			 and OWER_ACCOUNT='${owerAccount}' and OWER_PWD='${owerPwd}'
 		</if>
 		<if test="owerId!=null and owerId!=''">

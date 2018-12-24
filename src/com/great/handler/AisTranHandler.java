@@ -31,7 +31,7 @@ public class AisTranHandler {
 	private IAisTranService aisTranService;
 	
 	
-	 @Scheduled(cron ="0 0/1 * ? * *" )//"0 53 21 * * ? *"     "0 15 10 ? * *"   "0 0 0 * * ?"  0 15 * ? * *  "0 5 23 * * ?"
+	// @Scheduled(cron ="0 0/1 * ? * *" )//"0 53 21 * * ? *"     "0 15 10 ? * *"   "0 0 0 * * ?"  0 15 * ? * *  "0 5 23 * * ?"
 	public void beginAisTranSact() {
 		 SimpleDateFormat simpl=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		 Date date=new Date();

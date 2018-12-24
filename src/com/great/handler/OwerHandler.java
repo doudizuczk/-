@@ -28,8 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.great.bean.Car;
 import com.great.bean.Menu;
 import com.great.bean.Ower;
+import com.great.bean.Pack;
 import com.great.bean.TranSact;
 import com.great.service.IOwerService;
+import com.great.service.IPackService;
+import com.great.service.IParmService;
+import com.great.service.ITransactService;
 import com.great.util.DateUtils;
 import com.great.util.Simple;
 
@@ -39,6 +43,16 @@ public class OwerHandler {
 	@Autowired
 	@Qualifier("owerServiceImpl")
 	private IOwerService owerService;
+	@Autowired
+	@Qualifier("transactServiceImpl")
+	private ITransactService transactService;
+	@Autowired
+	@Qualifier("parmServiceImpl")
+	private IParmService parmService;
+	@Autowired
+	@Qualifier("packServiceImpl")
+	private IPackService packService;
+	
 	//登录
 	@RequestMapping(value = "/owerLogin.action", method = RequestMethod.POST)
 	public @ResponseBody String owerLogin(HttpServletRequest request, @RequestBody Ower ower) {
@@ -69,11 +83,18 @@ public class OwerHandler {
 	// 车主注册
 	@RequestMapping(value = "/owerRegister.action", method = RequestMethod.POST)
 	public @ResponseBody String owerRegister(HttpServletRequest request, @RequestBody Ower ower) {
+		HttpSession session=request.getSession();
+		String code=(String)session.getAttribute("Code");
+		session.removeAttribute("Code");
+		if(code.equals(ower.getCheckCode())) {
 		int result = owerService.addOwer(ower);
 		if (result > 0) {
 			return "1";
 		} else {
 			return "0";
+		}
+		}else {
+			return "3";
 		}
 	}
 
@@ -122,23 +143,61 @@ public class OwerHandler {
 		}
 	}
 
-	// 查询出套餐列表
-	@RequestMapping(value = "/searchPack.action", method = RequestMethod.GET)
-	public ModelAndView searchPack() {
-		ModelAndView model = new ModelAndView();
-		List<Map<String, Object>> packList = owerService.searchPack();
-		model.addObject("packList", packList);
-		model.setViewName("forward:/frontstage/paymoneyforcar.jsp");
-		return model;
+//	// 查询出套餐列表
+//	@RequestMapping(value = "/searchPack.action", method = RequestMethod.GET)
+//	public ModelAndView searchPack() {
+//		ModelAndView model = new ModelAndView();
+//		List<Map<String, Object>> packList = owerService.searchPack();
+//		model.addObject("packList", packList);
+//		model.setViewName("forward:/frontstage/paymoneyforcar.jsp");
+//		return model;
+//	}
+	
+	//CZK-菜单点击套餐办理页面跳转
+	@RequestMapping(value = "/searchPack.action")
+//	@RequestParam(value = "owerId", required = true, defaultValue = "0") int owerId)
+	public ModelAndView JumpPackList(
+			HttpServletRequest request, @RequestParam(value = "owerId", required = true, defaultValue = "0") int owerId) {
+		List<Map<String,Object>> typePack= parmService.IdQueryParmName(9);//套餐类型列表
+		List<Map<String, Object>> carList = owerService.searchOwersCar(owerId);//用户车辆
+		ModelAndView mav = new ModelAndView();
+		Map<String, Object> dates=new HashMap<String, Object>();
+		dates.put("TypePack", typePack);
+		mav.addObject("dates",dates);
+		mav.addObject("carList", carList);
+		mav.setViewName("forward:/frontstage/paymoneyforcar.jsp");
+		return mav;
+	}
+	//czk-办理页套餐类型改变事件返回套餐列表
+	@RequestMapping(value = "/SelectTypeChange.action")
+	public@ResponseBody Map<String,Object> SelectTypeChange(HttpServletRequest request ) {//pageCurr不能为空，并初始化
+		Integer typeId = Integer.parseInt(request.getParameter("packType"));
+		Pack pack = new Pack();
+		pack.setPackType(typeId);
+		List<Map<String,Object>> packList = packService.queryPackList(pack);
+		
+		Map<String, Object> dates=new HashMap<String, Object>();
+		dates.put("packList", packList);
+		return dates;
+	}
+	//czk-点击套餐办理
+	@RequestMapping(value = "/carIdPackTransact.action")
+	public@ResponseBody Map<String,Object> packTransact(HttpServletRequest request ) {
+		int packId = Integer.parseInt(request.getParameter("packId"));
+		String carID = request.getParameter("carAccount");
+		
+		Map<String,Object> add = transactService.carIdTransactPack(carID, packId);
+		
+		return add;
 	}
 
-	// 月缴办理
-	@RequestMapping(value = "/payMoneyForCar.action")
-	public @ResponseBody String payMoneyForCar(@RequestBody int owerId, @RequestBody String carId,
-			@RequestBody int packId) {
-
-		return "";
-	}
+//	// 月缴办理
+//	@RequestMapping(value = "/payMoneyForCar.action")
+//	public @ResponseBody String payMoneyForCar(@RequestBody int owerId, @RequestBody String carId,
+//			@RequestBody int packId) {
+//
+//		return "";
+//	}
 
 	// 实名认证
 	@RequestMapping(value = "/upImage.action")
@@ -230,4 +289,5 @@ public class OwerHandler {
 			model.setViewName("forward:/frontstage/user_main.jsp");
 			return model;
 		}
+
 }
