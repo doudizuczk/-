@@ -63,7 +63,8 @@ public class OrderHandler {
 	@RequestMapping("/exportOrderExcel.action")
 	public ModelAndView exportOrderExcel(HttpServletRequest request, HttpServletResponse response,Order temp) throws IOException {
 		//1.读取excel模板
-		String path=request.getServletContext().getRealPath("/storage/order.xls");
+//		String path=request.getServletContext().getRealPath("/storage/order.xls");
+		String path=request.getSession().getServletContext().getRealPath("/storage/order.xls");
 		InputStream is = new FileInputStream(path);
 		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
 		//2.读取数据库数据
