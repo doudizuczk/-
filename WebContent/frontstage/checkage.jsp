@@ -47,7 +47,7 @@
 	<hr />
 	<div>
 		<input type="file" id="IDcard" onchange="viewImage(this)"
-			value="请选择身份证照片"><input type="button" value="提交"
+			value="请选择身份证照片" capture="camera" accept="img/*"><input type="button" value="提交"
 			onClick="up()">
 	</div>
 	<div id="localImag">

@@ -83,11 +83,18 @@ public class OwerHandler {
 	// ³µÖ÷×¢²á
 	@RequestMapping(value = "/owerRegister.action", method = RequestMethod.POST)
 	public @ResponseBody String owerRegister(HttpServletRequest request, @RequestBody Ower ower) {
+		HttpSession session=request.getSession();
+		String code=(String)session.getAttribute("Code");
+		session.removeAttribute("Code");
+		if(code.equals(ower.getCheckCode())) {
 		int result = owerService.addOwer(ower);
 		if (result > 0) {
 			return "1";
 		} else {
 			return "0";
+		}
+		}else {
+			return "3";
 		}
 	}
 
