@@ -17,5 +17,7 @@ public interface ICarLocationService {
 	public List<CarInfo> queryCarInfo(String carId);//查询指定车位的车辆信息
 	public List<Map<String, Object>> queryByArea();//按区域查询总车位，禁用车位
 	public Map<String, Object> statisAll();//统计总车位
+	public List<Map<String, Object>> getParkIdList();//获取车位
+	public boolean updateParkStateById(Map<String, Object> park);//更改车位表状态
 
 }

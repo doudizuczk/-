@@ -69,6 +69,18 @@ public class CarLocationServiceImpl implements ICarLocationService {
 		return list;
 	}
 
+	//获取车位
+		@Override
+		public List<Map<String, Object>> getParkIdList() {
+			// TODO Auto-generated method stub
+			return carLocationMapper.getParkIdList();
+		}
 
+		@Override
+		public boolean updateParkStateById(Map<String, Object> park) {
+			// TODO Auto-generated method stub
+			int count=carLocationMapper.updateParkStateById(park);
+			return count>0;
+		}
 
 }
