@@ -9,6 +9,8 @@ public interface IPackService {
 	
 	public List<Map<String,Object>> queryPackList(Pack p);//czk查询套餐列表
 	
+//	public List<Map<String,Object>> TranQueryPackList(Pack p);//czk套餐办理时查询套餐列表
+	
 	public int updatePackState(Pack p);//修改套餐状态
 	
 	public int updatePackAtt(Pack p);//修改套餐属性
