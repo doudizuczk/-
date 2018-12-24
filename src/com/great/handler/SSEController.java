@@ -36,6 +36,7 @@ public class SSEController {
 	        System.out.println("name1"+Name);
 	        if(Name!=null) {
 	        	pw.write("data:" + Name + "\n\n");
+	        	
 	        }
 	        pw.flush();
 	        if(Name!=null) {
