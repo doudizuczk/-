@@ -14,7 +14,7 @@
 			and OWER_ID=${owerId}
 		</if>
 		<if test="owerAccount!=null and owerAccount!=''">
-		and OWER_ACCOUNT='${owerAccount}'
+			and OWER_ACCOUNT='${owerAccount}'
 		</if>
 	</select>
 	<insert id="addOwer" parameterType="com.great.bean.Ower">
