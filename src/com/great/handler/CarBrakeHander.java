@@ -69,6 +69,15 @@ public class CarBrakeHander {
         /*使用toUpperCase()方法实现大写转换*/
 		if(CARID!=null||CARID!="") {
 			String carIds = CARID.toUpperCase();
+			//判断车辆是否已经入库
+			Dock doc=dockService.queryParkIdByCar(carIds);
+			if(doc!=null) {
+				carInformation.put("result", false);
+				carInformation.put("existIn", false);
+				carInformation.put("carId", carIds);
+				carInformation.put("carType", "该车辆已入库！请联系管理员");
+				return carInformation;
+			}
 			//判断车牌号是否为白名单以及为可用状态(搜索车辆表)
 			List<Map<String,Object>> carInfo=carBrakeService.queryWhiteListCarByCarId(carIds);
 			if(carInfo.size()>0) {
@@ -81,11 +90,13 @@ public class CarBrakeHander {
 				//转发信息
 				if(result1) {
 					carInformation.put("result", true);
+					carInformation.put("existIn", true);
 					carInformation.put("carId", carIds);
 					carInformation.put("parkId", parkId);	
 					carInformation.put("carType", "白名单vip");	
 				}else {
 					carInformation.put("result", false);
+					carInformation.put("existIn", true);
 					carInformation.put("carId", carIds);
 					carInformation.put("carType", "白名单vip");
 				}
@@ -110,12 +121,14 @@ public class CarBrakeHander {
 						boolean result2=carLocationService.updateParkStateById(dockAndPark);
 						if(result1&&result2) {
 							carInformation.put("result", true);
+							carInformation.put("existIn", true);
 							carInformation.put("carId", carIds);
 							carInformation.put("parkId", parkId2);	
 							carInformation.put("carType", "月缴用户");
 						}
 						else {
 							carInformation.put("result", false);
+							carInformation.put("existIn", true);
 							carInformation.put("carId", carIds);
 							carInformation.put("carType", "月缴用户");
 						}
@@ -136,11 +149,13 @@ public class CarBrakeHander {
 						boolean result2=carLocationService.updateParkStateById(dockAndPark);
 						if(result2&&result3) {
 							carInformation.put("result", true);
+							carInformation.put("existIn", true);
 							carInformation.put("carId", carIds);
 							carInformation.put("parkId", parkId2);	
 							carInformation.put("carType", "临时用户");
 						}else {
 							carInformation.put("result", false);
+							carInformation.put("existIn", true);
 							carInformation.put("carId", carIds);
 							carInformation.put("carType", "临时用户");
 						}
@@ -149,6 +164,7 @@ public class CarBrakeHander {
 				{
 					//没有车位
 					carInformation.put("result", false);
+					carInformation.put("existIn", true);
 					carInformation.put("carId", carIds);
 					carInformation.put("parkId", "无空闲车位");	
 					carInformation.put("carType", "。。。");
@@ -156,7 +172,8 @@ public class CarBrakeHander {
 				
 			}
 		
-		}
+		
+	  }
 		return carInformation;
 	}
 	//车辆出库
@@ -176,15 +193,17 @@ public class CarBrakeHander {
 			Dock dock=dockService.queryParkIdByCar(carIds);
 			if(dock!=null) {
 				cost=chargeServices.getParkingCost(carIds);
-				if(cost>0) {
-					carInformation.put("result", false);
-				}else {
-					carInformation.put("result", true);
-				}
+//				if(cost>0) {
+//				}else {
+//				}
+				carInformation.put("result", true);
+				carInformation.put("money",cost);
 				carInformation.put("parkId",dock.getCarLocationId());
 				carInformation.put("dockSTime",dock.getStartTime());
+				carInformation.put("carType",car.get("parmName"));
 			}else {
-				carInformation.put("parkId","未找到");
+				carInformation.put("result", false);
+				carInformation.put("parkId","该车辆未入库！请联系管理员");
 				carInformation.put("dockSTime","");
 			}
 			//接口查看费用
@@ -199,19 +218,18 @@ public class CarBrakeHander {
 			//修改停靠表状态
 //			boolean result3=dockService.updateDockState(dockAndPark);
 			carInformation.put("carId", carIds);
-			carInformation.put("carType",car.get("parmName"));
-			carInformation.put("money",cost);
 
 		}
 		return carInformation;
 	}
-	
+	//获取空闲车位数量
 	@RequestMapping(value ="/getParkNum.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody int getParkNum(HttpServletRequest request) {		
 		List<Map<String,Object>> getParkList=carLocationService.getParkIdList();
 		int parkNum=getParkList.size();
 		return parkNum;
 	}
+	//识别图片
 	@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody String updatePhoto(MultipartFile img){ 
 	      System.out.println("开始上传");
