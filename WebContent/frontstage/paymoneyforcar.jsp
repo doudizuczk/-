@@ -138,11 +138,10 @@
 						window.alert("套餐续费成功！结束日期为"+data.eDate+"")
 					}else if(data.addState==3){
 						if(data.refundState==1){
-							window.alert("套餐办理成功！账户余额退款成功,退款"+data.money+"/元(人民币)")
-							check_licensePlate();
+							window.alert("套餐更换成功！原套餐退款"+data.money+"/元(人民币),账户余额退款成功。")
 							}
 						if(data.refundState==2){
-							window.alert("套餐办理成功！该车没有绑定账户,请现金退款"+data.money+"/元(人民币)")
+							window.alert("套餐更换成功！原套餐退款"+data.money+"/元(人民币),该车没有绑定账户,请退现金。")
 						}
 	/* 					window.alert("该车没有绑定账户,请现金退款"+data.money+"/元(人民币)") */
 					}
