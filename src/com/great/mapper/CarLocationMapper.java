@@ -10,16 +10,14 @@ import com.great.bean.CarLocation;
 
 
 public interface CarLocationMapper {
-	public List<CarLocation> queryAll(CarLocation carLocation);//æŸ¥è¯¢æ‰€æœ‰è½¦ä½
-	public List<CarLocation> queryForbid();//æŸ¥è¯¢æ‰€æœ‰ç¦ç”¨è½¦ä½
-	public int forbidden(int carLocationId);//è½¦ä½ç¦ç”¨
-	public int permission(int carLocationId);//è½¦ä½å¯
-
-	public List<CarInfo> queryCarInfo(String carId);//æŸ¥è¯¢æŒ‡å®šè½¦ä½çš„è½¦è¾†ä¿¡æ¯
-	public List<CarLocation> querByArea(Integer state,String area);//æŒ‰åŒºåŸŸæŸ¥è¯¢æ€»è½¦ä½ï¼Œç¦ç”¨è½¦ä½
-
-	public List<Map<String, Object>> getParkIdList();//è·å–è½¦ä½
-	public int updateParkStateById(Map<String, Object> park);//æ›´æ”¹è½¦ä½è¡¨çŠ¶æ€
-	
+	public List<CarLocation> queryAll(CarLocation carLocation);//²éÑ¯ËùÓĞ³µÎ»
+	public List<CarLocation> queryForbid();//²éÑ¯ËùÓĞ½ûÓÃ³µÎ»
+	public int forbidden(int carLocationId);//³µÎ»½ûÓÃ
+	public int permission(int carLocationId);//³µÎ»Æô
+	public List<CarInfo> queryCarInfo(String carId);//²éÑ¯Ö¸¶¨³µÎ»µÄ³µÁ¾ĞÅÏ¢
+	public List<Map<String, Object>> queryByArea();//°´ÇøÓò²éÑ¯×Ü³µÎ»£¬½ûÓÃ³µÎ»
+	public Map<String, Object> statisAll();//Í³¼Æ×Ü³µÎ»
+	public List<Map<String, Object>> getParkIdList();//»ñÈ¡³µÎ»
+	public int updateParkStateById(Map<String, Object> park);//¸ü¸Ä³µÎ»±í×´Ì¬
 
 }

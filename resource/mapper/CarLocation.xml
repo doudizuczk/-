@@ -15,7 +15,7 @@
 		</where>)  rm , 
 		(select * from T_PARK 
 		<where> 
-			<if test="area!=null and area!='' ">
+			<if test="area!=null">
 				and PARK_ZONE=#{area}
 			</if>
 			<if test="carLocationId!=null">
@@ -26,18 +26,19 @@
 	</select>
 	
 	<!-- 按区域查询 已用车位，禁用车位-->
-	<select id="queryByArea" resultType="com.great.bean.CarLocation">
-		select PARK_ID "carLocationId",PARK_STATE "state",PARK_ZONE "area",PARK_3did "threeId",PARK_2did "twoId",to_char(PARK_CDATE,'YYYY-MM-DD') "cdate" 
-		from T_PARK
-		<where>
-			<if test="area!=null and area!=''">
-			and PARK_ZONE=#{area}
-			</if>
-			<if test="state!=null and state!=''">
-			and PARK_STATE=#{state}
-			</if>
-		</where>
+	<select id="queryByArea" resultType="map">
+		select t.PARK_ZONE "area",c1 "total",decode(c2,null,0,c2) "free",c1-decode(c2,null,0,c2) "used" from 
+		(select count(0) c1,PARK_ZONE from t_park group by PARK_ZONE) t left join
+		(select count(0) c2,PARK_ZONE from t_park where PARK_STATE=1 group by PARK_ZONE) n
+		on t.PARK_ZONE =n.PARK_ZONE order by t.park_zone
 	</select>
+	
+	<!--查询总车位数，并分状态统计  -->
+	<select id="statisAll" resultType="map">
+		select (select count(0) from t_park) "total",
+		(select count(0) from t_park where park_state =1) "free",
+		(select count(0) from t_park where park_state =2) "used" from dual
+	</select>	
 	
 	<!-- 查询禁用车位 -->
 	<select id="queryForbid"  resultType="com.great.bean.CarLocation">

@@ -58,7 +58,8 @@ public class ChargeHander {
 	@RequestMapping("/exportCharge.action")
 	public ModelAndView exportCharge(HttpServletRequest request, HttpServletResponse response,int chargeId) throws IOException {
 		//1.读取excel模板
-		String path=request.getServletContext().getRealPath("/storage/invoice.xls");
+//		String path=request.getServletContext().getRealPath("/storage/invoice.xls");
+		String path=request.getSession().getServletContext().getRealPath("/storage/invoice.xls");
 		InputStream is = new FileInputStream(path);
 		HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
 		//2.读取数据库数据/更改状态为已开票

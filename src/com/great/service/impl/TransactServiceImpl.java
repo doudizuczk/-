@@ -136,7 +136,7 @@ public class TransactServiceImpl implements ITransactService {
 			if(a==1) {
 				addState=1;//返回1代表办理成功
 			}
-		}else {//办理过套餐，且套餐正在使用。tranState=1
+		}else {//办理过套餐，且套餐正在使用。tranState=2
 			
 			if(tranState==1 && packId2==packId) {//套餐启用状态，套餐ID相同--套餐续费
 				//-----------------------------------------续费
@@ -150,7 +150,7 @@ public class TransactServiceImpl implements ITransactService {
 				tranSact.setCarId(carId);
 				tranSact.setTranEtime(updateTime);
 				int v = transactMapper.updateTransactTime(tranSact);
-				if(v==1) {
+				if(v>0) {
 					addState=2;//返回2代表续费成功
 				}
 				

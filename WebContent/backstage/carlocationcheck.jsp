@@ -23,7 +23,7 @@
     </div>
     <div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">数据显示</a></li>
+            <li class="active"><a href="<%=request.getContextPath()%>/carLocation/queryAreaNum.action"/>数据显示</a></li>
             <li><a href="#">折线图统计</a></li>
         </ul>
     </div>
@@ -38,31 +38,21 @@
 	      <th>禁用车位</th>
 	    </tr>
 	  </thead>
-	  <tbody id="aaa">
+	  <tbody>
 	  	 <tr>
-	      <th>总区</th>
-	      <th>总车位</th>
-	      <th>空闲车位</th>
-	      <th>禁用车位</th>
+	      <td>总区</td>
+	      <td>${all.total}</td>
+	      <td>${all.free}</td>
+	      <td>${all.used}</td>
 	    </tr>
-	    <tr>
-	      <th>A区</th>
-	      <th>总车位</th>
-	      <th>空闲车位</th>
-	      <th>禁用车位</th>
-	    </tr>
-	    <tr>
-	      <th>B区</th>
-	      <th>总车位</th>
-	      <th>空闲车位</th>
-	      <th>禁用车位</th>
-	    </tr>
-	    <tr>
-	      <th>C区</th>
-	      <th>总车位</th>
-	      <th>空闲车位</th>
-	      <th>禁用车位</th>
-	    </tr>
+	    <c:forEach items="${list}" var="seList">
+		    <tr>
+		      <td>${seList.area}</td>
+		      <td>${seList.total}</td>
+		      <td>${seList.free}</td>
+		      <td>${seList.used}</td>
+		    </tr>
+	    </c:forEach>
 	  </tbody>
 	</table>
 </body>	
