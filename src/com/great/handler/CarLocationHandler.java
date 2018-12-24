@@ -2,6 +2,7 @@ package com.great.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -93,6 +94,14 @@ public class CarLocationHandler {
 		List<CarInfo> list=carLocationServiceImpl.queryCarInfo(carId);
 		return list;
 	}
+	//进入反向寻车页面
+	@RequestMapping(value="/toSearchCar.action")
+	public @ResponseBody ModelAndView toSearchCar(){
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("frontstage/searchcar");
+		return mav;
+	}
+	
 	//进入导航页面
 	@RequestMapping(value="/startNaviga.action")
 	public @ResponseBody ModelAndView startNav(String xCoord,String yCoord,Integer twoId) throws JsonProcessingException {
@@ -106,10 +115,14 @@ public class CarLocationHandler {
 	}
 	//查找总区，以及各个区域的总车位，空闲车位和已用车位
 	@RequestMapping(value="/queryAreaNum.action")
-	public ModelAndView queryAreaNum(String area,Integer state) {
+	public ModelAndView queryAreaNum() {
 		ModelAndView mav=new ModelAndView();
-		List<CarLocation> list=carLocationServiceImpl.querByArea(null, null);
-		return null; 
+		List<Map<String, Object>> list=carLocationServiceImpl.queryByArea();
+		Map<String, Object> statis=carLocationServiceImpl.statisAll();
+		mav.addObject("list", list);
+		mav.addObject("all",statis);
+		mav.setViewName("forward:/backstage/carlocationcheck.jsp");
+		return mav; 
 		
 	}
 }
