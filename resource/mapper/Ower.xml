@@ -13,6 +13,9 @@
 		<if test="owerId!=null and owerId!=''">
 			and OWER_ID=${owerId}
 		</if>
+		<if test="owerAccount!=null and owerAccount!=''">
+			and OWER_ACCOUNT='${owerAccount}'
+		</if>
 	</select>
 	<insert id="addOwer" parameterType="com.great.bean.Ower">
 		insert into T_OWER(OWER_ID,OWER_ACCOUNT,OWER_PWD,OWER_PHONE)values(seq_t_ower.nextval,'${owerAccount}','${owerPwd}','${owerPhone}')
