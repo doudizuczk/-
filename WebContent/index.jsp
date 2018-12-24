@@ -5,17 +5,19 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>sse 测试</title>
+<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 </head>
 <body>
+<input type="button" value="传递1" onclick="closee()">
 <div id="msg_from_server"></div>
-<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script type="text/javascript">
+var source;
 if (!!window.EventSource) {
-       var source = new EventSource('push.action'); //为http://localhost:8080/testSpringMVC/push
+       source = new EventSource('push.action'); //为http://localhost:8080/testSpringMVC/push
        s='';
        source.addEventListener('message', function(e) {
-
-           s+=e.data+"<br/>"
+          
+           s=e.data+"<br/>"
            $("#msg_from_server").html(s);
 
        });
@@ -34,6 +36,22 @@ if (!!window.EventSource) {
     } else {
             console.log("没有sse");
     }
+</script>
+<script>
+function closee(){
+	alert("断开连接2");
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/push2.action",
+		type:"POST",
+		data:{"name":"name"},
+		dataType:"json",
+		success : function(data){
+			if(data==1){
+			alert("成功");
+			}
+		}
+});	
+}
 </script>
 </body>
 </html>
