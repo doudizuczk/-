@@ -28,7 +28,7 @@ function updatePhoto(){
 	var Form = new FormData();
 	Form.append('img', document.getElementById("photo").files[0]);
 	$.ajax({
-		url: "<%=request.getContextPath()%>/carBrakeHander/updatePhoto.action",
+		url: "<%=request.getContextPath()%>/updatePhoto.action",
 		type:"POST",
 		data:Form,
 		contentType: false,
