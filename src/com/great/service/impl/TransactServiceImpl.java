@@ -150,7 +150,7 @@ public class TransactServiceImpl implements ITransactService {
 				tranSact.setCarId(carId);
 				tranSact.setTranEtime(updateTime);
 				int v = transactMapper.updateTransactTime(tranSact);
-				if(v==1) {
+				if(v>0) {
 					addState=2;//返回2代表续费成功
 				}
 				
