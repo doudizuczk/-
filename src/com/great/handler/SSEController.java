@@ -33,11 +33,15 @@ public class SSEController {
 	        try {
 	        Thread.sleep(3000);
 	        PrintWriter pw=response.getWriter();
+	        Map<String,Object> m=new HashMap<>();
+	        m.put("carId", 1);
 	        System.out.println("name1"+Name);
 	        if(Name!=null) {
+	        	pw.write("event: slide\n");
 	        	pw.write("data:" + Name + "\n\n");
 	        	
 	        }
+	        pw.write("data:" + m + "\n\n");
 	        pw.flush();
 	        if(Name!=null) {
 	        	Name=null;

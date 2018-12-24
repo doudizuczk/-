@@ -30,11 +30,22 @@ if (!!window.EventSource) {
        s='';
        source.addEventListener('message', function(e) {
     	   if(e.data==null||e.data==""){
+    		   s="未识别"+"<br/>"; 
+    	   }else{
+    	   var eva=typeof e.data=='string' ?JSON.parse(e.data):e.data; 
+           s=eva.carId+"<br/>";
+    	   }
+           $("#carId").html(s);
+           console.log(eva);
+          
+       });
+       source.addEventListener('slide', function(e) {
+    	   if(e.data==null||e.data==""){
     		   s="未识别"+"<br/>" 
     	   }else{
            s=e.data+"<br/>"
     	   }
-           $("#carId").html(s);
+           $("#carTypes").html(s);
        });
        source.addEventListener('open', function(e) {
             console.log("连接打开.");
