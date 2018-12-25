@@ -6,7 +6,7 @@
 	
 	<select id="owerLogin" parameterType="com.great.bean.Ower" resultType="com.great.bean.Ower">
 		select OWER_ID "owerId",OWER_ACCOUNT "owerAccount",OWER_NAME "owerName",OWER_PHONE "owerPhone",OWER_SEX "owerSex",OWER_IDCARD "owerIdcard",OWER_AGE "owerAge",OWER_STATE "owerState",
-		OWER_BALANCE "owerBalance" from T_OWER where  OWER_STATE=1
+		OWER_BALANCE "balance" from T_OWER where  OWER_STATE=1
 		<if test=" owerAccount!=null and owerAccount!='' and owerPwd!=null and owerPwd!=''">
 			 and OWER_ACCOUNT='${owerAccount}' and OWER_PWD='${owerPwd}'
 		</if>
@@ -48,16 +48,29 @@
 	</update>
 	
 	<select id="carList" parameterType="int" resultType="com.great.bean.Car">
-		select CAR_ID "carId",CAR_COLOR "carColor",to_char(CAR_CDATE,'YYYY-MM-DD') "carCdate",CAR_TYPE "carType" from T_CAR  where OWER_ID=#{_parameter} and CAR_STATE=1
+		select CAR_ID "carId",CAR_COLOR "carColor",to_char(CAR_CDATE,'YYYY-MM-DD') "carCdate",CAR_TYPE "carType" from T_CAR  where OWER_ID=#{_parameter} and CAR_STATE=1 
+	</select>
+	
+	<select id="carTypeneone" parameterType="int" resultType="com.great.bean.Car">
+	select CAR_ID "carId",CAR_COLOR "carColor",to_char(CAR_CDATE,'YYYY-MM-DD') "carCdate",CAR_TYPE "carType" from T_CAR  where OWER_ID=#{_parameter} and CAR_STATE=1 and CAR_TYPE!=1
 	</select>
 	
 	<select id="tranList" parameterType="com.great.bean.Car" resultType="com.great.bean.TranSact">
 		select TRAN_ID "tranId",PACK_ID "packId",CAR_ID "carId",PARK_ID "parkId",to_char(TRAN_STIME,'YYYY-MM-dd hh24:mm') "tranStime",to_char(TRAN_ETIME,'YYYY-MM-dd hh24:mm') "tranEtime" ,TRAN_STATE "tranState"
-		from T_TRANSACT where CAR_ID='${carId}'
+		from T_TRANSACT  where CAR_ID='${carId}' 
 	</select>
 
 	<update id="updateOwerBalance" parameterType="HashMap">
 		  update T_OWER set OWER_BALANCE=OWER_BALANCE+#{money} where  ower_id=#{owerId}
 	</update>
-
+	<update id="addMoney" parameterType="int">
+		 update T_OWER set OWER_BALANCE=OWER_BALANCE+#{1} where  ower_id=#{0}
+	</update>
+	
+	<select id="searchPayNotes" parameterType="com.great.bean.Car" resultType="HashMap">
+		select a.TRAN_ID "tranId",a.PACK_ID "packId",a.CAR_ID "carId",a.PARK_ID "parkId",to_char(a.TRAN_STIME,'YYYY-MM-dd hh24:mm') "tranStime",to_char(a.TRAN_ETIME,'YYYY-MM-dd hh24:mm') "tranEtime" ,a.TRAN_STATE "tranState",
+		b.PACK_COST "packCost" from T_TRANSACT a,T_PACK b where CAR_ID='${carId}' and a.PACK_ID=b.PACK_ID
+	</select>
+	
+	
 </mapper>

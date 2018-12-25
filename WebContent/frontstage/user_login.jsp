@@ -250,9 +250,9 @@ function checkAccount(){
 } */
 /*获取短信验证吗*/
 function getDuanxin(){
-	timer(120);
 	var owerPhone=$("#owerPhone").val();
 	if(owerPhone!=null&&owerPhone!=""){
+		timer(120);
 		if(isPoneAvailable(owerPhone)){
 			$.ajax({
 				type:"post",

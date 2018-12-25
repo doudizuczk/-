@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+   <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -22,11 +22,10 @@
 		<!-- fonticon -->
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/plugins/fonticon/iconfont.css" />
 		<!-- swiper -->
-		<link rel="stylesheet" href="<%=request.getContextPath()%>/userstyle/css/swiper.min.css">
-		<script src="<%=request.getContextPath()%>/userstyle/js/swiper.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/css/swiper.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/js/swiper.min.js"></script>
 		<!-- animate.css -->
-		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/css/animate.css" />
-		<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
 	</head>
 
 	<body class="fadeIn animated">
@@ -135,15 +134,16 @@
 			<h2 class="color-danger f46">
 				我们的目标
 			</h2>
-			<p>没有Bug
+			<p>
 			<marquee onmouseout=this.start() onmouseover=this.stop() behavior="scroll" direction="up" width="850px" height="80px" SCROLLDELAY="320" >
 			<c:forEach items="${tranList}" var="tran">
 			<c:choose>
 			<c:when test="${tran.tranState ne 1}">
-				<h5>${tran.carId} 已套餐已逾期，请及时办理缴费</h5>
+				<h5>套餐逾期车辆${tran.carId}</h5>
 			</c:when>
 			<c:otherwise>
-				<h5>${tran.carId} 套餐截止日期 ${tran.tranEtime}:00</h5>
+				<h5>套餐内车辆 ${tran.carId}</h5>
+				<h5>套餐截止日期 ${tran.tranEtime}:00</h5>
 			</c:otherwise>
 			</c:choose>
 			</c:forEach>

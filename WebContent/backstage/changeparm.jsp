@@ -36,7 +36,7 @@ margin-left: 250px;
  				<th></th>
  				</tr>
  				<tr>
- 					<td>参数编号：</td><td><input value="${parm.parmId-12}" class="form-control" id="parmId" name="parmId" readonly="readonly"><input type="hidden" id="menuId" value="${parm.parmId}"></td>
+ 					<td>参数编号：</td><td><input value="${parm.parmId-12}" class="form-control" id="parmId" name="parmId" onfocus="this.blur();"><input type="hidden" id="menuId" value="${parm.parmId}"></td>
  				</tr>
  				<tr>
  					<td>参数名称：</td><td><input value="${parm.parmName}" class="form-control" id="parmName" name="parmName"></td>
@@ -53,7 +53,7 @@ margin-left: 250px;
  					</td>
  				</tr>
  				<tr>
- 					<td>参数值：</td><td><input value="${parm.parmVal}" class="form-control" readonly="readonly"></td>
+ 					<td>参数值：</td><td><input value="${parm.parmVal}" class="form-control" onfocus="this.blur();"></td>
  				</tr>
  			</tbody>
  		</table>

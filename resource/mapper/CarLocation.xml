@@ -62,7 +62,7 @@
 		select t_car.car_id "carId",park_2did "twoId",ower_name "owerName",t_park.park_id "parkId",park_zone "area",park_x "xCoord",park_y "yCoord",car_color "color",dock_stime "iDate"
 		from t_dock ,t_car,t_park,t_ower
 		where  t_dock.car_id=t_car.car_id and t_dock.park_id=t_park.park_id and t_car.ower_id=t_ower.ower_id
-		and t_car.car_id=#{0}
+		and t_dock.car_id=#{0}
 	</select>
 
 	<select id="getParkIdList" resultType="HashMap">

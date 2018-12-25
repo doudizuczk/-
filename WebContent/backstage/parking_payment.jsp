@@ -27,16 +27,18 @@ function payment(){
 		dataType : 'json',
 		success : function(data) {
 			console.log(data);
-			if (data != '') {
+			if (data != '' && data !=null) {
 				var str="";
 				str+="车牌号："+data.carId+"<br>";
 				str+="入场时间："+data.startTime+"<br>";
 				str+="停车费："+data.cost+"元<br>";
-				str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
+				if(data.cost!=0){
+					str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
+				}
 				
 				$("#show").html(str);
 			} else {
-				alert("缴费信息载入失败！请到柜台缴费");
+				alert("缴费信息载入失败！");
 			}
 		},
 		error : function() {
@@ -50,12 +52,13 @@ function pay(cost,carId){
 	$.ajax({
 		type : "post",
 		url : "<%=request.getContextPath()%>/chargeHander/addCharge.action",
-		data : {"cost" : cost ,"carId" : carId ,"isCash":1},
+		data : {"cost" : cost ,"carId" : carId ,"isCash":1,"type":2},
 		success : function(data) {
 			if (data != '0') {
 				alert("缴费成功！");
 				var str="缴费成功！此次编号："+data;
 				str+="<button onclick='invoice("+data+")'>开发票</button>";
+				$("#show").html(str);
 			} else {
 				alert("缴费失败！");
 			}
@@ -76,7 +79,7 @@ function invoice(chargeId){
 </head>
 <body>
 <input id="carId" name="carId" placeholder="请输入车牌">
-<button onclick="payment()">立即缴费</button>
+<button onclick="payment()">获取该车停车费</button>
 <div id="show"></div>
 <!-- -----------弹窗------------------>
 <button class="btn1">点击我，打开</button>

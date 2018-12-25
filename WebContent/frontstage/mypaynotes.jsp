@@ -32,11 +32,11 @@
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
 	rel="stylesheet">
-<script>
-function comeBack(){
-	window.history.back();
-}
-</script>
+	<script>
+	function comeBack(){
+		window.history.back();
+	}
+	</script>
 </head>
 <body class="pb12 fadeIn animated">
 	<header
@@ -44,23 +44,28 @@ function comeBack(){
 		<div class="ui-header-l fl w5">
 			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
-		<div class="ui-header-c fl f30 w59">我的车辆</div>
+		<div class="ui-header-c fl f30 w59">缴费记录</div>
 		<div class="ui-header-r fr w5">
 			<i class="icon iconfont icon-phone"></i>
 		</div>
 	</header>
-	<br />
-	<hr />
-	<input type="button" value="返回" onClick="comeBack()" id="back">
-	<c:forEach items="${carList}" var="car">
-		<div class="p3 f30" style="line-height:1.8em;">
-		<span class="tag tag-info">${car.carId}</span>
-		<span class="tag tag-success">${car.carCdate}</span>
-		<span class="tag tag-success">${car.carType==1?"临时车辆":(car.carType==2?"月缴车辆":"vip车辆")}</span>
-		<input type="button" onClick="escBangDing('${car.carId}')" value="解绑">
-		</div>
+	<input type="button" value="返回" onClick="comeBack()">
+	<table class="table">
+	<tbody>
+	<tr>
+		<th>缴费对象</th>
+		<th>缴费时间</th>
+		<th>缴费金额</th>
+	</tr>
+	<c:forEach items="${notesList}" var="map">
+		<tr>
+		<td><input type="button" value="${map.carId}"/></td>
+		<td><input type="button" value="${map.tranStime}"/></td>
+		<td><input type="button" value="${map.packCost}"/></td>
+		</tr>
 	</c:forEach>
-		<input type="button" value="新增车辆" id="addCar">
+	</tbody>
+	</table>
 </body>
 <script>
 $("#addCar").click(function(){
