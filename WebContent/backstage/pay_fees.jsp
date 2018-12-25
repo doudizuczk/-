@@ -4,85 +4,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="<%=request.getContextPath()%>/carstyle/js/jquery-1.4.2.js"></script>
-<!---->
+<title>新车闸</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.my-modal.1.1.js"></script>
 <!--win风格-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.my-modal.1.1.winStyle.css" />
-<!---->
-<script type="text/javascript">
-
-//查询停车费用信息
-function payment(){
-	if($("#carId").val()==null || $("#carId").val()==''){
-		alert("输入车牌号为空！");
-		return;
-	}
-	
-	$.ajax({
-		type : "post",
-		url : "<%=request.getContextPath()%>/chargeHander/payment.action",
-		data : {"carId" : $("#carId").val()},
-		dataType : 'json',
-		success : function(data) {
-			console.log(data);
-			if (data != '' && data !=null) {
-				var str="";
-				str+="车牌号："+data.carId+"<br>";
-				str+="入场时间："+data.startTime+"<br>";
-				str+="停车费："+data.cost+"元<br>";
-				if(data.cost!=0){
-					str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
-				}
-				
-				$("#show").html(str);
-			} else {
-				alert("缴费信息载入失败！");
-			}
-		},
-		error : function() {
-			window.alert("未知错误!");
-		}
-	});
-}
-
-//立即缴费
-function pay(cost,carId){
-	$.ajax({
-		type : "post",
-		url : "<%=request.getContextPath()%>/chargeHander/addCharge.action",
-		data : {"cost" : cost ,"carId" : carId ,"isCash":1,"type":2},
-		success : function(data) {
-			if (data != '0') {
-				alert("缴费成功！");
-				var str="缴费成功！此次编号："+data;
-				str+="<button onclick='invoice("+data+")'>开发票</button>";
-				$("#show").html(str);
-			} else {
-				alert("缴费失败！");
-			}
-		},
-		error : function() {
-			window.alert("未知错误!");
-		}
-	});
-}
-
-//开具发票
-function invoice(chargeId){
-	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
-}
-
-</script>
-<title>停车缴费</title>
 </head>
 <body>
-<input id="carId" name="carId" placeholder="请输入车牌">
-<button onclick="payment()">获取该车停车费</button>
-<div id="show"></div>
-<!-- -----------弹窗------------------>
 <button class="btn1">点击我，打开</button>
+<div style="position: absolute;width:1100px;height:600px;left:50%;top:50%;margin-left:-550px;margin-top:-300px;border:1px solid #00F;">
+<div style="float: left;width: 45%;height: 100%;">
+    <div>出口</div>
+      车牌号 : <div id="oCarId"></div><br>
+      类型 : <div id="oCarTypes"></div><br>
+      入库时间: <div id="oStarTime"></div><br>
+     应缴金额: <div id="oCost"></div><br>
+</div>
+<!-- -----------弹窗------------------>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">
 			<div class="m-modal-dialog" style="width: 25%">
 				<div class="m-top">
@@ -118,7 +57,8 @@ function invoice(chargeId){
 			</div>
 </div>
 <!-- ----------------------------->
-</body>
+</div>
+<!-- 缴费 -->
 <script>
 	var m1 = new MyModal.modal(function() {
 		backdrop: 'static';
@@ -128,8 +68,9 @@ function invoice(chargeId){
 	$('.btn1').on("click", function() {
 		m1.show();
 	});
+	
 </script>
-<!------------------------------->
+<!--  -->
 <script type="text/javascript">
 var source;
 if (!!window.EventSource) {
@@ -161,4 +102,7 @@ if (!!window.EventSource) {
             console.log("没有sse");
     }
 </script>
+</body>
+<script>
+  </script>
 </html>
