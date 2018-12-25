@@ -62,6 +62,21 @@ public class OwerServiceImpl implements IOwerService {
 		// TODO Auto-generated method stub
 		return owerMapper.tranList(car);
 	}
+	@Override
+	public int addMoney(int owerId, int balance) {
+		// TODO Auto-generated method stub
+		return owerMapper.addMoney(owerId, balance);
+	}
+	@Override
+	public Map<String, Object> searchPayNotes(Car car) {
+		// TODO Auto-generated method stub
+		return owerMapper.searchPayNotes(car);
+	}
+	@Override
+	public List<Car> carTypeneone(int owerId) {
+		// TODO Auto-generated method stub
+		return owerMapper.carTypeneone(owerId);
+	}
 
 
 }

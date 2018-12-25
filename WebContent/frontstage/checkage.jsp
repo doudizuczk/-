@@ -27,35 +27,59 @@
 <!-- animate.css -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
 	rel="stylesheet">
+<style>
+.se2{
+    width:100px;
+    height:36px;
+    position:absolute;
+    top:200px;
+    left:100px;
+    z-index: 1;
+    opacity: 0;
+}
+.se1{
+    width:100px;
+    height:36px;
+    font-size:16px;
+    color:#fff;
+    background: #28abde;
+    border-radius:5px;
+    position:absolute;
+    top:200px;
+    left:100px;
+}
+.se1:hover{
+    cursor: pointer;
+}
+</style>
 </head>
-
 <body class="pb12 fadeIn animated">
 	<header
 		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
 		<div class="ui-header-l fl w5">
-			<a href="user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
+			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
 		<div class="ui-header-c fl f30 w59">实名认证</div>
 		<div class="ui-header-r fr w5">
 			<i class="icon iconfont icon-phone"></i>
 		</div>
 	</header>
-	<br />
-	<hr />
 	<div>
-		<input type="file" id="IDcard" onchange="viewImage(this)"
-			value="请选择身份证照片" capture="camera" accept="img/*"><input type="button" value="提交"
-			onClick="up()">
+		<input type="file" capture="camera" accept="image/*" id="IDcard" onchange="viewImage(this)" class="se2">
+		<label for="IDcard" class="label">
+        <input class="se1" type="button" value="上传身份证" />
+		</label><input type="button" value="提交" onClick="up()" id="myBtn">
 	</div>
 	<div id="localImag">
 		<img id="preview" width=-1 height=-1 style="diplay: none;" /> <input
 			type="hidden" value="${sessionScope.loginOwer.owerId}" id="owerId"
 			name="owerId">
 	</div>
-
+	
 </body>
 <script>
 function viewImage(file) {

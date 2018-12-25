@@ -62,7 +62,7 @@
 					</a>
 				</li> 
 				<li class="bg-color8 clearfix">
-					<a href="<%=request.getContextPath()%>/frontstage/myaccount.jsp">
+					<a href="<%=request.getContextPath()%>/owerHandler/toMyCount.action?owerId=${sessionScope.loginOwer.owerId}">
 						<p class="w15 t-c fl">
 							<i class="icon iconfont icon-cartfill f42 color-danger"></i>
 						</p>
@@ -95,7 +95,7 @@
 					</a>
 				</li> 
 				<li class="bg-color8 clearfix">
-					<a href="">
+					<a href="<%=request.getContextPath()%>/owerHandler/searchPayNotes.action">
 						<p class="w15 t-c fl">
 							<i class="icon iconfont icon-iconfontliebiao1copy f42 color-info"></i>
 						</p>

@@ -54,12 +54,31 @@ function halfyear(){
 	$("#weeks").hide();
 	$("#mouths").hide();
 	$("#threemouths").show();
+};
+function report(){
+	var type=$("#myreport").val();
+	if(type==1){
+		window.location="<%=request.getContextPath()%>/aisTran/getCountExcel.action";
+	}else if(type==2){
+		window.location="<%=request.getContextPath()%>/aisTran/getCountmouthExcel.action";
+	}else if(type==3){
+		window.location="<%=request.getContextPath()%>/aisTran/getsixMouthExcel.action";
+	}else{
+		alert("请选择报表类型");
+	}
 }
 </script>
 </head>
 <body>
 <div>
 	<input type="button" value="周统计" id="week" onClick="weekt()"><input type="button" value="月统计" id="mouth" onClick="moutht()" ><input type="button" value="季度统计" id="threemouth" onClick="halfyear()">
+	<input type="button" value="统计报表">
+	<select id="myreport" onchange="report()">
+	<option value="">请选择</option>
+	<option value="1">周统计报表</option>
+	<option value="2">月统计报表</option>
+	<option value="3">近半年统计报表</option>
+	</select>
 </div>
 <div id="weeks">
 <table style="display:none">

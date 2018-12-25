@@ -289,5 +289,46 @@ public class OwerHandler {
 			model.setViewName("forward:/frontstage/user_main.jsp");
 			return model;
 		}
+		//充值
+		@RequestMapping(value="/addMoney.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+		public @ResponseBody String addMoney(@RequestParam(value = "owerId", required = true, defaultValue = "0")int owerId,@RequestParam(value = "balance", required = true, defaultValue = "0")int balance) {
+			System.out.println("id="+owerId);
+			System.out.println("金额="+balance);
+			int count=owerService.addMoney(owerId, balance);
+			if(count>0) {
+				return "1";
+			}else {
+				return "0";
+			}
+		}
+		//跳转到我的账户
+		@RequestMapping(value="/toMyCount.action")
+		public ModelAndView toMyCount(@RequestParam(value = "owerId", required = true, defaultValue = "0")int owerId) {
+			ModelAndView model=new ModelAndView();
+			Ower ower=new Ower();
+			ower.setOwerId(owerId);
+			Ower owers=owerService.owerLogin(ower);
+			model.addObject("owers", owers);
+			model.setViewName("forward:/frontstage/myaccount.jsp");
+			return model;
+		}
+		//缴费查询
+		@RequestMapping(value="/searchPayNotes.action")
+		public ModelAndView searchPayNotes(HttpServletRequest request) {
+			ModelAndView model=new ModelAndView();
+			HttpSession session=request.getSession();
+			Ower ower=(Ower)session.getAttribute("loginOwer");
+			int owerId=ower.getOwerId();//获取到登陆用户的id
+			List<Car> carList=owerService.carTypeneone(owerId);
+			List<Map<String,Object>> notesList=new ArrayList<>();
+			for(Car car:carList) {
+				Map map=new HashMap();
+				map=owerService.searchPayNotes(car);
+				notesList.add(map);
+			}
+			model.addObject("notesList", notesList);
+			model.setViewName("forward:/frontstage/mypaynotes.jsp");
+			return model;
+		}
 
 }
