@@ -49,6 +49,9 @@
 			dataType:"json",
 			success:function(data){
 				console.log(data);
+				if(data[0].owerName==null){
+					data[0].owerName='未绑定';
+				}
 				var msg="";
 				msg+="<tr><td>"+data[0].carId+"</td><td>"+data[0].owerName+"</td><td>"+data[0].parkId+"</td><td>"+data[0].area+"</td><td>"+data[0].color+"</td><td>"+data[0].iDate+"</td></tr>";	
 				xCoords=data[0].xCoord;

@@ -38,6 +38,7 @@
 	  </tbody>
 	</table>
 	<button type="button" class="btn btn-default" onclick="beforePage()">上一页</button>
+	<p></p>
 	<button type="button" class="btn btn-default" onclick="nextPage()">下一页</button>
 </body>	
 	<script>
