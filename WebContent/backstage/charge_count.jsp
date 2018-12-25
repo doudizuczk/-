@@ -58,10 +58,14 @@ function quarterShow(){
 <body>
 <input type="button" id="" value="周统计" onclick="weekShow()"/>
 <input type="button" id="" value="月统计" onclick="mouthShow()"/>
-<input type="button" id="" value="季度统计 " onclick="quarterShow()"/>
+<input type="button" id="" value="近半年统计 " onclick="quarterShow()"/>
+<select>
+<option value=1>周统计</option>
+<option value=2>月统计</option>
+<option value=3>近半年统计</option>
+</select><input type="button" value="导出EXCEL">
 <div id="week" style="margin-left:auto; margin-right:auto">
 <table style="display:none">
-
 	<caption>周缴费统计</caption>
 	<thead>
 		<tr>
