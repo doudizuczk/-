@@ -71,6 +71,7 @@ public class TransactServiceImpl implements ITransactService {
 	@Override//<----------------------------------------------算退费金额----------------------------------------------------------------->
 	public String refund(String carId) {
 		TranSact tran = new TranSact();
+		tran.setTranState(1);
 		tran.setCarId(carId);
 		List<Map<String,Object>> tranList = transactMapper.CidQueryTransact(tran);//根据车牌号查套餐
 		String escDate =  (String) tranList.get(0).get("TRAN_ETIME");//获得该套餐结束时间
@@ -134,7 +135,7 @@ public class TransactServiceImpl implements ITransactService {
 			//直接办理
 			int a =addTransact(packId,carId,null);
 			if(a==1) {
-				addState=1;//返回1代表办理成功
+				addState=1;//返回1代表办理成功//*
 			}
 		}else {//办理过套餐，且套餐正在使用。tranState=2
 			
@@ -212,5 +213,78 @@ public class TransactServiceImpl implements ITransactService {
 	}
 	return add;
 	}
+	//======================================================新建，续费，更改===========================================================================================//
+
+	@Override
+	public Map<String, Object> addpackTran(String carId,int packId,int payType) {
+		// TODO Auto-generated method stub
+		//直接办理
+		Pack pack = new Pack();
+		pack.setPackId(packId);
+		List<Map<String,Object>> list =packMapper.queryPackList(pack);
+		Integer type =Integer.parseInt( list.get(0).get("PACK_TYPE").toString());//获得套餐月数
+		if(type==1) {
+			carMapper.updateCarType(carId);//更改车辆状态月缴
+		}
+		if(type==2) {
+			carMapper.updateCarType3(carId);//白名单
+		}
+		
+		int a =addTransact(packId,carId,null);
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", a);
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> RenewalPackTran(String carId,int packId,int payType) {
+		// TODO Auto-generated method stub
+		
+		TranSact tran = new TranSact();
+		tran.setCarId(carId);
+		tran.setTranState(1);
+		List<Map<String,Object>> list = transactMapper.CidQueryTransact(tran);//--查办理状态为1=启用，和车牌=carid 的套餐办理表
+		
+		String updateTime ="";//续费---续结束时间
+		Pack pack = new Pack();
+		pack.setPackId(packId);
+		List<Map<String,Object>> packlist = packMapper.queryPackList(pack);//id查套餐套餐
+		Integer month =Integer.parseInt( packlist.get(0).get("PACK_TIME").toString());//获得套餐月数
+		String escDate =  (String) list.get(0).get("TRAN_ETIME");//获得当前套餐结束时间
+		updateTime = addOneDay(escDate,month*30);//修改结束日期为此日期
+		TranSact tranSact = new TranSact();
+		tranSact.setCarId(carId);
+		tranSact.setTranEtime(updateTime);
+		int v = transactMapper.updateTransactTime(tranSact);
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", v);
+		
+		return map;
+	}
+	@Override
+	public Map<String, Object> changePackTran(String carId,int packId,int payType) {
+		// TODO Auto-generated method stub
+		String maney = "";//退款金额
+		int refundState = 0;//车牌退费退费的方式，  返回1=余额退款  2=现金退款
+		maney = refund(carId);
+		String CNY = maney;
+		Double money = Double.parseDouble(CNY);
+		refundState = this.refundMoney(carId,money);//车牌退费退费的方法，返回1=余额退款  2=现金退款
+		int a =addTransact(packId,carId,null);
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", a);
+		map.put("refundState", refundState);
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

@@ -24,5 +24,7 @@ public interface OwerMapper {
 	public List<Car> carTypeneone(int owerId);//手机端查询非临时车辆缴费
 
 	public int updateOwerBalance(Map<String,Object> map);//退钱给用户余额
+	
+	public Map<String,Object>CarQueryOwer(String Car);
 
 }

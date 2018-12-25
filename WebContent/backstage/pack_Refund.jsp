@@ -34,9 +34,6 @@ $().ready(function(){
    	     },
    	  submitHandler: function(form) { CarIdSelectTransact(); }
    })	
-/*    $("#carId").blur(function() { 
-  	 alert(222222222)
-   }); */
 });
 var transact;//接收套餐MAp和退费金额
 //车辆id查套餐
@@ -50,41 +47,44 @@ var str ="";
 		dataType:"json",
 		success:function(data){
 			transact=data;
-			console.log("id查询套餐成功！"+data.tran.TRAN_STATE)
-			str+="<tr>";
-			str+="<td>套餐时长:</td>";
-			str+="<td>"+data.tran.PACK_TIME+"/个月("+data.tran.PACK_TIME*30+"天)</td>";
-			str+="</tr>";
-			str+="<tr>";
-			str+="<td>套餐费用:</td>";
-			str+="<td>"+data.tran.PACK_COST+"/元(人民币)</td>";
-			str+="</tr>";
-
-			str+="<td>开始时间</td>";
-			str+="<td>"+data.tran.TRAN_STIME+"</td>";
-			str+="</tr>";
-			str+="<tr>";
-			str+="<td>结束时间</td>";
-			str+="<td>"+data.tran.TRAN_ETIME+"</td>";
-			str+="</tr>";
-			
-			if(data.tran.TRAN_STATE=="1"){
-				console.log("data.tran.TRAN_STATE=="+data.tran.TRAN_STATE)
+			if(data.rstState==1){
+				console.log("id查询套餐成功！"+data.tran.TRAN_STATE)
 				str+="<tr>";
-				str+="<td>可退金额</td>";
-				str+="<td>"+data.money+"/元(人民币)</td>";
+				str+="<td>套餐时长:</td>";
+				str+="<td>"+data.tran.PACK_TIME+"/个月("+data.tran.PACK_TIME*30+"天)</td>";
 				str+="</tr>";
+				str+="<tr>";
+				str+="<td>套餐费用:</td>";
+				str+="<td>"+data.tran.PACK_COST+"/元(人民币)</td>";
+				str+="</tr>";
+	
+				str+="<td>开始时间</td>";
+				str+="<td>"+data.tran.TRAN_STIME+"</td>";
+				str+="</tr>";
+				str+="<tr>";
+				str+="<td>结束时间</td>";
+				str+="<td>"+data.tran.TRAN_ETIME+"</td>";
+				str+="</tr>";
+				
+				if(data.tran.TRAN_STATE=="1"){
+					console.log("data.tran.TRAN_STATE=="+data.tran.TRAN_STATE)
+					str+="<tr>";
+					str+="<td>可退金额</td>";
+					str+="<td>"+data.money+"/元(人民币)</td>";
+					str+="</tr>";
+				}else{
+					str+="<tr>";
+					str+="<td>可退金额</td>";
+					str+="<td>套餐已经过期，暂无可退金额</td>";
+					str+="</tr>";
+				}
 			}else{
-				str+="<tr>";
-				str+="<td>可退金额</td>";
-				str+="<td>套餐已经过期，暂无可退金额</td>";
-				str+="</tr>";
+			window.alert("该车没有办理任何套餐");
 			}
 			
 			 $("#packTbody").html(str); //回填列表
 		},
 		error:function(){
-			window.alert("该车没有办理任何套餐");
 		}
 	})
 }
@@ -102,7 +102,7 @@ function check_licensePlate() {
 
 var path="<%=request.getContextPath()%>";
 function yesbut(){
-	if(transact.tran.TRAN_STATE!="1"){
+	if(transact.rstState!="1"){
 		alert("不可退费!");
 		return;
 	}
