@@ -12,14 +12,16 @@ public class CarInfo {
 	private Integer twoId;//该车位的模型ID
 	private String color;//该车位的颜色
 	private String iDate;//该车位 的入库时间
+	private String picture;//该车位的停靠车辆的图片
 	
 	
 	public CarInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public CarInfo(String carId, String owerName, Integer parkId, String area, String xCoord, String yCoord,
-			Integer twoId, String color, String iDate) {
+			Integer twoId, String color, String iDate, String picture) {
 		super();
 		this.carId = carId;
 		this.owerName = owerName;
@@ -30,7 +32,17 @@ public class CarInfo {
 		this.twoId = twoId;
 		this.color = color;
 		this.iDate = iDate;
+		this.picture = picture;
 	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 	public String getCarId() {
 		return carId;
 	}
@@ -88,13 +100,13 @@ public class CarInfo {
 	public void setTwoId(Integer twoId) {
 		this.twoId = twoId;
 	}
+
 	@Override
 	public String toString() {
 		return "CarInfo [carId=" + carId + ", owerName=" + owerName + ", parkId=" + parkId + ", area=" + area
 				+ ", xCoord=" + xCoord + ", yCoord=" + yCoord + ", twoId=" + twoId + ", color=" + color + ", iDate="
-				+ iDate + "]";
+				+ iDate + ", picture=" + picture + "]";
 	}
-	
 	
 
 }

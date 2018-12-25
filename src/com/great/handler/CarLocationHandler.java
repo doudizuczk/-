@@ -125,4 +125,10 @@ public class CarLocationHandler {
 		return mav; 
 		
 	}
+	//根据房间模型查取该车位的停靠车辆详细信息
+	@RequestMapping(value="/getDetil.action")
+	public @ResponseBody List<CarInfo> getDetil(Integer modelId){
+		List<CarInfo> list=carLocationServiceImpl.getDetil(40864);
+		return list;
+	}
 }
