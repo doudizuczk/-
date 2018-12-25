@@ -33,17 +33,16 @@
 <link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
 	rel="stylesheet">
 <script>
-	function escCarPark(carId) {
-
-	};
+function comeBack(){
+	window.history.back();
+}
 </script>
 </head>
 <body class="pb12 fadeIn animated">
 	<header
 		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
 		<div class="ui-header-l fl w5">
-			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp"
-				class="icon color8 iconfont icon-home_light"></a>
+			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
 		<div class="ui-header-c fl f30 w59">我的车辆</div>
 		<div class="ui-header-r fr w5">
@@ -52,6 +51,7 @@
 	</header>
 	<br />
 	<hr />
+	<input type="button" value="返回" onClick="comeBack()" id="back">
 	<c:forEach items="${carList}" var="car">
 		<div class="p3 f30" style="line-height:1.8em;">
 		<span class="tag tag-info">${car.carId}</span>

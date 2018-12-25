@@ -17,18 +17,36 @@
     <div style="height: 50px;width: 60%;margin: 0 auto;">
     <form>
 	<input type="file" capture="camera" accept="image/*" id="photo" name="photo" class="form-control" onchange="viewImage(this)">
-	<button  type="button" onclick="updatePhoto()" class="btn btn-info btn-small">进入</button>
+	<button  type="button" onclick="updatePhoto()" class="btn btn-info btn-small">进入</button><br><br>
+	<button  type="button" onclick="updateGetOutPhoto()" class="btn btn-info btn-small">进入2</button><br>
 	</form>	
     </div>
 </body>
 <script>
+//出场上传图片
+function updateGetOutPhoto(){
+	alert("上传图片");
+	var Form = new FormData();
+	Form.append('img', document.getElementById("photo").files[0]);
+	$.ajax({
+		url: "<%=request.getContextPath()%>/sse/updateGetOutPhoto.action",
+		type:"POST",
+		data:Form,
+		contentType: false,
+	    processData: false,
+		dataType:"json",
+		success : function(data){
+			alert("0000000000");
+		}
+	})
+}
 //上传图片
 function updatePhoto(){
 	alert("上传图片");
 	var Form = new FormData();
 	Form.append('img', document.getElementById("photo").files[0]);
 	$.ajax({
-		url: "<%=request.getContextPath()%>/updatePhoto.action",
+		url: "<%=request.getContextPath()%>/sse/updatePhoto.action",
 		type:"POST",
 		data:Form,
 		contentType: false,

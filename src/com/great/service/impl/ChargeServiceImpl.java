@@ -57,13 +57,16 @@ public class ChargeServiceImpl implements IChargeService {
 	@Override
 	public int addCharge(Charge charge) {
 		// TODO Auto-generated method stub
+		
+		//插入收费记录
 		int seq=chargeMapper.getChargeSeq();
 		charge.setChargeId(seq);
-		int count=chargeMapper.addCharge(charge);
-		if (count>0) {
-			return seq;
-		}
-		return 0;
+		chargeMapper.addCharge(charge);
+		
+		//插入停靠表的出场时间
+		dockMapper.updateDockETime(charge.getCarId());
+		
+		return seq;
 	}
 	
 	//停车计费接口
@@ -73,6 +76,7 @@ public class ChargeServiceImpl implements IChargeService {
 		Dock temp=new Dock();
 		temp.setCarId(carId);
 		temp.setState(1);
+		
 		Dock dock=dockMapper.queryDock(temp).get(0);
 		
 		String dockSTime=dock.getStartTime();
@@ -89,8 +93,10 @@ public class ChargeServiceImpl implements IChargeService {
 			if (dockETime!=null) {
 				Date dockEDate = df.parse(dockETime);
 				Long lateTime=(long) (20*60*1000);
-				if ((now.getTime()-dockEDate.getTime())>lateTime) {
+				if ((now.getTime()-dockEDate.getTime())>lateTime) {//超时
 					dockSDate=new Date(dockEDate.getTime()+lateTime);
+				}else {//未超时直接显示0元
+					return 0;
 				}
 			}
 		

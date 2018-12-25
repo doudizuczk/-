@@ -19,6 +19,9 @@ public interface OwerMapper {
 	public int changeMeans(Ower ower);//编辑个人资料
 	public List<Car> carList(int owerId);//查询登录用户的车辆
 	public TranSact tranList(Car car);//根据车辆查车辆办的套餐
+	public int addMoney(int owerId,int balance);//用户充值余额
+	public Map<String,Object> searchPayNotes(Car car);//缴费记录
+	public List<Car> carTypeneone(int owerId);//手机端查询非临时车辆缴费
 
 	public int updateOwerBalance(Map<String,Object> map);//退钱给用户余额
 	

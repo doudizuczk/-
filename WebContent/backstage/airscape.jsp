@@ -119,6 +119,8 @@
     var clickCount = 0;
     var floorControl;
     var mapCoord = null;
+    var twoList=new Array();//存放禁用车位2did
+	var threeList=new Array();//存放禁用车位3did
     window.onload = function () {
       if (navi) {
         navi.stop();
@@ -156,8 +158,6 @@
       //地图加载完成回调
       map.on('loadComplete', function () {
     	var forbidList=${forbidList};//取到的被禁用的列表
-    	var twoList=new Array();//存放禁用车位2did
-    	var threeList=new Array();//存放禁用车位3did
     	console.log(forbidList);
     	for(var i=0;i<forbidList.length;i++){
     		var a=forbidList[i];
@@ -179,7 +179,36 @@
       var h = 1;
       //点击地图事件。开始选点开始后，点击地图一次为起点，第二次点击为终点
       map.on('mapClickNode', function (event) {
-    	  console.log(event);
+    	//点击房间模型，获取该车位车辆详情
+    	if(event.nodeType==esmap.ESNodeType.MODEL){
+    		var flag=false;//标志符
+    		var modelId;//获取到的房间id
+    		for(var i=0;i<twoList.length;i++){
+    			if(event.ID==twoList[i]){
+    				modelId=event.ID;
+    				flag=true;
+    			}
+    		}
+    		if(flag){
+    			$.ajax({
+    				type:"post",
+    				url:"<%=request.getContextPath()%>/carLocation/getDetil.action",
+    				dataType:"json",
+    				data:{"modelId":modelId},
+    				success:function(data){
+    					console.log(data);
+    					//成功后进入到图片添加界面
+    					if(data!=null&&data!=''){
+    						window.location.href="<%=request.getContextPath()%>/backstage/detilpages.jsp?carId="+data[0].carId+"&ower"
+    								+data[0].owerName+"&carLocationId"+data[0].parkId+"&area"+data[0].area+"&inTime"+data[0].iDate+"&picture"+data[0].file;
+    					}
+    				}
+    			})
+    		}else{
+    			window.alert("此车为没有停车！")
+    		}
+    
+    	}
         if (event.nodeType == 4) {
           curfnum = event.floor;
           h = 1;
@@ -211,7 +240,7 @@
           }
 
           //第一次点击添加起点
-		 
+		 /*
           if (clickCount == 0) {
             lastCoord = coord;
             navi.setStartPoint({
@@ -236,9 +265,10 @@
               url: 'image/end.png',
               size: 64
             });
+            
             // 画导航线
             navi.drawNaviLine();
-          }
+          }*/
           clickCount++;
         }
         curfnum = null;

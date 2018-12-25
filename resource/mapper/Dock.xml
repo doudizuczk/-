@@ -21,4 +21,7 @@
 	<update id="updateDockState" parameterType="Map">
 	 update t_dock set dock_etime=sysdate,dock_state=#{dockState} where car_id=#{carId} and dock_state=1
 	</update>
+	<update id="updateDockETime" parameterType="java.lang.String">
+	 update t_dock set dock_etime=sysdate where car_id=#{carId} and dock_state=1
+	</update>
 </mapper>
