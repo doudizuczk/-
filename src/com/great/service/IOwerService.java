@@ -18,4 +18,5 @@ public interface IOwerService {
 	public int changeMeans(Ower ower);//编辑个人资料
 	public List<Car> carList(int owerId);//查询登录用户的车辆
 	public TranSact tranList(Car car);//根据车辆查车辆办的套餐
+	
 }

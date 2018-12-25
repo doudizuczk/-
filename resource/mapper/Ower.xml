@@ -59,5 +59,9 @@
 	<update id="updateOwerBalance" parameterType="HashMap">
 		  update T_OWER set OWER_BALANCE=OWER_BALANCE+#{money} where  ower_id=#{owerId}
 	</update>
+	
+	<select id="CarQueryOwer" parameterType="String" resultType="HashMap">
+		  select OWER_ACCOUNT,OWER_BALANCE  from T_Ower o ,t_car t where t.CAR_ID =#{0} and o.OWER_ID = t.OWER_ID
+	</select>
 
 </mapper>

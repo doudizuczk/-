@@ -55,4 +55,11 @@
 	<update id="changeCarType" parameterType="java.lang.String">
 		update T_CAR set CAR_TYPE=1 where CAR_ID=#{carId}
 	</update>
+	<update id="updateCarType" parameterType="String">
+		update T_CAR set CAR_TYPE=2 where CAR_ID=#{0}
+	</update>
+	<update id="updateCarType3" parameterType="String">
+		update T_CAR set CAR_TYPE=3 where CAR_ID=#{0}
+	</update>
+	
 </mapper>

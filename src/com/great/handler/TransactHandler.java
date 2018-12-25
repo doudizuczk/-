@@ -21,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.great.bean.Pack;
 import com.great.bean.TranSact;
+import com.great.mapper.CarMapper;
+import com.great.mapper.OwerMapper;
 import com.great.service.IPackService;
 import com.great.service.IParmService;
 import com.great.service.ITransactService;
@@ -43,6 +45,10 @@ public class TransactHandler {
 	@Autowired
 	@Qualifier("transactServiceImpl")
 	private ITransactService transactService;
+	@Autowired
+	private OwerMapper owerMapper;
+	@Autowired
+	private CarMapper carMapper;
 	
 	//CZK-菜单点击套餐办理页面跳转
 	@RequestMapping(value = "/pack_transact.action")
@@ -77,13 +83,20 @@ public class TransactHandler {
 	//czk-输入车牌查看返回套餐办理表数据
 	@RequestMapping(value = "/CarIdSelectTransact.action")
 	public@ResponseBody Map<String,Object> CarIdSelectTransact(HttpServletRequest request ) {
+		int rstState = 0;
+		String money = "";
 		String carId = request.getParameter("carId");
 		TranSact tran = new TranSact();
+		tran.setTranState(1);
 		tran.setCarId(carId);
 		List<Map<String,Object>> tranList = transactService.CidQueryTransact(tran);//根据车牌号查套餐
-		String money = transactService.refund(carId);
 		Map<String, Object> dates=new HashMap<String, Object>();
-		dates.put("tran", tranList.get(0));//返回套餐办理表 的数据
+		if(tranList.size()>0) {
+			 money = transactService.refund(carId);
+			rstState=1;
+			dates.put("tran", tranList.get(0));//返回套餐办理表 的数据
+		}
+		dates.put("rstState", rstState);
 		dates.put("money", money);//可退金额
 		return dates;
 	}
@@ -113,6 +126,76 @@ public class TransactHandler {
 		Map<String,Object> add = transactService.carIdTransactPack(carID, packId);
 		
 		return add;
+	}
+	//==========================================================================================================================
+	//czk-2-套餐办理输入车牌查看返回套餐办理表数据
+	@RequestMapping(value = "/CarIdSelectPack2.action")
+	public@ResponseBody Map<String,Object> CarIdSelectPack(HttpServletRequest request ) {
+		int rstState = 0;//是否有套餐
+		int owerState = 0;//车牌是否绑定用户
+		String money = "";
+		String carId = request.getParameter("carId");
+		TranSact tran = new TranSact();
+		tran.setTranState(1);
+		tran.setCarId(carId);
+		List<Map<String,Object>> tranList = transactService.CidQueryTransact(tran);//根据车牌号查套餐
+		
+		List<Map<String,Object>> typePack= parmService.IdQueryParmName(9);//套餐类型列表
+		Map<String, Object> dates=new HashMap<String, Object>();
+		Map<String,Object> owerMoney= owerMapper.CarQueryOwer(carId);//carID查用户余额
+		if(owerMoney!=null) {
+			owerState=1;
+			dates.put("owerMoney", owerMoney);
+		}
+		
+		if(tranList.size()>0) {
+			 money = transactService.refund(carId);//车牌查套餐算天数算退费金额
+			rstState=1;
+			dates.put("tran", tranList.get(0));//返回套餐办理表 的数据
+		}
+		
+		dates.put("TypePack", typePack);
+		dates.put("rstState", rstState);
+		dates.put("owerState", owerState);
+		dates.put("money", money);//可退金额
+		return dates;
+	}
+	//czk-办理页套餐类型改变事件返回套餐列表
+	@RequestMapping(value = "/SelectTypeChange2.action")
+	public@ResponseBody Map<String,Object> SelectTypeChange2(HttpServletRequest request ) {//pageCurr不能为空，并初始化
+		Integer typeId = Integer.parseInt(request.getParameter("packType"));
+		Pack pack = new Pack();
+		pack.setPackType(typeId);
+		List<Map<String,Object>> packList = packService.queryPackList(pack);
+		
+		Map<String, Object> dates=new HashMap<String, Object>();
+		dates.put("packList", packList);
+		return dates;
+	}
+	//============================================================================================================================
+	//czk-确认支付后办理套餐
+	@RequestMapping(value = "/confirmPay.action")
+	public@ResponseBody Map<String,Object> confirmPay(HttpServletRequest request ) {//pageCurr不能为空，并初始化
+		Integer PackTranPyte = Integer.parseInt(request.getParameter("PackTranPyte"));//办理类型--1，新办  2，续费    3，更改
+		Integer payType = Integer.parseInt(request.getParameter("payType"));//支付方式---1，余额  2，现金   3，第三方
+		Integer packId = Integer.parseInt(request.getParameter("packId"));//套餐id
+		String carId = request.getParameter("carId");//车牌
+		List<Map<String,Object>> y = carMapper.selectCarById(carId);
+		if(y.size()==0) {
+			int t = carMapper.createCarWithNewUser(carId);
+		}
+		Map<String,Object> map = null;
+		if(PackTranPyte==1) {//新建套餐
+			 map =transactService.addpackTran(carId, packId,payType);
+		}else if(PackTranPyte==2) {//续费
+			map=transactService.RenewalPackTran(carId, packId, payType);
+		}else if(PackTranPyte==3) {//更改
+			map=transactService.changePackTran(carId, packId, payType);
+		}
+		
+		Map<String, Object> dates=new HashMap<String, Object>();
+		dates.put("map", map);
+		return dates;
 	}
 	
 

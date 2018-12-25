@@ -16,4 +16,6 @@ public interface PackMapper {
 	public int addPackAtt(Pack p);//添加套餐属性
 	
 	public List<Map<String,Object>>addQueryPackExist(Pack a );//添加套餐查存在
+	
+	
 }

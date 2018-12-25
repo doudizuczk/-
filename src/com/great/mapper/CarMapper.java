@@ -22,5 +22,9 @@ public interface CarMapper {
 
 	public Map<String,Object> carIdQueryCar(String carId);//根据车牌查车辆信息
 	
+	public int updateCarType(String carId);//更改车辆状态=2月缴
+	
+	public int updateCarType3(String carId);//更改车辆状态=3vip
+	
 
 }

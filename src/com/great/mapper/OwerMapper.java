@@ -21,5 +21,7 @@ public interface OwerMapper {
 	public TranSact tranList(Car car);//根据车辆查车辆办的套餐
 
 	public int updateOwerBalance(Map<String,Object> map);//退钱给用户余额
+	
+	public Map<String,Object>CarQueryOwer(String Car);
 
 }
