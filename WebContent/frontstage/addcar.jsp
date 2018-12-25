@@ -43,14 +43,27 @@
 		<input type="button" value="车牌号" class="btn btn-primary">:<input id="carId" name="carId" class="input"><br>
 		<input type="button" value="车辆颜色" class="btn btn-primary">:<input id="carColor" name="carColor" class="input"><br>
 		<input type="button" value="确定" class="btn btn-primary" id="confirm" onClick="addMyCar()" ><input type="button" value="取消" class="btn btn-primary" id="cancel">
+		<input type="button" value="返回" onClick="comeBack()">
 		</form>
 	</body>
 	<script>
+	function comeBack(){
+		window.history.back();
+	}
+	/*车牌验证*/
+	function isVehicleNumber(vehicleNumber) {
+	      var result = false;
+	      if (vehicleNumber.length == 7){
+	        var express = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
+	        result = express.test(vehicleNumber);
+	      }
+	      return result;
+	  };
 	function addMyCar(){
-		console.log("提交哦啊哦");
 		var carId=$("#carId").val();
 		var carColor=$("#carColor").val();
 		var owerId=$("#owerId").val();
+		if(isVehicleNumber(carId)){
 		$.ajax({
 			type:"post",
 			url:"<%=request.getContextPath()%>/owerHandler/addCars.action",
@@ -67,6 +80,9 @@
 				}
 			}
 		});
+		}else{
+			alert("请输入正确的车牌号");
+		}
 	};
 	</script>
 <style>

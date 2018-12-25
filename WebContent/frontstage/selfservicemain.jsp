@@ -44,6 +44,7 @@ $(function () {
 			return;
 		}
 		$("#curCar").text($("#carId").val());
+		$("#show").html("");
 	});
 	
 });
@@ -94,8 +95,9 @@ function payment(){
 				str+="车牌号："+data.carId+"<br>";
 				str+="入场时间："+data.startTime+"<br>";
 				str+="停车费："+data.cost+"元<br>";
-				str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
-				
+				if(data.cost!=0){
+					str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
+				}
 				$("#show").html(str);
 			} else {
 				alert("缴费信息载入失败！请到柜台缴费");
@@ -167,7 +169,7 @@ function invoice(chargeId){
 							<li class="nav2"><a href="#" onclick="payment()">自助缴费</a></li>
 							<li class="nav3"><a href="<%=request.getContextPath()%>/transact/pack_transact.action" >月缴办理</a></li>
 							<li class="nav4"><a href="#" >车辆信息</a></li>
-							<li class="nav5"><a href="#" >我是车主</a></li>
+							<li class="nav5"><a href="<%=request.getContextPath()%>/carLocation/toSearchCar.action" >反向寻车</a></li>
 						</ul>
 					</nav>
 				</header>

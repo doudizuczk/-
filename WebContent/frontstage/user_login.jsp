@@ -20,7 +20,7 @@
 	href="<%=request.getContextPath()%>/userstyle/css/styles.css">
 <script>
 $().ready(function(){
-	$("#registerBtn").attr("disabled","true");
+	$("#registerBtn").attr("disabled",true);
 	$("#loginForm").validate({
    	 rules: {
    		owerAccount: {
@@ -149,7 +149,7 @@ function checkAccount(){
 		success:function(data){
 			if(data=="1"){
 				$("#errorMess").text("可以使用该帐号");
-				$("#registerBtn").remove("disabled");
+				$("#registerBtn").attr('disabled',false);
 			}else{
 				$("#errorMess").text("该帐号已存在");
 			}
@@ -224,9 +224,7 @@ function checkAccount(){
 									type="button" value="获取验证码" id="getCode" onClick="getDuanxin()">
 							</div>
 							<div class="group">
-								<label for="checkCode" class="label">验证码</label> <input
-									id="checkCode" type="text" class="input" name="checkCode"
-									placeholder="请输入您收到的短信验证码...">
+								<label for="checkCode" class="label">验证码</label> <input id="checkCode" type="text" class="input" name="checkCode" placeholder="请输入您收到的短信验证码...">
 							</div>
 							<div class="group">
 								<input type="submit" class="button" value="注册" id="registerBtn">
@@ -252,9 +250,9 @@ function checkAccount(){
 } */
 /*获取短信验证吗*/
 function getDuanxin(){
-	timer(120);
 	var owerPhone=$("#owerPhone").val();
 	if(owerPhone!=null&&owerPhone!=""){
+		timer(120);
 		if(isPoneAvailable(owerPhone)){
 			$.ajax({
 				type:"post",
@@ -265,7 +263,7 @@ function getDuanxin(){
 							datatype : "json",
 							success : function(data) {
 								if (data == "1") {
-									alert("短信已发送");
+								
 								} else {
 
 								}

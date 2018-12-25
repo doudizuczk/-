@@ -37,7 +37,7 @@
 	<header
 		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
 		<div class="ui-header-l fl w5">
-			<a href="user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
+			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
 		<div class="ui-header-c fl f30 w59">按钮组合</div>
 		<div class="ui-header-r fr w5">
@@ -47,7 +47,7 @@
 	<br />
 	<hr />
 	<div>
-		<table>
+		<table style="border: 0px solid transparent">
 			<tbody>
 				<tr>
 					<th></th>
@@ -68,7 +68,7 @@
 						<tr>
 					<td><input type="button" value="编辑资料" id="write"
 						onClick="canwrite()"></td>
-					<td><input type="button" value="修改密码" id="changePwd"></td>
+					<td><input type="button" value="修改密码" id="changePwd" onClick=""></td>
 				</tr>
 				<tr>
 					<td><input type="button" value="保存" id="save" onClick="saveChange()"
@@ -121,6 +121,9 @@
 			alert("手机号有误");
 		}
 		}	
-	}
+	};
+function changePwd(){
+	
+}
 </script>
 </html>

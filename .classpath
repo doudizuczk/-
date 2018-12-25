@@ -53,6 +53,12 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-5.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-5.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xwork-core-2.3.16.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/alipay-sdk-java-3.3.0-source.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/alipay-sdk-java-3.3.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/alipay-trade-sdk-20161215-source.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/alipay-trade-sdk-20161215.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-configuration-1.10.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
