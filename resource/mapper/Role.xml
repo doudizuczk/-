@@ -27,10 +27,8 @@
 	</update>
 	
 	<insert id="createRole" parameterType="String">
-		insert into T_ROLE(ROLE_ID,ROLE_NAME)values(seq_t_role.nextval,'#{roleName}')
+		insert into T_ROLE(ROLE_ID,ROLE_NAME)values(seq_t_role.nextval,'${roleName}')
 	</insert>
 	
-	<select id="">
 	
-	</select>
 </mapper>
