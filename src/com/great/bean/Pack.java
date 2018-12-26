@@ -23,7 +23,7 @@ public class Pack implements Serializable{
 	private int packId; 
 	private String packName; 
 	private int packTime ;
-	private int packCost;
+	private double packCost;
 	private int packType;
 	private int pactState;
 	private String  packCdate ;
@@ -33,7 +33,7 @@ public class Pack implements Serializable{
 	public Pack() {
 		super();
 	}
-	public Pack(int packId, String packName, int packTime, int packCost, int packType, int pactState,
+	public Pack(int packId, String packName, int packTime, double packCost, int packType, int pactState,
 			String packCdate) {
 		super();
 		this.packId = packId;
@@ -62,10 +62,10 @@ public class Pack implements Serializable{
 	public void setPackTime(int packTime) {
 		this.packTime = packTime;
 	}
-	public int getPackCost() {
+	public double getPackCost() {
 		return packCost;
 	}
-	public void setPackCost(int packCost) {
+	public void setPackCost(double packCost) {
 		this.packCost = packCost;
 	}
 	public int getPackType() {

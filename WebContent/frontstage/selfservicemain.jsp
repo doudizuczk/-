@@ -28,14 +28,14 @@
 	src="<%=request.getContextPath()%>/carstyle/js/imagepreloader.js"></script>
 <script type="text/javascript">
 $(function () {
-	preloadImages([
-	'images/menu1_active.gif',
-	'images/menu2_active.gif',
-	'images/menu3_active.gif',
-	'images/menu4_active.gif',
-	'images/marker_right_active.jpg',
-	'images/marker_left_active.jpg',
-	'images/menu5_active.gif']);
+// 	preloadImages([
+<%-- 	'<%=request.getContextPath()%>/images/menu1_active.gif', --%>
+<%-- 	'<%=request.getContextPath()%>/images/menu2_active.gif', --%>
+<%-- 	'<%=request.getContextPath()%>/images/menu3_active.gif', --%>
+<%-- 	'<%=request.getContextPath()%>/images/menu4_active.gif', --%>
+<%-- 	'<%=request.getContextPath()%>/images/marker_right_active.jpg', --%>
+<%-- 	'<%=request.getContextPath()%>/images/marker_left_active.jpg', --%>
+<%-- 	'<%=request.getContextPath()%>/images/menu5_active.gif']); --%>
 	
 	//车辆登陆（前端暂存）
 	$("#login").click(function(){

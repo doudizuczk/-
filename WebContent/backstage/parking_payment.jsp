@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<META   HTTP-EQUIV="Pragma"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Cache-Control"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Expires"   CONTENT="0">
 <meta charset="UTF-8">
 <script type="text/javascript" src="<%=request.getContextPath()%>/carstyle/js/jquery-1.4.2.js"></script>
 <!---->
@@ -82,7 +85,6 @@ function invoice(chargeId){
 <button onclick="payment()">获取该车停车费</button>
 <div id="show"></div>
 <!-- -----------弹窗------------------>
-<button class="btn1">点击我，打开</button>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">
 			<div class="m-modal-dialog" style="width: 25%">
 				<div class="m-top">
@@ -125,9 +127,6 @@ function invoice(chargeId){
 	alert("确认收费！");
 	//进行缴费
 		});
-	$('.btn1').on("click", function() {
-		m1.show();
-	});
 </script>
 <!------------------------------->
 <script type="text/javascript">

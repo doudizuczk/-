@@ -82,6 +82,11 @@ public class OwerServiceImpl implements IOwerService {
 		// TODO Auto-generated method stub
 		return owerMapper.queryOwerById(owerId);
 	}
+	
+	public int updateCarMess(Car car) {
+		// TODO Auto-generated method stub
+		return owerMapper.updateCarMess(car);
+	}
 
 
 }

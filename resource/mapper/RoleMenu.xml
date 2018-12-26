@@ -4,9 +4,12 @@
     
 <mapper namespace="com.great.mapper.RoleMenuMapper">
 	<select id="queryAll" parameterType="int" resultType="HashMap">
-		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq", 
+	<!-- 	select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq", 
 		b.MENU_NAME "menuPname",a.MENU_STATE "menuState"  from T_MENU a,T_MENU b,T_PERM c
-		where a.MENU_PID=b.MENU_ID and  c.MENU_ID=a.MENU_ID and c.ROLE_ID=#{0}
+		where a.MENU_PID=b.MENU_ID and  c.MENU_ID=a.MENU_ID and c.ROLE_ID=#{0} -->
+		select a.MENU_ID "menuId",a.MENU_NAME "menuName",a.MENU_URL "menuUrl",a.MENU_PID "menuPid",a.MENU_SEQ "menuSeq", 
+		a.MENU_STATE "menuState"  from T_MENU a,T_PERM c
+		where   c.MENU_ID=a.MENU_ID and c.ROLE_ID=#{0}
 	</select>
 	
 	<delete id="deleteRoleMenu" parameterType="int">

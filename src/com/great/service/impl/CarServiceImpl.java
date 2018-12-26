@@ -49,4 +49,10 @@ public class CarServiceImpl implements ICarService {
 		return carMapper.selectCarForType(carId);
 	}
 
+	@Override
+	public Map<String, Object> carIdQueryCar(String carId) {
+		// TODO Auto-generated method stub
+		return carMapper.carIdQueryCar(carId);
+	}
+
 }

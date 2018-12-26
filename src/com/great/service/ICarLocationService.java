@@ -8,18 +8,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.great.bean.CarInfo;
 import com.great.bean.CarLocation;
+import com.great.bean.ParkCount;
 
 public interface ICarLocationService {
-	public List<CarLocation> queryAll(CarLocation carLocation);//²éÑ¯ËùÓĞ³µÎ»
-	public List<CarLocation> queryForbid();//²éÑ¯ËùÓĞ½ûÓÃ³µÎ»
-	public int forbidden(int carLocationId);//³µÎ»½ûÓÃ
-	public int permission(int carLocationId);//³µÎ»Æô
-	public List<CarInfo> queryCarInfo(String carId);//²éÑ¯Ö¸¶¨³µÎ»µÄ³µÁ¾ĞÅÏ¢
-	public List<Map<String, Object>> queryByArea();//°´ÇøÓò²éÑ¯×Ü³µÎ»£¬½ûÓÃ³µÎ»
-	public Map<String, Object> statisAll();//Í³¼Æ×Ü³µÎ»
-	public List<CarInfo> getDetil(Integer modelId);//°´³µÎ»µÄÄ£ĞÍID²éÕÒ¸Ã³µÎ»µÄÍ£¿ª³µÁ¾ĞÅÏ¢
+	public List<CarLocation> queryAll(CarLocation carLocation);//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ğ³ï¿½Î»
+	public List<CarLocation> queryForbid();//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ğ½ï¿½ï¿½Ã³ï¿½Î»
+	public int forbidden(int carLocationId);//ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½
+	public int permission(int carLocationId);//ï¿½ï¿½Î»ï¿½ï¿½
+	public List<CarInfo> queryCarInfo(String carId);//ï¿½ï¿½Ñ¯Ö¸ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+	public List<Map<String, Object>> queryByArea();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½Ü³ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½Î»
+	public Map<String, Object> statisAll();//Í³ï¿½ï¿½ï¿½Ü³ï¿½Î»
+	public List<CarInfo> getDetil(Integer modelId);//ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ä£ï¿½ï¿½IDï¿½ï¿½ï¿½Ò¸Ã³ï¿½Î»ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+	public int updateLink(String address,String carId);//ç»™åˆ¶å®šè½¦ä½å¢åŠ å›¾ç‰‡
+	public List<Integer> queryAllCount();//æŸ¥è¯¢æ‰€æœ‰è½¦ä½æ•°
+	public List<Integer> queryFreeCount();//æŸ¥è¯¢å¯ç”¨è½¦ä½æ•°
+	public List<Integer> queryUsedCount();//æŸ¥è¯¢å ç”¨çš„è½¦ä½æ•°
 	
-	public List<Map<String, Object>> getParkIdList();//»ñÈ¡³µÎ»
-	public boolean updateParkStateById(Map<String, Object> park);//¸ü¸Ä³µÎ»±í×´Ì¬
+	public List<Map<String, Object>> getParkIdList();//ï¿½ï¿½È¡ï¿½ï¿½Î»
+	public boolean updateParkStateById(Map<String, Object> park);//ï¿½ï¿½ï¿½Ä³ï¿½Î»ï¿½ï¿½×´Ì¬
 
 }

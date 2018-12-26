@@ -45,7 +45,7 @@ $().ready(function(){
       		required:"请输入套餐费用"
       	   },
    	     },
-   	  submitHandler: function(form) { addQuerypackExist(); }
+   	  submitHandler: function(form) { createAdmin(); }
    })	
 });
 //修改套餐

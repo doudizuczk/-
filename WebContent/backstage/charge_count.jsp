@@ -6,11 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="css/basic.css" type="text/css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/countstyle/css/basic.css" type="text/css" rel="stylesheet" />
 
-<link href="<%=request.getContextPath()%>/countstyle/css/visualize.css" type="text/css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/countstyle/css/visualize.css" type="text/css" rel="stylesheet"/>
 
-<link href="<%=request.getContextPath()%>/countstyle/css/visualize-dark.css" type="text/css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/countstyle/css/visualize-dark.css" type="text/css" rel="stylesheet"/>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/countstyle/js/jquery-1.4.2.min.js"></script>
 
@@ -59,11 +59,11 @@ function quarterShow(){
 <input type="button" id="" value="周统计" onclick="weekShow()"/>
 <input type="button" id="" value="月统计" onclick="mouthShow()"/>
 <input type="button" id="" value="近半年统计 " onclick="quarterShow()"/>
-<select>
+<select id="excel">
 <option value=1>周统计</option>
 <option value=2>月统计</option>
 <option value=3>近半年统计</option>
-</select><input type="button" value="导出EXCEL">
+</select><input type="button" value="导出EXCEL" onclick="getOutExcel()">
 <div id="week" style="margin-left:auto; margin-right:auto">
 <table style="display:none">
 	<caption>周缴费统计</caption>
@@ -87,7 +87,7 @@ function quarterShow(){
 		          </c:forEach>
 				</tr>
 				<tr>
-				  <th scope="row">自助缴费</th>
+				  <th scope="row">.</th>
 		          <c:forEach items="${selfHelpWeekList}" var="selfHelpWeekList">
 					<td>${selfHelpWeekList.VALUE}</td>
 		          </c:forEach>
@@ -191,4 +191,20 @@ function quarterShow(){
 </table>	
 </div>	
 </body>
+<script>
+function getOutExcel(){
+	if($("#excel").val()==1){
+		alert("确认导出周统计");
+		document.location.href="${pageContext.request.contextPath}/chargeHander/getWeekCountExcel.action";
+	
+	}else if($("#excel").val()==2){
+		alert("确认导出月统计");
+		document.location.href="${pageContext.request.contextPath}/chargeHander/getMouthCountExcel.action";
+	
+	}else{
+		alert("确认导出近半年统计");
+		document.location.href="${pageContext.request.contextPath}/chargeHander/getHalfyearCountExcel.action";
+	}
+}
+</script>
 </html>

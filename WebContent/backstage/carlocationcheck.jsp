@@ -5,6 +5,9 @@
 <html>
 
 <head>
+<META   HTTP-EQUIV="Pragma"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Cache-Control"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Expires"   CONTENT="0">
 <meta charset="utf-8">
 
 <title>车位配置</title>
@@ -62,7 +65,6 @@
 	</table>
 	
 <!-- -----------弹窗------------------>
-<button class="btn1">点击我，打开</button>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">
 			<div class="m-modal-dialog" style="width: 25%">
 				<div class="m-top">
@@ -105,9 +107,6 @@
 	alert("确认收费！");
 	//进行缴费
 		});
-	$('.btn1').on("click", function() {
-		m1.show();
-	});
 </script>
 <!------------------------------->
 <script type="text/javascript">
