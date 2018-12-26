@@ -1,57 +1,61 @@
-+<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>管理员列表</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <style>
 #noUsed{
-margin-left: 25px;
+/* margin-left: 25px; */
 }
 #nextPage{
-margin-left:100px;
+/* margin-left:100px; */
 }
 #upPage{
-margin-left:320px;
+/* margin-left:320px; */
 }
 #myPage{
-margin-left: 50px;
+/* margin-left: 50px; */
 }
 #createMenu{
-margin-left: 950px;
+/* margin-left: 950px; */
 }
 </style>
 </head>
 <body>
-	<div>
-		<input type="button" id="createAdmin"  value="新增管理员" class="btn btn-primary" style="background-color: green;">
-	</div>
-	<form class="bs-example bs-example-form"  action="" method="post" id="queryForm">
-	按条件查找:<input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-primary" style="background-color: Orange;">
-    <div style="margin:5px 0px;">
-				<input type="text" placeholder="账号查询..." name="account" id="account"/>
-				<input type="text" placeholder="姓名查询..." name="name" id="name"/>
-				<select name="roleId" id="roleId">
+<div style="width: 100%">
+	    <form   action="" method="post" id="queryForm" >
+				<button type="button" class="btn btn-default">账号:</button>
+				<input type="text" placeholder="请输入账号..." name="account" id="account" class="btn btn-default" style="width: 10%"/>
+				<button type="button" class="btn btn-default">姓名:</button>
+				<input type="text" placeholder="请输入姓名..." name="name" id="name" class="btn btn-default" style="width:15%"/>
+				<select name="roleId" id="roleId" class="selectpicker" data-live-search="false">
 						<option value="">请选择角色...</option>
 						<c:forEach items="${dates.roleList}" var="role">
 							<option value="${role.ROLE_ID}">${role.ROLE_NAME}</option>
 						</c:forEach>
 				</select>
-				<select name="state" id="state">
+				<select name="state" id="state" class="selectpicker" data-live-search="false">
 						<option value="">请选择状态...</option>
 						<c:forEach items="${dates.StatePack}" var="state">
 							<option value="${state.PARM_VAL}">${state.PARM_NAME}</option>
 						</c:forEach>
 				</select>
-			</div>
+	            <input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-default">
+		        <input type="button" id="createAdmin"  value="新增管理员" class="btn btn-primary" style="float:right;">
 	</form>
+</div>
 	
  	<form>
  		<table class="table table-striped table-hover" >
@@ -71,14 +75,15 @@ margin-left: 950px;
  			</tbody>
  		</table>
  	</form>
- 	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 	<div style="width: 70%">
+         <div style="float: right;">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary btn-sm"><label id="myPage"  class="btn btn-default">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary btn-sm">
  		<input type="hidden" value="${pageInfo.curPage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
  		<!-- 跳转页码输入校验 -->
-	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+  	    <input type="text" class='btn btn-default btn-sm' id="goPages" style="width: 15%;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
-	<input type="button" value="GO" onclick="Go()" class="btn btn-info btn-small">
- 		
+	    <input type="button" value="GO" onclick="Go()" class="btn btn-primary btn-sm">
+ 	</div>
  	</div>
 </body>
 <script>
@@ -91,7 +96,7 @@ $(function(){
 function Go(){
 	var pageCurr=$("#goPages").val();
 	if(pageCurr>$("#pageMax").attr("value")||goPages==""){
-		alert("输入页码必须在总页码范围内")
+		alert("输入页码必须在总页码范围内");
 		return;
 	}
 	queryNameAndzh(pageCurr);
@@ -155,7 +160,7 @@ var page=1;
 				str+="<td>"+data.dates.adminList[i].ROLE_NAME+"</td>";
 				str+="<td>"+data.dates.adminList[i].ADMIN_CDATE+"</td>";
 				str+="<td>"+data.dates.adminList[i].PARM_NAME+"</td>"; 
-				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateAdmin("+data.dates.adminList[i].ADMIN_ID+")'  class='btn btn-primary'  >";
+				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.adminList[i].ADMIN_ID+","+data.dates.adminList[i].ADMIN_STATE+")' class='btn btn-primary btn-sm'>&nbsp;<input type='button' value='修改'  onclick='updateAdmin("+data.dates.adminList[i].ADMIN_ID+")'  class='btn btn-primary btn-sm'  >";
 				str+="</td>"; 
 				str+="</tr>";
 			}

@@ -213,7 +213,7 @@ public class ChargeHander {
 			pageNum=1;
 		}
 		ModelAndView model=new ModelAndView();
-		Page<Object> page=PageHelper.startPage(pageNum, 10);
+		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> chargeList=chargeService.queryAllChargeList();
 		if(page.getPages()==0) {
 			model.addObject("pageNum",0);//当前页码
@@ -221,6 +221,7 @@ public class ChargeHander {
 			model.addObject("pageNum",page.getPageNum());//当前页码
 		}
 		model.addObject("pages",page.getPages());//总页码数
+		model.addObject("total", page.getTotal()); //总条数 
 		model.addObject("chargeList",chargeList);
 		model.setViewName("forward:/backstage/charge_list.jsp");
 		return model;		
@@ -234,14 +235,318 @@ public class ChargeHander {
 	        map.put("carId",carId);
 	        map.put("endTime",endTime);
 	        map.put("starTime",starTime);
-	        Page<Object> page=PageHelper.startPage(pageNums, 10);
+	        Page<Object> page=PageHelper.startPage(pageNums, 5);
 	        List<Map<String,Object>> chargeList=chargeService.turnPageChargeList(map);
 	        Map<String, Object> map2 = new HashMap<String, Object>();  
             map2.put("pageNum",page.getPageNum());  
-            map2.put("pages", page.getPages());  
+            map2.put("pages", page.getPages()); 
+            map2.put("total", page.getTotal()); //总条数 
             chargeList.add(0, map2);
 			return chargeList;
 		}
-	
+	   //导出周统计excel
+		@RequestMapping(value="/getWeekCountExcel.action")
+		public ModelAndView getWeekCountExcel(HttpServletRequest request,HttpServletResponse response) throws IOException {
+			
+			ModelAndView model =new ModelAndView();
+			//获取到excel文件
+			String path=request.getSession().getServletContext().getRealPath("/storage/chargweekcount.xls");
+			InputStream is = new FileInputStream(path);
+			HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+			//获取数据库数据
+			 Map<String, Object> map1 = new HashMap<String, Object>();
+			List<Map<String,Object>> weekList=chargeService.weekChart(map1);
+			List<Map<String,Object>> selfHelpWeekList=chargeService.querySelfHelpWeekChart();
+			List<Map<String,Object>> laborWeekList=chargeService.queryLaborWeekChart();
+			List<Map<String,Object>> rechargeWeekList=chargeService.queryRechargeWeekChart();
+		
+			//获取单元格
+			HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
+			if(sheet!=null) {
+				HSSFRow row=sheet.getRow(0);
+				HSSFRow row1=sheet.getRow(1);
+				HSSFRow row2=sheet.getRow(2);
+				HSSFRow row3=sheet.getRow(3);
+				HSSFRow row4=sheet.getRow(4);
+				HSSFRow row5=sheet.getRow(5);
+				if(row==null) {
+					row=sheet.createRow(0);
+				}
+				if(row1==null) {
+					row1=sheet.createRow(1);
+				}
+				if(row2==null) {
+					row2=sheet.createRow(2);
+				}
+				if(row3==null) {
+					row3=sheet.createRow(3);
+				}
+				if(row4==null) {
+					row4=sheet.createRow(4);
+				}
+				if(row5==null) {
+					row5=sheet.createRow(5);
+				}
+				//
+				for(int i=0;i<selfHelpWeekList.size();i++) {
+					HSSFCell cell=row2.getCell(i+1);
+					Map map=new HashMap();
+					map=selfHelpWeekList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<laborWeekList.size();i++ ) {
+					HSSFCell cell=row3.getCell(i+1);
+					Map map=new HashMap();
+					map=laborWeekList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<rechargeWeekList.size();i++) {
+					HSSFCell cell=row4.getCell(i+1);
+					Map map=new HashMap();
+					map=rechargeWeekList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<weekList.size();i++) {
+					HSSFCell cell=row5.getCell(i+1);
+					Map map=new HashMap();
+					map=weekList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				try {
+					OutputStream output = response.getOutputStream();
+					response.reset();
+					response.setHeader("Content-disposition", "attachment; filename=chargweekcount.xls");
+					response.setContentType("application/msexcel");
+					hssfWorkbook.write(output);
+					output.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+		//导出月统计excel
+		@RequestMapping(value="/getMouthCountExcel.action")
+		public ModelAndView getMouthCountExcel(HttpServletRequest request,HttpServletResponse response) throws IOException {
+			ModelAndView model =new ModelAndView();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat mot = new SimpleDateFormat("yyyyMM");
+			SimpleDateFormat mm = new SimpleDateFormat("MM");
+			String halfyearmouths=mm.format(dateUtils.getBeginDayOfMonth());
+			String weekBegin = df.format(dateUtils.getBeginDayOfWeek());
+			String weekEnd = df.format(dateUtils.getEndDayOfWeek());
+			String mouth=mot.format(dateUtils.getBeginDayOfMonth());
+			//获取到excel文件
+			String path=request.getSession().getServletContext().getRealPath("/storage/chargmouthcount.xls");
+			InputStream is = new FileInputStream(path);
+			HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+			//获取数据库数据
+			List<Map<String,Object>> mouthList=chargeService.mouthChart(mouth);
+			List<Map<String,Object>> selfHelpmouthList=chargeService.querySelfHelpMouthChart(mouth);
+			List<Map<String,Object>> labormouthList=chargeService.queryLaborMouthChart(mouth);
+			List<Map<String,Object>> rechargemouthList=chargeService.queryRechargeMouthChart(mouth);
+		
+			//获取单元格
+			HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
+			if(sheet!=null) {
+				HSSFRow row=sheet.getRow(0);
+				HSSFRow row1=sheet.getRow(1);
+				HSSFRow row2=sheet.getRow(2);
+				HSSFRow row3=sheet.getRow(3);
+				HSSFRow row4=sheet.getRow(4);
+				HSSFRow row5=sheet.getRow(5);
+				if(row==null) {
+					row=sheet.createRow(0);
+				}
+				if(row1==null) {
+					row1=sheet.createRow(1);
+				}
+				if(row2==null) {
+					row2=sheet.createRow(2);
+				}
+				if(row3==null) {
+					row3=sheet.createRow(3);
+				}
+				if(row4==null) {
+					row4=sheet.createRow(4);
+				}
+				if(row5==null) {
+					row5=sheet.createRow(5);
+				}
+				//
+				for(int i=0;i<selfHelpmouthList.size();i++) {
+					HSSFCell cell=row2.getCell(i+1);
+					Map map=new HashMap();
+					map=selfHelpmouthList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<labormouthList.size();i++ ) {
+					HSSFCell cell=row3.getCell(i+1);
+					Map map=new HashMap();
+					map=labormouthList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<rechargemouthList.size();i++) {
+					HSSFCell cell=row4.getCell(i+1);
+					Map map=new HashMap();
+					map=rechargemouthList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<mouthList.size();i++) {
+					HSSFCell cell=row5.getCell(i+1);
+					Map map=new HashMap();
+					map=mouthList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				try {
+					OutputStream output = response.getOutputStream();
+					response.reset();
+					response.setHeader("Content-disposition", "attachment; filename=chargmouthcount.xls");
+					response.setContentType("application/msexcel");
+					hssfWorkbook.write(output);
+					output.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+		//导出近半年统计excel
+		@RequestMapping(value="/getHalfyearCountExcel.action")
+		public ModelAndView getHalfyearCountExcel(HttpServletRequest request,HttpServletResponse response) throws IOException {
+			ModelAndView model =new ModelAndView();
+			SimpleDateFormat mm = new SimpleDateFormat("MM");
+			int halfyearmouths=Integer.parseInt(mm.format(dateUtils.getBeginDayOfMonth()));
+			//获取到excel文件
+			String path=request.getSession().getServletContext().getRealPath("/storage/chargehalfyearcount.xls");
+			InputStream is = new FileInputStream(path);
+			HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+			//获取数据库数据
+			List<Map<String,Object>> halfyearList=chargeService.queryAllHalfyearChart();
+			List<Map<String,Object>> rechargeHalfyearList=chargeService.queryRechargeHalfyearChart();
+			List<Map<String,Object>> laborHalfyearList=chargeService.queryLaborHalfyearChart();
+			List<Map<String,Object>> selfHelpHalfyearList=chargeService.querySelfHelpHalfyearChart();
+			
+			//获取单元格
+			HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
+			if(sheet!=null) {
+				HSSFRow row=sheet.getRow(0);
+				HSSFRow row1=sheet.getRow(1);
+				HSSFRow row2=sheet.getRow(2);
+				HSSFRow row3=sheet.getRow(3);
+				HSSFRow row4=sheet.getRow(4);
+				HSSFRow row5=sheet.getRow(5);
+				if(row==null) {
+					row=sheet.createRow(0);
+				}
+				if(row1==null) {
+					row1=sheet.createRow(1);
+				}
+				if(row2==null) {
+					row2=sheet.createRow(2);
+				}
+				if(row3==null) {
+					row3=sheet.createRow(3);
+				}
+				if(row4==null) {
+					row4=sheet.createRow(4);
+				}
+				if(row5==null) {
+					row5=sheet.createRow(5);
+				}
+				//
+				for(int i=0;i<selfHelpHalfyearList.size();i++) {
+					HSSFCell cell=row1.getCell(i+1);
+					    int mouth=halfyearmouths-5+i;
+						cell.setCellValue(""+mouth+"月");
+				}
+				for(int i=0;i<selfHelpHalfyearList.size();i++) {
+					HSSFCell cell=row2.getCell(i+1);
+					Map map=new HashMap();
+					map=selfHelpHalfyearList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<laborHalfyearList.size();i++ ) {
+					HSSFCell cell=row3.getCell(i+1);
+					Map map=new HashMap();
+					map=laborHalfyearList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<rechargeHalfyearList.size();i++) {
+					HSSFCell cell=row4.getCell(i+1);
+					Map map=new HashMap();
+					map=rechargeHalfyearList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				for(int i=0;i<halfyearList.size();i++) {
+					HSSFCell cell=row5.getCell(i+1);
+					Map map=new HashMap();
+					map=halfyearList.get(i);
+					if(map.get("VALUE")!=null) {
+						cell.setCellValue(""+map.get("VALUE"));
+					}else {
+						cell.setCellValue("0");
+					}
+				}
+				try {
+					OutputStream output = response.getOutputStream();
+					response.reset();
+					response.setHeader("Content-disposition", "attachment; filename=chargehalfyearcount.xls");
+					response.setContentType("application/msexcel");
+					hssfWorkbook.write(output);
+					output.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
 	
 }

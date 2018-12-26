@@ -5,6 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<META   HTTP-EQUIV="Pragma"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Cache-Control"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Expires"   CONTENT="0">
 <title>套餐退费页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
@@ -173,7 +176,6 @@ function yesbut(){
 		 </div>
 	</form>
 <!-- -----------弹窗------------------>
-<button class="btn1">点击我，打开</button>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">
 			<div class="m-modal-dialog" style="width: 25%">
 				<div class="m-top">
@@ -216,9 +218,6 @@ function yesbut(){
 	alert("确认收费！");
 	//进行缴费
 		});
-	$('.btn1').on("click", function() {
-		m1.show();
-	});
 </script>
 <!------------------------------->
 <script type="text/javascript">

@@ -1,4 +1,4 @@
-+<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -6,45 +6,53 @@
 <head>
 <meta charset="UTF-8">
 <title>通车计费规则管理页</title>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
-<link href="<%=request.getContextPath()%>/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+
+<link href="<%=request.getContextPath()%>/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/js/jquery.dataTables.min.js"></script>
+
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <style>
 #noUsed{
-margin-left: 25px;
+/* margin-left: 25px; */
 }
 #nextPage{
-margin-left:100px;
+/* margin-left:100px; */
 }
 #upPage{
-margin-left:320px;
+/* margin-left:320px; */
 }
 #myPage{
-margin-left: 50px;
+/* margin-left: 50px; */
 }
 #createMenu{
-margin-left: 950px;
+/* margin-left: 950px; */
 }
 </style>
 </head>
 <body>
-	<form class="form-inline" action="<%=request.getContextPath()%>/ruleHandler/ruleList.action" method="post" >
-	    <label for="sTime">创建日期:</label>
-	    <input class="form-control" type="date" id="sTime" name="sTime" value="${param.sTime}"/>
-	    <label for="eTime">至</label>	
-	    <input class="form-control" type="date" id="eTime" name="eTime" value="${param.eTime}"/>
-	    <label for="type">规则状态:</label>
-	    <select class="form-control" id="state" name="state" >
+	<form  action="<%=request.getContextPath()%>/ruleHandler/ruleList.action" method="post" >
+<!-- 	    <label for="sTime">创建日期:</label> -->
+	    <button class="btn btn-default" type="button">创建日期:</button>
+	    <input type="date" id="sTime" name="sTime" value="${param.sTime}" class="btn btn-default"/>
+<!-- 	    <label for="eTime">至</label> -->
+	    <button class="btn btn-default" type="button">至:</button>	
+	    <input type="date" id="eTime" name="eTime" value="${param.eTime}" class="btn btn-default"/>
+<!-- 	    <label for="type">规则状态:</label> -->
+	      <button class="btn btn-default" type="button">规则状态:</button>	
+	    <select id="state" name="state" >
 	    	<option value="0" ${param.state==0?'selected':'' }>请选择</option>
 	    	<c:forEach items="${requestScope.pageInfo.dates.stateList }" var="state">
 	    		<option value="${state.parmVal }" ${param.state==state.parmVal?'selected':'' }>${state.parmName }</option>
 	    	</c:forEach>
 	    </select>
-	    <br><br><label for="ruleName"> 规则名称:</label>
-	    <input class="form-control" id="ruleName" name="ruleName" value="${param.ruleName}"/>
-	    <button type="submit" class="btn btn-primary">查询</button>
+<!-- 	    <label for="ruleName"> 规则名称:</label> -->
+	     <button class="btn btn-default" type="button">规则名称:</button>	
+	    <input id="ruleName" name="ruleName" value="${param.ruleName}"/>
+	    <button type="submit">查询</button>
 		<a class="btn btn-info btn-small" href="<%=request.getContextPath()%>/backstage/createRule.jsp">新增</a>
   	</form>
  	<form>
@@ -65,14 +73,15 @@ margin-left: 950px;
  					<td>${rule.ruleName}</td>
  					<td>${rule.stateName}</td>
  					<td>${rule.createTime}</td>
- 					<td>
- 					<c:if test="${rule.state==1}">启动中无法更改</c:if>
- 					<c:if test="${rule.state==2}">
- 						<input type="button" value="启用" onclick="enable(${rule.sequence})" class="btn btn-primary">
- 						<input type="button" value="修改" onclick="update(${rule.sequence})" class="btn btn-primary">
+ 				    <td>
+ 					 <c:if test="${rule.state==1}">启动中无法更改</c:if>
+ 					 <c:if test="${rule.state==2}">
+         				<input type="button" value="启用" onclick="enable(${rule.sequence})" class="btn btn-primary">
+						<input type="button" value="修改" onclick="update(${rule.sequence})" class="btn btn-primary">
  						<input type="button" value="删除" onclick="delet(${rule.sequence})" class="btn btn-primary">
- 					</c:if>
- 					<c:if test="${rule.state==3}">已删除</c:if></td>
+ 				  	 </c:if>
+ 					<c:if test="${rule.state==3}">已删除</c:if>
+ 					</td>
  				</tr>
  				</c:forEach>
  			</tbody>
