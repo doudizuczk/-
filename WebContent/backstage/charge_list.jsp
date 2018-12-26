@@ -94,7 +94,7 @@ $(function(){
 					<td>${chargeList.chargeCdate}</td>
 					<td>${chargeList.chargeInv eq 1?"已开发票":"未开发票"}</td>
 					<td>${chargeList.chargeCash eq 1?"现金支付":"线上支付"}</td>
-					<td><input type="button" value="开发票" onclick="" class="btn btn-info btn-small"></td>
+					<td><input type="button" value="开发票" onclick="invoice(${chargeList.chargeId})" class="btn btn-info btn-small"></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -119,6 +119,12 @@ $(document).ready(function(){
 	 
 	 
 });
+
+//开具发票
+function invoice(chargeId){
+	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
+}
+
 function count(){
 	window.location="<%=request.getContextPath()%>/chargeHander/statisticalChart.action";
 }

@@ -49,8 +49,8 @@ $(function () {
 	
 });
 
-// 车辆登陆（存至服务端）
-function carLogin(){
+// 车辆信息
+function carInfo(){
 	if($("#carId").val()==null || $("#carId").val()==''){
 		alert("输入车牌号为空！");
 		return;
@@ -58,15 +58,39 @@ function carLogin(){
 	
 	$.ajax({
 		type : "post",
-		url : "<%=request.getContextPath()%>/carHandler/carLogin.action",
+		url : "<%=request.getContextPath()%>/carHandler/carInfo.action",
 			data : {"carId" : $("#carId").val()},
 			success : function(data) {
 				console.log(data);
-				if (data == '1') {
-					alert("车辆登录成功！");
-					$("#curCar").text("当前车辆："+$("#carId").val());
+				if (data.car != '' && data.car !=null) {
+					var str="";
+					str+="车牌号："+data.car.carId+"<br>";
+					str+="车辆颜色："+data.car.carColor+"<br>";
+					str+="车辆类型："+data.car.carTypeName+"<br>";
+					//获取车主信息
+					if(data.ower!=null &&data.ower.owerId!=0){
+						str+="绑定车主："+data.ower.owerName+"("+data.ower.owerAccount+")<br>";
+					}else{
+						str+="绑定车主：未绑定<br>";
+					}
+					//获取停靠信息
+					if(data.dock!=null){
+						str+="入场时间："+data.dock.startTime+"<br>";
+					}else{
+						str+="入场时间：暂无入场信息<br>";
+					}
+					//获取套餐信息
+					if(data.trans!=null){
+						str+="所选套餐："+data.trans.PACK_NAME+"<br>";
+						str+="配套车位："+data.trans.PARK_ID+"<br>";
+						str+="过期时间："+data.trans.TRAN_ETIME+"<br>";
+					}else{
+						str+="套餐信息：未查询到办理套餐信息<br>";
+					}
+					
+					$("#show").html(str);
 				} else {
-					alert("车辆登录失败！请到柜台缴费");
+					alert("查无该车辆信息");
 				}
 			},
 			error : function() {
@@ -168,7 +192,7 @@ function invoice(chargeId){
 							<li class="nav1"><a href="">主页</a></li>
 							<li class="nav2"><a href="#" onclick="payment()">自助缴费</a></li>
 							<li class="nav3"><a href="<%=request.getContextPath()%>/transact/pack_transact.action" >月缴办理</a></li>
-							<li class="nav4"><a href="#" >车辆信息</a></li>
+							<li class="nav4"><a href="#" onclick="carInfo()">车辆信息</a></li>
 							<li class="nav5"><a href="<%=request.getContextPath()%>/carLocation/toSearchCar.action" >反向寻车</a></li>
 						</ul>
 					</nav>

@@ -256,13 +256,12 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
-				location.reload()   //刷新页面
-				}
+				location.reload();   //刷新页面
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-					location.reload()   //刷新页面
+					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
