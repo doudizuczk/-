@@ -216,20 +216,20 @@ function tranButton(){
 		success:function(data){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
-				alert(""+data.map.prompt+"")
-				location.reload()   //刷新页面
+				alert(""+data.map.prompt+"");
+				location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
-					alert(""+data.map.prompt+"")
-					location.reload()   //刷新页面
+					alert(""+data.map.prompt+"");
+					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
-					alert("更改套餐办理成功!")
-					location.reload()   //刷新页面
+					alert("更改套餐办理成功!");
+					location.reload(); //刷新页面
 				}
 			}
 			

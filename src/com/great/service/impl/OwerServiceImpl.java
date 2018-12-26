@@ -77,6 +77,11 @@ public class OwerServiceImpl implements IOwerService {
 		// TODO Auto-generated method stub
 		return owerMapper.carTypeneone(owerId);
 	}
+	@Override
+	public Ower queryOwerById(int owerId) {
+		// TODO Auto-generated method stub
+		return owerMapper.queryOwerById(owerId);
+	}
 
 
 }

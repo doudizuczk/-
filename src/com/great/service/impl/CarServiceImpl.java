@@ -8,13 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.great.bean.Car;
+import com.great.bean.Dock;
+import com.great.bean.Ower;
 import com.great.mapper.CarMapper;
+import com.great.mapper.DockMapper;
+import com.great.mapper.OwerMapper;
 import com.great.service.ICarService;
 
 @Service("carServiceImpl")
 public class CarServiceImpl implements ICarService {
 	@Autowired
 	private CarMapper carMapper;
+	@Autowired
+	private OwerMapper owerMapper;
+	@Autowired
+	private DockMapper dockMappers;
 	
 	@Override
 	public Car queryCarById(Car car) {
