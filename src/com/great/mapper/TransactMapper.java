@@ -15,4 +15,6 @@ public interface TransactMapper {
 	public int addTransact(TranSact a );//办理套餐插入套餐表
 	
 	public int updateTransactTime(TranSact a );//修改套餐办理表，结束日期。
+	
+	
 }

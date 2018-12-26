@@ -25,6 +25,9 @@ public interface CarLocationMapper {
 	public List<Integer> queryUsedCount();//查询占用的车位数
 	
 	public List<Map<String, Object>> getParkIdList();//获取车位
+	
+	public List<Map<String, Object>> getVipParkIdList();//获取VIP车位
+
 	public int updateParkStateById(Map<String, Object> park);//更改车位表状态
 
 }
