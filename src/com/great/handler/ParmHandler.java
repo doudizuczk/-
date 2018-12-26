@@ -34,28 +34,16 @@ public class ParmHandler {
 		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> parmList=parmService.queryAllParm();
 		mav.addObject("parmList", parmList);
+		int parmCount=(int)page.getTotal();
 		Integer allNum=page.getPages();//总页数
 		mav.addObject("pageNum", pageNum);
 		mav.addObject("allNum", allNum);
 		mav.addObject("parm", parm);
+		mav.addObject("parmCount",parmCount);
 		mav.setViewName("forward:/backstage/parm.jsp");
 		
 		return mav;
 	}
-	//翻页请求
-//	@RequestMapping(value="/pageParmList.action",method = RequestMethod.GET)
-//	public ModelAndView pageMenuList(HttpServletRequest request,Integer pageNum) {
-//		ModelAndView model=new ModelAndView();
-//		Page<Object> page=PageHelper.startPage(pageNum, 5);
-//		List<Map<String,Object>> parmList=parmService.queryAllParm();
-//		Integer nowNum=page.getPageNum();//当前页数
-//		Integer allNum=page.getPages();//总页数
-//		model.addObject("parmList",parmList);
-//		model.addObject("pageNum", nowNum);
-//		model.addObject("allNum", allNum);
-//		model.setViewName("forward:/backstage/parm.jsp");
-//		return model;
-//	}
 	//修改之前查询参数信息
 	@RequestMapping(value="/beforeChange.action",method = RequestMethod.GET)
 	public ModelAndView beforeChange(int parmId) {
@@ -72,14 +60,17 @@ public class ParmHandler {
 	public @ResponseBody String saveChanges(@RequestBody Parm parm) {
 		int parmPid=parm.getParmPid();
 		int parmId=parm.getParmId()+12;
-		Parm theparm=parmService.searchType(parmPid);//根据父类菜单的id查询出名称，作为参数类型字段存入数据库
-		parm.setParmType(theparm.getParmName());//传入数据库对象的参数名称
 		parm.setParmId(parmId);//传入数据库对象的参数id
+		Parm checkParm=parmService.repeatCheck(parm);//参数名重复检测
+		if(checkParm==null) {
 		int result=parmService.savechange(parm);
 		if(result>0) {
 			return "1";
 		}else {
 			return "0";
+		}
+		}else {
+			return "2";
 		}
 	}
 	//获取父级参数
@@ -95,12 +86,17 @@ public class ParmHandler {
 	@RequestMapping(value="/createParm.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String createParm(@RequestBody Parm parm) {
 		Parm theparm=parmService.searchType(parm.getParmPid());
+		Parm checkParm=parmService.repeatCheck(parm);
 		parm.setParmType(theparm.getParmName());
+		if(checkParm==null) {
 		int result=parmService.createParm(parm);
 		if(result>0) {
 			return "1";
 		}else {
 			return "0";
 		}
+	}else {
+		return "2";
+	}
 	}
 }

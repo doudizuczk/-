@@ -8,16 +8,14 @@
 <title>权限配置页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
-<script
-	src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/zTreeStyle.css" />
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.ztree.core.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.ztree.excheck.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/css/zTreeStyle.css" />
 <style>
 #divtwo{
 margin-left: 200px;
@@ -53,9 +51,10 @@ var path="<%=request.getContextPath()%>";
 			data : {"roleId" : roleId},
 			dataType : "json",
 			success : function(data) {
+				console.log(data);
 				var setting = {
 					check : {
-						enable : true
+						enable : true,
 					},
 					data : {
 						key : {

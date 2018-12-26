@@ -30,15 +30,19 @@ public class RoleHandler {
 	private IRoleService roleService;
 	//获取角色列表
 	@RequestMapping("/roleList.action")
-	public ModelAndView queryAllMenu(HttpServletRequest request,Role role,@RequestParam(value = "pageNum", required = true, defaultValue = "1")int pageNum) {
+	public ModelAndView queryAllMenu(HttpServletRequest request,Role role,@RequestParam(value = "pageNum", required = true, defaultValue = "1")int pageNum,
+			@RequestParam(value = "roleState", required = true, defaultValue = "0")int roleState) {
 		ModelAndView model=new ModelAndView();
 		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> roleList=roleService.queryRole(role);
 		Integer allNum=page.getPages();//总页数
+		int roleCount=(int)page.getTotal();
 		model.addObject("roleList",roleList);
 		model.addObject("pageNum", pageNum);
 		model.addObject("allNum", allNum);
 		model.addObject("roleName", role);
+		model.addObject("roleCount", roleCount);
+		model.addObject("roleState", roleState);
 		model.setViewName("forward:/backstage/role.jsp");
 		return model;
 	}

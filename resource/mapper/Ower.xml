@@ -71,7 +71,7 @@
 
 
 	<update id="addMoney" parameterType="int">
-		 update T_OWER set OWER_BALANCE=OWER_BALANCE+#{1} where  ower_id=#{0}
+		 update T_OWER set OWER_BALANCE=OWER_BALANCE+#{1} where OWER_ID=#{0}
 	</update>
 	
 	<select id="searchPayNotes" parameterType="com.great.bean.Car" resultType="HashMap">
@@ -79,6 +79,8 @@
 		b.PACK_COST "packCost" from T_TRANSACT a,T_PACK b where CAR_ID='${carId}' and a.PACK_ID=b.PACK_ID
 	</select>
 	
-	
+	<update id="updateCarMess" parameterType="HashMap">
+		update T_CAR set OWER_ID=${owerId} where CAR_ID='${carId}'
+	</update>
 
 </mapper>

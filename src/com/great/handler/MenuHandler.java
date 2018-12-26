@@ -37,10 +37,12 @@ public class MenuHandler {
 		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> menuList=menuService.queryAllMenu(menu);
 		Integer allNum=page.getPages();//总页数
+		int menuCount=(int)page.getTotal();
 		model.addObject("menuList",menuList);
 		model.addObject("pageNum", pageNum);
 		model.addObject("allNum", allNum);
 		model.addObject("menuName", menu);
+		model.addObject("menuCount", menuCount);
 		model.setViewName("forward:/backstage/menu.jsp");
 		return model;
 	}
@@ -99,7 +101,7 @@ public class MenuHandler {
 		}
 	}
 	//左侧菜单,提交1
-	@RequestMapping(value="/getLeftMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+	@RequestMapping(value="/getLeftMenu.action",produces = "application/json;charset=utf-8")
 	public  ModelAndView getLeftMenu(HttpServletRequest request) {
 		ModelAndView mav=new ModelAndView();
 		HttpSession session=request.getSession();
