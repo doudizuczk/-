@@ -76,6 +76,10 @@
 	<select id="getParkIdList" resultType="HashMap">
 	  select park_id "parkId",park_state "parkState",park_zone "parkZone",park_cdate "parkCdate" from t_park where park_state=1
 	</select>
+		<select id="getVipParkIdList" resultType="HashMap">
+	  select park_id "parkId",park_state "parkState",park_zone "parkZone",park_cdate "parkCdate" from t_park where park_state=1 and park_zone='VIP'
+	</select>
+	
 	<update id="updateParkStateById" parameterType="Map">
 	update T_PARK set PARK_STATE=#{parkState} where PARK_ID=#{parkId}
 	</update>

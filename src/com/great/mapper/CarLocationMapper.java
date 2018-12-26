@@ -20,6 +20,9 @@ public interface CarLocationMapper {
 	public List<CarInfo> getDetil(Integer modelId);//按车位的模型ID查找该车位的停开车辆信息
 	
 	public List<Map<String, Object>> getParkIdList();//获取车位
+	
+	public List<Map<String, Object>> getVipParkIdList();//获取VIP车位
+
 	public int updateParkStateById(Map<String, Object> park);//更改车位表状态
 
 }
