@@ -21,10 +21,10 @@ public interface ITransactService {
 	
 	public Map<String,Object> carIdTransactPack(String carId,int packId);//车牌办理套餐主方法
 	
-	public  Map<String,Object> addpackTran(String carId,int packId,int payType);//新建 --payType=支付方式
+	public  Map<String,Object> addpackTran(String carId,int packId,int payType,int adminId);//新建 --payType=支付方式
 	
-	public  Map<String,Object> RenewalPackTran(String carId,int packId,int payType);//续费
+	public  Map<String,Object> RenewalPackTran(String carId,int packId,int payType,int adminId);//续费
 	
-	public  Map<String,Object> changePackTran(String carId,int packId,int payType);//更改
+	public  Map<String,Object> changePackTran(String carId,int packId,int payType,int adminId);//更改
 	
 }

@@ -91,7 +91,6 @@ function check_licensePlate() {
  $(document).ready(function(){
      //绑定下拉框change事件，当下来框改变时调用 SelectChange()方法
      $("#PyteState").change(function() { 
-    	 
     	 SelectTypeChange(); 
      });
      $("#packId").change(function() { 
@@ -154,10 +153,10 @@ function packNameChange(){
  				if($("#owerMon").text()<newPackAtt.PACK_COST){//判断余额是否不足
  					$("#part1").attr("disabled", true);//余额支付不可选
  		    		$("#PayType").html("(余额不足)"); //回填显示信息
- 				}else{
+ 				}/* else{
  			var aaa= newPackAtt.PACK_COST
 	 			$("#PayType").html("("+aaa+")"); //回填显示信息
- 				}
+ 				} */
  			}
  			
  		 }else{
@@ -171,10 +170,10 @@ function packNameChange(){
 	 	 				if($("#owerMon").text()<newPackAtt.PACK_COST){//判断余额是否不足
 	 	 					$("#part1").attr("disabled", true);//余额支付不可选
 	 	 		    		$("#PayType").html("(余额不足)"); //回填显示信息
-	 	 				}else{
+	 	 				}/* else{
 	 			var aaa= newPackAtt.PACK_COST
  	 			$("#PayType").html("("+aaa+")"); //回填显示信息
-	 	 				}
+	 	 				} */
 	 	 			}
 	 		}else{
 	 			$("#packLabel").html("(更改)"); //回填显示信息
@@ -187,8 +186,8 @@ function packNameChange(){
 	 	 					$("#part1").attr("disabled", true);//余额支付不可选
 	 	 		    		$("#PayType").html("(余额不足)"); //回填显示信息
 	 	 				}else{
-	 			var aaa= newPackAtt.PACK_COST-transact.money
-	 	 			$("#PayType").html("("+aaa+")"); //回填显示信息
+	 		/* 	var aaa= newPackAtt.PACK_COST-transact.money
+	 	 			$("#PayType").html("("+aaa+")"); //回填显示信息 */
 	 	 				}
 	 	 		}
 	 		}
@@ -207,17 +206,33 @@ function tranButton(){
 	console.log(PackTranPyte+"办理类型======套餐id"+$("#packId").val())//套餐类型
 	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
+	var adminId =${sessionScope.loggingAdmin.adminId} 
 
 	$.ajax({
 		url:path+"/transact/confirmPay.action",
 		type:"POST", 
-		data:{"PackTranPyte":PackTranPyte,"payType":payType,"packId":$("#packId").val(),"carId":$("#carId").val()},
+		data:{"PackTranPyte":PackTranPyte,"payType":payType,"packId":$("#packId").val(),"carId":$("#carId").val(),"adminId":adminId},
 		dataType:"json",
 		success:function(data){
-			if(data.map.state==1){
-			alert("办理成功")
-			location.reload()   //刷新页面
+			if(PackTranPyte==1){
+				if(data.map.state==1){
+				alert(""+data.map.prompt+"")
+				location.reload()   //刷新页面
+				}
 			}
+			if(PackTranPyte==2){
+				if(data.map.state==1){
+					alert(""+data.map.prompt+"")
+					location.reload()   //刷新页面
+				}
+			}
+			if(PackTranPyte==3){
+				if(data.map.state==1){
+					alert("更改套餐办理成功!")
+					location.reload()   //刷新页面
+				}
+			}
+			
 		},
 		error:function(){
 		}

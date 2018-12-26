@@ -179,18 +179,19 @@ public class TransactHandler {
 		Integer PackTranPyte = Integer.parseInt(request.getParameter("PackTranPyte"));//办理类型--1，新办  2，续费    3，更改
 		Integer payType = Integer.parseInt(request.getParameter("payType"));//支付方式---1，余额  2，现金   3，第三方
 		Integer packId = Integer.parseInt(request.getParameter("packId"));//套餐id
+		Integer adminId = Integer.parseInt(request.getParameter("adminId"));//adminId
 		String carId = request.getParameter("carId");//车牌
 		List<Map<String,Object>> y = carMapper.selectCarById(carId);
 		if(y.size()==0) {
-			int t = carMapper.createCarWithNewUser(carId);
+			int t = carMapper.createCarWithNewUser(carId);//新用户加入车辆表
 		}
 		Map<String,Object> map = null;
 		if(PackTranPyte==1) {//新建套餐
-			 map =transactService.addpackTran(carId, packId,payType);
+			 map =transactService.addpackTran(carId, packId,payType,adminId);//payType=支付方式——1，余额  2，现金   3，第三方
 		}else if(PackTranPyte==2) {//续费
-			map=transactService.RenewalPackTran(carId, packId, payType);
+			map=transactService.RenewalPackTran(carId, packId, payType,adminId);
 		}else if(PackTranPyte==3) {//更改
-			map=transactService.changePackTran(carId, packId, payType);
+			map=transactService.changePackTran(carId, packId, payType,adminId);
 		}
 		
 		Map<String, Object> dates=new HashMap<String, Object>();
