@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.great.bean.Charge;
 import com.great.bean.Pack;
 import com.great.bean.TranSact;
+import com.great.mapper.CarLocationMapper;
 import com.great.mapper.CarMapper;
 import com.great.mapper.ChargeMapper;
 import com.great.mapper.OwerMapper;
@@ -35,6 +36,8 @@ public class TransactServiceImpl implements ITransactService {
 	private PackMapper packMapper;
 	@Autowired
 	private ChargeMapper chargeMapper;
+	@Autowired
+	private CarLocationMapper carLocationMapper;
 	
 	
 	@Override
@@ -223,7 +226,7 @@ public class TransactServiceImpl implements ITransactService {
 	//======================================================新建，续费，更改===========================================================================================//
 
 	@Override//新建
-	public Map<String, Object> addpackTran(String carId,int packId,int payType,int adminId) {
+	public Map<String, Object> addpackTran(String carId,int packId,int payType,int adminId,int carPark) {
 		// TODO Auto-generated method stub
 		//办理套餐更改车辆状态
 		String prompt = "";
@@ -237,8 +240,8 @@ public class TransactServiceImpl implements ITransactService {
 		if(type==2) {
 			carMapper.updateCarType3(carId);//白名单
 		}
+		double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
 		if(payType==1) {//1，余额  2，现金   3，第三方
-			int packCost =Integer.parseInt( list.get(0).get("PACK_COST").toString());//获得套餐费用
 			Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
 			int owerId = Integer.parseInt(carMap.get("OWER_ID").toString());//用户id
 			
@@ -254,26 +257,42 @@ public class TransactServiceImpl implements ITransactService {
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
-			cha.setType(2);
+			cha.setType(3);
 			cha.setIsCash(2);
 			cha.setChargeId(seq);
 			chargeMapper.addCharge(cha);
 		}else if(payType==2) {
-			prompt="现金办理成功";
-			int packCost =Integer.parseInt( list.get(0).get("PACK_COST").toString());//获得套餐费用
+			prompt="现金办理成功，收费"+packCost+"元";
 			Charge cha=new Charge();
 			//插入收费记录id
 			int seq=chargeMapper.getChargeSeq();
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
-			cha.setType(2);
+			cha.setType(3);
 			cha.setIsCash(1);
 			cha.setChargeId(seq);
 			chargeMapper.addCharge(cha);
+		}else if(payType==3){
+			prompt="第三方办理成功，线上支付"+packCost+"元";
+			Charge cha=new Charge();
+			//插入收费记录id
+			int seq=chargeMapper.getChargeSeq();
+			cha.setAdminId(adminId);
+			cha.setCarId(carId);
+			cha.setCost(packCost);
+			cha.setType(3);
+			cha.setIsCash(2);
+			cha.setChargeId(seq);
+			chargeMapper.addCharge(cha);
+		}
+		int a=0;
+		if(carPark!=0) {
+			 a =addTransact(packId,carId,carPark);
+		}else {
+			a =addTransact(packId,carId,null);
 		}
 		
-		int a =addTransact(packId,carId,null);
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", a);
 		map.put("prompt", prompt);
@@ -312,7 +331,7 @@ public class TransactServiceImpl implements ITransactService {
 		int v = transactMapper.updateTransactTime(tranSact);//续结束日期
 		
 		if(payType==1) {//1，余额  2，现金   3，第三方
-			int packCost =Integer.parseInt( packlist.get(0).get("PACK_COST").toString());//获得套餐费用
+			double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
 			Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
 			int owerId = Integer.parseInt(carMap.get("OWER_ID").toString());//用户id
 			Map<String,Object> map = new HashMap<>();
@@ -327,12 +346,12 @@ public class TransactServiceImpl implements ITransactService {
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
-			cha.setType(2);
+			cha.setType(3);
 			cha.setIsCash(2);
 			cha.setChargeId(seq);
 			chargeMapper.addCharge(cha);//插入收费表
 		}else if(payType==2) {
-			int packCost =Integer.parseInt( packlist.get(0).get("PACK_COST").toString());//获得套餐费用
+			double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
 			prompt="现金办理成功，收取"+packCost+"元，套餐截止日期延期为"+updateTime+"";
 			Charge cha=new Charge();
 			//插入收费记录id
@@ -340,26 +359,41 @@ public class TransactServiceImpl implements ITransactService {
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
-			cha.setType(2);
+			cha.setType(3);
 			cha.setIsCash(1);
 			cha.setChargeId(seq);
 			chargeMapper.addCharge(cha);//插入收费表
 		}
-		
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", v);
 		map.put("prompt", prompt);
 		
 		return map;
 	}
-	@Override//更改
-	public Map<String, Object> changePackTran(String carId,int packId,int payType,int adminId) {
+	@Override//=======================更改=============================
+	public Map<String, Object> changePackTran(String carId,int packId,int payType,int adminId,int carPark) {
 		// TODO Auto-generated method stub
-		String prompt ="";
+		TranSact tran = new TranSact();
+		tran.setCarId(carId);
+		tran.setTranState(1);
+		List<Map<String,Object>> ranList =transactMapper.CidQueryTransact(tran);
+		int parkId = Integer.parseInt(ranList.get(0).get("PARK_ID").toString());//车位id
+		if(parkId!=0) {
+			//解除车位占用
+			Map<String, Object> map = new HashMap<>();
+			map.put("parkState", 1);
+			map.put("parkId", parkId);
+			int a = carLocationMapper.updateParkStateById(map);
+		}
+		
+		String prompt = "";
 		Pack pack = new Pack();
 		pack.setPackId(packId);
 		List<Map<String,Object>> packlist = packMapper.queryPackList(pack);//id查套餐套餐
+		double packCost =Double.parseDouble( packlist.get(0).get("PACK_COST").toString());//获得套餐费用
+		
+		Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
+		int owerId = Integer.parseInt(carMap.get("OWER_ID").toString());//用户id
 		
 		Integer type =Integer.parseInt( packlist.get(0).get("PACK_TYPE").toString());//获得套餐类型
 		if(type==1) {
@@ -368,55 +402,114 @@ public class TransactServiceImpl implements ITransactService {
 		if(type==2) {
 			carMapper.updateCarType3(carId);//白名单
 		}
-		
-		String maney = "";//退款金额
 		int refundState = 0;//车牌退费退费的方式，  返回1=余额退款  2=现金退款
+		String maney = "";//退款金额
 		maney = refund(carId);
 		String CNY = maney;
-		Double money = Double.parseDouble(CNY);
-		refundState = this.refundMoney(carId,money);//车牌退费退费的方法，返回1=余额退款  2=现金退款
-		int a =addTransact(packId,carId,null);
+		double money = Double.parseDouble(CNY);//退款金额
 		
-//		if(payType==1) {//1，余额  2，现金   3，第三方
-//			int packCost =Integer.parseInt( packlist.get(0).get("PACK_COST").toString());//获得套餐费用
-//			Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
-//			int owerId = Integer.parseInt(carMap.get("OWER_ID").toString());//用户id
-//			Map<String,Object> map = new HashMap<>();
-//			map.put("owerId", owerId);//int
-//			map.put("money", packCost);//double
-//			int a =owerMapper.updateOwerLessBalance(map);//扣钱
-//			prompt="余额续费成功，您的账户扣除"+packCost+"元，套餐截止日期延期为"+updateTime+"";
-//			
-//			Charge cha=new Charge();
-//			//插入收费记录id
-//			int seq=chargeMapper.getChargeSeq();
-//			cha.setAdminId(adminId);
-//			cha.setCarId(carId);
-//			cha.setCost(packCost);
-//			cha.setType(2);
-//			cha.setIsCash(2);
-//			cha.setChargeId(seq);
-//			chargeMapper.addCharge(cha);//插入收费表
-//		}else if(payType==2) {
-//			int packCost =Integer.parseInt( packlist.get(0).get("PACK_COST").toString());//获得套餐费用
-//			prompt="现金办理成功，收取"+packCost+"元，套餐截止日期延期为"+updateTime+"";
-//			Charge cha=new Charge();
-//			//插入收费记录id
-//			int seq=chargeMapper.getChargeSeq();
-//			cha.setAdminId(adminId);
-//			cha.setCarId(carId);
-//			cha.setCost(packCost);
-//			cha.setType(2);
-//			cha.setIsCash(1);
-//			cha.setChargeId(seq);
-//			chargeMapper.addCharge(cha);//插入收费表
-//		}
+		if(payType==1) {//1，余额  2，现金   3，第三方
+			if(money>packCost) {//退款足够抵套餐费
+				double tranmoney =money-packCost;//颓废-新套餐费用
+				refundState = this.refundMoney(carId,tranmoney);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
+				Charge cha=new Charge();
+				//插入收费记录id
+				int seq=chargeMapper.getChargeSeq();
+				cha.setAdminId(adminId);
+				cha.setCarId(carId);
+				cha.setCost(packCost);
+				cha.setType(3);
+				cha.setIsCash(2);
+				cha.setChargeId(seq);
+				chargeMapper.addCharge(cha);//插入收费表
+				
+				prompt="余额更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元剩余"+tranmoney+"元，已退入账户余额";
+			}else {
+				double tranmoney2 =packCost-money;//新套餐费用-原套餐剩余钱
+				refundState = this.refundMoney(carId,0);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
+				Map<String,Object> map = new HashMap<>();
+				map.put("owerId", owerId);//int
+				map.put("money", tranmoney2);//double
+				int a =owerMapper.updateOwerLessBalance(map);//《《《扣钱《《
+				
+				Charge cha=new Charge();
+				//插入收费记录id
+				int seq=chargeMapper.getChargeSeq();
+				cha.setAdminId(adminId);
+				cha.setCarId(carId);
+				cha.setCost(tranmoney2);
+				cha.setType(3);
+				cha.setIsCash(2);
+				cha.setChargeId(seq);
+				chargeMapper.addCharge(cha);//插入收费表
+				
+				prompt="余额更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元，账户余额扣除"+tranmoney2+"元。";
+			}
+		}else if(payType==2) {//现金支付
+			
+			if(money>packCost) {//退款足够抵套餐费
+				double tranmoney =money-packCost;//颓废-新套餐费用
+				refundState = this.refundMoney(carId,tranmoney);//车牌退费退费给账户余额，修改套餐办理状态
+				Charge cha=new Charge();
+				//插入收费记录id
+				int seq=chargeMapper.getChargeSeq();
+				cha.setAdminId(adminId);
+				cha.setCarId(carId);
+				cha.setCost(tranmoney);
+				cha.setType(3);
+				cha.setIsCash(1);
+				cha.setChargeId(seq);
+				chargeMapper.addCharge(cha);//插入收费表
+				prompt="现金更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元剩余"+tranmoney+"元，现金退款";
+			}else {
+				double tranmoney2 =packCost-money;//新套餐费用-原套餐剩余钱
+				refundState = this.refundMoney(carId,0);//车牌退费退费给账户余额，修改套餐办理状态
+				Map<String,Object> map = new HashMap<>();
+				map.put("owerId", owerId);//int
+				map.put("money", tranmoney2);//double
+				int a =owerMapper.updateOwerLessBalance(map);//扣钱
+				
+				Charge cha=new Charge();
+				//插入收费记录id
+				int seq=chargeMapper.getChargeSeq();
+				cha.setAdminId(adminId);
+				cha.setCarId(carId);
+				cha.setCost(tranmoney2);
+				cha.setType(3);
+				cha.setIsCash(1);
+				cha.setChargeId(seq);
+				chargeMapper.addCharge(cha);
+				prompt="现金更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元，现金扣除"+tranmoney2+"元。";
+			}
+		}
 		
+		int a=0;
+		if(carPark!=0) {
+			a =addTransact(packId,carId,carPark);
+		}else {
+			 a =addTransact(packId,carId,null);
+		}
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", a);
-		map.put("refundState", refundState);
+		map.put("prompt", prompt);
 		return map;
+	}
+	
+	//============================================
+	@Override//退款金额
+	public double payAndRefund(String carId,int packId) {
+		// TODO Auto-generated method stub
+		Pack pack = new Pack();
+		pack.setPackId(packId);
+		List<Map<String,Object>> packlist = packMapper.queryPackList(pack);//id查套餐套餐
+		double packCost =Double.parseDouble( packlist.get(0).get("PACK_COST").toString());//获得套餐费用
+		String maney = "";//退款金额
+		maney = refund(carId);
+		String CNY = maney;
+		double money = Double.parseDouble(CNY);//退款金额
+		double tranmoney =money-packCost;//原套餐剩余钱-减去-新套餐费用
+		return tranmoney;
 	}
 
 }

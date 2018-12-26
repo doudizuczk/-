@@ -58,8 +58,10 @@ function createParm(){
 				$("#parmPid").val("");
 				$("#parmName").val("");
 				$("#parmVal").val("");
-			}else {
+			}else if(data=="0") {
 				window.alert("添加失败");
+			}else{
+				alert("参数已存在");
 			}
 		},
 		error:function(){

@@ -42,9 +42,9 @@ public class AdminHandler {
 	@Qualifier("parmServiceImpl")
 	private IParmService parmService;
 	
-	//@AfterLog(operationType="登录操作",operationName="管理员登录")
-	@RequestMapping(value = "/login.action")
-	public ModelAndView adminLogin(HttpServletRequest request, Admin admin, String code) {
+	@AfterLog(operationType="登录操作",operationName="管理员登录")
+	@RequestMapping(value = "/login.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+	public @ResponseBody String adminLogin(HttpServletRequest request, Admin admin, String code) {
 		HttpSession session = request.getSession();
 		ModelAndView mav = new ModelAndView();
 		String keyCode = (String) session.getAttribute("keyCode");
@@ -52,14 +52,13 @@ public class AdminHandler {
 		//if (keyCode.toLowerCase().equals(code.toLowerCase())) {
 			if (temp != null) {
 				session.setAttribute("loggingAdmin", temp);
-				mav.setViewName("forward:/menuHandler/getLeftMenu.action");//不要改这句话
+				return "1";
 			} else {
-				mav.setViewName("forward:/backstage/backlogin.jsp");
+				return "0";
 			}
 		//}else {
-			//mav.setViewName("forward:/backstage/backlogin.jsp");
+		//	return "3";
 		//}
-		return mav;
 	}
 	
 	//CZK-菜单点击adminlist页面跳转

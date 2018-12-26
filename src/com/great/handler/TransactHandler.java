@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.great.bean.Pack;
 import com.great.bean.TranSact;
+import com.great.mapper.CarLocationMapper;
 import com.great.mapper.CarMapper;
 import com.great.mapper.OwerMapper;
 import com.great.service.IPackService;
@@ -49,6 +50,8 @@ public class TransactHandler {
 	private OwerMapper owerMapper;
 	@Autowired
 	private CarMapper carMapper;
+	@Autowired
+	private CarLocationMapper carLocationMapper;
 	
 	//CZK-菜单点击套餐办理页面跳转
 	@RequestMapping(value = "/pack_transact.action")
@@ -63,11 +66,12 @@ public class TransactHandler {
 	}
 	//czk-办理页套餐类型改变事件返回套餐列表
 	@RequestMapping(value = "/SelectTypeChange.action")
-	public@ResponseBody Map<String,Object> SelectTypeChange(HttpServletRequest request ) {//pageCurr不能为空，并初始化
+	public@ResponseBody Map<String,Object> SelectTypeChange(HttpServletRequest request ) {
 		Integer typeId = Integer.parseInt(request.getParameter("packType"));
 		Pack pack = new Pack();
 		pack.setPackType(typeId);
 		List<Map<String,Object>> packList = packService.queryPackList(pack);
+		
 		
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("packList", packList);
@@ -140,6 +144,8 @@ public class TransactHandler {
 		tran.setCarId(carId);
 		List<Map<String,Object>> tranList = transactService.CidQueryTransact(tran);//根据车牌号查套餐
 		
+
+		
 		List<Map<String,Object>> typePack= parmService.IdQueryParmName(9);//套餐类型列表
 		Map<String, Object> dates=new HashMap<String, Object>();
 		Map<String,Object> owerMoney= owerMapper.CarQueryOwer(carId);//carID查用户余额
@@ -166,37 +172,66 @@ public class TransactHandler {
 		Integer typeId = Integer.parseInt(request.getParameter("packType"));
 		Pack pack = new Pack();
 		pack.setPackType(typeId);
+		pack.setPactState(1);
 		List<Map<String,Object>> packList = packService.queryPackList(pack);
+		List<Map<String, Object>>  carLoc =  carLocationMapper.getVipParkIdList();
 		
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("packList", packList);
+		dates.put("carLoc",carLoc);
 		return dates;
 	}
 	//============================================================================================================================
 	//czk-确认支付后办理套餐
 	@RequestMapping(value = "/confirmPay.action")
-	public@ResponseBody Map<String,Object> confirmPay(HttpServletRequest request ) {//pageCurr不能为空，并初始化
+	public@ResponseBody Map<String,Object> confirmPay(HttpServletRequest request ) {
 		Integer PackTranPyte = Integer.parseInt(request.getParameter("PackTranPyte"));//办理类型--1，新办  2，续费    3，更改
 		Integer payType = Integer.parseInt(request.getParameter("payType"));//支付方式---1，余额  2，现金   3，第三方
-		Integer packId = Integer.parseInt(request.getParameter("packId"));//套餐id
 		Integer adminId = Integer.parseInt(request.getParameter("adminId"));//adminId
+		Integer packId = Integer.parseInt(request.getParameter("packId"));//套餐id
 		String carId = request.getParameter("carId");//车牌
+		Integer carPark=0;
+		if(request.getParameter("carPark")!=null&&request.getParameter("carPark")!="") {
+			 carPark = Integer.parseInt(request.getParameter("carPark"));
+		}
+		carPark(carId,carPark);//更改车位状态方法
 		List<Map<String,Object>> y = carMapper.selectCarById(carId);
 		if(y.size()==0) {
 			int t = carMapper.createCarWithNewUser(carId);//新用户加入车辆表
 		}
 		Map<String,Object> map = null;
 		if(PackTranPyte==1) {//新建套餐
-			 map =transactService.addpackTran(carId, packId,payType,adminId);//payType=支付方式——1，余额  2，现金   3，第三方
+			 map =transactService.addpackTran(carId, packId,payType,adminId,carPark);//payType=支付方式——1，余额  2，现金   3，第三方
 		}else if(PackTranPyte==2) {//续费
 			map=transactService.RenewalPackTran(carId, packId, payType,adminId);
 		}else if(PackTranPyte==3) {//更改
-			map=transactService.changePackTran(carId, packId, payType,adminId);
+			map=transactService.changePackTran(carId, packId, payType,adminId,carPark);
 		}
 		
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("map", map);
 		return dates;
+	}
+	
+	//czk-更改套餐办理。改变套餐退款判断
+	@RequestMapping(value = "/payAndRefund.action")
+	public@ResponseBody double payAndRefund(HttpServletRequest request ) {
+		Integer packId = Integer.parseInt(request.getParameter("packId"));//套餐id
+		String carId = request.getParameter("carId");//车牌
+		double tranmoney =transactService.payAndRefund(carId, packId);
+	
+		return tranmoney;
+	}
+	
+	public void carPark(String carId,int carPark  ) {
+		if(carPark!=0) {
+			//更改车位carPark状态 占用
+			Map<String, Object> map = new HashMap<>();
+			map.put("parkState", 2);
+			map.put("parkId", carPark);
+			int a = carLocationMapper.updateParkStateById(map);
+		}
+		
 	}
 	
 

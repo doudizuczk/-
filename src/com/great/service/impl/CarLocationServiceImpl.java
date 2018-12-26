@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageHelper;
 import com.great.bean.CarInfo;
 import com.great.bean.CarLocation;
+import com.great.bean.ParkCount;
 import com.great.mapper.CarLocationMapper;
 import com.great.service.ICarLocationService;
 
@@ -87,6 +88,34 @@ public class CarLocationServiceImpl implements ICarLocationService {
 	public List<CarInfo> getDetil(Integer modelId) {
 		// TODO Auto-generated method stub
 		List<CarInfo> list=carLocationMapper.getDetil(modelId);
+		return list;
+	}
+
+	@Override
+	public int updateLink(String address,String carId) {
+		// TODO Auto-generated method stub
+		int count=carLocationMapper.updateLink(address, carId);
+		return count;
+	}
+
+	@Override
+	public List<Integer> queryAllCount() {
+		// TODO Auto-generated method stub
+		List<Integer> list=carLocationMapper.queryAllCount();
+		return list;
+	}
+
+	@Override
+	public List<Integer> queryFreeCount() {
+		// TODO Auto-generated method stub
+		List<Integer> list=carLocationMapper.queryFreeCount();
+		return list;
+	}
+
+	@Override
+	public List<Integer> queryUsedCount() {
+		// TODO Auto-generated method stub
+		List<Integer> list=carLocationMapper.queryUsedCount();
 		return list;
 	}
 

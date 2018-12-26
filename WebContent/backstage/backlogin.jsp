@@ -6,8 +6,11 @@
 <head>
 <meta charset="utf-8">
 <title>智能停车管理系统</title>
+<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.8.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/style2.0.css">
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <style type="text/css">
 	ul li{font-size: 30px;color:#2ec0f6;}
 	.tyg-div{z-index:-1000;float:left;position:absolute;left:5%;top:20%;}
@@ -93,7 +96,7 @@
 </div>
 <div class="tyg-div-denglv">
 	<div class="tyg-div-form">
-		<form action="<%=request.getContextPath()%>/admin/login.action" method="post" id="myForm">
+		<form id="myForm">
 			<h2>登录</h2><p class="tyg-p">欢迎访问!!!</p>
 			<div style="margin:5px 0px;">
 				<input type="text" placeholder="请输入账号..." name="account" id="account"/>
@@ -105,7 +108,7 @@
 				<input type="text" style="width:150px;" placeholder="请输入验证码..." name="code" id="code"/>
 				<img src="<%=request.getContextPath()%>/validateCode/validateCode.action" id="imageCode" onclick="changeCode()"  style="vertical-align:bottom;" alt="验证码"/>
 			</div>
-			<button type="submit" >登<span style="width:20px;"></span>录</button>
+			<button type="button" onClick="backLogin()">登<span style="width:20px;"></span>录</button>
 		</form>
 	</div>
 </div>
@@ -115,6 +118,33 @@ var path="<%=request.getContextPath()%>/validateCode/validateCode.action";
 function changeCode() {
 	$("#imageCode").attr("src","<%=request.getContextPath()%>/validateCode/validateCode.action?"+Math.random());
 };
+function backLogin(){
+	var account=$("#account").val();
+	var password=$("#password").val();
+	var code=$("#code").val();
+	if(account!=null &&account!=""&&password!=null &&password!=""){
+		console.log("进入登录方法");
+	$.ajax({
+		type:"post",
+		url:"<%=request.getContextPath()%>/admin/login.action",
+		//data:JSON.stringify($("#myForm").serializeJSON()),
+		data:{"account":account,"password":password,"code":code},
+		dataType:"json",
+		success:function(data){
+			if(data=="1"){
+				alert("欢迎！");
+				window.location="<%=request.getContextPath()%>/menuHandler/getLeftMenu.action";
+			}else if(data=="3"){
+				alert("验证码出错");
+			}else{
+				alert("账号密码出错");
+			}
+		}
+	});
+	}else{
+		alert("请输入账号密码");
+	}
+}
 </script>
 </body>
 </html>

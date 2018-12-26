@@ -32,7 +32,7 @@
 	</update>
 	
 	<insert id="createParm" parameterType="com.great.bean.Parm">
-		insert into T_PARM(PARM_ID,PARM_NAME,_PARM_TYPE,PARM_VAL,PARM_PID)values(seq_t_parm.nextval,#{parmName},#{parmType},#{parmVal},#{parmPid})
+		insert into T_PARM(PARM_ID,PARM_NAME,PARM_TYPE,PARM_VAL,PARM_PID)values(seq_t_parm.nextval,'${parmName}','${parmType}',${parmVal},${parmPid})
 	</insert>
 		<!-- //czk-更具父id查询参数 -->
 	<select id="IdQueryParmName" parameterType="Integer" resultType="HashMap">
@@ -40,4 +40,25 @@
 		 from T_PARM where PARM_PID=#{0}
 	</select>
 	
+	<select id="repeatCheck" parameterType="com.great.bean.Parm" resultType="com.great.bean.Parm">
+		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
+		 from T_PARM  
+		 <where>
+		 	<if test="parmPid!=null and parmPid!=''">
+		 		and PARM_PID=${parmPid}
+		 	</if>
+		 	<if test="parmVal!=null and parmVal!=''">
+		 		and PARM_VAL=${parmVal} 
+		 	</if>
+		 	<if test="parmType!=null and parmType!=''">
+		 		and PARM_TYPE='${parmType}'
+		 	</if>
+		 	<if test="parmName!=null and parmName!=''">
+		 		and PARM_NAME='${parmName}'
+		 	</if>
+		 	<if test="parmId!=null and parmId!=''">
+		 		and PARM_ID=${parmId}
+		 	</if>
+		 </where>
+	</select>
 </mapper>
