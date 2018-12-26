@@ -1,19 +1,26 @@
 package com.great.handler;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
+import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,6 +30,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.great.bean.CarInfo;
 import com.great.bean.CarLocation;
+import com.great.bean.ParkCount;
 import com.great.service.ICarLocationService;
 import com.great.service.impl.CarLocationServiceImpl;
 
@@ -128,7 +136,39 @@ public class CarLocationHandler {
 	//根据房间模型查取该车位的停靠车辆详细信息
 	@RequestMapping(value="/getDetil.action")
 	public @ResponseBody List<CarInfo> getDetil(Integer modelId){
-		List<CarInfo> list=carLocationServiceImpl.getDetil(40864);
+		List<CarInfo> list=carLocationServiceImpl.getDetil(modelId);
 		return list;
+	}
+	//上传文件
+	@RequestMapping(value="/sendImg.action") 
+	public @ResponseBody int sendImg(
+		@RequestParam(value = "carId",required=true) String carId,
+		MultipartFile img,
+		HttpServletRequest request) throws IllegalStateException, IOException {
+		System.out.println(carId);
+		String name = UUID.randomUUID().toString();
+		String mime = img.getOriginalFilename().substring(img.getOriginalFilename().indexOf('.'), img.getOriginalFilename().length());
+		String dbName = name+mime;
+		System.out.println(dbName);
+		int count=carLocationServiceImpl.updateLink(dbName, carId);
+		if(count!=0) {
+			File file = new File(request.getRealPath("/images/"+dbName));
+			img.transferTo(file);
+			FileUtil.copyFile(file, new File("C:\\Users\\Administrator\\Desktop\\-\\WebContent\\images\\"+dbName));
+		}
+		return count;
+	}
+	//车位统计折线图数据传输
+	@RequestMapping(value="/sendData.action") 
+	public ModelAndView sendData(){
+		ModelAndView mav=new ModelAndView();
+		List<Integer> listAll=carLocationServiceImpl.queryAllCount();
+		List<Integer> listFree=carLocationServiceImpl.queryFreeCount();
+		List<Integer> listUsed=carLocationServiceImpl.queryUsedCount();
+		mav.addObject("listAll", listAll);
+		mav.addObject("listFree", listFree);
+		mav.addObject("listUsed", listUsed);
+		mav.setViewName("forward:/backstage/carlocationcount.jsp");
+		return mav;
 	}
 }
