@@ -9,8 +9,11 @@
 
 <title>车位配置</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 
 
 </head>
@@ -55,7 +58,7 @@
 					var msg = "";
 					for(var i=0;i<data.list.length;i++){
 						var carLocation = data.list[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 					nowPage = data.pageNum;
@@ -97,9 +100,9 @@
 				},
 				success : function(data) {
 					if (data=="0") {
-						window.alert("啟用失败！")	
+						window.alert("启用失败！")	
 					} else {
-						window.alert("啟用成功！")
+						window.alert("启用成功！")
 						window.location.href="<%=request.getContextPath()%>/carLocation/tojsp.action";
 					}
 
@@ -124,7 +127,7 @@
 					var msg = "";
 					for(var i=0;i<data.length;i++){
 						var carLocation = data[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 				}
@@ -147,7 +150,7 @@
 					var msg = "";
 					for(var i=0;i<data.length;i++){
 						var carLocation = data[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 				}
@@ -170,7 +173,7 @@
 					var msg = "";
 					for(var i=0;i<data.list.length;i++){
 						var carLocation = data.list[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 				}
