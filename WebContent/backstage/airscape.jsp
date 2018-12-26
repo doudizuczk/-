@@ -199,13 +199,13 @@
     					console.log(data);
     					//成功后进入到图片添加界面
     					if(data!=null&&data!=''){
-    						window.location.href="<%=request.getContextPath()%>/backstage/detilpages.jsp?carId="+data[0].carId+"&ower"
-    								+data[0].owerName+"&carLocationId"+data[0].parkId+"&area"+data[0].area+"&inTime"+data[0].iDate+"&picture"+data[0].file;
+    						window.location.href="<%=request.getContextPath()%>/backstage/detilpages.jsp?carId="
+    								+data[0].carId+"&ower="+data[0].owerName+"&carLocationId="+data[0].parkId+"&area="+data[0].area+"&inTime="+data[0].iDate+"&picture="+data[0].picture;
     					}
     				}
     			})
     		}else{
-    			window.alert("此车为没有停车！")
+    			window.alert("此车位未停车！")
     		}
     
     	}
