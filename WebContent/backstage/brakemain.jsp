@@ -5,8 +5,11 @@
 <!-- 闸道主页面 -->
 <head>
 <!-- <meta http-equiv="refresh" content="20"> 定时刷新页面-->
+<META   HTTP-EQUIV="Pragma"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Cache-Control"   CONTENT="no-cache">
+<META   HTTP-EQUIV="Expires"   CONTENT="0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" c>
 <title>闸道</title>
  <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">

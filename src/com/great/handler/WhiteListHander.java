@@ -56,10 +56,11 @@ public class WhiteListHander {
 			pageNum=1;
 		}
 		ModelAndView model=new ModelAndView();
-		Page<Object> page=PageHelper.startPage(pageNum, 10);
+		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> whiteList=whiteListService.queryAllWhiteList();
 		model.addObject("pageNum",page.getPageNum());//当前页码
 		model.addObject("pages",page.getPages());//总页码数
+		model.addObject("total", page.getTotal());//总条数
 		model.addObject("whiteList",whiteList);
 		model.setViewName("forward:/backstage/whitelist.jsp");
 		return model;		
@@ -77,10 +78,11 @@ public class WhiteListHander {
         	map.put("stage",stage);
         }
         Map<String, Object> map2 = new HashMap<String, Object>();  
-        Page<Object> page=PageHelper.startPage(pageNum, 10);
+        Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> whiteList=whiteListService.turnPageWhiteList(map);
 		map2.put("pageNum",page.getPageNum());  
         map2.put("pages", page.getPages());  
+        map2.put("total", page.getTotal()); //总条数 
         whiteList.add(0, map2);
 		return whiteList;
 	}
