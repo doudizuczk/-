@@ -41,7 +41,7 @@ public class RoleMenuHandler {
 		List<Map<String,Object>> menuList=menuService.queryMenu();
 		for(int i=0;i<menuList.size();i++) {
 			for(int j=0;j<roleList.size();j++) {
-				if(roleList.get(j).get("menuId").equals(menuList.get(i).get("menuId"))) {
+				if(menuList.get(i).get("menuId").equals(roleList.get(j).get("menuId"))) {
 					menuList.get(i).put("checked", true);
 				}
 			}

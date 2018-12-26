@@ -87,7 +87,7 @@ function quarterShow(){
 		          </c:forEach>
 				</tr>
 				<tr>
-				  <th scope="row">自助缴费</th>
+				  <th scope="row">.</th>
 		          <c:forEach items="${selfHelpWeekList}" var="selfHelpWeekList">
 					<td>${selfHelpWeekList.VALUE}</td>
 		          </c:forEach>

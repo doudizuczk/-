@@ -36,20 +36,14 @@ margin-left: 250px;
  				<th></th>
  				</tr>
  				<tr>
- 					<td>参数编号：</td><td><input value="${parm.parmId-12}" class="form-control" id="parmId" name="parmId" onfocus="this.blur();"><input type="hidden" id="menuId" value="${parm.parmId}"></td>
+ 					<td>参数编号：</td><td><input value="${parm.parmId-12}" class="form-control" id="parmId" name="parmId" onfocus="this.blur();"><input type="hidden" id="parmId" value="${parm.parmId}"></td>
  				</tr>
  				<tr>
  					<td>参数名称：</td><td><input value="${parm.parmName}" class="form-control" id="parmName" name="parmName"></td>
  				</tr>
  				<tr>
  					<td>参数类型：</td>
- 					<td>
- 						<select id="parmPid" name="parmPid">
- 							<option value="">请选择</option>
- 							<c:forEach items="${parmTypeList}" var="parmType">
- 							<option value="${parmType.parmId}">${parmType.parmName}</option>
- 							</c:forEach>
- 						</select>
+ 					<td><input value="${parm.parmType}" class="form-control" id="parmType" name="parmType" onfocus="this.blur();">
  					</td>
  				</tr>
  				<tr>
@@ -83,8 +77,11 @@ $("#savechange").click(function(){
 					success:function(data){
 						if(data=="1"){
 							alert("修改成功");
-						}else{
+							window.location="<%=request.getContextPath()%>/parm/parmList.action";
+						}else if(data=="0"){
 							alert("修改失败");
+						}else{
+							alert("该参数已存在");
 						}
 					},
 					error:function(){

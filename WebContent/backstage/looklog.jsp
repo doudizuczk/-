@@ -49,8 +49,8 @@ function search(){
 <body>
 	<form id="myForm">
 	<div>
-				<input type="button" class="btn btn-default" value="日志时间" id="btn1"><input id="startTime" name="startTime"  placeholder="起始时间..." value="${searchUitl.startTime}" type="date">
-				<input class="btn btn-default" type="button" value="至" id="btn2"><input id="finalTime" name="finalTime"  placeholder="终止时间..." value="${searchUitl.finalTime}" type="date">
+				<input type="button" class="btn btn-default" value="日志时间" id="btn1"><input id="startTime" name="startTime"  placeholder="起始时间..." value="${searchUitl.startTime}"  type="Date">
+				<input class="btn btn-default" type="button" value="至" id="btn2"><input id="finalTime" name="finalTime"  placeholder="终止时间..." value="${searchUitl.finalTime}"  type="Date">
 				<input type="button" class="btn btn-default" value="操作人员" id="btn3"><input id="adminAccount" name="adminAccount"  placeholder="管理员账号..." value="${searchUitl.adminAccount}">
 				<input type="button" value="搜索" class="btn btn-primary" id="btn4" onClick="search()">
 	</div>
@@ -78,7 +78,7 @@ function search(){
 	<div>
 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label
 			id="myPage" class="label label-primary">当前第${pageNum}页
-			共${allNum}页</label><input type="button" value="下一页" id="nextPage"
+			共${allNum}页 共${logCount}条</label><input type="button" value="下一页" id="nextPage"
 			class="btn btn-primary"> <input type="text"
 			class="input-group-addon" id="goPages"
 			style="width: 100px; background-color: #FFFFFF; height: 35px;"
