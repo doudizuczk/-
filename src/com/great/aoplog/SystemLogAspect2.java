@@ -55,6 +55,7 @@ public class SystemLogAspect2 {
 				.getRequest();
 		HttpSession session = request.getSession();
 		Admin admin = (Admin) session.getAttribute("loggingAdmin");
+		if(admin!=null) {
 		String name = admin.getName();
 		String targetName = joinPoint.getTarget().getClass().getName();
 		String methodName = joinPoint.getSignature().getName();
@@ -86,6 +87,7 @@ public class SystemLogAspect2 {
 		log.setLogInfo(logInfo);
 		log.setadminId(admin.getAdminId());
 		logService.addLog(log);
+		}
 	}
 
 }

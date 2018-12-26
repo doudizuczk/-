@@ -33,11 +33,13 @@ public class LogHandler {
 		Page<Object> page=PageHelper.startPage(pageNum, 5);
 		List<Map<String,Object>> logList=logService.logList(searchUitl);
 		int pages=page.getPageNum();//当前页数
+		int logCount=(int)page.getTotal();
 		Integer allNum=page.getPages();//总页数
 		mav.addObject("pageNum", pageNum);
 		mav.addObject("allNum", allNum);
 		mav.addObject("logList", logList);
 		mav.addObject("searchUitl", searchUitl);
+		mav.addObject("logCount",logCount);
 		mav.setViewName("forward:/backstage/looklog.jsp");
 		return mav;
 	}

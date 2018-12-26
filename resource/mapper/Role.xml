@@ -15,6 +15,9 @@
 			<if test="roleName!=null and roleName!=''">
 			and ROLE_NAME like '%${roleName}%'
 			</if>
+			<if test="roleState!=null and roleState!=''">
+			and ROLE_STATE=${roleState}
+			</if>
 		</where>
 	</select>
 	

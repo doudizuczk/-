@@ -29,9 +29,20 @@ margin-left: 950px;
 }
 </style>
 <script>
+$(document).ready(function(){
+	var roleState=$("#backState").val();
+	if(roleState==1){
+		  document.getElementById("roleState")[1].selected=true;
+	}else if(roleState==2){
+		document.getElementById("roleState")[2].selected=true;
+	}else{
+		document.getElementById("roleState")[0].selected=true;
+	}
+});
 function search(){
 	var roleName=$("#roleName").val();
-	window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?roleName="+roleName;
+	var roleState=$("#roleState").val();
+	window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?roleName="+roleName+"&roleState="+roleState;
 };
 </script>
 </head>
@@ -39,6 +50,12 @@ function search(){
  	<form>
  		<div>
  		<input type="button" class="btn btn-default" value="角色名称" id="btn1"><input id="roleName" name="roleName"  placeholder="角色名称..." value="${role.roleName}" >
+ 		<select id="roleState" name="roleState">
+ 			<option value="0">请选择</option>
+ 			<option value="1">启用</option>
+ 			<option value="2">禁用</option>
+ 		</select>
+ 		<input type="hidden" value="${roleState}" id="backState">
 		<input type="button" value="搜索" class="btn btn-primary" id="btn4" onClick="search()">
  		</div>
  		<table class="table table-striped table-hover">
@@ -61,7 +78,7 @@ function search(){
  		</table>
  	</form>
  	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageNum}页 共${allNum}页</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageNum}页 共${allNum}页 共${roleCount}条</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
  		<input type="text" class="input-group-addon" id="goPages" style="width: 100px;background-color:#FFFFFF;height:35px; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" placeholder="请输入页码...">
         <input type="button" value="跳转" class="btn btn-primary" id="turnPage">
@@ -73,11 +90,12 @@ function search(){
 $("#upPage").click(function(){
 	var nowPage=$("#pageNum").val();
 	var roleName=$("#roleName").val();
+	var roleState=$("#roleState").val();
 	if(nowPage>1){
 		nowPage--;
-		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName;
+		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName+"&roleState="+roleState;
 	}else{
-		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName;
+		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName+"&roleState="+roleState;
 	}
 });
 /*下一页翻页*/
@@ -85,11 +103,12 @@ $("#nextPage").click(function(){
 	var nowPage=$("#pageNum").val();
 	var allPage=$("#allNum").val();
 	var roleName=$("#roleName").val();
+	var roleState=$("#roleState").val();
 	if(nowPage<allPage){
 		nowPage++;
-		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName;
+		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName+"&roleState="+roleState;
 	}else{
-		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName;
+		window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName+"&roleState="+roleState;
 	}
 	
 });
@@ -97,10 +116,11 @@ $("#turnPage").click(function(){
 	var nowPage=$("#goPages").val();
 	var allPage=$("#allNum").val();
 	var roleName=$("#roleName").val();
+	var roleState=$("#roleState").val();
 	if(nowPage>allPage){
 		alert("超出页码范围");
 	}else{
-	window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName;
+	window.location="<%=request.getContextPath()%>/roleHandler/roleList.action?pageNum="+nowPage+"&roleName="+roleName+"&roleState="+roleState;
 	}
 });
 /* 启用*/
