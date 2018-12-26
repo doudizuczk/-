@@ -90,7 +90,6 @@ $("#registerForm").validate({
 	   });
 });
 function owerLogin(){
-	
 	$.ajax({
 		type:"post",
 		url:"<%=request.getContextPath()%>/owerHandler/owerLogin.action",

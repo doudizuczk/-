@@ -4,9 +4,10 @@
     
 <mapper namespace="com.great.mapper.AdminMapper">
 	<select id="queryAdmin" parameterType="com.great.bean.Admin" resultType="com.great.bean.Admin">
-		select ADMIN_ID "adminId",ADMIN_ACCOUNT "account",ADMIN_PWD "password",ADMIN_NAME "name",ROLE_ID "roleId"
-		,ADMIN_STATE "state",to_char(ADMIN_CDATE,'YYYY-MM-DD') "createTime" from T_ADMIN
+		select a.ADMIN_ID "adminId",a.ADMIN_ACCOUNT "account",a.ADMIN_PWD "password",a.ADMIN_NAME "name",a.ROLE_ID "roleId"
+		,a.ADMIN_STATE "state",to_char(a.ADMIN_CDATE,'YYYY-MM-DD') "createTime" from T_ADMIN a,T_ROLE b
 		<where>
+			a.ROLE_ID=b.ROLE_ID and b.ROLE_STATE=1
 			<if test="adminId!=null">
 				and ADMIN_ID=#{adminId}
 			</if>

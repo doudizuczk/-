@@ -34,7 +34,7 @@
 				success:function(data){
 					if(data=="1"){
 						alert(sum+"充值成功");
-						window.location="<%=request.getContextPath()%>/owerHandler/toMyCount.action";
+						window.location="<%=request.getContextPath()%>/owerHandler/toMyCount.action?owerId="+owerId;
 					}else{
 						alert("充值失败");
 					}

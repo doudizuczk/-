@@ -3,6 +3,8 @@
 >>>>>>>=branch 'master' of https\://github.com/doudizuczk/-.git
 eclipse.preferences.version=1
 encoding//WebContent/backstage/airscape.jsp=UTF-8
+encoding//src/com/alipay/demo/trade/DemoHbRunner.java=UTF-8
+encoding//src/com/alipay/demo/trade/Main.java=UTF-8
 encoding//src/com/great/service/ICarLocationService.java=UTF-8
 encoding//src/com/great/util/Simple.java=UTF-8
 encoding//src/zfbinfo.properties=UTF-8

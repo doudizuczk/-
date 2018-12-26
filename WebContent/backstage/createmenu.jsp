@@ -53,7 +53,10 @@ function createMenu(){
 		dataType:"json",
 		success:function(data){
 			if(data=="1"){
-				window.alert("添加"+$("#menuName").val()+"成功")
+				window.alert("添加"+$("#menuName").val()+"成功");
+				$("#menuPid").val("");
+				$("#menuName").val("");
+				$("#menuUrl").val("");
 			}else {
 				window.alert("添加失败");
 			}
