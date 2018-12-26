@@ -63,6 +63,10 @@
 	<update id="updateOwerBalance" parameterType="HashMap">
 		  update T_OWER set OWER_BALANCE=OWER_BALANCE+#{money} where  ower_id=#{owerId}
 	</update>
+	
+	<update id="updateOwerLessBalance" parameterType="HashMap">
+		  update T_OWER set OWER_BALANCE=OWER_BALANCE-#{money} where  ower_id=#{owerId}
+	</update>
 
 	
 	<select id="CarQueryOwer" parameterType="String" resultType="HashMap">
