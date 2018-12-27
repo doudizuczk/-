@@ -37,7 +37,8 @@
 	<header
 		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
 		<div class="ui-header-l fl w5">
-			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
+			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp"
+				class="icon color8 iconfont icon-home_light"></a>
 		</div>
 		<div class="ui-header-c fl f30 w59">按钮组合</div>
 		<div class="ui-header-r fr w5">
@@ -57,22 +58,22 @@
 					<td>昵称</td>
 					<td><input type="text" value="${mess.owerName}" id="owerName"
 						name="owerName"></td>
-						</tr>
-						<tr>
-					<td>电话</td>
-					<td><input type="text" value="${mess.owerPhone}"
-						id="owerPhone" name="owerPhone">
-						<input type="hidden" value="${mess.owerId}" id="owerId" name="owerId">
-						</td>
-						</tr>
-						<tr>
-					<td><input type="button" value="编辑资料" id="write"
-						onClick="canwrite()"></td>
-					<td><input type="button" value="修改密码" id="changePwd" onClick=""></td>
 				</tr>
 				<tr>
-					<td><input type="button" value="保存" id="save" onClick="saveChange()"
-						style="display: none"></td>
+					<td>电话</td>
+					<td><input type="text" value="${mess.owerPhone}"
+						id="owerPhone" name="owerPhone"> <input type="hidden"
+						value="${mess.owerId}" id="owerId" name="owerId"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="编辑资料" id="write"
+						onClick="canwrite()"></td>
+					<td><input type="button" value="修改密码" id="changePwd"
+						onClick="changePwd(${sessionScope.loginOwer.owerId})"></td>
+				</tr>
+				<tr>
+					<td><input type="button" value="保存" id="save"
+						onClick="saveChange()" style="display: none"></td>
 					<td><input type="button" value="取消" id="cancel"
 						style="display: none"></td>
 				</tr>
@@ -97,12 +98,13 @@
 	                return true;
 	            }
 		 };
-	function saveChange(){
+function saveChange(){
 		var owerName=$("#owerName").val();
 		var owerPhone=$("#owerPhone").val();
 		var owerId=$("#owerId").val();
 		if(confirm("确定修改？")){
 		if(isPoneAvailable(owerPhone)){
+			if(owerName!=null&&owerName!=""){
 			$.ajax({
 				type:"post",
 				url:"<%=request.getContextPath()%>/owerHandler/changeMeans.action",
@@ -117,13 +119,33 @@
 					}
 				}
 			});
+			}else{
+				alert("忘记输入您的昵称啦");
+			}
 		}else{
 			alert("手机号有误");
+				}
+			}
+		};
+function changePwd(owerId){
+		var owerPwd=prompt("请输入新的密码");
+		if (owerPwd!=null && owerPwd!=""){
+		    $.ajax({
+		    	type:"post",
+		    	url:"<%=request.getContextPath()%>/owerHandler/changePwd.action",
+		    	data:{"owerId":owerId,"owerPwd":owerPwd},
+		    	datatype:"json",
+		    	success:function(data){
+		    		if(data=="1"){
+		    			alert("修改成功，下次登录生效哦");
+		    		}else{
+		    			alert("修改失败");
+		    		}
+		    	}
+		    });
+		}else{
+			alert("请重新输入");
 		}
-		}	
-	};
-function changePwd(){
-	
-}
+};
 </script>
 </html>
