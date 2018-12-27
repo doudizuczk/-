@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.great.aoplog.AfterLog;
 import com.great.bean.Menu;
 import com.great.bean.Role;
 import com.great.service.IMenuService;
@@ -59,6 +60,7 @@ public class RoleMenuHandler {
 		return model;
 	}
 	//修改权限
+	@AfterLog(operationType="管理员操作",operationName="修改权限")
 	@RequestMapping(value="/changeRoleMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String changeRoleMenu(String menuId,int roleId) {
 		int result=roleMenuService.deleteRoleMenu(roleId);

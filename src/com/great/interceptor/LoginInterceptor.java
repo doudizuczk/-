@@ -16,17 +16,30 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if (session.getAttribute("loggingAdmin")!=null) {
+		if (session.getAttribute("loggingAdmin")!=null&&session.getAttribute("loginOwer")==null) {
 			return true;	//执行目标action的方法
+		}else if(session.getAttribute("loginOwer")!=null&&session.getAttribute("loggingAdmin")==null){
+			return true;
+		}else if(session.getAttribute("loginOwer")==null){
+			PrintWriter out = response.getWriter();
+			out.println("<html>");    
+			out.println("<script>");    
+			out.println("window.open ('"+request.getContextPath()+"/frontstage/user_login.jsp','_top')");    
+			out.println("</script>");    
+			out.println("</html>");  
+			return false;
+		}else if(session.getAttribute("loggingAdmin")==null) {
+			PrintWriter out = response.getWriter();
+			out.println("<html>");    
+			out.println("<script>");    
+			out.println("window.open ('"+request.getContextPath()+"/backstage/backlogin.jsp','_top')");    
+			out.println("</script>");    
+			out.println("</html>");  
+			return false;
+		}else {
+			return false;
 		}
 		
-		PrintWriter out = response.getWriter();
-	    out.println("<html>");    
-	    out.println("<script>");    
-	    out.println("window.open ('"+request.getContextPath()+"/backstage/login.jsp','_top')");    
-	    out.println("</script>");    
-	    out.println("</html>");  
-		return false;
 
 	}
 

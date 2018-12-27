@@ -29,5 +29,6 @@ public interface OwerMapper {
 	public int updateOwerLessBalance(Map<String,Object> map);//用户余额扣钱
 	public Map<String,Object> CarQueryOwer(String Car);//车牌查用户
 	public Ower queryOwerById(int owerId);//id查用户
+	
 
 }

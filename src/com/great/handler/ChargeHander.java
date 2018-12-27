@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.bean.Admin;
 import com.great.bean.Charge;
 import com.great.bean.Dock;
@@ -55,6 +56,7 @@ public class ChargeHander {
 	
 	private DateUtils dateUtils;
 	
+	@AfterLog(operationType="导出操作",operationName="票据导出")
 	@RequestMapping("/exportCharge.action")
 	public ModelAndView exportCharge(HttpServletRequest request, HttpServletResponse response,int chargeId) throws IOException {
 		//1.读取excel模板
