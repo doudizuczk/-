@@ -176,7 +176,7 @@ var page=1;
 			 $("#adminList").html(str); //回填列表
 			 $("input[name=pageCurr]").eq(0).val(data.curPage);//回填input隐藏域
 			 $("input[name=pageMax]").eq(0).val(data.totalPage);//回填input隐藏域
-			 $("#myPage").html("当前第"+data.curPage+"页 共"+data.totalPage+"页"); //回填显示信息
+			 $("#myPage").html("当前第"+data.curPage+"页 共"+data.totalPage+"页/总条数"+data.totalNum+""); //回填显示信息
 		},
 		error:function(){
 			window.alert("查询出错");

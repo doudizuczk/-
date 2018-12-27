@@ -95,16 +95,31 @@
 	</form>
 	</body>
 	<script>
+
+	
+	
 	$().ready(function(){
 		$("#packForm").validate({
 	   	 rules: {
 	   		carAccount: {
 	   	        required: true,
 	   	      },
+	   	   packType: {
+	   	        required: true,
+	   	      },
+	   	   packId: {
+	   	        required: true,
+	   	      },
 	   	    },
 	   	  messages: {
 	   		carAccount: {
 	   	        required: "请填写车牌号",
+	   	      },
+	   	   packType: {
+	   	        required: "请选择套餐类型",
+	   	      },
+	   	   packId: {
+	   	        required: "请选择套餐",
 	   	      },
 	   	     },
 	   	  submitHandler: function(form) { check_licensePlate(); }
@@ -169,6 +184,7 @@
 	 		var packId= $("#packId").val()
 	 		console.log("套餐ID="+packId)
 	 		var str ="";
+	 		$("#packTbody").empty();
 	 	for (var i = 0; i < packList.length; i++) {
 	 		console.log("套餐id==="+packList[i].PACK_ID)
 	 		if(packList[i].PACK_ID==packId){
@@ -197,6 +213,7 @@
 			success:function(data){
 				packList=data.packList;
 				console.log("成功！"+packList)
+				$("#packId").empty();
 	    	for (var i = 0; i < data.packList.length; i++) {
 				  $("#packId").append("<option value='"+data.packList[i].PACK_ID+"' >" + data.packList[i].PACK_NAME + "</option>");
 				           } 

@@ -60,7 +60,7 @@ function comeBack(){
 		<input type="button" onClick="escBangDing('${car.carId}')" value="解绑">
 		</div>
 	</c:forEach>
-		<input type="button" value="新增车辆" id="addCar">
+		<input type="button" value="新增车辆" id="addCar"><input type="hidden"  id="owerId" name="owerId" value="${sessionScope.loginOwer.owerId}">
 </body>
 <script>
 $("#addCar").click(function(){
@@ -68,7 +68,7 @@ $("#addCar").click(function(){
 });
 function escBangDing(carIds){
 	var carId=carIds;
-	console.log("车牌号="+carId);
+	var owerId=$("#owerId").val();
 	if(confirm("确定解除绑定吗？")){
 	$.ajax({
 		type:"post",
@@ -78,6 +78,7 @@ function escBangDing(carIds){
 		success:function(data){
 			if(data=="1"){
 				alert("解绑成功");
+				window.location="<%=request.getContextPath()%>/owerHandler/searchOwersCar.action?owerId="+owerId;
 			}else{
 				alert("解绑失败");
 			}

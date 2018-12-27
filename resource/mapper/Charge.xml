@@ -319,4 +319,8 @@
     to_char((select trunc(add_months(sysdate,-5),'mm') first_day from dual),'YYYY-MM-DD') and 
     to_char((select last_day(add_months(sysdate,-5)) last_day from dual),'YYYY-MM-DD') and t_charge.charge_type=3
     </select>
+    
+    <insert id="createjilu" parameterType="int">
+    	insert into T_CHARGE(CHARGE_ID,ADMIN_ID,CHARGE_COST,CHARGE_TYPE)values(seq_t_charge.nextval,1,#{0},5)
+    </insert>
 </mapper>

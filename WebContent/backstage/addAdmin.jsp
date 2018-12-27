@@ -70,6 +70,7 @@ function createAdmin(){
 			success:function(data){
 				if(data==1){
 				window.alert("添加成功")
+				window.location="<%=request.getContextPath()%>/admin/adminList.action";
 				}
 			},
 			error:function(){
@@ -96,7 +97,7 @@ var path="<%=request.getContextPath()%>";
 		dataType:"json",
 		success:function(data){
 			if(data==1){
-			window.alert("账号已存在!");
+			$("#prompt").html("(账号已存在)");
 			}else{
 				createAdmin();
 			}
@@ -145,7 +146,7 @@ function starState(adminId,state){
 				</tr>
 				<tr>
 					<td>管理员账号：</td>
-					<td><input type="text" name="account" id="account" placeholder="请输入账号名称..."></td>
+					<td><input type="text" name="account" id="account" placeholder="请输入账号名称..."><label id="prompt"  class="label label-primary"></label></td>
 				</tr>
 				<tr>
 					<td>密码：</td>

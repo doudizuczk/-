@@ -67,7 +67,10 @@ function createMenu(){
 			window.alert("添加出错");
 		}
 	})
-}
+};
+function back(){
+	window.history.back();
+};
 </script>
 <style>
 .error{
@@ -77,6 +80,7 @@ function createMenu(){
 </head>
 <body>
 	<form id="menuForm">
+	<input type="button" value="返回" onClick="back()" class="btn btn-primary">
 		<table class="table table-striped table-hover">
 			<tbody>
 				<tr>

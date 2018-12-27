@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.great.aoplog.AfterLog;
 import com.great.service.IPayMentService;
 import com.great.util.DateUtils;
 
@@ -24,6 +25,7 @@ public class PayMentHandler {
 	@Qualifier("payMentServiceImpl")
 	private IPayMentService payMentService;
 	
+	@AfterLog(operationType="管理员操作",operationName="导出渠道统计")
 	@RequestMapping("/queryWeekCount.action")
 	public ModelAndView queryWeekCount() {
 		ModelAndView model=new ModelAndView();
@@ -54,12 +56,6 @@ public class PayMentHandler {
 		model.addObject("list9", list9);
 		model.addObject("mouth", mouth);
 		model.setViewName("forward:/backstage/count.jsp");
-		return model;
-	}
-	@RequestMapping("/queryMouthCount.action")
-	public ModelAndView queryMouthCount() {
-		ModelAndView model=new ModelAndView();
-		
 		return model;
 	}
 }

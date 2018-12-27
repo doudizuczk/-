@@ -61,7 +61,8 @@ public class ParmHandler {
 		int parmPid=parm.getParmPid();
 		int parmId=parm.getParmId()+12;
 		parm.setParmId(parmId);//传入数据库对象的参数id
-		Parm checkParm=parmService.repeatCheck(parm);//参数名重复检测
+		Parm checkParm=new Parm();
+		checkParm=parmService.repeatCheck(parm);//参数名重复检测
 		if(checkParm==null) {
 		int result=parmService.savechange(parm);
 		if(result>0) {

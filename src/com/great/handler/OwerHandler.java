@@ -357,5 +357,15 @@ public class OwerHandler {
 		model.setViewName("forward:/frontstage/mypaynotes.jsp");
 		return model;
 	}
+	//ĞŞ¸ÄÃÜÂë
+	@RequestMapping(value="/changePwd.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String changePwd(Ower ower) {
+		int count=owerService.updatePwd(ower);
+		if(count>0) {
+			return "1";
+		}else {
+			return "0";
+		}
+	}
 
 }

@@ -43,10 +43,16 @@ function createMenu(){
 		alert("请输入角色名称");
 	}
 };
+function back(){
+	window.history.back();
+};
 </script>
 <style>
 .error{
 	color:red;
+}
+#comeback{
+margin-left: 150px;
 }
 </style>
 </head>
@@ -64,10 +70,9 @@ function createMenu(){
 				</tr>
 			</tbody>
 		 </table>
-		<div style="width: 50%">
-		<div style="float: right;">
-		 	<input type="button" value="新增" id="newBtn" class="btn btn-primary btn-sm" onClick="createMenu()" style="margin-right: 100px;width: 100px;"><input type="reset" value="重置" id="reBtn" class="btn btn-primary btn-sm" style="width: 100px;">
-		 </div>
+		 <div>
+		 	<input type="button" value="新增" id="newBtn" class="btn btn-primary" onClick="createMenu()"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
+		 <input type="button" value="返回" onClick="back()" id="comeback" class="btn btn-primary">
 		 </div>
 	</form>
 </body>

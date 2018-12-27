@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.great.bean.Car;
 import com.great.bean.Ower;
 import com.great.bean.TranSact;
+import com.great.mapper.ChargeMapper;
 import com.great.mapper.OwerMapper;
 import com.great.service.IOwerService;
 
@@ -16,6 +18,8 @@ import com.great.service.IOwerService;
 public class OwerServiceImpl implements IOwerService {
 	@Autowired
 	private OwerMapper owerMapper;
+	@Autowired
+	private ChargeMapper chargeMapper;
 	@Override
 	public Ower owerLogin(Ower ower) {
 		return owerMapper.owerLogin(ower);
@@ -62,10 +66,22 @@ public class OwerServiceImpl implements IOwerService {
 		// TODO Auto-generated method stub
 		return owerMapper.tranList(car);
 	}
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public int addMoney(int owerId, int balance) {
-		// TODO Auto-generated method stub
-		return owerMapper.addMoney(owerId, balance);
+		int flag=0;
+		int count2= owerMapper.addMoney(owerId, balance);
+		if(count2>0) {
+			int count=chargeMapper.createjilu(balance);
+			if(count>0) {
+				flag=1;
+				return flag;
+			}else {
+				return flag;
+			}
+		}else {
+			return flag;
+		}
 	}
 	@Override
 	public Map<String, Object> searchPayNotes(Car car) {
@@ -86,6 +102,11 @@ public class OwerServiceImpl implements IOwerService {
 	public int updateCarMess(Car car) {
 		// TODO Auto-generated method stub
 		return owerMapper.updateCarMess(car);
+	}
+	@Override
+	public int updatePwd(Ower ower) {
+		// TODO Auto-generated method stub
+		return owerMapper.updatePwd(ower);
 	}
 
 
