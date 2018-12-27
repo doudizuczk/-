@@ -131,8 +131,8 @@ var path="<%=request.getContextPath()%>";
 	})
 }
 //套餐改变回填套餐属性
-	var PackTranPyte;//办理套餐，新，续，改
-	var newPackAtt;//所办套餐
+var PackTranPyte;//办理套餐，新，续，改
+var newPackAtt;//所办套餐
 function packNameChange(){
  		var packId= $("#packId").val()
  		console.log("套餐ID="+packId)
@@ -198,39 +198,7 @@ function packNameChange(){
 	 		}
  		 }
 }
-	//更改套餐判断支付，退款 方式
-<%-- var path="<%=request.getContextPath()%>";
-	function payAndRefund(){
-		$.ajax({
-			url:path+"/transact/payAndRefund.action",
-			type:"POST", 
-			data:{"packId":$("#packId").val(),"carId":$("#carId").val()},
-			dataType:"json",
-			success:function(data){
-				alert(data);
-				if(Number(data)>0){//退费
-					$("#payId").hide();
-					var str="";
-					str+="<h3>退费方式：</h3>"
-					str+="<input name=part  type=radio value=4 style=width:20px/>现金退款 ";
-					str+="<input name=part  type=radio value=5 style=width:20px/>余额退款 ";
-					
-					$("#RefundId").html(str);
-					
-				}else if(Number(data)<0){//交钱
-					
-					
-				}else{
-					
-				}
-				
-			},
-			error:function(){
-				window.alert("操作出错");
-			}
-		})
-	} --%>
-	
+
 	
 var path="<%=request.getContextPath()%>";
 function tranButton(){
@@ -256,24 +224,34 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
-				location.reload();   //刷新页面
+// 				location.reload();   //刷新页面
+				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-					location.reload();   //刷新页面
+// 					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-					location.reload()   //刷新页面
+// 					location.reload()   //刷新页面
 				}
 			}
+			var str="缴费成功！此次编号："+data.map.seq;
+			str+="<button onclick='invoice("+data.map.seq+")'>开发票</button>";
+			$("#trans").html(str);
 		},
 		error:function(){
 		}
 	})
+}
+
+//开具发票
+function invoice(chargeId){
+	alert(chargeId);
+	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
 }
 </script>
 <style>
@@ -283,14 +261,15 @@ function tranButton(){
 </style>
 </head>
 <body>
+<div id="trans">
 <h3>套餐办理页2</h3>
-	 	<form id="packRefundForm">
+	 <form id="packRefundForm">
 	 	<h5>输入套餐办理车牌号：</h5>
-				<input type="text" name="carId" id="carId" placeholder="请输入车牌号..."> 
+			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..."> 
 		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="btn btn-primary">
 		 	<h5>套餐情况：</h5>
  		<table class="table table-striped table-hover" >
- 			<thand >
+ 			<thead>
  				<tr>
  					<th>套餐名称</th>
  					<th>套餐时长</th>
@@ -300,60 +279,47 @@ function tranButton(){
  					<th>套餐状态</th>
  					<th>可退金额</th>
  				</tr>
- 			</thand>
- 			<tbody id="packTbody">
- 				
- 			</tbody>
+ 			</thead>
+ 			<tbody id="packTbody"></tbody>
  		</table>
+ 		
  		<label id="packState"  class="label label-primary"></label>
  		<h5>套餐类型</h5>
  		<div>
-			<select name="PyteState" id="PyteState">
-			</select>
-			
+			<select name="PyteState" id="PyteState"></select>
  		</div>
  		<h5>办理套餐</h5>
  		<div>
-			<select name="packId" id="packId">
-				
-			</select>
+			<select name="packId" id="packId"></select>
 			<label id="packLabel"  class="label label-primary"></label>
-			
-			<select name="carPark" id="carPark" value="0">
-			</select>
+			<select name="carPark" id="carPark" value="0"></select>
  		</div>
  		
  		<table class="table table-striped table-hover">
- 				<tr>
-					<th>套餐详情</th>
-					<th>时间价格</th>
-				</tr>
- 			<tbody id="TransPack">
-			</tbody>
-		 </table>
-		 <h5>绑定账户</h5>
+ 			<tr>
+				<th>套餐详情</th>
+				<th>时间价格</th>
+			</tr>
+ 			<tbody id="TransPack"></tbody>
+		</table>
+		
+		<h5>绑定账户</h5>
 		<table class="table table-striped table-hover">
  				<tr>
 					<th>账户：<label id="oweract"  class="label label-primary"></label></th>
 					<th>余额：<label id="owerMon"  class="label label-primary"></label></th>
 				</tr>
- 			<!-- <tbody id="owerMoney">
-			</tbody> -->
 		 </table>
-		 <div id="RefundId">
-		 	
-		 </div>
-		 <div id="payId">
+		 <div id="RefundId"></div>
+		<div id="payId">
  		<h5>支付方式：</h5>
  		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
 		<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
 		<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付
 		 </div>
 
- 		<div>
-		 	<input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
-		 </div>
+ 		<div><input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary"></div>
  	</form>
-
+</div>
 </body>
 </html>

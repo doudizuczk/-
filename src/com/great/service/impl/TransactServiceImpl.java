@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.great.bean.Charge;
 import com.great.bean.Pack;
@@ -224,7 +225,7 @@ public class TransactServiceImpl implements ITransactService {
 	return add;
 	}
 	//======================================================新建，续费，更改===========================================================================================//
-
+	
 	@Override//新建
 	public Map<String, Object> addpackTran(String carId,int packId,int payType,int adminId,int carPark) {
 		// TODO Auto-generated method stub
@@ -241,6 +242,7 @@ public class TransactServiceImpl implements ITransactService {
 			carMapper.updateCarType3(carId);//白名单
 		}
 		double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
+		int seq=0;
 		if(payType==1) {//1，余额  2，现金   3，第三方
 			Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
 			int owerId = Integer.parseInt(carMap.get("OWER_ID").toString());//用户id
@@ -253,7 +255,7 @@ public class TransactServiceImpl implements ITransactService {
 			
 			Charge cha=new Charge();
 			//插入收费记录id
-			int seq=chargeMapper.getChargeSeq();
+			seq=chargeMapper.getChargeSeq();
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
@@ -265,7 +267,7 @@ public class TransactServiceImpl implements ITransactService {
 			prompt="现金办理成功，收费"+packCost+"元";
 			Charge cha=new Charge();
 			//插入收费记录id
-			int seq=chargeMapper.getChargeSeq();
+			seq=chargeMapper.getChargeSeq();
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
@@ -277,7 +279,7 @@ public class TransactServiceImpl implements ITransactService {
 			prompt="第三方办理成功，线上支付"+packCost+"元";
 			Charge cha=new Charge();
 			//插入收费记录id
-			int seq=chargeMapper.getChargeSeq();
+			seq=chargeMapper.getChargeSeq();
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
@@ -296,6 +298,7 @@ public class TransactServiceImpl implements ITransactService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", a);
 		map.put("prompt", prompt);
+		map.put("seq", seq);
 		return map;
 	}
 
@@ -329,7 +332,7 @@ public class TransactServiceImpl implements ITransactService {
 		tranSact.setCarId(carId);
 		tranSact.setTranEtime(updateTime);
 		int v = transactMapper.updateTransactTime(tranSact);//续结束日期
-		
+		int seq=0;
 		if(payType==1) {//1，余额  2，现金   3，第三方
 			double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
 			Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
@@ -342,7 +345,7 @@ public class TransactServiceImpl implements ITransactService {
 			
 			Charge cha=new Charge();
 			//插入收费记录id
-			int seq=chargeMapper.getChargeSeq();
+			seq=chargeMapper.getChargeSeq();
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
@@ -355,7 +358,7 @@ public class TransactServiceImpl implements ITransactService {
 			prompt="现金办理成功，收取"+packCost+"元，套餐截止日期延期为"+updateTime+"";
 			Charge cha=new Charge();
 			//插入收费记录id
-			int seq=chargeMapper.getChargeSeq();
+			seq=chargeMapper.getChargeSeq();
 			cha.setAdminId(adminId);
 			cha.setCarId(carId);
 			cha.setCost(packCost);
@@ -367,7 +370,7 @@ public class TransactServiceImpl implements ITransactService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", v);
 		map.put("prompt", prompt);
-		
+		map.put("seq", seq);
 		return map;
 	}
 	@Override//=======================更改=============================
@@ -407,14 +410,14 @@ public class TransactServiceImpl implements ITransactService {
 		maney = refund(carId);
 		String CNY = maney;
 		double money = Double.parseDouble(CNY);//退款金额
-		
+		int seq=0;
 		if(payType==1) {//1，余额  2，现金   3，第三方
 			if(money>packCost) {//退款足够抵套餐费
 				double tranmoney =money-packCost;//颓废-新套餐费用
 				refundState = this.refundMoney(carId,tranmoney);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
 				Charge cha=new Charge();
 				//插入收费记录id
-				int seq=chargeMapper.getChargeSeq();
+				seq=chargeMapper.getChargeSeq();
 				cha.setAdminId(adminId);
 				cha.setCarId(carId);
 				cha.setCost(packCost);
@@ -434,7 +437,7 @@ public class TransactServiceImpl implements ITransactService {
 				
 				Charge cha=new Charge();
 				//插入收费记录id
-				int seq=chargeMapper.getChargeSeq();
+				seq=chargeMapper.getChargeSeq();
 				cha.setAdminId(adminId);
 				cha.setCarId(carId);
 				cha.setCost(tranmoney2);
@@ -452,7 +455,7 @@ public class TransactServiceImpl implements ITransactService {
 				refundState = this.refundMoney(carId,tranmoney);//车牌退费退费给账户余额，修改套餐办理状态
 				Charge cha=new Charge();
 				//插入收费记录id
-				int seq=chargeMapper.getChargeSeq();
+				seq=chargeMapper.getChargeSeq();
 				cha.setAdminId(adminId);
 				cha.setCarId(carId);
 				cha.setCost(tranmoney);
@@ -471,7 +474,7 @@ public class TransactServiceImpl implements ITransactService {
 				
 				Charge cha=new Charge();
 				//插入收费记录id
-				int seq=chargeMapper.getChargeSeq();
+				seq=chargeMapper.getChargeSeq();
 				cha.setAdminId(adminId);
 				cha.setCarId(carId);
 				cha.setCost(tranmoney2);
@@ -493,6 +496,7 @@ public class TransactServiceImpl implements ITransactService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", a);
 		map.put("prompt", prompt);
+		map.put("seq", seq);
 		return map;
 	}
 	

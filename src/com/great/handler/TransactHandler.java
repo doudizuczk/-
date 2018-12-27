@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -183,17 +184,9 @@ public class TransactHandler {
 	}
 	//============================================================================================================================
 	//czk-确认支付后办理套餐
-	@RequestMapping(value = "/confirmPay.action")
-	public@ResponseBody Map<String,Object> confirmPay(HttpServletRequest request ) {
-		Integer PackTranPyte = Integer.parseInt(request.getParameter("PackTranPyte"));//办理类型--1，新办  2，续费    3，更改
-		Integer payType = Integer.parseInt(request.getParameter("payType"));//支付方式---1，余额  2，现金   3，第三方
-		Integer adminId = Integer.parseInt(request.getParameter("adminId"));//adminId
-		Integer packId = Integer.parseInt(request.getParameter("packId"));//套餐id
-		String carId = request.getParameter("carId");//车牌
-		Integer carPark=0;
-		if(request.getParameter("carPark")!=null&&request.getParameter("carPark")!="") {
-			 carPark = Integer.parseInt(request.getParameter("carPark"));
-		}
+	@RequestMapping(value = "/confirmPay.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public@ResponseBody Map<String,Object> confirmPay(HttpServletRequest request,int PackTranPyte,int payType
+			,int adminId,int packId,String carId,@RequestParam(value = "carPark", required = true, defaultValue = "0")int carPark) {
 		carPark(carId,carPark);//更改车位状态方法
 		List<Map<String,Object>> y = carMapper.selectCarById(carId);
 		if(y.size()==0) {
