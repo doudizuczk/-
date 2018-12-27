@@ -42,7 +42,7 @@ public class SSEController {
 	volatile public static String cCarId = null; //缴费推送车牌号
 	volatile public static String cCarTypes = null; //缴费推送车辆类型
 	volatile public static Double cCost =0.0; //缴费推送出场费用
-	volatile public static String getOut = null; //手动放行
+	volatile public static String gOut = null; //手动放行
 	volatile public static String Name = null;
 	//---------------------------------------
 	@Autowired
@@ -90,6 +90,10 @@ public class SSEController {
 	        	pw.write("event: paymoney\n");
 	        	pw.write("data:{'cCarId':'"+cCarId+"','cCarTypes':'"+cCarTypes+"','cCost':"+cCost+"}\n\n");
 	        }
+	        if(gOut!=null){
+	        	pw.write("event: cango\n");
+	        	pw.write("data:{'gOut':'"+gOut+"'}\n\n");
+	        }
 	        pw.flush();
 	      //进场初始化
 	        if(gCarId!=null&&gCarTypes!=null&&gCanGo!=null) {
@@ -110,8 +114,8 @@ public class SSEController {
 	        	cCost=null;
 	        }
 	        //放行初始化
-	        if(getOut!=null) {
-	        	getOut=null;
+	        if(gOut!=null) {
+	        	gOut=null;
 	        }
 	        if(pw.checkError()){
 	            System.out.println("客户端断开连接");
@@ -122,57 +126,12 @@ public class SSEController {
 	       }
 	     }
 	}
-	
-//-------------------------------------------------------------------------------
-//	@RequestMapping(value="/push.action",method=RequestMethod.GET,produces = "text/event-stream;charset=UTF-8")
-//	public void  push(HttpServletResponse response){
-//		response.setContentType("text/event-stream");
-//		response.setCharacterEncoding("utf-8");
-//		while (true) {
-//	        Random r = new Random();
-//	        try {
-//	        Thread.sleep(3000);
-//	        PrintWriter pw=response.getWriter();
-//	        System.out.println("name1"+Name);
-//	        if(Name!=null) {
-//	        	pw.write("data:" + Name+r.nextInt() + "\n\n");
-//	        }
-//	        pw.flush();
-//	        if(Name!=null) {
-//	        	Name=null;
-//	        }
-//	        if(pw.checkError()){
-//	            System.out.println("客户端断开连接");
-//	            return;
-//	        }
-//	        } catch (Exception e) {
-//	         e.printStackTrace();
-//	       }
-//	     }
-//	}
-//-------------------------------------------------------------------------------	
-//	    public @ResponseBody String push(HttpServletResponse response){
-//	         Random r = new Random();
-//	         try {
-//	                 Thread.sleep(5000);
-//	         } catch (InterruptedException e) {
-//	                 e.printStackTrace();
-//	         }
-//	         System.out.println("111111");
-//	         return "data:Testing 1,2,3" + "wwwwwwwwwwww"+"\n\n";
-//	         return "data:Testing 1,2,3" + r.nextInt() +"\n\n";
-//	    }
-//-------------------------------------------------------------------------------
-	   //入口显示动态
-//	    @RequestMapping(value="/push2.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-//	    public @ResponseBody String push2(@RequestParam String name){
-//		   Name=name;
-//		  return "1";
-//	    }
 	  //入口显示动态：识别图片
 		@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-		public @ResponseBody String updatePhoto(MultipartFile img){ 
+		public @ResponseBody Map<String,Object> updatePhoto(MultipartFile img){ 
 		      System.out.println("开始上传1");
+		      Map<String,Object> m=new HashMap<>();
+		      Dock doc=new Dock();
 		      String carId =null;
 		      try {
 				    JSONObject res =Sample.getCarId(img.getBytes());
@@ -184,12 +143,13 @@ public class SSEController {
 					if(CARID!=null||CARID!="") {
 						String carIds = CARID.toUpperCase();
 						//判断车辆是否已经入库
-						Dock doc=dockService.queryParkIdByCar(carId);
+						doc=dockService.queryParkIdByCar(carId);
 						if(doc!=null) {
 							gCarTypes="该车辆已入库！请联系管理员";
 							gCarId=carId;
-							gCanGo="error";;
-							return carId;
+							gCanGo="error";
+							m.put("message", "该车辆已入库！请联系管理员");
+							return m;
 						}
 						//判断车牌号是否为白名单以及为可用状态(搜索车辆表)
 						List<Map<String,Object>> carInfo=carBrakeService.queryWhiteListCarByCarId(carId);
@@ -205,12 +165,14 @@ public class SSEController {
 								gCarTypes="白名单vip";
 								gCarId=carId;
 								gCanGo="success";
-								return carId;
+								m.put("message", "可以进入");
+								return m;
 							}else {
 								gCarTypes="白名单vip";
 								gCarId=carId;
 								gCanGo="error";
-								return carId;
+								m.put("message", "系统故障");
+								return m;
 							}
 							
 						}else 
@@ -235,13 +197,15 @@ public class SSEController {
 										gCarTypes="月缴用户";
 										gCarId=carId;
 										gCanGo="success";
-										return carId;
+										m.put("message", "可以进入");
+										return m;
 									}
 									else {
 										gCarTypes="月缴用户";
 										gCarId=carId;
 										gCanGo="error";
-										return carId;
+										m.put("message", "系统故障");
+										return m;
 									}
 								}
 								else 
@@ -262,12 +226,14 @@ public class SSEController {
 										gCarTypes="临时用户";
 										gCarId=carId;
 										gCanGo="success";
-										return carId;
+										m.put("message", "可以进入");
+										return m;
 									}else {
 										gCarTypes="临时用户";
 										gCarId=carId;
 										gCanGo="error";
-										return carId;
+										m.put("message", "系统故障");
+										return m;
 									}
 								}
 							}else
@@ -276,7 +242,8 @@ public class SSEController {
 								gCarTypes="没有车位";
 								gCarId=carIds;
 								gCanGo="error";
-								return carId;
+								m.put("message", "没有车位");
+								return m;
 							}
 							
 						}
@@ -286,16 +253,18 @@ public class SSEController {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				System.out.println("无法识别");
+				m.put("message", "无法识别");
+				return m;
 			}
-		      System.out.println(carId);
-		      return carId;
+		      return m;
 		}
 //-----------------------------车辆进场end-----------------------------------------------------------					
 //-----------------------------车辆出场star----------------------------------------------------------	
 		@RequestMapping(value ="/updateGetOutPhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-		public @ResponseBody String updateGetOutPhoto(MultipartFile img){
+		public @ResponseBody Map<String,Object> updateGetOutPhoto(MultipartFile img){
 			System.out.println("开始上传2");
+			Map<String,Object> m=new HashMap<>();
+			Dock dock=new Dock();
 		      String carId =null;
 		      try {
 				    JSONObject res =Sample.getCarId(img.getBytes());
@@ -305,9 +274,10 @@ public class SSEController {
 						//判断车辆类型
 						HashMap<String,Object> car=carService.selectCarForType(carId);
 						//根据停靠表判断车辆所处的车位
-						Dock dock=dockService.queryParkIdByCar(carId);
+						dock=dockService.queryParkIdByCar(carId);
 						if(dock!=null) {
-							cost=1.5;
+//							cost=1.5;
+							cost=chargeServices.getParkingCost(carId);
 							if(cost>0) {
 								oCarTypes=""+car.get("parmName");
 								oCarId=carId;
@@ -318,6 +288,8 @@ public class SSEController {
 								cCarId=carId;
 					        	cCarTypes=""+car.get("parmName");
 					        	cCost=cost;
+					        	m.put("message","请联系管理员进行缴费");
+					        	return m;
 							}else {
 								//接口查看费用
 								Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
@@ -335,12 +307,15 @@ public class SSEController {
 						        	oCanGo="success";
 						        	oCost="0元";
 						        	oStarTime=dock.getStartTime();
+						        	m.put("message","可以出库");
 						        }else {
 						        	oCarTypes=""+car.get("parmName");
 						        	oCarId=carId;
 						        	oCanGo="系统故障！请联系管理员";
 						        	oCost="0元";
 						        	oStarTime=dock.getStartTime();
+						        	m.put("message","系统故障！请联系管理员");
+						        	return m;
 						        }
 							}
 					
@@ -350,6 +325,8 @@ public class SSEController {
 							oCanGo="该车辆未入库！请联系管理员";
 							oCost=cost+"元";
 							oStarTime="。。。。。";
+							m.put("message","该车辆未入库！请联系管理员");
+							return m;
 						}
 						
 //----------------------------------------------------------------------------------------------
@@ -361,11 +338,219 @@ public class SSEController {
 				oCanGo="请联系管理员";
 				oCost="0元";
 				oStarTime="。。。。。";
-				System.out.println("无法识别");
+				m.put("message","无法识别");
+				return m;
 			}
-		      System.out.println(carId);
-		      return carId;
+		      
+		      return m;
 		}
 //-----------------------------车辆出场end-----------------------------------------------------------	
-	//手动放行
+//手动进场------------------------------------------------------------------------------------
+		@RequestMapping(value ="/goInCar.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+		public @ResponseBody Map<String,Object> goInCar(@RequestParam String carId){ 
+//-----------------------------车辆进场star-----------------------------------------------------------					
+					String c=carId;
+					Map<String,Object> m=new HashMap<>();
+					Dock doc=new Dock();
+			        /*使用toUpperCase()方法实现大写转换*/
+					if(c!=null||c!="") {
+						String carIds = c.toUpperCase();
+						//判断车辆是否已经入库
+						doc=dockService.queryParkIdByCar(carId);
+						if(doc!=null) {
+							gCarTypes="该车辆已入库！请联系管理员";
+							gCarId=carId;
+							gCanGo="error";
+							m.put("message", "该车辆已入库！请联系管理员");
+							return m;
+						}else {
+							//判断车牌号是否为白名单以及为可用状态(搜索车辆表)
+							List<Map<String,Object>> carInfo=carBrakeService.queryWhiteListCarByCarId(carId);
+							if(carInfo.size()>0) {
+								int parkId=Integer.parseInt(carInfo.get(0).get("parkId").toString());//车位ID
+								//插入停靠表
+								Map<String,Object> dock=new HashMap<String, Object>(); 
+								dock.put("carId", carId);
+								dock.put("parkId", parkId);
+								boolean result1=dockService.creatDockByCar(dock);
+								//转发信息
+								if(result1) {
+									gCarTypes="白名单vip";
+									gCarId=carId;
+									gCanGo="success";
+									m.put("message", "放行成功");
+									return m;
+								}else {
+									gCarTypes="白名单vip";
+									gCarId=carId;
+									gCanGo="error";
+									m.put("message", "系统故障！请手动处理");
+									return m;
+								}
+								
+							}else 
+							{
+								//判断是否有车位
+								List<Map<String,Object>> getParkList=carLocationService.getParkIdList();
+								if(getParkList.size()>0) {
+									//有车位
+									//获取车位
+									int parkId2=Integer.parseInt(getParkList.get(0).get("parkId").toString());//车位ID
+									//判断用户是否为月缴用户
+									List<Map<String,Object>> carInfo2=carBrakeService.querymouthListCarByCarId(carId);
+									if(carInfo2.size()>0){
+										Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
+										dockAndPark.put("carId", carId);
+										dockAndPark.put("parkId", parkId2);
+										dockAndPark.put("parkState", 2);
+										boolean result1=dockService.creatDockByCar(dockAndPark);//插入停靠表
+										//车位状态改为2
+										boolean result2=carLocationService.updateParkStateById(dockAndPark);
+										if(result1&&result2) {
+											gCarTypes="月缴用户";
+											gCarId=carId;
+											gCanGo="success";
+											m.put("message", "放行成功");
+											return m;
+										}
+										else {
+											gCarTypes="月缴用户";
+											gCarId=carId;
+											gCanGo="error";
+											m.put("message", "系统故障！请手动处理");
+											return m;
+										}
+									}
+									else 
+									{
+										//判断用户是否存在
+										List<Map<String,Object>> carById=carService.selectCarById(carId);
+										if(carById.size()==0) {
+											//创建临时用户
+											boolean result2=carService.createCarWithNewUser(carIds);
+										}
+										Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
+										dockAndPark.put("carId", carId);
+										dockAndPark.put("parkId", parkId2);
+										dockAndPark.put("parkState", 2);
+										boolean result3=dockService.creatDockByCar(dockAndPark);
+										boolean result2=carLocationService.updateParkStateById(dockAndPark);
+										if(result2&&result3) {
+											gCarTypes="临时用户";
+											gCarId=carId;
+											gCanGo="success";
+											m.put("message", "放行成功");
+											return m;
+										}else {
+											gCarTypes="临时用户";
+											gCarId=carId;
+											gCanGo="error";
+											m.put("message", "系统故障！请手动处理");
+											return m;
+										}
+									}
+								}else
+								{
+									//没有车位
+									gCarTypes="没有车位";
+									gCarId=carIds;
+									gCanGo="error";
+									m.put("message", "没有车位");
+									return m;
+								}
+								
+							}
+						}
+					
+					
+				  }
+				return m;
+				  
+		}		
+		
+//手动出场-----------------------------------------------------------------------------------------
+		@RequestMapping(value ="/getOutCar.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+		public @ResponseBody Map<String,Object> getOutCar(@RequestParam String carId){
+			Map<String,Object> m=new HashMap<>();
+		      String CARID =carId;
+		      Dock dock=new Dock();
+		        /*使用toUpperCase()方法实现大写转换*/
+				if(CARID!=null||CARID!="") {
+					String carIds = CARID.toUpperCase();
+//-------------------------------------车辆出场判断---------------------------------------------------------
+					   double cost=0;
+						//判断车辆类型
+						HashMap<String,Object> car=carService.selectCarForType(carId);
+						//根据停靠表判断车辆所处的车位
+						dock=dockService.queryParkIdByCar(carId);
+						if(dock!=null) {
+//							cost=1.5;
+							cost=chargeServices.getParkingCost(carIds);
+							if(cost>0) {
+								oCarTypes=""+car.get("parmName");
+								oCarId=carId;
+								oCanGo="请联系管理员进行缴费";
+								oCost=cost+"元";
+								oStarTime=dock.getStartTime();
+								
+								cCarId=carId;
+					        	cCarTypes=""+car.get("parmName");
+					        	cCost=cost;
+					        	m.put("message", "请联系管理员进行缴费");
+					        	return m;
+							}else {
+								//接口查看费用
+								Map<String,Object> dockAndPark=new HashMap<String, Object>(); 
+								dockAndPark.put("carId", carId);
+								dockAndPark.put("parkId", dock.getCarLocationId());
+								dockAndPark.put("parkState", 1);
+								dockAndPark.put("dockState", 2);
+								//车位状态改为2
+					 	        boolean result2=carLocationService.updateParkStateById(dockAndPark);
+								//修改停靠表状态
+						        boolean result3=dockService.updateDockState(dockAndPark);
+						        if(result2&&result3) {
+						        	oCarTypes=""+car.get("parmName");
+						        	oCarId=carId;
+						        	oCanGo="success";
+						        	oCost="0元";
+						        	oStarTime=dock.getStartTime();
+						        	m.put("message", "可以放行");
+						        	return m;
+						        }else {
+						        	oCarTypes=""+car.get("parmName");
+						        	oCarId=carId;
+						        	oCanGo="系统故障！请联系管理员";
+						        	oCost="0元";
+						        	oStarTime=dock.getStartTime();
+						        	m.put("message", "系统故障！请联系管理员");
+						        	return m;
+						        }
+							}
+					
+						}else {
+							oCarTypes=""+car.get("parmName");
+							oCarId=carId;
+							oCanGo="该车辆未入库！请联系管理员";
+							oCost=cost+"元";
+							oStarTime="。。。。。";
+							m.put("message", "该车辆未入库！请联系管理员");
+							return m;
+						}
+						
+//----------------------------------------------------------------------------------------------
+				}
+				return m;
+		}		
+//-------------------------------------------------------------------------------------------
+		//手动出场-----------------------------------------------------------------------------------------
+				@RequestMapping(value ="/canOut.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+				public @ResponseBody Map<String,Object> canOut(){
+					Map<String,Object> m=new HashMap<>();
+					m.put("message", "放行");
+					    gOut="success";
+						return m;
+				}		
+		
+		
 }

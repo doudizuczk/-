@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>修改参数页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <style>
@@ -52,7 +52,7 @@ margin-left: 250px;
  			</tbody>
  		</table>
  		<div>
- 			<input type="button" value="保存" id="savechange" class="btn btn-primary"><input type="button" value="取消" id="nosavechange" class="btn btn-primary">
+ 			<input type="button" value="保存" id="savechange" class="btn btn-primary btn-sm"><input type="button" value="取消" id="nosavechange" class="btn btn-primary btn-sm">
  		</div>
  	</form>
 </body>

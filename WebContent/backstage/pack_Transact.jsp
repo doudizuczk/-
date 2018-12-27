@@ -10,8 +10,10 @@
 <META   HTTP-EQUIV="Expires"   CONTENT="0">
 <title>套餐办理页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
@@ -162,7 +164,7 @@ function isLicenseNo(str) {
 				<tr>
 				<td>选择要办理的套餐类型：</td>
 					<td>
-				<select name="packType" id="packType">
+				<select name="packType" id="packType" class="btn btn-default" style="width: 198px;">
 						<option value="">请选择套餐类型...</option>
 					<c:forEach items="${dates.TypePack}" var="ttt">
 						<option value="${ttt.PARM_VAL}">${ttt.PARM_NAME}</option>
@@ -173,7 +175,7 @@ function isLicenseNo(str) {
 				<tr>
 					<td>选择你要办理的套餐：</td>
 					<td>
-						<select name="packId" id="packId">
+						<select name="packId" id="packId" class="btn btn-default" style="width: 198px;">
 							<option value="">请选择套餐...</option>
 						</select>
 					</td>
@@ -181,15 +183,17 @@ function isLicenseNo(str) {
 				<tr>
 					<td>请输入车牌号：</td>
 					<td>
-						<input type="text" name="carAccount" id="carAccount" placeholder="请输入要办理的车牌号..."> 
+						<input type="text" name="carAccount" id="carAccount" placeholder="请输入要办理的车牌号..." class="btn btn-default"> 
 					</td>
 				</tr>
 				
 			<tbody id="packTbody">
 			</tbody>
 		 </table>
-		 <div>
-		 	<input type="submit" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
+		<div style="width: 68%">
+         <div style="float: right;">
+		 	<input type="submit" value="确认办理" id="newBtn" class="btn btn-primary" style="margin-right: 100px;width: 100px;"><input type="reset" value="重置" id="reBtn" class="btn btn-primary" style="width: 100px;">
+		 </div>
 		 </div>
 	</form>
 <!-- -----------弹窗------------------>

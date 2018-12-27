@@ -8,8 +8,12 @@
 <META   HTTP-EQUIV="Expires"   CONTENT="0">
 <meta charset="UTF-8">
 <script type="text/javascript" src="<%=request.getContextPath()%>/carstyle/js/jquery-1.4.2.js"></script>
-<!---->
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+<!---->
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.my-modal.1.1.js"></script>
 <!--win风格-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.my-modal.1.1.winStyle.css" />
@@ -81,8 +85,38 @@ function invoice(chargeId){
 <title>停车缴费</title>
 </head>
 <body>
-<input id="carId" name="carId" placeholder="请输入车牌">
-<button onclick="payment()">获取该车停车费</button>
+<!-- <input id="carId" name="carId" placeholder="请输入车牌" class="btn btn-default"> -->
+<!-- <button onclick="payment()" class="btn btn-default">获取该车停车费</button> -->
+
+<!--  -->
+<table>
+<tr>
+   <td><input id="carId" name="carId" placeholder="请输入车牌" class="btn btn-default"><button onclick="payment()" class="btn btn-default">获取该车停车费</button></td>
+</tr>
+<tr>
+   <td></td>
+   <td></td>
+</tr>
+<tr>
+   <td><input type="text" id="gCarId" name="gCarId" placeholder="请输入车牌" class="btn btn-default">
+   <input type="button" onclick="goIn()" class="btn btn-default" value="车辆进场"></td>
+</tr>
+<tr>
+   <td></td>
+   <td></td>
+</tr>
+<tr>
+   <td><input type="text" id="oCarId" name="oCarId" placeholder="请输入车牌" class="btn btn-default">
+   <input  type="button" onclick="getOut()" class="btn btn-default" value="车辆出场"></td>
+</tr>
+<tr>
+   <td><input  type="button" onclick="canOut()" class="btn btn-default" value="手动开闸"></td>
+</tr>
+</table>
+
+
+<!--  -->
+
 <div id="show"></div>
 <!-- -----------弹窗------------------>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">
@@ -121,6 +155,62 @@ function invoice(chargeId){
 </div>
 <!-- ----------------------------->
 </body>
+<script>
+function canOut(){
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/sse/canOut.action",
+		type:"POST",
+		data:{},
+		dataType:"json",
+		success : function(data){
+				alert(data.message);
+			}
+    });
+}
+function goIn(){
+	if(isVehicleNumber($("#gCarId").val())){
+	alert("车辆入场"+$("#gCarId").val());
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/sse/goInCar.action",
+		type:"POST",
+		data:{"carId":$("#gCarId").val()},
+		dataType:"json",
+		success : function(data){
+				alert(data.message);
+			}
+    });
+	}else{
+		alert("车牌号输入有误！请检查");
+		return;
+	}
+}
+function getOut(){
+	if(isVehicleNumber($("#oCarId").val())){
+	alert("车辆入场"+$("#oCarId").val());
+	$.ajax({
+	    url: "<%=request.getContextPath()%>/sse/getOutCar.action",
+		type:"POST",
+		data:{"carId":$("#oCarId").val()},
+		dataType:"json",
+		success : function(data){
+				alert(data.message);
+			}
+    });
+	}else{
+		alert("车牌号输入有误！请检查");
+		return;
+	}
+}
+/*车牌验证*/
+function isVehicleNumber(vehicleNumber) {
+      var result = false;
+      if (vehicleNumber.length == 7){
+        var express = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
+        result = express.test(vehicleNumber);
+      }
+      return result;
+  };
+</script>
 <script>
 	var m1 = new MyModal.modal(function() {
 		backdrop: 'static';
