@@ -131,9 +131,6 @@
 		</style>
 		<!--  -->
 		<div class="t-c f28 p6 color4 bg-color6">
-			<h2 class="color-danger f46">
-				我们的目标
-			</h2>
 			<p>
 			<marquee onmouseout=this.start() onmouseover=this.stop() behavior="scroll" direction="up" width="850px" height="80px" SCROLLDELAY="320" >
 			<c:forEach items="${tranList}" var="tran">
@@ -153,86 +150,51 @@
 		<!-- 导航 -->
 		<section class="demo-nav t-c f28 clearfix">
 			<div class="col-3 h19">
-				<a href="button.jsp" class="pt4 pb4"><i class="f42 color-primary icon iconfont icon-anniu"></i>
-					<p>按钮徽章</p>
+				<a href="<%=request.getContextPath()%>/frontstage/addcar.jsp" class="pt4 pb4"><i class="f42 color-primary icon iconfont icon-anniu"></i>
+					<p>新增车辆</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4">
+				<a href="<%=request.getContextPath()%>/owerHandler/searchOwersCar.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4">
 					<i class="f46 color-success icon iconfont icon-dialog"></i>
-					<p>消息提示</p>
+					<p>我的车辆</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f44 color-info icon iconfont icon-biaoge"></i>
-					<p>栅格化</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/getMeans.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4"><i class="f44 color-info icon iconfont icon-biaoge"></i>
+					<p>我的资料</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f44 color-warning icon iconfont icon-iconfontliebiao1copy"></i>
-					<p>表单元素</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/toMyCount.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4"><i class="f44 color-warning icon iconfont icon-iconfontliebiao1copy"></i>
+					<p>我的账户</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="l" class="pt4 pb4"><i class="f46 color-danger icon iconfont icon-tupian"></i>
-					<p>icon</p>
+				<a href="<%=request.getContextPath()%>/frontstage/checkage.jsp" class="pt4 pb4"><i class="f46 color-danger icon iconfont icon-tupian"></i>
+					<p>实名认证</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f46 color-warning icon iconfont icon-menu"></i>
-					<p>侧栏导航</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/searchPayNotes.action" class="pt4 pb4"><i class="f46 color-warning icon iconfont icon-menu"></i>
+					<p>账单管理</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
-					<p>字体排版</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/searchPack.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
+					<p>月缴办理</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-primary icon iconfont icon-zhediemianban"></i>
-					<p>折叠面板</p>
+				<a href="<%=request.getContextPath()%>/carLocation/toSearchCar.action" class="pt4 pb4"><i class="f50 color-primary icon iconfont icon-zhediemianban"></i>
+					<p>反向寻车</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
 				<a href="" class="pt4 pb4"><i class="f50 color-success icon iconfont icon-ic_view_carousel_px"></i>
-					<p>swiper</p>
+					<p>敬请期待...</p>
 				</a>
 			</div>
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f42 color-warning icon iconfont icon-pubuliu"></i>
-					<p>瀑布流</p>
-				</a>
-			</div>
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f46 color-danger icon iconfont icon-tables-copy"></i>
-					<p>iScroll</p>
-				</a>
-			</div>
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f46 color-success icon iconfont icon-anniu"></i>
-					<p>相册切换</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="keyboard.jsp" class="pt4 pb4"><i class="f46 color-primary icon iconfont icon-jianpan"></i>
-					<p>安全键盘</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f60 color-danger icon iconfont icon-jindutiao"></i>
-					<p>Progress</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-warning icon iconfont icon-icwindowzoom48px"></i>
-					<p>全屏切换</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f40 color-info icon iconfont icon-tab"></i>
-					<p>Tab切换</p>
-				</a>
-			</div>	
 		</section>
 		<style>
 			.demo-nav {
@@ -254,7 +216,7 @@
 				border-left: none;
 			}
 		</style>
-		<!-- 底部导航 -->
+		<%-- <!-- 底部导航 -->
 		<nav class="demo-bottomNav mt6 w75 h12 pt1 t-c f28 bg-color8 o-h clearfix">
 			<div class="w15 fl">
 				<a href="user_main.jsp">
@@ -285,8 +247,8 @@
 					<i class="f46 icon iconfont icon-servicefill"></i>
 					<p>我的</p>
 				</a>
-			</div>
-		</nav>
+			</div> 
+		</nav> --%>
 		<style type="text/css">
 			.demo-bottomNav {
 				line-height: 1.8em;

@@ -86,5 +86,8 @@
 	<update id="updateCarMess" parameterType="HashMap">
 		update T_CAR set OWER_ID=${owerId} where CAR_ID='${carId}'
 	</update>
-
+	
+	<update id="updatePwd" parameterType="com.great.bean.Ower">
+		update T_OWER set OWER_PWD='${owerPwd}' where OWER_ID=${owerId}
+	</update>
 </mapper>
