@@ -50,7 +50,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-jcl-5.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-jdbc-5.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-5.0.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-5.0.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-5.0.6.RELEASE.jar" sourcepath="E:/maven_jar/org/springframework/spring-web/5.0.6.RELEASE/spring-web-5.0.6.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-5.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xwork-core-2.3.16.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/alipay-sdk-java-3.3.0-source.jar"/>

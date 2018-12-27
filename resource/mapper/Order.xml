@@ -3,6 +3,14 @@
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
     
 <mapper namespace="com.great.mapper.OrderMapper">
+	<select id="queryAllOrder" parameterType="com.great.bean.Order" resultType="com.great.bean.Order">
+		select ORDER_ID "orderId",ORDER_AMOUNT "amount",ORDER_CASH "cash",ORDER_COUNT "count",ORDER_IAMOUNT "invAmount"
+		,ORDER_ICOUNT "invCount",ORDER_SHIFT "shift",to_char(ORDER_CDATE,'yyyy-MM-dd') "createTime" from t_order and 1=1 
+		 <where>
+		 	<if test="shift!=0">and ORDER_SHIFT=#{shift}</if>
+		 	<if test="createTime!=null and createTime!=''">and to_char(ORDER_CDATE,'yyyy-MM-dd')=#{createTime}</if>
+		 </where>
+	</select>
 	<select id="queryOrder" parameterType="com.great.bean.Order" resultType="com.great.bean.Order">
 		select ORDER_ID "orderId",ORDER_AMOUNT "amount",ORDER_CASH "cash",ORDER_COUNT "count",ORDER_IAMOUNT "invAmount"
 		,ORDER_ICOUNT "invCount",ORDER_SHIFT "shift",to_char(ORDER_CDATE,'yyyy-MM-dd') "createTime" from t_order 

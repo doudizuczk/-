@@ -7,6 +7,9 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +25,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
@@ -183,6 +187,25 @@ public class OrderHandler {
 		orderService.addOrder(order);
 		
 		System.out.println(new Date()+" 自动生成结算单任务执行完毕");
+	}
+	
+	//查询结算单列表
+	@RequestMapping("/orderList.action")
+	public ModelAndView orderList(HttpServletRequest request, Order order,
+			@RequestParam(value = "curPage", required = true, defaultValue = "1") int curPage) {
+		ModelAndView model = new ModelAndView();
+		Page<Object> page = PageHelper.startPage(curPage, 5);// 第curPage页，包含5条
+		
+		List<Order> orderList=orderService.queryAllOrder(order);
+		int totalPage = page.getPages();// 总页数
+		int totalNum = (int) page.getTotal();
+		Map<String, Object> dates = new HashMap<String, Object>();
+		dates.put("orderList", orderList);
+		PageInfo pageInfo = new PageInfo(curPage, totalPage, totalNum, dates);
+
+		model.addObject("pageInfo", pageInfo);
+		model.setViewName("forward:/backstage/export_statement.jsp");
+		return model;
 	}
 	
 }

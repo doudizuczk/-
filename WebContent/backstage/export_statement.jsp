@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,11 @@ function exportOrder(){
 	}
 	window.location.href="<%=request.getContextPath()%>/orderHandler/exportOrderExcel.action?shift="+$("#shift").val()+"&createTime="+$("#createTime").val();
 }
+
+function exportOrder2(shift,createTime){
+	window.location.href="<%=request.getContextPath()%>/orderHandler/exportOrderExcel.action?shift="+shift+"&createTime="+createTime;
+}
+
 </script>
 <title>Insert title here</title>
 </head>
@@ -42,6 +48,70 @@ function exportOrder(){
 		</select>
 		<button onclick="exportOrder()" class="btn btn-primary">导出</button>
 </div>	
+
+<h2>历史结算单</h2>
+	<form action="<%=request.getContextPath()%>/orderHandler/orderList.action" method="post" >
+	    <button class="btn btn-default" type="button">结算日期:</button>
+	    <input type="date" id="createTime2" name="createTime" value="${param.createTime}" class="btn btn-default" style="height:35px"/>
+	    <button class="btn btn-default" type="button">班次:</button>	
+	    <select id="shift2" name="shift" class="btn btn-default">
+	    	<option value="0">请选择</option>
+			<option value="1">早班 08:00-16:00</option>
+			<option value="2">中班 16:00-24:00</option>
+			<option value="3">晚班 00:00-08:00</option>
+	    </select>
+  	</form>
+ 	<form>
+ 		<table class="table table-striped table-hover" id="datatable">
+ 			<thead>
+ 				<tr>
+ 					<th>结算单编号</th>
+ 					<th>总金额</th>
+ 					<th>现金</th>
+ 					<th>交易数量</th>
+ 					<th>发票金额</th>
+ 					<th>发票数量</th>
+ 					<th>班次</th>
+ 					<th>创建时间</th>
+ 					<th>操作</th>
+ 				</tr>
+ 			</thead>
+ 			<tbody id="tbody">
+ 				<c:forEach items="${requestScope.pageInfo.dates.orderList}" var="order">
+ 				<tr>
+ 					<td>${order.orderId}</td>
+ 					<td>${order.amount}</td>
+ 					<td>${order.cash}</td>
+ 					<td>${order.count}</td>
+ 					<td>${order.invAmount}</td>
+ 					<td>${order.invCount}</td>
+ 					<c:if test="${order.shift==1}"><td>早班</td></c:if>
+ 					<c:if test="${order.shift==2}"><td>中班</td></c:if>
+ 					<c:if test="${order.shift==3}"><td>晚班</td></c:if>
+ 					<td>${order.createTime}</td>
+ 				    <td><input type="button" value="导出" onclick="exportOrder2(${order.shift},${order.createTime})" class="btn btn-primary btn-sm"></td>
+ 				</tr>
+ 				</c:forEach>
+ 			</tbody>
+ 		</table>
+ 	</form>
+	<div style="width: 80%">
+         <div style="float: right;"> 	
+	         <button id="first" name="first"  class="btn btn-primary btn-sm">首页</button>
+	         <button id="prev" name="prev"  class="btn btn-primary btn-sm">上一页</button>
+	         <button id="next" name="next"  class="btn btn-primary btn-sm">下一页</button>
+	         <button id="end" name="end"  class="btn btn-primary btn-sm">末页</button>
+	         <input id="goTxt" name="goTxt" type="text" class="btn btn-default btn-sm" style="width: 15%;background-color:#FFFFFF;"/>
+	         <button id="go" name="go"  class="btn btn-primary btn-sm">跳转</button>
+	     	 共<span>${requestScope.pageInfo.totalNum}</span>条&nbsp;当前页数：[<span id="curPage">${requestScope.pageInfo.curPage}</span>/<span id="tolPage">${requestScope.pageInfo.totalPage}</span>]
+    	 </div>
+     </div>
+
+
+
+
+
+
 <!-- -----------弹窗------------------>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">
 			<div class="m-modal-dialog" style="width: 25%">
@@ -117,5 +187,49 @@ if (!!window.EventSource) {
     } else {
             console.log("没有sse");
     }
+    
+    
+    
+var num=parseInt($("#curPage").text());
+var total=parseInt($("#tolPage").text());
+
+$("#first").click(function(){
+	num=1;
+	$("#curPage").text("");
+	window.location.href="<%=request.getContextPath()%>/orderHandler/orderList.action?createTime="+$("#createTime").val()+"&shift="+$("#shift").val()+"&curPage="+num;
+});
+
+$("#prev").click(function(){
+	if(num>1){
+		num=num-1;
+		$("#curPage").text("");
+		window.location.href="<%=request.getContextPath()%>/orderHandler/orderList.action?createTime="+$("#createTime").val()+"&shift="+$("#shift").val()+"&curPage="+num;
+	}
+});
+
+$("#next").click(function(){
+	if(num<total){
+		num=num+1;
+		$("#curPage").text("");
+		window.location.href="<%=request.getContextPath()%>/orderHandler/orderList.action?createTime="+$("#createTime").val()+"&shift="+$("#shift").val()+"&curPage="+num;
+	}
+});
+
+$("#end").click(function(){
+	num=total;
+	$("#curPage").text("");
+	window.location.href="<%=request.getContextPath()%>/orderHandler/orderList.action?createTime="+$("#createTime").val()+"&shift="+$("#shift").val()+"&curPage="+num;
+});
+
+$("#go").click(function(){
+	var goNum=parseInt($("#goTxt").val());
+	if(goNum>=1&&goNum<=total){
+		num=goNum;
+		$("#curPage").text("");
+		window.location.href="<%=request.getContextPath()%>/orderHandler/orderList.action?createTime="+$("#createTime").val()+"&shift="+$("#shift").val()+"&curPage="+num;
+	}else{
+		alert("错误页码");
+	}
+}); 
 </script>
 </html>
