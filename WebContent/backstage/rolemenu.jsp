@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>权限配置页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
@@ -16,6 +16,8 @@
 <script src="<%=request.getContextPath()%>/js/jquery.ztree.core.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.ztree.excheck.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/css/zTreeStyle.css" />
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <style>
 #divtwo{
 margin-left: 200px;
@@ -26,7 +28,7 @@ margin-left: 200px;
 	<form id="treeForm">
 		<div id="leftdiv" style="float: left">
 			<input type="button" class="btn btn-default" value="查看角色" id="btn1">
-			<select id="myselect" onchange="createTree()">
+			<select id="myselect" onchange="createTree()" class="btn btn-default">
 				<option value="">请选择</option>
 				<c:forEach items="${roleList}" var="role">
 					<option value="${role.roleId}">${role.roleName}</option>
@@ -37,8 +39,8 @@ margin-left: 200px;
 			<input type="button" class="btn btn-default" value="已有权限"  id="btn2">
 			<ul id="myTree" class="ztree"></ul>
 		</div>
-		<input type="hidden" name="menuId" id="menuId">
-		<input type="button" value="提交"  id="confirm" onClick="doChange()">
+		<input type="hidden" name="menuId" id="menuId" class="btn btn-default">
+		<input type="button" value="提交"  id="confirm" onClick="doChange()" class="btn btn-primary">
 	</form>
 </body>
 <script>

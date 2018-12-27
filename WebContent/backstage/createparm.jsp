@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>新增参数页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
@@ -87,7 +87,7 @@ function createParm(){
 				<tr>
 				<td>参数类型：</td>
 					<td>
-					<select id="parmPid" name="parmPid">
+					<select id="parmPid" name="parmPid" class="btn btn-default">
  							<option value="">请选择</option>
  							<c:forEach items="${parmTypeList}" var="parmType">
  							<option value="${parmType.parmId}">${parmType.parmName}</option>
@@ -97,16 +97,18 @@ function createParm(){
 				</tr>
 				<tr>
 					<td>参数名：</td>
-					<td><input type="text" name="parmName" id="parmName" placeholder="请输入参数名称..."></td>
+					<td><input type="text" name="parmName" id="parmName" placeholder="请输入参数名称..." class="btn btn-default" style="width: 135px;"></td>
 				</tr>
 				<tr>
 					<td>参数值：</td>
-					<td><input type="text" id="parmVal" name="parmVal" placeholder="请输入参数值..."></td>
+					<td><input type="text" id="parmVal" name="parmVal" placeholder="请输入参数值..." class="btn btn-default" style="width: 135px;"></td>
 				</tr>
 			</tbody>
 		 </table>
-		 <div>
-		 	<input type="submit" value="新增" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
+		 <div style="width: 58%">
+		<div style="float: right;">
+		 	<input type="submit" value="新增" id="newBtn" class="btn btn-primary btn-sm" style="margin-right: 100px;width: 100px;"><input type="reset" value="重置" id="reBtn" class="btn btn-primary btn-sm" style="width: 100px;">
+		 </div>
 		 </div>
 	</form>
 </body>

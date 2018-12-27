@@ -10,8 +10,10 @@
 <META   HTTP-EQUIV="Expires"   CONTENT="0">
 <title>套餐退费页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
@@ -162,7 +164,7 @@ function yesbut(){
 				<tr>
 				<td>输入退费车牌号：</td>
 					<td>
-				<input type="text" name="carId" id="carId" placeholder="请输入要退费的车牌号..."> 
+				<input type="text" name="carId" id="carId" placeholder="请输入要退费的车牌号..." class="btn btn-default"> 
 					</td>
 					<td> 
 		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="btn btn-primary">
@@ -171,8 +173,10 @@ function yesbut(){
 			<tbody id="packTbody">
 			</tbody>
 		 </table>
-		 <div>
-		 	<input type="button" onclick="yesbut()" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
+		 <div style="width: 57%">
+         <div style="float: right;">
+		 	<input type="button" onclick="yesbut()" value="确认办理" id="newBtn" class="btn btn-primary" style="margin-right: 100px;width: 100px;"><input type="reset" value="重置" id="reBtn" class="btn btn-primary" style="width: 100px;">
+		 </div>
 		 </div>
 	</form>
 <!-- -----------弹窗------------------>

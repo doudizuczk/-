@@ -1,4 +1,4 @@
-+<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -7,50 +7,51 @@
 <meta charset="UTF-8">
 <title>套餐列表</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <style>
 #noUsed{
-margin-left: 25px;
+/* margin-left: 25px; */
 }
 #nextPage{
-margin-left:100px;
+/* margin-left:100px; */
 }
 #upPage{
-margin-left:320px;
+/* margin-left:320px; */
 }
 #myPage{
-margin-left: 50px;
+/* margin-left: 50px; */
 }
 #createMenu{
-margin-left: 950px;
+/* margin-left: 950px; */
 }
 </style>
 </head>
 <body>
 	
-	<div>
-		<input type="button" id="createPack"  value="新增套餐" class="btn btn-primary" style="background-color: green;">
-	</div>	
 	<form class="bs-example bs-example-form"  action="" method="post" id="queryForm">
-	按条件查找:<input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-primary" style="background-color: Orange;">
     <div style="margin:5px 0px;">
-				<input type="text" placeholder="套餐名称查询..." name="packName" id="packName"/>
-				<select name="pactState" id="pactState">
+	            <button class="btn btn-default" type="button">套餐名称:</button>
+				<input type="text" placeholder="套餐名称查询..." name="packName" id="packName" class="btn btn-default"/>
+				<select name="pactState" id="pactState" class="btn btn-default">
 						<option value="">请选择状态...</option>
 					<c:forEach items="${dates.StatePack}" var="state">
 						<option value="${state.PARM_VAL}">${state.PARM_NAME}</option>
 					</c:forEach>
 				</select>
 				
-				<select name="packType" id="packType">
+				<select name="packType" id="packType" class="btn btn-default">
 						<option value="">请选择类型...</option>
 					<c:forEach items="${dates.Type}" var="ttt">
 						<option value="${ttt.PARM_VAL}">${ttt.PARM_NAME}</option>
 					</c:forEach>
 				</select>
+	            <input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-default">
+		        <input type="button" id="createPack"  value="新增套餐" class="btn btn-primary" style="float:right;">
 <%-- 				<select name="packType" id="packType">
 						<option value="">请选择状态...</option>
 					<c:forEach items="${dates.Type}" var="type">
@@ -78,15 +79,17 @@ margin-left: 950px;
  			</tbody>
  		</table>
  	</form>
- 	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label>
+ 	 <div style="width: 68%">
+		<div style="float: right;">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="btn btn-default">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label>
  		<input type="button" value="下一页" id="nextPage" class="btn btn-primary">
  		<input type="hidden" value="${pageInfo.curPage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
  		<!-- 跳转页码输入校验 -->
-	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+	<input type="text" class="btn btn-default" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
-	<input type="button" value="GO" onclick="Go()" class="btn btn-info btn-small">
+	<input type="button" value="GO" onclick="Go()" class="btn btn-primary">
  		
+ 	</div>
  	</div>
 </body>
 <script>
@@ -166,7 +169,7 @@ var page=1;
 				str+="<td>"+data.dates.packList[i].PARM_NAME+"</td>";
 				str+="<td>"+data.dates.packList[i].PARM_NAME2+"</td>"; 
 				str+="<td>"+data.dates.packList[i].PACK_CDATE+"</td>"; 
- 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.packList[i].PACK_ID+","+data.dates.packList[i].PACK_STATE+")' class='btn btn-primary'>&nbsp;<input type='button' value='修改'  onclick='updateUser("+data.dates.packList[i].PACK_ID+")'  class='btn btn-primary'  >";
+ 				str+="<td><input type='button' value='"+state+"'  onclick='starState("+data.dates.packList[i].PACK_ID+","+data.dates.packList[i].PACK_STATE+")' class='btn btn-primary btn-sm'>&nbsp;<input type='button' value='修改'  onclick='updateUser("+data.dates.packList[i].PACK_ID+")'  class='btn btn-primary btn-sm'  >";
 				str+="</td>"; 
 				str+="</tr>";
 			}

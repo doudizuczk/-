@@ -7,12 +7,14 @@
 <meta charset="UTF-8">
 <title>新增套餐页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <script>
 $().ready(function(){
 	$("#addAdminForm").validate({
@@ -111,7 +113,7 @@ var path="<%=request.getContextPath()%>";
 				<tr>
 				<td>选择要添加的套餐类型：</td>
 					<td>
-				<select name="packType" id="packType">
+				<select name="packType" id="packType" class="btn btn-default" style="width: 200px;">
 						<option value="">请选择类型...</option>
 					<c:forEach items="${dates.TypePack}" var="ttt">
 						<option value="${ttt.PARM_VAL}">${ttt.PARM_NAME}</option>
@@ -134,8 +136,10 @@ var path="<%=request.getContextPath()%>";
 				
 			</tbody>
 		 </table>
-		 <div>
-		 	<input type="submit" value="新增" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
+		 <div style="width: 68%">
+		<div style="float: right;">
+		 	<input type="submit" value="新增" id="newBtn" class="btn btn-primary" style="margin-right: 100px;width: 100px;"><input type="reset" value="重置" id="reBtn" class="btn btn-primary" style="width: 100px;">
+		 </div>
 		 </div>
 	</form>
 	
