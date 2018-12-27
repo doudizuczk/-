@@ -80,7 +80,7 @@
  	</form>
  	<div style="width: 70%">
          <div style="float: right;">
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary btn-sm"><label id="myPage"  class="btn btn-default">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页</label>
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary btn-sm"><label id="myPage"  class="btn btn-default">当前第${pageInfo.curPage}页 共${pageInfo.totalPage}页，共${pageInfo.totalNum}条记录</label>
  		<input type="button" value="下一页" id="nextPage" class="btn btn-primary btn-sm">
  		<input type="hidden" value="${pageInfo.curPage}" id="pageCurr" name="pageCurr"><input type="hidden" value="${pageInfo.totalPage}" id="pageMax" name="pageMax">
  		<!-- 跳转页码输入校验 -->
@@ -179,7 +179,7 @@ var page=1;
 			 $("#adminList").html(str); //回填列表
 			 $("input[name=pageCurr]").eq(0).val(data.curPage);//回填input隐藏域
 			 $("input[name=pageMax]").eq(0).val(data.totalPage);//回填input隐藏域
-			 $("#myPage").html("当前第"+data.curPage+"页 共"+data.totalPage+"页"); //回填显示信息
+			 $("#myPage").html("当前第"+data.curPage+"页 共"+data.totalPage+"页/总条数"+data.totalNum+""); //回填显示信息
 		},
 		error:function(){
 			window.alert("查询出错");

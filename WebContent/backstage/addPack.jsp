@@ -61,6 +61,7 @@ function createAdmin(){
 			success:function(data){
 				if(data==1){
 				window.alert("添加成功")
+				window.location="<%=request.getContextPath()%>/pack/pack_List.action";
 				}
 			},
 			error:function(){
@@ -120,15 +121,15 @@ var path="<%=request.getContextPath()%>";
 				</tr>
 				<tr>
 					<td>套餐名称：</td>
-					<td><input type="text" name="packName" id="packName" placeholder="请输入套餐名称..."></td>
+					<td><input type="text" onkeyup="value=value.replace(/[\d]/g,'') "  name="packName" id="packName" placeholder="请输入套餐名称..."></td>
 				</tr>
 				<tr>
 					<td>套餐时长(月/30天)：</td>
-					<td><input type="text" name="packTime" id="packTime" placeholder="套餐时长..."></td>
+					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" name="packTime"  id="packTime" placeholder="套餐时长（/月）..."></td>
 				</tr>
 				<tr>
 					<td>套餐费用(/元)：</td>
-					<td><input type="text" id="packCost" name="packCost" placeholder="请输套餐费用..."></td>
+					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" id="packCost" name="packCost" placeholder="请输套餐费用（/元）..."></td>
 				</tr>
 				
 			</tbody>

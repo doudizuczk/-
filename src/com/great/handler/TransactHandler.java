@@ -114,7 +114,8 @@ public class TransactHandler {
 		String carId = request.getParameter("carId");
 		String CNY = request.getParameter("money");
 		Double money = Double.parseDouble(CNY);
-		int refundState = transactService.refundMoney(carId,money);//车牌退费退费的方法，返回1=余额退款  2=现金退款
+		Integer adminId = Integer.parseInt(request.getParameter("adminId"));//adminId
+		int refundState = transactService.refundMoney(carId,money,adminId);//车牌退费退费的方法，返回1=余额退款  2=现金退款
 		TranSact tran = new TranSact();
 		tran.setCarId(carId);
 		List<Map<String,Object>> tranList = transactService.CidQueryTransact(tran);//根据车牌号查套餐
@@ -163,7 +164,6 @@ public class TransactHandler {
 			rstState=1;
 			dates.put("tran", tranList.get(0));//返回套餐办理表 的数据
 		}
-		
 		dates.put("TypePack", typePack);
 		dates.put("rstState", rstState);
 		dates.put("owerState", owerState);
@@ -211,7 +211,6 @@ public class TransactHandler {
 		}else if(PackTranPyte==3) {//更改
 			map=transactService.changePackTran(carId, packId, payType,adminId,carPark);
 		}
-		
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("map", map);
 		return dates;
