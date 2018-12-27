@@ -17,7 +17,7 @@ public interface ITransactService {
 	 
 	public String refund(String carId);//车牌查套餐算天数算退费金额
 	
-	public int refundMoney(String a,double b);//车牌退费退费的方法
+	public int refundMoney(String a,double b, int adminId);//车牌退费退费的方法
 	
 	public Map<String,Object> carIdTransactPack(String carId,int packId);//车牌办理套餐主方法
 	

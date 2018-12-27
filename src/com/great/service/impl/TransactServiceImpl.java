@@ -12,6 +12,8 @@ import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.great.bean.Charge;
 import com.great.bean.Pack;
@@ -100,7 +102,7 @@ public class TransactServiceImpl implements ITransactService {
 
 	@Override//收费端<-----------------------------------------月缴退费--------------------------------------------------------------------------------->
 	//1.查询是否是临时车辆，2.临时车辆退现金，用户退余额。3.返回退费方式1=现金2=余额 。退费账户。退费金额
-	public int refundMoney(String carId,double money) {//车牌.退款金额
+	public int refundMoney(String carId,double money,int adminId) {//车牌.退款金额
 		// TODO Auto-generated method stub
 		int v = 0;
 		Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
@@ -115,6 +117,17 @@ public class TransactServiceImpl implements ITransactService {
 		}else {
 			v=2;//现金退款
 		}
+		Charge cha=new Charge();
+		//插入收费记录id
+		int seq=chargeMapper.getChargeSeq();
+		cha.setAdminId(adminId);
+		cha.setCarId(carId);
+		cha.setCost(money);
+		cha.setType(4);
+		cha.setIsCash(2);
+		cha.setChargeId(seq);
+		chargeMapper.addCharge(cha);//插入收费表
+		
 		int a =transactMapper.updateTransactState(carId);//修改状态
 		
 		return v;
@@ -167,7 +180,7 @@ public class TransactServiceImpl implements ITransactService {
 				maney = refund(carId);
 				String CNY = maney;
 				Double money = Double.parseDouble(CNY);
-				refundState = this.refundMoney(carId,money);//车牌退费退费的方法，返回1=余额退款  2=现金退款
+				refundState = this.refundMoney(carId,money,1);//车牌退费退费的方法，返回1=余额退款  2=现金退款
 				int a =addTransact(packId,carId,null);
 				if(a==1) {
 					addState=3;//返回3代表退费办理成功
@@ -224,7 +237,7 @@ public class TransactServiceImpl implements ITransactService {
 	return add;
 	}
 	//======================================================新建，续费，更改===========================================================================================//
-
+	@Transactional
 	@Override//新建
 	public Map<String, Object> addpackTran(String carId,int packId,int payType,int adminId,int carPark) {
 		// TODO Auto-generated method stub
@@ -298,7 +311,7 @@ public class TransactServiceImpl implements ITransactService {
 		map.put("prompt", prompt);
 		return map;
 	}
-
+	@Transactional
 	@Override//续费
 	public Map<String, Object> RenewalPackTran(String carId,int packId,int payType,int adminId) {
 		String prompt = "";
@@ -370,6 +383,7 @@ public class TransactServiceImpl implements ITransactService {
 		
 		return map;
 	}
+	@Transactional
 	@Override//=======================更改=============================
 	public Map<String, Object> changePackTran(String carId,int packId,int payType,int adminId,int carPark) {
 		// TODO Auto-generated method stub
@@ -411,7 +425,7 @@ public class TransactServiceImpl implements ITransactService {
 		if(payType==1) {//1，余额  2，现金   3，第三方
 			if(money>packCost) {//退款足够抵套餐费
 				double tranmoney =money-packCost;//颓废-新套餐费用
-				refundState = this.refundMoney(carId,tranmoney);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
+				refundState = this.refundMoney(carId,tranmoney,adminId);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
 				Charge cha=new Charge();
 				//插入收费记录id
 				int seq=chargeMapper.getChargeSeq();
@@ -426,7 +440,7 @@ public class TransactServiceImpl implements ITransactService {
 				prompt="余额更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元剩余"+tranmoney+"元，已退入账户余额";
 			}else {
 				double tranmoney2 =packCost-money;//新套餐费用-原套餐剩余钱
-				refundState = this.refundMoney(carId,0);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
+				refundState = this.refundMoney(carId,0,adminId);//车牌退费---》》退费《《---给账户余额，修改套餐办理状态
 				Map<String,Object> map = new HashMap<>();
 				map.put("owerId", owerId);//int
 				map.put("money", tranmoney2);//double
@@ -438,7 +452,7 @@ public class TransactServiceImpl implements ITransactService {
 				cha.setAdminId(adminId);
 				cha.setCarId(carId);
 				cha.setCost(tranmoney2);
-				cha.setType(3);
+				cha.setType(4);
 				cha.setIsCash(2);
 				cha.setChargeId(seq);
 				chargeMapper.addCharge(cha);//插入收费表
@@ -446,10 +460,9 @@ public class TransactServiceImpl implements ITransactService {
 				prompt="余额更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元，账户余额扣除"+tranmoney2+"元。";
 			}
 		}else if(payType==2) {//现金支付
-			
 			if(money>packCost) {//退款足够抵套餐费
 				double tranmoney =money-packCost;//颓废-新套餐费用
-				refundState = this.refundMoney(carId,tranmoney);//车牌退费退费给账户余额，修改套餐办理状态
+				refundState = this.refundMoney(carId,tranmoney,adminId);//车牌退费退费给账户余额，修改套餐办理状态
 				Charge cha=new Charge();
 				//插入收费记录id
 				int seq=chargeMapper.getChargeSeq();
@@ -463,7 +476,7 @@ public class TransactServiceImpl implements ITransactService {
 				prompt="现金更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元剩余"+tranmoney+"元，现金退款";
 			}else {
 				double tranmoney2 =packCost-money;//新套餐费用-原套餐剩余钱
-				refundState = this.refundMoney(carId,0);//车牌退费退费给账户余额，修改套餐办理状态
+				refundState = this.refundMoney(carId,0,adminId);//车牌退费退费给账户余额，修改套餐办理状态
 				Map<String,Object> map = new HashMap<>();
 				map.put("owerId", owerId);//int
 				map.put("money", tranmoney2);//double
@@ -482,14 +495,12 @@ public class TransactServiceImpl implements ITransactService {
 				prompt="现金更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元，现金扣除"+tranmoney2+"元。";
 			}
 		}
-		
 		int a=0;
 		if(carPark!=0) {
 			a =addTransact(packId,carId,carPark);
 		}else {
 			 a =addTransact(packId,carId,null);
 		}
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", a);
 		map.put("prompt", prompt);
