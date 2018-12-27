@@ -10,6 +10,10 @@
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <!---->
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.my-modal.1.1.js"></script>
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <!--win风格-->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.my-modal.1.1.winStyle.css" />
 <!---->
@@ -26,15 +30,17 @@ function exportOrder(){
 </head>
 <body>
 <div>
-<h2>导出结算单</h2>
-请选择日期：<input type="date" id="createTime" name="createTime">
-请选择班次：<select id="shift" name="shift">
+<input class="btn btn-default" type="button" value="导出结算单" id="btn2" class="btn btn-default">
+<input class="btn btn-default" type="button" value="请选择日期" id="btn2" class="btn btn-default">
+<input type="date" id="createTime" name="createTime" class="btn btn-default" style="height: 35px">
+<input class="btn btn-default" type="button" value="请选择班次：" id="btn2" class="btn btn-default">
+<select id="shift" name="shift" class="btn btn-default">
 			<option value="0">请选择</option>
 			<option value="1">早班 08:00-16:00</option>
 			<option value="2">中班 16:00-24:00</option>
 			<option value="3">晚班 00:00-08:00</option>
 		</select>
-		<button onclick="exportOrder()">导出</button>
+		<button onclick="exportOrder()" class="btn btn-primary">导出</button>
 </div>	
 <!-- -----------弹窗------------------>
 <div class="m-modal" aria-hidden="true" data-backdrop="static" data-target="myModal">

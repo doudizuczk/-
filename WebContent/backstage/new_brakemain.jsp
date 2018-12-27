@@ -172,6 +172,14 @@ if (!!window.EventSource) {
           console.log("车辆出场");
           getParkNum();
        });
+       //出场
+       source.addEventListener('cango', function(e) {
+          var obj = eval('(' + e.data + ')');
+          if(obj.gOut=="success"){
+       	      alert("放行");
+          }
+          console.log("车辆出场");
+       });
        source.addEventListener('open', function(e) {
             console.log("连接打开.");
        }, false);

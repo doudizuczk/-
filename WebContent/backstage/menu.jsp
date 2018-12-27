@@ -7,25 +7,27 @@
 <meta charset="UTF-8">
 <title>菜单页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <style>
 #noUsed{
-margin-left: 25px;
+/* margin-left: 25px; */
 }
 #nextPage{
-margin-left:50px;
+/* margin-left:50px; */
 }
 #upPage{
-margin-left:320px;
+/* margin-left:320px; */
 }
 #myPage{
-margin-left: 50px;
+/* margin-left: 50px; */
 }
 #createMenu{
-margin-left: 950px;
+/* margin-left: 950px; */
 }
 </style>
 <script>
@@ -38,8 +40,8 @@ function search(){
 <body>
  	<form>
  		<div>
- 		<input type="button" class="btn btn-default" value="菜单名称" id="btn1"><input id="menuName" name="menuName"  placeholder="菜单名称..." value="${menu.menuName}" >
-		<input type="button" value="搜索" class="btn btn-primary" id="btn4" onClick="search()">
+ 		<input type="button" class="btn btn-default" value="菜单名称" id="btn1"><input id="menuName" name="menuName"  placeholder="菜单名称..." value="${menu.menuName}" class="btn btn-default">
+		<input type="button" value="搜索" class="btn btn-default" id="btn4" onClick="search()">
  		</div>
  		<table class="table table-striped table-hover">
  			<tbody>
@@ -58,18 +60,21 @@ function search(){
  					<td>${menu.menuUrl}</td>
  					<td>${menu.menuPname}</td>
  					<td>${menu.menuState==1?'启用':'禁用'}</td>
- 					<td><input type="button" value="启用" id="canUsed" class="btn btn-primary" onClick="startMenu(${menu.menuId})"><input type="button" value="禁用" id="noUsed" class="btn btn-primary" onClick="stopMenu(${menu.menuId})"></td>
+ 					<td><input type="button" value="启用" id="canUsed" class='btn btn-primary btn-sm' onClick="startMenu(${menu.menuId})" style="margin-right: 10px;"><input type="button" value="禁用" id="noUsed" class='btn btn-primary btn-sm' onClick="stopMenu(${menu.menuId})"></td>
  				</tr>
  				</c:forEach>
  			</tbody>
  		</table>
  	</form>
- 	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageNum}页 共${allNum}页 共${menuCount}条</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
- 		<input type="text" class="input-group-addon" id="goPages" style="width: 100px;background-color:#FFFFFF;height:35px; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+ 	<div style="width: 70%">
+         <div style="float: right;">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary">
+ 		<label id="myPage"  class="btn btn-default">当前第${pageNum}页 共${allNum}页 共${menuCount}条</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 		<input type="text" class="btn btn-default" id="goPages" style="width: 100px;background-color:#FFFFFF;height:35px; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" placeholder="请输入页码...">
         <input type="button" value="跳转" class="btn btn-primary" id="turnPage">
  		<input type="hidden" value="${pageNum}" id="pageNum"><input type="hidden" value="${allNum}" id="allNum">
+ 	</div>
  	</div>
 </body>
 <script>

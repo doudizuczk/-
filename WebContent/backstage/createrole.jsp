@@ -7,12 +7,14 @@
 <meta charset="UTF-8">
 <title>新增菜单菜单页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <script>
 var path="<%=request.getContextPath()%>";
 function createMenu(){
@@ -64,7 +66,7 @@ margin-left: 150px;
 				</tr>
 				<tr>
 				<td>角色名称:</td>
-				<td><input type="text" name="roleName" id="roleName" placeholder="请输入角色名称..."></td>
+				<td><input type="text" name="roleName" id="roleName" placeholder="请输入角色名称..." class="btn btn-default"></td>
 				</tr>
 			</tbody>
 		 </table>

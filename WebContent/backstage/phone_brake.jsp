@@ -7,8 +7,8 @@
 <head>
 <title>html5调用摄像头拍照</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div style="height: 20%;width: 100%;margin: 0 auto;">
@@ -16,9 +16,22 @@
     </div>
     <div style="height: 50px;width: 60%;margin: 0 auto;">
     <form>
+    <table>
+    <tr><td>
 	<input type="file" capture="camera" accept="image/*" id="photo" name="photo" class="form-control" onchange="viewImage(this)">
-	<button  type="button" onclick="updatePhoto()" class="btn btn-info btn-small">进入</button><br><br>
-	<button  type="button" onclick="updateGetOutPhoto()" class="btn btn-info btn-small">进入2</button><br>
+    </td>
+    </tr>
+    <tr>
+    <td>
+	<button  type="button" onclick="updatePhoto()" class="btn btn-primary">入场</button><br><br>
+    </td>
+    </tr>
+    <tr>
+    <td>
+	<button  type="button" onclick="updateGetOutPhoto()" class="btn btn-primary">出库</button><br>
+    </td>
+    </tr>
+    </table>
 	</form>	
     </div>
 </body>
@@ -36,7 +49,7 @@ function updateGetOutPhoto(){
 	    processData: false,
 		dataType:"json",
 		success : function(data){
-			alert("0000000000");
+			alert(data.message);
 		}
 	})
 }
@@ -53,7 +66,7 @@ function updatePhoto(){
 	    processData: false,
 		dataType:"json",
 		success : function(data){
-			alert("0000000000");
+			alert(data.message);
 		}
 	})
 }

@@ -31,7 +31,11 @@ body { font-size: 62.5%; }
 .enhanced pre { width: 50%; overflow: auto; font-size: 1.4em; margin-top: 0; background: #444; padding: 15px; color: #fff; }
 
 </style>
-
+<style>
+.btn{width: 100px;height: 30px;background: #6495ED;border: 1px solid #eee;
+ border-radius: 5px; 
+} 
+</style>
 </head>
 <script>
 $(document).ready(function(){
@@ -56,14 +60,17 @@ function quarterShow(){
 }
 </script>
 <body>
-<input type="button" id="" value="周统计" onclick="weekShow()"/>
-<input type="button" id="" value="月统计" onclick="mouthShow()"/>
-<input type="button" id="" value="近半年统计 " onclick="quarterShow()"/>
-<select id="excel">
+<div style="width: 85%;float: right;">
+<div style="width: 80%">
+<input type="button" id="" value="周统计" onclick="weekShow()" class="btn" style="margin-left: 50px;"/>
+<input type="button" id="" value="月统计" onclick="mouthShow()" class="btn"/>
+<input type="button" id="" value="近半年统计 " onclick="quarterShow()" class="btn" />
+<select id="excel" style="height:30px;">
 <option value=1>周统计</option>
 <option value=2>月统计</option>
 <option value=3>近半年统计</option>
-</select><input type="button" value="导出EXCEL" onclick="getOutExcel()">
+</select><input type="button" value="导出EXCEL" onclick="getOutExcel()" class="btn" >
+</div>
 <div id="week" style="margin-left:auto; margin-right:auto">
 <table style="display:none">
 	<caption>周缴费统计</caption>
@@ -189,6 +196,7 @@ function quarterShow(){
 				</tr>
 	</tbody>
 </table>	
+</div>
 </div>	
 </body>
 <script>
