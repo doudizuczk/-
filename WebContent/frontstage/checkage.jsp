@@ -55,6 +55,9 @@
 .se1:hover{
     cursor: pointer;
 }
+#myBtn{
+margin-top: 100px;
+}
 </style>
 </head>
 <body class="pb12 fadeIn animated">
@@ -72,7 +75,8 @@
 		<input type="file" capture="camera" accept="image/*" id="IDcard" onchange="viewImage(this)" class="se2">
 		<label for="IDcard" class="label">
         <input class="se1" type="button" value="上传身份证" />
-		</label><input type="button" value="提交" onClick="up()" id="myBtn">
+		</label>
+		<input type="button" value="提交" onClick="up()" id="myBtn">
 	</div>
 	<div id="localImag">
 		<img id="preview" width=-1 height=-1 style="diplay: none;" /> <input
@@ -112,6 +116,7 @@ function viewImage(file) {
 	function up() {
 		  var form = new FormData();
 		  form.append('img', document.getElementById("IDcard").files[0]);
+		  if($("#IDcard").val()!=null &&$("#IDcard").val()!=0){
 		  $.ajax({
 		    type: 'post',
 		    url: '<%=request.getContextPath()%>/owerHandler/upImage.action',
@@ -127,6 +132,9 @@ function viewImage(file) {
 		      }
 		    }
 		    	  });
+		  }else{
+			  alert("请选择省份证照片");
+		  }
 		      };	
 </script>
 </html>

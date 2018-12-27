@@ -42,23 +42,15 @@
 	
 	<select id="repeatCheck" parameterType="com.great.bean.Parm" resultType="com.great.bean.Parm">
 		select PARM_ID "parmId",PARM_NAME "parmName",PARM_TYPE "parmType",PARM_VAL "parmVal",PARM_PID "parmPid"
-		 from T_PARM  
-		 <where>
-		 	<if test="parmPid!=null and parmPid!=''">
-		 		and PARM_PID=${parmPid}
-		 	</if>
-		 	<if test="parmVal!=null and parmVal!=''">
-		 		and PARM_VAL=${parmVal} 
-		 	</if>
+		 from T_PARM  where 1=1
 		 	<if test="parmType!=null and parmType!=''">
 		 		and PARM_TYPE='${parmType}'
 		 	</if>
 		 	<if test="parmName!=null and parmName!=''">
 		 		and PARM_NAME='${parmName}'
 		 	</if>
-		 	<if test="parmId!=null and parmId!=''">
-		 		and PARM_ID=${parmId}
+		 	<if test="parmPid!=null and parmPid!=''">
+		 		and PARM_PID=${parmPid}
 		 	</if>
-		 </where>
 	</select>
 </mapper>

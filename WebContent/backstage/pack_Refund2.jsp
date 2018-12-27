@@ -20,11 +20,29 @@ $().ready(function(){
    		carId: {
    	        required: true,
    	      },
+   	   packState: {
+  	        required: true,
+  	      },
+  	    packId: {
+   	        required: true,
+   	      },
+   	   part: {
+  	        required: true,
+  	      },
    	    },
    	  messages: {
    		carId: {
    	        required: "请先输入车牌号",
    	      },
+   	   packState: {
+  	        required: "请先选择套餐类型",
+  	      },
+  	    packId: {
+   	        required: "请先选择套餐",
+   	      },
+   	   part: {
+       	        required: "请先选择支付方式",
+       	      },
    	     },
    	  submitHandler: function(form) { CarIdSelectTransact(); }
    })	
@@ -57,7 +75,6 @@ var str ="";
 				 $("#packState").html("没有正在使用的套餐"); //回填显示信息
 			}
 			$("#PyteState").empty();//局部刷新
-			
 			$("#PyteState").append("<option value='0' >请选择套餐类型...</option>");
 	    	for (var i = 0; i < data.TypePack.length; i++) {//回填套餐类型
 				  $("#PyteState").append("<option value='"+data.TypePack[i].PARM_VAL+"' >" + data.TypePack[i].PARM_NAME + "</option>");
@@ -113,6 +130,7 @@ var path="<%=request.getContextPath()%>";
 			packList=data.packList;
 			console.log("成功！"+packList)
 			 $("#packId").empty();
+			$("#carPark").empty();//车位刷新
 			 $("#packId").append("<option value='0' >请选择要办理的套餐...</option>");
     	for (var i = 0; i < data.packList.length; i++) {
 			  $("#packId").append("<option value='"+data.packList[i].PACK_ID+"' >" + data.packList[i].PACK_NAME + "</option>");
@@ -187,7 +205,8 @@ function packNameChange(){
 	 	 			console.log("退费="+transact.money)//退费
 	 	 				if($("#owerMon").text()+transact.money<newPackAtt.PACK_COST){//判断余额是否不足--支付
 	 	 					$("#part1").attr("disabled", true);//余额支付不可选
-	 	 		    		$("#PayType").html("(【退费+余额="+$("#owerMon").text()+transact.money+"】余额不足)"); //回填显示信息
+	 	 					var mon = Number($("#owerMon").text())+Number(transact.money)
+	 	 		    		$("#PayType").html("(【退费+余额="+mon+"】余额不足)"); //回填显示信息
 	 	 				
 	 	 				}
 	 	 		}else{
@@ -199,10 +218,13 @@ function packNameChange(){
  		 }
 }
 
+<<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
 	
 var path="<%=request.getContextPath()%>";
 function tranButton(){
-	 
 	if(PackTranPyte==1){//新办套餐
 		console.log("新办"+newPackAtt.PACK_NAME);
 	}else if(PackTranPyte==2){//续费
@@ -214,7 +236,6 @@ function tranButton(){
 	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
 	var adminId =${sessionScope.loggingAdmin.adminId} 
-
 	$.ajax({
 		url:path+"/transact/confirmPay.action",
 		type:"POST", 
@@ -224,7 +245,11 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
+<<<<<<< HEAD
 // 				location.reload();   //刷新页面
+=======
+				location.reload();   //刷新页面
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
 				}
 			}
 			if(PackTranPyte==2){
@@ -280,7 +305,13 @@ function invoice(chargeId){
  					<th>可退金额</th>
  				</tr>
  			</thead>
+<<<<<<< HEAD
  			<tbody id="packTbody"></tbody>
+=======
+ 			<tbody id="packTbody">
+ 				
+ 			</tbody>
+>>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>
@@ -316,7 +347,7 @@ function invoice(chargeId){
  		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
 		<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
 		<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付
-		 </div>
+		</div>
 
  		<div><input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary"></div>
  	</form>

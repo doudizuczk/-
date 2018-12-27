@@ -34,7 +34,7 @@
 		  <!--  czk条件模糊查询车主列表 -->
 		<select id="conditionQueryCarUserList" parameterType="com.great.bean.Ower" resultType="HashMap">
 		      select o.OWER_ID, o.OWER_NAME,o.OWER_ACCOUNT,o.OWER_PWD,o.OWER_PHONE,o.OWER_SEX,o.OWER_IDCARD,o.OWER_AGE,o.OWER_STATE,p.parm_type,p.PARM_NAME,
- to_char(o.OWER_CDATE,'yyyy-mm-dd hh24:mi:ss')OWER_CDATE from t_ower o,t_parm p where o.OWER_STATE=p.parm_val and p.parm_pid=7 
+ to_char(o.OWER_CDATE,'yyyy-mm-dd hh24:mi:ss')OWER_CDATE from t_ower o,t_parm p where o.OWER_STATE=p.parm_val and p.parm_pid=7 and o.ower_id>0
 			<if test="owerName!=null and owerName!=''">
 				and o.OWER_NAME LIKE '%${owerName}%'
 			</if>

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.bean.Menu;
 import com.great.bean.Role;
 import com.great.service.IRoleService;
@@ -47,6 +48,7 @@ public class RoleHandler {
 		return model;
 	}
 	//启用
+	@AfterLog(operationType="管理员操作",operationName="启用角色")
 	@RequestMapping(value="/startRole.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String startRole(int roleId) {
 		int result=roleService.startRole(roleId);
@@ -57,6 +59,7 @@ public class RoleHandler {
 		}
 	}
 	//禁用
+	@AfterLog(operationType="管理员操作",operationName="禁用角色")
 	@RequestMapping(value="/stopRole.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String stopRole(int roleId) {
 		System.out.println(roleId);
@@ -68,6 +71,7 @@ public class RoleHandler {
 		}
 	}
 	//新增角色
+	@AfterLog(operationType="管理员操作",operationName="新增角色")
 	@RequestMapping(value="createRole.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String createRole(@Param("roleName") String roleName) {
 		int result=roleService.createRole(roleName);

@@ -135,7 +135,8 @@
 					</div>
 					<!-- 导航栏END==================== -->
 					<!-- 显示区块==================== -->
-				    <iframe style="height: 600px;width: 100%" name="center" frameborder="no"></iframe>
+				    <iframe style="height: 600px;width: 100%" name="center" frameborder="no" src="<%=request.getContextPath()%>/center.jsp">
+				    </iframe>
 				</div>
 			</div>
 		</div>

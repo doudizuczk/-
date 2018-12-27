@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.bean.Car;
 import com.great.bean.Charge;
 import com.great.bean.Menu;
@@ -64,6 +65,7 @@ public class OrderHandler {
 	private IChargeService chargeService;
 	
 	//导出结算单
+	@AfterLog(operationType="管理员操作",operationName="导出结算")
 	@RequestMapping("/exportOrderExcel.action")
 	public ModelAndView exportOrderExcel(HttpServletRequest request, HttpServletResponse response,Order temp) throws IOException {
 		//1.读取excel模板
