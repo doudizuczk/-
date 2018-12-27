@@ -62,7 +62,7 @@ $(function(){
 				<button class="btn btn-default" type="button" onclick="search()">搜索</button>
 			</span>
 			<span class="input-group-btn" style="float: right;">
-				<button  type="button" onclick="count()" class="btn btn-info btn-small">统计报表</button>
+				<button  type="button" onclick="count()" class="btn btn-primary">统计报表</button>
 			</span>
 		</div>
 		<!-- /input-group -->
@@ -94,25 +94,37 @@ $(function(){
 					<td>${chargeList.chargeCdate}</td>
 					<td>${chargeList.chargeInv eq 1?"已开发票":"未开发票"}</td>
 					<td>${chargeList.chargeCash eq 1?"现金支付":"线上支付"}</td>
-					<td><input type="button" value="开发票" onclick="" class="btn btn-info btn-small"></td>
+					<td><input type="button" value="开发票" onclick="invoice(${chargeList.chargeId})" class="btn btn-info btn-small"></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<input type="button" value="上一页" onclick="previousPage()" class="btn btn-info btn-small">
-	<a id="pageNum" value="${pageNum}">当前页码：${pageNum}</a>/
-	<a id="pages" value="${pages}">总页码：${pages}</a>
-	<input type="button" value="下一页" onclick="nextPage()" class="btn btn-info btn-small">
+	<div style="width: 70%">
+         <div style="float: right;">
+	<input type="button" value="上一页" onclick="previousPage()" class="btn btn-primary btn-sm">
+	<label id="page"  class="btn btn-default">当前第${pageNum}页 共${pages}页</label>
+	<a id="pageNum" value="${pageNum}" style="display:none">当前页码：${pageNum}</a>
+	<a id="pages" value="${pages}" style="display:none">总页码：${pages}</a>
+	<input type="button" value="下一页" onclick="nextPage()" class="btn btn-primary btn-sm">
 	<!-- 跳转页码输入校验 -->
 	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
-	<input type="button" value="GO" onclick="Go()" class="btn btn-info btn-small">
+	<input type="button" value="GO" onclick="Go()" class="btn btn-primary btn-sm">
+	<a id="total">总条数：${total}</a>
+	</div>
+    </div>
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
 	 
 	 
 });
+
+//开具发票
+function invoice(chargeId){
+	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
+}
+
 function count(){
 	window.location="<%=request.getContextPath()%>/chargeHander/statisticalChart.action";
 }
@@ -152,10 +164,12 @@ function Go(){
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			  $("#pageNum").text("当前页码:"+data[0].pageNum);
 			    $("#pageNum").val(data[0].pageNum);
 			    $("#pages").text("总页码:"+data[0].pages);
 			    $("#pages").val(data[0].pages);
+			    $("#total").text("总页码:"+data[0].total);
 		}
 });
 }
@@ -196,10 +210,12 @@ function previousPage(){
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			 $("#pageNum").text("当前页码:"+data[0].pageNum);
 			    $("#pageNum").val(data[0].pageNum);
 			    $("#pages").text("总页码:"+data[0].pages);
 			    $("#pages").val(data[0].pages);
+			    $("#total").text("总页码:"+data[0].total);
 		}
 });
 	
@@ -241,10 +257,12 @@ function nextPage(){
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			 $("#pageNum").text("当前页码:"+data[0].pageNum);
 			 $("#pageNum").val(data[0].pageNum);
 			 $("#pages").text("总页码:"+data[0].pages);
 			 $("#pages").val(data[0].pages);
+			 $("#total").text("总页码:"+data[0].total);
 		}
 });
 	
@@ -280,10 +298,12 @@ function search(){
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			 $("#pageNum").text("当前页码:"+data[0].pageNum);
 			 $("#pageNum").val(data[0].pageNum);
 			 $("#pages").text("总页码:"+data[0].pages);
 			 $("#pages").val(data[0].pages);
+			 $("#total").text("总页码:"+data[0].total);
 		}
 });
 }

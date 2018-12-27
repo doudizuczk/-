@@ -24,15 +24,19 @@ body { font-size: 62.5%; }
 </style>
 <style>
 #week{
-background-color: blue;
+margin-left: 50px;
+background-color:#6495ED;
 }
 #mouth{
-margin-left: 100px;
-background-color: blue;
+/* margin-left: 100px; */
+background-color:#6495ED;
 }
 #threemouth{
-margin-left: 100px;
-background-color: blue;
+/* margin-left: 100px; */
+background-color:#6495ED;
+}
+.btn{width: 100px;height: 30px;background: #ccc;border: 1px solid #eee;
+border-radius: 5px;
 }
 </style>
 <script>
@@ -70,14 +74,15 @@ function report(){
 </script>
 </head>
 <body>
-<div>
-	<input type="button" value="周统计" id="week" onClick="weekt()"><input type="button" value="月统计" id="mouth" onClick="moutht()" ><input type="button" value="季度统计" id="threemouth" onClick="halfyear()">
-	<input type="button" value="统计报表">
-	<select id="myreport" onchange="report()">
+<div style="width: 85%;float: right;">
+<div style="width: 80%">
+	<input type="button" value="周统计" id="week" onClick="weekt()" class="btn"><input type="button" value="月统计" id="mouth" onClick="moutht()" class="btn"><input type="button" value="季度统计" id="threemouth" onClick="halfyear()" class="btn">
+	<select id="myreport" style="height:30px;">
 	<option value="">请选择</option>
 	<option value="1">周统计报表</option>
 	<option value="2">月统计报表</option>
 	<option value="3">近半年统计报表</option>
+	<input type="button" value="导出报表" class="btn" onclick="report()"/>
 	</select>
 </div>
 <div id="weeks">
@@ -187,6 +192,7 @@ function report(){
 		</tr>
 	</tbody>
 </table>
+</div>
 </div>
 </body>
 </html>

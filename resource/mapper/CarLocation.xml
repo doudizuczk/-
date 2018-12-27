@@ -33,6 +33,18 @@
 		on t.PARK_ZONE =n.PARK_ZONE order by t.park_zone
 	</select>
 	
+	<!-- 查询ABCD区总车位 -->
+	<select id="queryAllCount" resultType="java.lang.Integer">
+		select count(0) "allnum" from t_park group by park_zone
+	</select>
+	<!--查询查询ABCD区空闲车位-->
+	<select id="queryFreeCount" resultType="java.lang.Integer">
+		select count(0) "freenum" from t_park where park_state=1 group by park_zone	
+	</select>
+	<!--查询查询ABCD区占用车位-->
+	<select id="queryUsedCount" resultType="java.lang.Integer">
+		select count(0) "usednum" from t_park where park_state=2 group by park_zone
+	</select>
 	<!--查询总车位数，并分状态统计  -->
 	<select id="statisAll" resultType="map">
 		select (select count(0) from t_park) "total",
@@ -67,15 +79,23 @@
 	</select>
 	<!-- 按车位的模型ID查找该车位的停开车辆信息 -->
 	<select id="getDetil" parameterType="int" resultType="com.great.bean.CarInfo">
-		select t_car.car_id "carId",park_2did "twoId",ower_name "owerName",t_park.park_id "parkId",park_zone "area",car_color "color",dock_stime "iDate",dock_picture "file"
+		select t_car.car_id "carId",park_2did "twoId",ower_name "owerName",t_park.park_id "parkId",park_zone "area",car_color "color",dock_stime "iDate",dock_picture "picture"
 		from t_dock ,t_car,t_park,t_ower
 		where  t_dock.car_id=t_car.car_id and t_dock.park_id=t_park.park_id and t_car.ower_id=t_ower.ower_id
 		and t_park.park_2did=#{0} and t_dock.dock_state=1
 	</select>
+	<!-- 给指定车位增加图片 -->
+	<update id="updateLink">
+		update t_dock set dock_picture=#{0} where car_id=#{1} and dock_state=1
+	</update>
 	
 	<select id="getParkIdList" resultType="HashMap">
 	  select park_id "parkId",park_state "parkState",park_zone "parkZone",park_cdate "parkCdate" from t_park where park_state=1
 	</select>
+		<select id="getVipParkIdList" resultType="HashMap">
+	  select park_id "parkId",park_state "parkState",park_zone "parkZone",park_cdate "parkCdate" from t_park where park_state=1 and park_zone='VIP'
+	</select>
+	
 	<update id="updateParkStateById" parameterType="Map">
 	update T_PARK set PARK_STATE=#{parkState} where PARK_ID=#{parkId}
 	</update>

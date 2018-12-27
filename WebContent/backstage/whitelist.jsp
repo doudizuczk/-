@@ -27,11 +27,13 @@ $(document).ready(function() {
 		<div class="input-group">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="button">车辆状态</button>
-			</span> <select class="selectpicker" data-live-search="false" id="stage">
+			</span> 
+			<select class="selectpicker" data-live-search="false" id="stage">
 				<option value="">请选择</option>
 				<option value=1>启用</option>
 				<option value=2>禁用</option>
-			</select> <span class="input-group-btn">
+			</select> 
+			<span class="input-group-btn">
 				<button class="btn btn-default" type="button">车牌号</button>
 			</span> <input type="text" class="form-control" id="carId"> 
 			<span class="input-group-btn">
@@ -45,12 +47,11 @@ $(document).ready(function() {
 	</div>
 	<!-- 输入框END -->
 	<table class="table table-hover">
-		<caption>白名单列表</caption>
 		<thead>
 			<tr>
 				<th>车牌号</th>
-				<th>用户</th>
-				<th>联系电话</th>
+				<th>颜色</th>
+				<th>车辆类型</th>
 				<th>车位区</th>
 				<th>车位编号</th>
 				<th>状态</th>
@@ -61,26 +62,36 @@ $(document).ready(function() {
 			<c:forEach items="${whiteList}" var="wlist">
 				<tr>
 					<td>${wlist.carId}</td>
-					<td>${wlist.owerName}</td>
-					<td>${wlist.owerPhone}</td>
+					<td>${wlist.carColor}</td>
+					<td>${wlist.carType}</td>
 					<td>${wlist.parkZone}</td>
 					<td>${wlist.parkId}</td>
 					<td>${wlist.parmName}</td>
-					<td>
-					    <input type="button" value="禁用" onclick="stopState(${wlist.tranId},'${wlist.owerName}')">
-						<input type="button" value="启用" onclick="starState(${wlist.tranId},'${wlist.owerName}')">
+					<td><c:choose>
+					   <c:when test="${wlist.tranState==1}">
+					    <input type="button" value="禁用" onclick="stopState(${wlist.tranId},'${wlist.owerName}')" class="btn btn-primary btn-sm">
+					   </c:when>
+					   <c:otherwise>
+						<input type="button" value="启用" onclick="starState(${wlist.tranId},'${wlist.owerName}')" class="btn btn-primary btn-sm">
+					   </c:otherwise>
+					   </c:choose>
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<input type="button" value="上一页" onclick="previousPage()" class="btn btn-info btn-small">
-	<a id="pageNum" value="${pageNum}">当前页码：${pageNum}</a>/
-	<a id="pages" value="${pages}">总页码：${pages}</a>
-	<input type="button" value="下一页" onclick="nextPage()" class="btn btn-info btn-small">
+	<div style="width: 70%">
+         <div style="float: right;">
+	<input type="button" value="上一页" onclick="previousPage()"  class="btn btn-primary btn-sm"">
+	<a id="pageNum" value="${pageNum}" style="display:none">当前页码：${pageNum}</a>
+	<a id="pages" value="${pages}" style="display:none">总页码：${pages}</a>
+	<label id="page"  class="btn btn-default">当前第${pageNum}页 共${pages}页</label>
+	<input type="button" value="下一页" onclick="nextPage()"  class="btn btn-primary btn-sm">
 	<!-- 跳转页码输入校验 -->
 	<input type="text" class="input-group-addon" id="goPages" style="width: 50px;background-color:#FFFFFF; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"    > 
-	<input type="button" value="GO" onclick="Go()" class="btn btn-info btn-small">
+	<input type="button" value="GO" onclick="Go()"  class="btn btn-primary btn-sm"><a id="total">总条数：${total}</a>
+         </div>
+         </div>
 
 </body>
 <script type="text/javascript">
@@ -108,22 +119,27 @@ function Go(){
 			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
-				str+="<td>"+data[i].owerName+"</td>";
-				str+="<td>"+data[i].owerPhone+"</td>";
+				str+="<td>"+data[i].carColor+"</td>";
+				str+="<td>"+data[i].carType+"</td>";
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>";
-				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
-				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				if(data[i].tranState==1){
+				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+				}else{
+				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+				}
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			$("#pageNum").text("当前页码:"+data[0].pageNum);
 			$("#pageNum").val(data[0].pageNum);
 			$("#pages").text("总页码:"+data[0].pages);
 			$("#pages").val(data[0].pages);	
+			$("#total").text("总条数:"+data[0].total);	
 		}
 });
 }
@@ -180,22 +196,27 @@ function previousPage(){
 			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
-				str+="<td>"+data[i].owerName+"</td>";
-				str+="<td>"+data[i].owerPhone+"</td>";
+				str+="<td>"+data[i].carColor+"</td>";
+				str+="<td>"+data[i].carType+"</td>";
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
 				str+="<td>"+data[i].parmName+"</td>";
 				str+="<td>";
-				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
-				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				if(data[i].tranState==1){
+					str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+					}else{
+					str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+					}
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 		    $("#pageNum").text("当前页码:"+data[0].pageNum);
 		    $("#pageNum").val(data[0].pageNum);
 		    $("#pages").text("总页码:"+data[0].pages);
 		    $("#pages").val(data[0].pages);
+		    $("#total").text("总页码:"+data[0].total);	
 		}
 });
 	
@@ -218,22 +239,27 @@ function nextPage(){
 			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
-				str+="<td>"+data[i].owerName+"</td>";
-				str+="<td>"+data[i].owerPhone+"</td>";
+				str+="<td>"+data[i].carColor+"</td>";
+				str+="<td>"+data[i].carType+"</td>";
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
 				str+="<td>"+data[i].parmName+"</td>"; 
 				str+="<td>";
-				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
-				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				if(data[i].tranState==1){
+					str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+					}else{
+					str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+					}
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			$("#pageNum").text("当前页码:"+data[0].pageNum);
 			$("#pageNum").val(data[0].pageNum);
 			$("#pages").text("总页码:"+data[0].pages);
 			$("#pages").val(data[0].pages);
+			$("#total").text("总页码:"+data[0].total);	
 		}
 });
 	
@@ -250,22 +276,27 @@ function search(){
 			for(var i=1;i<data.length;i++){
 				str+="<tr>";
 				str+="<td>"+data[i].carId+"</td>";
-				str+="<td>"+data[i].owerName+"</td>";
-				str+="<td>"+data[i].owerPhone+"</td>";
+				str+="<td>"+data[i].carColor+"</td>";
+				str+="<td>"+data[i].carType+"</td>";
 				str+="<td>"+data[i].parkZone+"</td>";
 				str+="<td>"+data[i].parkId+"</td>";
 				str+="<td>"+data[i].parmName+"</td>"; 
 				str+="<td>";
-				str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
-				str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)'>";
+				if(data[i].tranState==1){
+					str+="<input type='button' value='禁用'  onclick='stopState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+					}else{
+					str+="<input type='button' value='启用'  onclick='starState("+data[i].tranId+",&quot;"+data[i].owerName+"&quot;)' class='btn btn-primary btn-sm'>";
+					}
 				str+="</td>"; 
 				str+="</tr>";
 			}
 			$("#whiteList").html(str);
+			$("#page").text("当前第"+data[0].pageNum+"页 共"+data[0].pages+"页");
 			$("#pageNum").text("当前页码:"+data[0].pageNum);
 			$("#pageNum").val(data[0].pageNum);
 			$("#pages").text("总页码:"+data[0].pages);
 			$("#pages").val(data[0].pages);
+			$("#total").text("总页码:"+data[0].total);	
 		}
 });
 }

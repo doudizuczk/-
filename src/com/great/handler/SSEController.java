@@ -75,6 +75,7 @@ public class SSEController {
 	        Thread.sleep(500);
 	        PrintWriter pw=response.getWriter();
 	        //½ø³¡
+	        pw.write("retry: 86400000\n");
 	        if(gCarId!=null&&gCarTypes!=null&&gCanGo!=null) {
 //	        	pw.write("event: slide\n");
 //	        	pw.write("data:" + Name + "\n\n");

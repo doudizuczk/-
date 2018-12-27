@@ -9,8 +9,11 @@
 
 <title>车位配置</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 
 
 </head>
@@ -37,9 +40,11 @@
 	  <tbody id="aaa">
 	  </tbody>
 	</table>
-	<button type="button" class="btn btn-default" onclick="beforePage()">上一页</button>
-	<p></p>
+	<button type="button" class="btn btn-default" onclick="beforePage()" id="before">上一页</button>
+	<span id="sum"></span>
 	<button type="button" class="btn btn-default" onclick="nextPage()">下一页</button>
+	<input type="text" id="presentPage">
+	<button type="button" class="btn btn-default" onclick="turn()">跳转</button>
 </body>	
 	<script>
 		//获取到所有列表
@@ -55,13 +60,16 @@
 					var msg = "";
 					for(var i=0;i<data.list.length;i++){
 						var carLocation = data.list[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 					nowPage = data.pageNum;
 					allPage = data.pages;
+					$("#sum").html("当前页码 "+nowPage+"/总页码 "+allPage);
 				}
 			})	
+			
+			
 		})
 		//禁用操作
 		function updateMsg(carLocationId){
@@ -80,7 +88,6 @@
 						window.alert("禁用成功！")
 						window.location.href="<%=request.getContextPath()%>/carLocation/tojsp.action";
 					}
-
 				}
 
 			})
@@ -97,12 +104,11 @@
 				},
 				success : function(data) {
 					if (data=="0") {
-						window.alert("啟用失败！")	
+						window.alert("启用失败！")	
 					} else {
-						window.alert("啟用成功！")
+						window.alert("启用成功！")
 						window.location.href="<%=request.getContextPath()%>/carLocation/tojsp.action";
 					}
-
 				}
 
 			})
@@ -120,12 +126,12 @@
 					"allPage":allPage,"nowPage":nowPage
 				},
 				success:function(data){
-					console.log(data);
 					var msg = "";
 					for(var i=0;i<data.length;i++){
 						var carLocation = data[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
+					$("#sum").html("当前页码 "+nowPage+"/总页码 "+allPage);
 					$("#aaa").html(msg);
 				}
 				
@@ -147,12 +153,40 @@
 					var msg = "";
 					for(var i=0;i<data.length;i++){
 						var carLocation = data[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
+					$("#sum").html("当前页码 "+nowPage+"/总页码 "+allPage);
 					$("#aaa").html(msg);
 				}
 				
 			})
+		}
+		//页面跳转
+		function turn(){
+			var page=$("#presentPage").val();
+			if(page<=allPage&&page>=1){
+				nowPage=page;
+				$.ajax({
+					type:"post",
+					url:"<%=request.getContextPath()%>/carLocation/queryPage.action",
+					dataType:"json",
+					data:{
+						"allPage":allPage,"nowPage":nowPage
+					},
+					success:function(data){
+						var msg = "";
+						for(var i=0;i<data.length;i++){
+							var carLocation = data[i];
+							msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						}
+						$("#aaa").html(msg);
+					}
+					
+				})
+			}else{
+				window.alert("您输入的页码不在跳转范围内");
+			}
+			
 		}
 		//模糊查询
 		function queryByCondition(){
@@ -170,7 +204,7 @@
 					var msg = "";
 					for(var i=0;i<data.list.length;i++){
 						var carLocation = data.list[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 				}

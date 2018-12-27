@@ -3,6 +3,10 @@
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
     
 <mapper namespace="com.great.mapper.OwerMapper">
+	<select id="queryOwerById" parameterType="int" resultType="com.great.bean.Ower">
+		select OWER_ID "owerId",OWER_ACCOUNT "owerAccount",OWER_NAME "owerName",OWER_PHONE "owerPhone",OWER_SEX "owerSex",OWER_IDCARD "owerIdcard",OWER_AGE "owerAge",OWER_STATE "owerState",
+		OWER_BALANCE "balance" from T_OWER where OWER_STATE=1 and OWER_ID=#{_parameter}
+	</select>
 	
 	<select id="owerLogin" parameterType="com.great.bean.Ower" resultType="com.great.bean.Ower">
 		select OWER_ID "owerId",OWER_ACCOUNT "owerAccount",OWER_NAME "owerName",OWER_PHONE "owerPhone",OWER_SEX "owerSex",OWER_IDCARD "owerIdcard",OWER_AGE "owerAge",OWER_STATE "owerState",
