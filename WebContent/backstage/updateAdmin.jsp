@@ -70,6 +70,7 @@ function createAdmin(){
 			success:function(data){
 				if(data==1){
 				window.alert("修改成功")
+				window.location="<%=request.getContextPath()%>/admin/adminList.action";
 				}
 			},
 			error:function(){
