@@ -35,7 +35,7 @@
 	</insert>
 	
 	<update id="escCars" parameterType="String">
-		update T_CAR set CAR_STATE=2 where CAR_ID=#{0}
+		update T_CAR set OWER_ID=0 where CAR_ID=#{0}
 	</update>
 	
 	<select id="searchPack" resultType="HashMap">

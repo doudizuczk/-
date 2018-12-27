@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.great.aoplog.AfterLog;
 import com.great.bean.Pack;
 import com.great.bean.TranSact;
 import com.great.mapper.CarLocationMapper;
@@ -78,6 +79,7 @@ public class TransactHandler {
 		return dates;
 	}
 	//菜单点击套餐退费跳转
+	@AfterLog(operationType="管理员操作",operationName="退费")
 	@RequestMapping(value = "/pack_Refund.action")
 	public ModelAndView JumpPack_Refund(HttpServletRequest request ) {
 		ModelAndView mav = new ModelAndView();
@@ -106,6 +108,7 @@ public class TransactHandler {
 	}
 	
 	//czk-点击退费办理
+	@AfterLog(operationType="管理员操作",operationName="退费办理")
 	@RequestMapping(value = "/RefunndTransact.action")
 	public@ResponseBody Map<String,Object> RefunndTransact(HttpServletRequest request ) {
 		String carId = request.getParameter("carId");
@@ -122,6 +125,7 @@ public class TransactHandler {
 		return dates;
 	}
 	//czk-点击套餐办理
+	@AfterLog(operationType="管理员操作",operationName="套餐办理")
 	@RequestMapping(value = "/carIdPackTransact.action")
 	public@ResponseBody Map<String,Object> packTransact(HttpServletRequest request ) {
 		int packId = Integer.parseInt(request.getParameter("packId"));
@@ -222,7 +226,7 @@ public class TransactHandler {
 	
 		return tranmoney;
 	}
-	
+	@AfterLog(operationType="管理员操作",operationName="更改车位状态")
 	public void carPark(String carId,int carPark  ) {
 		if(carPark!=0) {
 			//更改车位carPark状态 占用

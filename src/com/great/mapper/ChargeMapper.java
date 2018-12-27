@@ -35,4 +35,5 @@ public interface ChargeMapper {
 	public List<Map<String,Object>> querySelfHelpWeekChart();//自助周统计总
 	public List<Map<String,Object>> queryLaborWeekChart();//人工周统计总
 	public List<Map<String,Object>> queryRechargeWeekChart();//月缴充值周统计总
+	public int createjilu(int balance);//车主余额充值
 }

@@ -29,96 +29,15 @@
 	</head>
 
 	<body class="fadeIn animated">
-		<header class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-success t-c o-h">
-			
-			<div class="ui-header-c fl f30 w59">
-				快速预览
-			</div>
-		</header>
-		<!-- aside -->
-		<aside class="ui-aside w40 bg-color-success f30">
-			<div class="user p3 color8 clearfix">
-				<div class="fl w10">
-					<img src="<%=request.getContextPath()%>/userstyle/img/user.jpg" class="w10 h10 radius-o" />
+		<section class="userbox p5 bg-color-success pl5 clearfix">
+				<div class="userbox-l fl w20">
+					<img src="<%=request.getContextPath()%>/userstyle/img/user2.jpg" class="radius-o col-12" />
 				</div>
-				<div class="fr w22">
-					<span>狂奔的蜗牛！</span><br />
-					<font class="tag f28">12</font>
+				<div class="userbox-r fl w41 pl4 pt3 color8">
+					<p class="f60">${sessionScope.loginOwer.owerName}</p>
+					<p class="f34"><b>${sessionScope.loginOwer.owerAccount}</b></p>
 				</div>
-			</div>
-			<ul class="f30 mt2">
-				<li>
-					<a href="user_main.jsp" class="pl3 color8">首页</a>
-				</li>
-				<li>
-					<a href="" class="pl3 color8">左滑出按钮</a>
-				</li>
-				<li>
-					<a href="" class="pl3 color8">常用列表</a>
-				</li>
-				<li>
-					<a href="" class="pl3 color8">评论列表</a>
-				</li>
-				<li>
-					<a href="<%=request.getContextPath()%>/userstyle/my.jsp" class="pl3 color8">我的面板</a>
-				</li>
-			</ul>
-		</aside>
-		<style>
-			/*只针对侧栏内容部分做简单的样式*/
-			
-			.ui-aside {
-				line-height: 1.5em;
-			}
-			
-			.ui-aside ul {
-				border-top: 0.02rem solid #017da7;
-			}
-			
-			.ui-aside li {
-				line-height: 0.8rem;
-				border-bottom: 0.02rem solid #017da7;
-			}
-			
-			.ui-aside a {
-				display: block;
-			}
-		</style>
-		<script type="text/javascript">
-			var aside = $(".ui-aside").asideUi({
-				hasmask: true,
-				size: "4rem",
-				position: "left",
-				sidertime: 300
-			});
-			$(".ui-header-l").on('touchend', function() {
-				aside.toggle();
-			})
-		</script>
-		<!-- swiper -->
-		<section class="swiper-container h40">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide"><img src='<%=request.getContextPath()%>/userstyle/img/banner1.jpg' class="w75 h40" /></div>
-				<div class="swiper-slide"><img src='<%=request.getContextPath()%>/userstyle/img/banner2.jpg' class="w75 h40" /></div>
-				<div class="swiper-slide"><img src='<%=request.getContextPath()%>/userstyle/img/banner3.jpg' class="w75 h40" /></div>
-			</div>
-			<!-- Add Arrows -->
-			<div class="swiper-button-next"></div>
-			<div class="swiper-button-prev"></div>
-			<!-- Add Pagination -->
-			<div class="swiper-pagination"></div>
-		</section>
-		<script>
-			var swiper = new Swiper('.swiper-container', {
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
-				},
-				pagination: {
-					el: '.swiper-pagination',
-				}
-			});
-		</script>
+			</section>
 		<style>
 			.swiper-button-next,
 			.swiper-button-prev {
@@ -191,6 +110,11 @@
 				</a>
 			</div>
 			<div class="col-3 h19">
+				<a href="#" class="pt4 pb4"><i class="f42 color-warning icon iconfont icon-pubuliu"></i>
+					<p>缴纳停车费</p>
+				</a>
+			</div>
+			<div class="col-3 h19">
 				<a href="" class="pt4 pb4"><i class="f50 color-success icon iconfont icon-ic_view_carousel_px"></i>
 					<p>敬请期待...</p>
 				</a>
@@ -216,39 +140,6 @@
 				border-left: none;
 			}
 		</style>
-		<%-- <!-- 底部导航 -->
-		<nav class="demo-bottomNav mt6 w75 h12 pt1 t-c f28 bg-color8 o-h clearfix">
-			<div class="w15 fl">
-				<a href="user_main.jsp">
-					<i class="f46 icon iconfont icon-home_light"></i>
-					<p>首页</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="l">
-					<i class="f46 icon iconfont icon-comment"></i>
-					<p>左滑</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="">
-					<i class="f46 icon iconfont icon-rank"></i>
-					<p>列表</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="">
-					<i class="f46 icon iconfont icon-list"></i>
-					<p>评论</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="<%=request.getContextPath()%>/owerHandler/beforeToMy.action">
-					<i class="f46 icon iconfont icon-servicefill"></i>
-					<p>我的</p>
-				</a>
-			</div> 
-		</nav> --%>
 		<style type="text/css">
 			.demo-bottomNav {
 				line-height: 1.8em;

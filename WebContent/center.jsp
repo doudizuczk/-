@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div>
-		<p style="color: #ED1519 ;font-size: 50px;margin-left: 250px">欢迎回来!!!</p>
+		<p style="color: #ED1519 ;font-size: 50px;margin-left: 250px">欢迎来到智能停车管理系统</p>
 	</div>
 </body>
 </html>

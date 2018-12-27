@@ -52,6 +52,7 @@ margin-left: 250px;
  			</tbody>
  		</table>
  		<div>
+ 		<input type="hidden" name="parmPid" id="parmPid" value="${parm.parmPid}">
  			<input type="button" value="保存" id="savechange" class="btn btn-primary"><input type="button" value="取消" id="nosavechange" class="btn btn-primary">
  		</div>
  	</form>
@@ -81,7 +82,7 @@ $("#savechange").click(function(){
 						}else if(data=="0"){
 							alert("修改失败");
 						}else{
-							alert("该参数已存在");
+							alert("已存在相同参数");
 						}
 					},
 					error:function(){
