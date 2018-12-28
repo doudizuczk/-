@@ -126,7 +126,6 @@ function payment(){
 
 //立即缴费
 function pay(cost,carId){
-	alert(cost+","+carId);
 	$.ajax({
 		type : "post",
 		url : "<%=request.getContextPath()%>/chargeHander/addCharge.action",
@@ -162,7 +161,12 @@ function CarIdSelectTransact(){
 	
 $("#trans").show();
 $("#show").hide();
-	
+
+if($("#curCar").text()==null || $("#curCar").text()==''){
+	alert("输入车牌号为空！");
+	return;
+}
+
 var path="<%=request.getContextPath()%>";
 var str ="";
 	$.ajax({
@@ -342,19 +346,16 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
-// 				location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload()   //刷新页面
 				}
 			}
 			var str="缴费成功！此次编号："+data.map.seq;
@@ -362,6 +363,34 @@ function tranButton(){
 			$("#trans").html(str);
 		},
 		error:function(){
+		}
+	})
+}
+
+//*******************************************以下为反向寻车********************************************/
+//查询该车牌号所对应车辆的信息 
+function queryCar(){
+	if($("#curCar").text()==null || $("#curCar").text()==''){
+		alert("输入车牌号为空！");
+		return;
+	}
+	
+	$.ajax({
+		type:"post",
+		url:"<%=request.getContextPath()%>/carLocation/queryCarInfo.action",
+		data:{"carId":$("#curCar").text()},
+		dataType:"json",
+		success:function(data){
+			console.log(data);
+			var xCoords=data[0].xCoord;//车位模型的x周坐标
+			var yCoords=data[0].yCoord;//车位模型y轴坐标
+			var twoId=data[0].twoId;//车位模型的id
+			//开始导航			
+			if(xCoords==null||yCoords==null){
+				window.alert("未查询出您车辆的信息");
+				return;
+			}
+			window.location.href = "<%=request.getContextPath()%>/frontstage/startnav.jsp?xCoords="+xCoords+"&yCoords="+yCoords+"&twoId="+twoId;
 		}
 	})
 }
@@ -397,7 +426,7 @@ function tranButton(){
 							<li class="nav2"><a href="#" onclick="payment()">自助缴费</a></li>
 							<li class="nav3"><a href="#" onclick="CarIdSelectTransact()">月缴办理</a></li>
 							<li class="nav4"><a href="#" onclick="carInfo()">车辆信息</a></li>
-							<li class="nav5"><a href="<%=request.getContextPath()%>/carLocation/toSearchCar.action" >反向寻车</a></li>
+							<li class="nav5"><a href="#" onclick="queryCar()">反向寻车</a></li>
 						</ul>
 					</nav>
 				</header>

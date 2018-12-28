@@ -218,10 +218,7 @@ function packNameChange(){
  		 }
 }
 
-<<<<<<< HEAD
-=======
 	
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
 	
 var path="<%=request.getContextPath()%>";
 function tranButton(){
@@ -245,23 +242,16 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
-<<<<<<< HEAD
-// 				location.reload();   //刷新页面
-=======
-				location.reload();   //刷新页面
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
 				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload()   //刷新页面
 				}
 			}
 			var str="缴费成功！此次编号："+data.map.seq;
@@ -305,13 +295,7 @@ function invoice(chargeId){
  					<th>可退金额</th>
  				</tr>
  			</thead>
-<<<<<<< HEAD
  			<tbody id="packTbody"></tbody>
-=======
- 			<tbody id="packTbody">
- 				
- 			</tbody>
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>

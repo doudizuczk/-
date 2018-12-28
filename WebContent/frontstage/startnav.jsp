@@ -76,21 +76,13 @@
           <span class="tip1"></span>
           <span class="tip2"></span>
       </div>
-      <div css="tips-msg">
-          <div class="msg msg2">
-              <h4>模拟导航</h4>
-              <p>1. 用于车辆/行人导航，自动计算路程和所剩时间</p>
-              <p>2. new esmap.ESNavigation({...}) 创建导航对象</p>
-
-              <div style="display: none">易景地图第三人称导航,易景室内三维地图引擎提供地图浏览、缩放、旋转、图层显隐等基础功能，支持自定义室内地图显示风格及样式，可自动绘制楼层热力图、散点图等专题地图，快速进行空间大数据分析展示。支持跨楼层精准的点到点之间的最短、最优路径计算，支持对路径结果进行导航和动画,并提供丰富的地图主题资源供二次开发调用。</div>
-          </div>
-      </div>
     </div>
   </nav>
   <div id="description">
     暂无导航提示信息
   </div>
   <div id="pannel">
+  	<input type="button" class="btn btn-default btnclass" onclick="back()" value="返回" />
     <input type="button" class="btn btn-default btnclass" onclick="clearNavi()" value="清除" />
     <input type="button" class="btn btn-default btnclass" onclick="startNavi1()" value="开始第一人称导航" />
     <input type="button" class="btn btn-default btnclass" onclick="startNavi2()" value="开始第三人称导航" />
@@ -324,6 +316,10 @@
       document.getElementById('description').innerHTML = '<p>距终点：' + distance.toFixed(1) + ' 米</p><p>大约需要：  ' + m + '  分钟   ' + s +
         '   秒</p><p>路线提示：' + f + ' </p>';
     };
+    
+    function back(){
+    	window.history.back(-1); 
+    }
   </script>
 </body>
 
