@@ -248,6 +248,7 @@ function tranButton(){
 	console.log(PackTranPyte+"办理类型======套餐id"+$("#packId").val())//套餐类型
 	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
+	
 	var adminId =${sessionScope.loggingAdmin.adminId} 
 	$.ajax({
 		url:path+"/transact/confirmPay.action",
@@ -312,15 +313,7 @@ function invoice(chargeId){
  					<th>可退金额</th>
  				</tr>
  			</thead>
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
  			<tbody id="packTbody"></tbody>
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>
