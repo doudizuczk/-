@@ -34,17 +34,25 @@
 			<div class="ui-header-c fl f30 w59">
 				新增车辆
 			</div>
-			<div class="ui-header-r fr w5">
-				<i class="icon iconfont icon-phone"></i>
-			</div>
+<!-- 			<div class="ui-header-r fr w5"> -->
+<!-- 				<i class="icon iconfont icon-phone"></i> -->
+<!-- 			</div> -->
 		</header><br />
+		
 		<form id="carForm">
 		<input type="hidden" value="${sessionScope.loginOwer.owerId}" id="owerId" name="owerId">
-		<input type="button" value="车牌号" class="btn btn-primary">:<input id="carId" name="carId" class="input"><br>
-		<input type="button" value="车辆颜色" class="btn btn-primary">:<input id="carColor" name="carColor" class="input"><br>
-		<input type="button" value="确定" class="btn btn-primary" id="confirm" onClick="addMyCar()" ><input type="button" value="取消" class="btn btn-primary" id="cancel">
-		<input type="button" value="返回" onClick="comeBack()">
+		<input type="button" value="车牌号" class="p2 mb4 btn radius5 btn-info"><input id="carId" name="carId" class="p2 mb4 btn radius5 btn-success" style="background: white;color:#000000;"><br>
+		<input type="button" value="车辆颜色" class="p2 mb4 btn radius5 btn-info"><input id="carColor" name="carColor" class="p2 mb4 btn radius5 btn-success" style="background: white;color:#000000;"><br>
+<!-- 		<input type="button" value="取消" class="p2 mb4 btn radius5 btn-success" id="cancel" style="float:left;"> -->
+         <div style="width: 60%">
+         <div style="float: right;"> 
+		<input type="button" value="确定" class="p2 mb4 btn radius5 btn-success" id="confirm" onClick="addMyCar()" >
+		<input type="button" value="返回" onClick="comeBack()" class="p2 mb4 btn radius5 btn-success" style="float: right;margin-left: 50px">
+		</div>
+		</div>
 		</form>
+		
+		
 	</body>
 	<script>
 	function comeBack(){

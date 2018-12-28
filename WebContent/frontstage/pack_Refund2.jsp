@@ -4,17 +4,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="renderer" content="webkit" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0,uc-fitscreen=yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
 <title>套餐办理</title>
-<!--  --------------------------------------------------------->
-<!--  --------------------------------------------------------->
+<!--  -->
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/userstyle/css/miniMobile.css" />
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/userstyle/js/zepto.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/userstyle/js/miniMobile.js"></script>
+<!-- 字体图标 -->
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/userstyle/plugins/fonticon/iconfont.css" />
+<!-- animate.css -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+<!--  -->
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
-<script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
-<script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
-<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
+<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script> --%>
 <script>
 $().ready(function(){
 	$("#packRefundForm").validate({
@@ -219,11 +237,6 @@ function packNameChange(){
 	 		}
  		 }
 }
-
-<<<<<<< HEAD
-=======
-	
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
 	
 var path="<%=request.getContextPath()%>";
 function tranButton(){
@@ -247,11 +260,8 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
-<<<<<<< HEAD
-// 				location.reload();   //刷新页面
-=======
+
 				location.reload();   //刷新页面
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
 				}
 			}
 			if(PackTranPyte==2){
@@ -287,15 +297,26 @@ function invoice(chargeId){
 }
 </style>
 </head>
-<body>
+<body class="pb12 fadeIn animated">
+<header
+		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
+		<div class="ui-header-l fl w5">
+			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
+		</div>
+		<div class="ui-header-c fl f30 w59">套餐办理
+		<input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-primary" style="height: 30px;float: right;" >
+		</div>
+<!-- 		<div class="ui-header-r fr w5"> -->
+<!-- 			<i class="icon iconfont icon-phone"></i> -->
+<!-- 		</div> -->
+	</header>
 <div id="trans">
-<h3>套餐办理页2</h3>
 	 <form id="packRefundForm">
-	 	<h5>输入套餐办理车牌号：</h5>
-			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..."> 
-		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="btn btn-primary">
-		 	<h5>套餐情况：</h5>
- 		<table class="table table-striped table-hover" >
+	 	<span class="p2 mb4 btn radius5 btn-warning">输入套餐办理车牌号：</span>
+			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..." class="p2 mb4 btn radius5 btn-success" style="background: white;color:#000000;"> 
+		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="p2 mb4 btn radius5 btn-success">
+		 	<span class="p2 mb4 btn radius5 btn-warning">套餐情况：</span>
+ 		   <table>
  			<thead>
  				<tr>
  					<th>套餐名称</th>
@@ -307,21 +328,16 @@ function invoice(chargeId){
  					<th>可退金额</th>
  				</tr>
  			</thead>
-<<<<<<< HEAD
- 			<tbody id="packTbody"></tbody>
-=======
  			<tbody id="packTbody">
- 				
  			</tbody>
->>>>>>> branch 'master' of https://github.com/doudizuczk/-.git
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>
- 		<h5>套餐类型</h5>
+ 		<span class="p2 mb4 btn radius5 btn-warning">套餐类型：</span>
  		<div>
 			<select name="PyteState" id="PyteState"></select>
  		</div>
- 		<h5>办理套餐</h5>
+ 		<span class="p2 mb4 btn radius5 btn-warning">办理套餐：</span>
  		<div>
 			<select name="packId" id="packId"></select>
 			<label id="packLabel"  class="label label-primary"></label>
@@ -336,7 +352,7 @@ function invoice(chargeId){
  			<tbody id="TransPack"></tbody>
 		</table>
 		
-		<h5>绑定账户</h5>
+		<span class="p2 mb4 btn radius5 btn-warning">绑定账户：</span>
 		<table class="table table-striped table-hover">
  				<tr>
 					<th>账户：<label id="oweract"  class="label label-primary"></label></th>
@@ -345,14 +361,21 @@ function invoice(chargeId){
 		 </table>
 		 <div id="RefundId"></div>
 		<div id="payId">
- 		<h5>支付方式：</h5>
+ 		<span class="p2 mb4 btn radius5 btn-warning">支付方式：</span>
  		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
 		<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
 		<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付
 		</div>
-
- 		<div><input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary"></div>
+ 		<div style="width: 80%">
+ 		<input type="reset" value="重置" id="reBtn" class="p2 mb4 btn radius5 btn-primary">
+ 		<input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="p2 mb4 btn radius5 btn-primary" style="float: right;">
+ 		</div>
  	</form>
 </div>
 </body>
+<script type="text/javascript">
+function comeBack(){
+	window.history.back();
+}
+</script>
 </html>

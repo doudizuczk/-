@@ -54,18 +54,21 @@
 			</div>
 			<div class="ui-header-c fl f30 w59">
 				我的账户
+				<input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-primary" style="height: 30px;float: right;" >
 			</div>
-			<div class="ui-header-r fr w5">
-				<i class="icon iconfont icon-phone"></i>
-			</div>
+<!-- 			<div class="ui-header-r fr w5"> -->
+<!-- 				<i class="icon iconfont icon-phone"></i> -->
+<!-- 			</div> -->
 		</header><br />
 		<div class="p3 f30">
-			<span class="tag tag-warning">账户余额 &nbsp;&nbsp;&nbsp;${owers.balance} .00</span>
+			<span class="p2 mb4 btn radius5 btn-warning">账户余额 &nbsp;&nbsp;&nbsp;${owers.balance} .00</span>
 		</div>
 		<div>
-		<input type="button" value="充值金额" style="disabled:disabled"><input type="text" id="balance" name="balance">
-		<input type="button" value="充值" id="invest" onClick="addMoney(${owers.owerId})">
-		<input type="button" value="返回" onClick="comeBack()">
+		
+		<input type="button" value="充值金额" style="disabled:disabled" class="p2 mb4 btn radius5 btn-info">
+		<input type="text" id="balance" name="balance" class="p2 mb4 btn radius5 btn-success" style="background: white;color:#000000;">
+		<input type="button" value="充值" id="invest" onClick="addMoney(${owers.owerId})"  class="p2 mb4 btn radius5 btn-success">
+<!-- 		<input type="button" value="返回" onClick="comeBack()"> -->
 		</div>
 		<hr />
 	</body>

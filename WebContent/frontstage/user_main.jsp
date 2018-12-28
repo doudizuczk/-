@@ -22,10 +22,10 @@
 		<!-- fonticon -->
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/plugins/fonticon/iconfont.css" />
 		<!-- swiper -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/css/swiper.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/js/swiper.min.js"></script>
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/userstyle/css/swiper.min.css">
+		<script src="<%=request.getContextPath()%>/userstyle/js/swiper.min.js"></script>
 		<!-- animate.css -->
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/css/animate.css" />
 	</head>
 
 	<body class="fadeIn animated">
@@ -100,8 +100,8 @@
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="<%=request.getContextPath()%>/owerHandler/searchPack.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
-					<p>月缴办理</p>
+				<a href="<%=request.getContextPath()%>/frontstage/pack_Refund2.jsp" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
+					<p>套餐办理</p>
 				</a>
 			</div>
 			<div class="col-3 h19">

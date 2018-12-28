@@ -28,16 +28,16 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
-	rel="stylesheet">
+<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
+<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" --%>
+<!-- 	rel="stylesheet"> -->
 <style>
 .se2{
     width:100px;
     height:36px;
     position:absolute;
-    top:200px;
-    left:100px;
+/*     top:200px; */
+    left:50px;
     z-index: 1;
     opacity: 0;
 }
@@ -49,15 +49,15 @@
     background: #28abde;
     border-radius:5px;
     position:absolute;
-    top:200px;
-    left:100px;
+/* top:200px; */
+    left:50px;
 }
 .se1:hover{
     cursor: pointer;
 }
-#myBtn{
-margin-top: 100px;
-}
+#myBtn{ 
+margin-left:280px;
+} 
 </style>
 </head>
 <body class="pb12 fadeIn animated">
@@ -66,17 +66,19 @@ margin-top: 100px;
 		<div class="ui-header-l fl w5">
 			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
-		<div class="ui-header-c fl f30 w59">实名认证</div>
-		<div class="ui-header-r fr w5">
-			<i class="icon iconfont icon-phone"></i>
+		<div class="ui-header-c fl f30 w59">实名认证
+		<input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-primary" style="height: 30px;float: right;" >
 		</div>
+<!-- 		<div class="ui-header-r fr w5"> -->
+<!-- 			<i class="icon iconfont icon-phone"></i> -->
+<!-- 		</div> -->
 	</header>
 	<div>
 		<input type="file" capture="camera" accept="image/*" id="IDcard" onchange="viewImage(this)" class="se2">
 		<label for="IDcard" class="label">
-        <input class="se1" type="button" value="上传身份证" />
+		<input type="button" value="提交" onClick="up()" id="myBtn" class="p2 mb4 btn radius5 btn-success">
+        <input class="se1" type="button" value="上传身份证"  class="p2 mb4 btn radius5 btn-info"/>
 		</label>
-		<input type="button" value="提交" onClick="up()" id="myBtn">
 	</div>
 	<div id="localImag">
 		<img id="preview" width=-1 height=-1 style="diplay: none;" /> <input
@@ -86,6 +88,9 @@ margin-top: 100px;
 	
 </body>
 <script>
+function comeBack(){
+	window.history.back();
+}
 function viewImage(file) {
 	  var preview = document.getElementById('preview');
 	  if (file.files && file.files[0]) {
