@@ -5,7 +5,7 @@
 <mapper namespace="com.great.mapper.RoleMapper">
 	
 	<select id="queryAllRole" resultType="HashMap">
-		select role_id, role_name, role_state, role_cdate from T_ROLE 
+		select role_id, role_name, role_state, role_cdate from T_ROLE where  ROLE_STATE=1
 	</select>
 	
 	<select id="queryRole" parameterType="com.great.bean.Role" resultType="HashMap">

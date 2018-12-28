@@ -36,8 +36,10 @@ import com.great.bean.Admin;
 import com.great.bean.Charge;
 import com.great.bean.Dock;
 import com.great.bean.Order;
+import com.great.bean.Ower;
 import com.great.service.IChargeService;
 import com.great.service.IDockService;
+import com.great.service.IOwerService;
 import com.great.util.DateUtils;
 
 /*创建人@lian shengwei
@@ -53,6 +55,9 @@ public class ChargeHander {
 	@Autowired
 	@Qualifier("dockServiceImpl")
 	private IDockService dockService;
+	@Autowired
+	@Qualifier("owerServiceImpl")
+	private IOwerService owerService;
 	
 	private DateUtils dateUtils;
 	
@@ -123,9 +128,12 @@ public class ChargeHander {
 	//添加停车缴费信息
 	@RequestMapping("/addCharge.action")
 	public @ResponseBody String addCharge(HttpServletRequest request,Charge charge) {
+		HttpSession session=request.getSession();
 		if (charge.getAdminId()==0) {//人工缴费
-			HttpSession session=request.getSession();
-			int adminId=((Admin)session.getAttribute("loggingAdmin")).getAdminId();
+			int adminId=1;
+			if (session.getAttribute("loggingAdmin")!=null) {
+				adminId=((Admin)session.getAttribute("loggingAdmin")).getAdminId();
+			}
 			charge.setAdminId(adminId);
 		}
 		

@@ -110,12 +110,12 @@
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="#" class="pt4 pb4"><i class="f42 color-warning icon iconfont icon-pubuliu"></i>
+				<a href="#"  class="pt4 pb4"><i class="f42 color-warning icon iconfont icon-pubuliu"></i>
 					<p>缴纳停车费</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-success icon iconfont icon-ic_view_carousel_px"></i>
+				<a href="#" class="pt4 pb4"><i class="f50 color-success icon iconfont icon-ic_view_carousel_px"></i>
 					<p>敬请期待...</p>
 				</a>
 			</div>
