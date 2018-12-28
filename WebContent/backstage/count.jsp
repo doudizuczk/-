@@ -87,7 +87,7 @@ function report(){
 </div>
 <div id="weeks">
 <table style="display:none">
-	<caption>缴费渠道统计(本周)</caption>
+	<caption>缴费渠道统计(本周) 数量/人</caption>
 	<thead>
 		<tr>
 			<td></td>
@@ -124,7 +124,7 @@ function report(){
 </div>
 <div id="mouths">
 <table style="display:none">
-	<caption>缴费渠道统计(本月)</caption>
+	<caption>缴费渠道统计(本月) 数量/人</caption>
 	<thead>
 		<tr>
 			<td></td>
@@ -159,7 +159,7 @@ function report(){
 </div>
 <div id="threemouths">
 <table style="display:none">
-	<caption>缴费渠道统计(近半年)</caption>
+	<caption>缴费渠道统计(近半年) 数量/人</caption>
 	<thead>
 		<tr>
 			<td></td>

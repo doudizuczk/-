@@ -35,4 +35,5 @@ public interface IChargeService{
   	public List<Map<String,Object>> querySelfHelpHalfyearChart();//自助近半年统计总
 	public List<Map<String,Object>> queryLaborHalfyearChart();//人工近半年统计总
 	public List<Map<String,Object>> queryRechargeHalfyearChart();//月缴费近半年统计总
+	
 }

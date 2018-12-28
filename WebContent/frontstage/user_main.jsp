@@ -22,103 +22,22 @@
 		<!-- fonticon -->
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/plugins/fonticon/iconfont.css" />
 		<!-- swiper -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/css/swiper.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.5/js/swiper.min.js"></script>
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/userstyle/css/swiper.min.css">
+		<script src="<%=request.getContextPath()%>/userstyle/js/swiper.min.js"></script>
 		<!-- animate.css -->
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/userstyle/css/animate.css" />
 	</head>
 
 	<body class="fadeIn animated">
-		<header class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-success t-c o-h">
-			
-			<div class="ui-header-c fl f30 w59">
-				快速预览
-			</div>
-		</header>
-		<!-- aside -->
-		<aside class="ui-aside w40 bg-color-success f30">
-			<div class="user p3 color8 clearfix">
-				<div class="fl w10">
-					<img src="<%=request.getContextPath()%>/userstyle/img/user.jpg" class="w10 h10 radius-o" />
+		<section class="userbox p5 bg-color-success pl5 clearfix">
+				<div class="userbox-l fl w20">
+					<img src="<%=request.getContextPath()%>/userstyle/img/user2.jpg" class="radius-o col-12" />
 				</div>
-				<div class="fr w22">
-					<span>狂奔的蜗牛！</span><br />
-					<font class="tag f28">12</font>
+				<div class="userbox-r fl w41 pl4 pt3 color8">
+					<p class="f60">${sessionScope.loginOwer.owerName}</p>
+					<p class="f34"><b>${sessionScope.loginOwer.owerAccount}</b></p>
 				</div>
-			</div>
-			<ul class="f30 mt2">
-				<li>
-					<a href="user_main.jsp" class="pl3 color8">首页</a>
-				</li>
-				<li>
-					<a href="" class="pl3 color8">左滑出按钮</a>
-				</li>
-				<li>
-					<a href="" class="pl3 color8">常用列表</a>
-				</li>
-				<li>
-					<a href="" class="pl3 color8">评论列表</a>
-				</li>
-				<li>
-					<a href="<%=request.getContextPath()%>/userstyle/my.jsp" class="pl3 color8">我的面板</a>
-				</li>
-			</ul>
-		</aside>
-		<style>
-			/*只针对侧栏内容部分做简单的样式*/
-			
-			.ui-aside {
-				line-height: 1.5em;
-			}
-			
-			.ui-aside ul {
-				border-top: 0.02rem solid #017da7;
-			}
-			
-			.ui-aside li {
-				line-height: 0.8rem;
-				border-bottom: 0.02rem solid #017da7;
-			}
-			
-			.ui-aside a {
-				display: block;
-			}
-		</style>
-		<script type="text/javascript">
-			var aside = $(".ui-aside").asideUi({
-				hasmask: true,
-				size: "4rem",
-				position: "left",
-				sidertime: 300
-			});
-			$(".ui-header-l").on('touchend', function() {
-				aside.toggle();
-			})
-		</script>
-		<!-- swiper -->
-		<section class="swiper-container h40">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide"><img src='<%=request.getContextPath()%>/userstyle/img/banner1.jpg' class="w75 h40" /></div>
-				<div class="swiper-slide"><img src='<%=request.getContextPath()%>/userstyle/img/banner2.jpg' class="w75 h40" /></div>
-				<div class="swiper-slide"><img src='<%=request.getContextPath()%>/userstyle/img/banner3.jpg' class="w75 h40" /></div>
-			</div>
-			<!-- Add Arrows -->
-			<div class="swiper-button-next"></div>
-			<div class="swiper-button-prev"></div>
-			<!-- Add Pagination -->
-			<div class="swiper-pagination"></div>
-		</section>
-		<script>
-			var swiper = new Swiper('.swiper-container', {
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
-				},
-				pagination: {
-					el: '.swiper-pagination',
-				}
-			});
-		</script>
+			</section>
 		<style>
 			.swiper-button-next,
 			.swiper-button-prev {
@@ -131,9 +50,6 @@
 		</style>
 		<!--  -->
 		<div class="t-c f28 p6 color4 bg-color6">
-			<h2 class="color-danger f46">
-				我们的目标
-			</h2>
 			<p>
 			<marquee onmouseout=this.start() onmouseover=this.stop() behavior="scroll" direction="up" width="850px" height="80px" SCROLLDELAY="320" >
 			<c:forEach items="${tranList}" var="tran">
@@ -153,86 +69,56 @@
 		<!-- 导航 -->
 		<section class="demo-nav t-c f28 clearfix">
 			<div class="col-3 h19">
-				<a href="button.jsp" class="pt4 pb4"><i class="f42 color-primary icon iconfont icon-anniu"></i>
-					<p>按钮徽章</p>
+				<a href="<%=request.getContextPath()%>/frontstage/addcar.jsp" class="pt4 pb4"><i class="f42 color-primary icon iconfont icon-anniu"></i>
+					<p>新增车辆</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4">
+				<a href="<%=request.getContextPath()%>/owerHandler/searchOwersCar.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4">
 					<i class="f46 color-success icon iconfont icon-dialog"></i>
-					<p>消息提示</p>
+					<p>我的车辆</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f44 color-info icon iconfont icon-biaoge"></i>
-					<p>栅格化</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/getMeans.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4"><i class="f44 color-info icon iconfont icon-biaoge"></i>
+					<p>我的资料</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f44 color-warning icon iconfont icon-iconfontliebiao1copy"></i>
-					<p>表单元素</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/toMyCount.action?owerId=${sessionScope.loginOwer.owerId}" class="pt4 pb4"><i class="f44 color-warning icon iconfont icon-iconfontliebiao1copy"></i>
+					<p>我的账户</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="l" class="pt4 pb4"><i class="f46 color-danger icon iconfont icon-tupian"></i>
-					<p>icon</p>
+				<a href="<%=request.getContextPath()%>/frontstage/checkage.jsp" class="pt4 pb4"><i class="f46 color-danger icon iconfont icon-tupian"></i>
+					<p>实名认证</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f46 color-warning icon iconfont icon-menu"></i>
-					<p>侧栏导航</p>
+				<a href="<%=request.getContextPath()%>/owerHandler/searchPayNotes.action" class="pt4 pb4"><i class="f46 color-warning icon iconfont icon-menu"></i>
+					<p>账单管理</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
-					<p>字体排版</p>
+				<a href="<%=request.getContextPath()%>/frontstage/pack_Refund2.jsp" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
+					<p>套餐办理</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-primary icon iconfont icon-zhediemianban"></i>
-					<p>折叠面板</p>
+				<a href="<%=request.getContextPath()%>/carLocation/toSearchCar.action" class="pt4 pb4"><i class="f50 color-primary icon iconfont icon-zhediemianban"></i>
+					<p>反向寻车</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-success icon iconfont icon-ic_view_carousel_px"></i>
-					<p>swiper</p>
+				<a href="#"  class="pt4 pb4"><i class="f42 color-warning icon iconfont icon-pubuliu"></i>
+					<p>缴纳停车费</p>
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f42 color-warning icon iconfont icon-pubuliu"></i>
-					<p>瀑布流</p>
+				<a href="#" class="pt4 pb4"><i class="f50 color-success icon iconfont icon-ic_view_carousel_px"></i>
+					<p>敬请期待...</p>
 				</a>
 			</div>
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f46 color-danger icon iconfont icon-tables-copy"></i>
-					<p>iScroll</p>
-				</a>
-			</div>
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f46 color-success icon iconfont icon-anniu"></i>
-					<p>相册切换</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="keyboard.jsp" class="pt4 pb4"><i class="f46 color-primary icon iconfont icon-jianpan"></i>
-					<p>安全键盘</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f60 color-danger icon iconfont icon-jindutiao"></i>
-					<p>Progress</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f50 color-warning icon iconfont icon-icwindowzoom48px"></i>
-					<p>全屏切换</p>
-				</a>
-			</div>	
-			<div class="col-3 h19">
-				<a href="" class="pt4 pb4"><i class="f40 color-info icon iconfont icon-tab"></i>
-					<p>Tab切换</p>
-				</a>
-			</div>	
 		</section>
 		<style>
 			.demo-nav {
@@ -254,39 +140,6 @@
 				border-left: none;
 			}
 		</style>
-		<!-- 底部导航 -->
-		<nav class="demo-bottomNav mt6 w75 h12 pt1 t-c f28 bg-color8 o-h clearfix">
-			<div class="w15 fl">
-				<a href="user_main.jsp">
-					<i class="f46 icon iconfont icon-home_light"></i>
-					<p>首页</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="l">
-					<i class="f46 icon iconfont icon-comment"></i>
-					<p>左滑</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="">
-					<i class="f46 icon iconfont icon-rank"></i>
-					<p>列表</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="">
-					<i class="f46 icon iconfont icon-list"></i>
-					<p>评论</p>
-				</a>
-			</div>
-			<div class="w15 fl">
-				<a href="<%=request.getContextPath()%>/owerHandler/beforeToMy.action">
-					<i class="f46 icon iconfont icon-servicefill"></i>
-					<p>我的</p>
-				</a>
-			</div>
-		</nav>
 		<style type="text/css">
 			.demo-bottomNav {
 				line-height: 1.8em;

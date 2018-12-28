@@ -7,25 +7,27 @@
 <meta charset="UTF-8">
 <title>菜单页</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap-select.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/js/bootstrap-select.js"></script>
 <style>
 #noUsed{
-margin-left: 25px;
+/* margin-left: 25px; */
 }
 #nextPage{
-margin-left:50px;
+/* margin-left:50px; */
 }
 #upPage{
-margin-left:320px;
+/* margin-left:320px; */
 }
 #myPage{
-margin-left: 50px;
+/* margin-left: 50px; */
 }
 #createMenu{
-margin-left: 950px;
+/* margin-left: 950px; */
 }
 </style>
 <script>
@@ -50,13 +52,14 @@ function search(){
  	<form>
  		<div>
  		<input type="button" class="btn btn-default" value="角色名称" id="btn1"><input id="roleName" name="roleName"  placeholder="角色名称..." value="${role.roleName}" >
+ 		<input type="button" class="btn btn-default" value="角色状态" id="btn3">
  		<select id="roleState" name="roleState">
  			<option value="0">请选择</option>
  			<option value="1">启用</option>
  			<option value="2">禁用</option>
  		</select>
- 		<input type="hidden" value="${roleState}" id="backState">
-		<input type="button" value="搜索" class="btn btn-primary" id="btn4" onClick="search()">
+ 		<input type="hidden" value="${roleState}" id="backState" class="btn btn-default">
+		<input type="button" value="搜索" class="btn btn-default" id="btn4" onClick="search()">
  		</div>
  		<table class="table table-striped table-hover">
  			<tbody>
@@ -71,18 +74,20 @@ function search(){
  					<td>${role.roleId}<input type="hidden" id="roleId" value="${role.roleId}"></td>
  					<td>${role.roleName}</td>
  					<td>${role.roleState==1?'启用':'禁用'}</td>
- 					<td><input type="button" value="启用" id="canUsed" class="btn btn-primary" onClick="startMenu(${role.roleId})"><input type="button" value="禁用" id="noUsed" class="btn btn-primary" onClick="stopMenu(${role.roleId})"></td>
+ 					<td><input type="button" value="启用" id="canUsed" class='btn btn-primary btn-sm' onClick="startMenu(${role.roleId})" style="margin-right: 10px;"><input type="button" value="禁用" id="noUsed" class='btn btn-primary btn-sm' onClick="stopMenu(${role.roleId})"></td>
  				</tr>
  				</c:forEach>
  			</tbody>
  		</table>
  	</form>
- 	<div>
- 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="label label-primary">当前第${pageNum}页 共${allNum}页 共${roleCount}条</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
+ 	<div style="width: 70%">
+         <div style="float: right;">
+ 		<input type="button" value="上一页" id="upPage" class="btn btn-primary"><label id="myPage"  class="btn btn-default">当前第${pageNum}页 共${allNum}页 共${roleCount}条</label><input type="button" value="下一页" id="nextPage" class="btn btn-primary">
  		<input type="text" class="input-group-addon" id="goPages" style="width: 100px;background-color:#FFFFFF;height:35px; " onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" placeholder="请输入页码...">
+                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}" placeholder="请输入页码..." class="btn btn-default">
         <input type="button" value="跳转" class="btn btn-primary" id="turnPage">
  		<input type="hidden" value="${pageNum}" id="pageNum"><input type="hidden" value="${allNum}" id="allNum">
+ 	</div>
  	</div>
 </body>
 <script>

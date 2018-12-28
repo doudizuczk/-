@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.bean.Menu;
 import com.great.bean.PageInfo;
 import com.great.bean.Parm;
@@ -66,7 +67,7 @@ public class RuleHandler {
 		model.setViewName("forward:/backstage/rule_list.jsp");
 		return model;
 	}
-
+	@AfterLog(operationType="管理员操作",operationName="删除规则")
 	@RequestMapping("/deleteRule.action")
 	public ModelAndView deleteRule(HttpServletRequest request, Rule rule, int curPage) {
 		ModelAndView model = new ModelAndView();
@@ -74,7 +75,7 @@ public class RuleHandler {
 		model.setViewName("forward:/ruleHandler/ruleList.action");
 		return model;
 	}
-
+	@AfterLog(operationType="管理员操作",operationName="新增规则")
 	@RequestMapping("/enableRule.action")
 	public ModelAndView enableRule(HttpServletRequest request, Rule rule, int curPage) {
 		ModelAndView model = new ModelAndView();
@@ -82,7 +83,7 @@ public class RuleHandler {
 		model.setViewName("forward:/ruleHandler/ruleList.action");
 		return model;
 	}
-
+	@AfterLog(operationType="管理员操作",operationName="确认规则")
 	@RequestMapping("/checkRuleName.action")
 	public @ResponseBody String checkRuleName(HttpServletRequest request, String ruleName) {
 		Rule rule = new Rule();

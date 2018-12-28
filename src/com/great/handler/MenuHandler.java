@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.great.aoplog.AfterLog;
 import com.great.aoplog.Log;
 import com.great.bean.Admin;
 import com.great.bean.Menu;
@@ -70,6 +71,7 @@ public class MenuHandler {
 		return model;
 	}
 	//新增菜单
+	@AfterLog(operationType="管理员操作",operationName="新增菜单")
 	@RequestMapping(value="/addMenu.action",method = RequestMethod.POST)
 	public @ResponseBody String createMenu(@RequestBody Menu menu) {
 			menu.setMenuSeq(100);
@@ -81,6 +83,7 @@ public class MenuHandler {
 			}
 	}
 	//管理菜单，启用
+	@AfterLog(operationType="管理员操作",operationName="启用菜单")
 	@RequestMapping(value="/controlMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String startMenu(HttpServletRequest request, Integer menuId) {
 		Integer result=menuService.manageMenu(menuId);
@@ -91,6 +94,7 @@ public class MenuHandler {
 		}
 	}
 	//禁用菜单
+	@AfterLog(operationType="管理员操作",operationName="禁用菜单")
 	@RequestMapping(value="/stopMenu.action",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
 	public @ResponseBody String stopMenu(HttpServletRequest request, Integer menuId) {
 		Integer result=menuService.stopMenu(menuId);

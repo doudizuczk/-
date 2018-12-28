@@ -29,9 +29,9 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
-	rel="stylesheet">
+<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
+<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" --%>
+<!-- 	rel="stylesheet"> -->
 <script>
 function comeBack(){
 	window.history.back();
@@ -39,28 +39,26 @@ function comeBack(){
 </script>
 </head>
 <body class="pb12 fadeIn animated">
-	<header
-		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
+
+	<header class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
 		<div class="ui-header-l fl w5">
 			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
-		<div class="ui-header-c fl f30 w59">我的车辆</div>
-		<div class="ui-header-r fr w5">
-			<i class="icon iconfont icon-phone"></i>
+		<div class="ui-header-c fl f30 w59">我的车辆
+	    <input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-primary" style="height: 30px;float: right;" >
 		</div>
 	</header>
-	<br />
-	<hr />
-	<input type="button" value="返回" onClick="comeBack()" id="back">
+<!-- 	<input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-success"> -->
 	<c:forEach items="${carList}" var="car">
-		<div class="p3 f30" style="line-height:1.8em;">
-		<span class="tag tag-info">${car.carId}</span>
-		<span class="tag tag-success">${car.carCdate}</span>
-		<span class="tag tag-success">${car.carType==1?"临时车辆":(car.carType==2?"月缴车辆":"vip车辆")}</span>
-		<input type="button" onClick="escBangDing('${car.carId}')" value="解绑">
+		<div>
+		<span class="p2 mb4 btn radius5 btn-info">${car.carId}</span>
+		<span class="p2 mb4 btn radius5 btn-primary">${car.carCdate}</span>
+		<span class="p2 mb4 btn radius5 btn-warning">${car.carType==1?"临时车辆":(car.carType==2?"月缴车辆":"vip车辆")}</span>
+		<input type="button" onClick="escBangDing('${car.carId}')" value="解绑" class="p2 mb4 btn radius5 btn-danger">
 		</div>
 	</c:forEach>
-		<input type="button" value="新增车辆" id="addCar">
+		<input type="button" value="新增车辆" id="addCar" class="p2 mb4 btn radius5 btn-success" style="height: 2%"><input type="hidden"  id="owerId" name="owerId" value="${sessionScope.loginOwer.owerId}">
+
 </body>
 <script>
 $("#addCar").click(function(){
@@ -68,7 +66,7 @@ $("#addCar").click(function(){
 });
 function escBangDing(carIds){
 	var carId=carIds;
-	console.log("车牌号="+carId);
+	var owerId=$("#owerId").val();
 	if(confirm("确定解除绑定吗？")){
 	$.ajax({
 		type:"post",
@@ -78,6 +76,7 @@ function escBangDing(carIds){
 		success:function(data){
 			if(data=="1"){
 				alert("解绑成功");
+				window.location="<%=request.getContextPath()%>/owerHandler/searchOwersCar.action?owerId="+owerId;
 			}else{
 				alert("解绑失败");
 			}

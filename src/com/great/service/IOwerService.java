@@ -22,5 +22,7 @@ public interface IOwerService {
 	public int addMoney(int owerId,int balance);//用户充值余额
 	public Map<String,Object> searchPayNotes(Car car);//缴费记录
 	public List<Car> carTypeneone(int owerId);//手机端查询非临时车辆缴费
+	public int updatePwd(Ower ower);//修改密码
 	public Ower queryOwerById(int owerId);//id查用户
+
 }

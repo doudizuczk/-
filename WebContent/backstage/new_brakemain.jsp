@@ -5,133 +5,106 @@
 <head>
 <meta charset="UTF-8">
 <title>新车闸</title>
+<meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/brakestyle/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/brakestyle/css/easy-responsive-tabs.min.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/brakestyle/css/tabs.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/brakestyle/css/templatemo-style.css">
+        <script src="<%=request.getContextPath()%>/brakestyle/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        
+        <script src="<%=request.getContextPath()%>/brakestyle/js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="<%=request.getContextPath()%>/brakestyle/js/vendor/bootstrap.min.js"></script>
+        <script src="<%=request.getContextPath()%>/brakestyle/js/plugins.js"></script>
+        <script src="<%=request.getContextPath()%>/brakestyle/js/main.js"></script>
+        <script src="<%=request.getContextPath()%>/brakestyle/js/jquery.nicescroll.min.js"></script>
+        <script src="<%=request.getContextPath()%>/brakestyle/js/easyResponsiveTabs.js"></script>
 <style>
-    * { margin: 0; padding: 0; color: #333; font-family: "Microsoft Yahei"; font-size: 14px; }
-
-    #lightbox_mask {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, .7);
-    }
-    #lightbox_popup {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
-    #lightbox_popup .pic-view {
-      position: absolute;
-      top: 5%;
-      left: 5%;
-      width: 90%;
-      height: 90%;
-      text-align: center;
-    }
-    #lightbox_popup .pic-view .pic {
-      max-width: 100%;
-      max-height: 100%;
-      border: 5px solid #fff;
-      border-radius: 3px;
-    }
-    #lightbox_popup .btn-view {}
-    #lightbox_popup .btn-view .btn {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      font-size: 24px;
-      text-decoration: none;
-      border-radius: 32px;
-      background-color: #000;
-      opacity: .4;
-      color: #fff;
-
-      transition: all .3s;
-    }
-    #lightbox_popup .btn-view .btn:hover {
-      opacity: 1;
-      transform: scale(1.4);
-    }
-    #lightbox_popup .btn-view .btn-prev {
-      left: 10px;
-      top: 48%;
-    }
-    #lightbox_popup .btn-view .btn-next {
-      right: 10px;
-      top: 48%;
-    }
-    #lightbox_popup .btn-view .btn-close {
-      right: 10px;
-      top: 10px;
-    }
-    #lightbox_popup .caption-view {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 38px;
-      background-color: rgba(0, 0, 0, .7);
-      text-align: center;
-    }
-    #lightbox_popup .caption-view p {
-      line-height: 38px;
-      color: #fff;
-    }
-
-    .lightbox-pic {
-      width: 200px;
-    }
+  
   </style>
-<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <%-- <script src="<%=request.getContextPath()%>/js/lightbox.js"></script> --%>
 </head>
 <body>
-<div style="position: absolute;width:1100px;height:600px;left:50%;top:50%;margin-left:-550px;margin-top:-300px;border:1px solid #00F;">
-<div style="float: left;width: 45%;height: 100%;">
-    <div>入口<br>
-         <div>空闲车位：<a id="ParkNum"></a></div><br>
-      车牌号 : <div id="carId"></div><br>
-      类型 : <div id="carTypes"></div><br>    
+ <div class="preloader">
+      <div class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
     </div>
-</div>
-<div style="float: left;width: 10%;height: 100%;background:#F00; color:#FFF;"></div>
-<div style="float: left;width: 45%;height: 100%;">
-    <div>出口</div>
-     <div>空闲车位：<a id="ParkNum2"></a></div><br>
-      车牌号 : <div id="oCarId"></div><br>
-      类型 : <div id="oCarTypes"></div><br>
-      入库时间: <div id="oStarTime"></div><br>
-     应缴金额: <div id="oCost"></div><br>
+    
+    <section class="section-full image-bg">
+      <div class="container">
+<div style="width: 85%">
+         <div style="float: right;"> 
+        <div class="row" >
+          <div class="col-md-12">
+            <a href=""><div class="responsive-logo hidden-lg hidden-md hidden-sm"><img src="<%=request.getContextPath()%>/brakestyle/img/logo.png"></div></a>
+            <!-- Begin .HorizontalTab -->
+            <div class="VerticalTab VerticalTab_hash_scroll VerticalTab_6 tabs_ver_6">
+              <div class="resp-tabs-container hor_1 tabs_scroll" style="width: 100%;height: 50%;">
+                <div class="fc-tab-1" style="width: 100%">
+                  <div class="home-container" style="width: 100%">
+                    <div class="row">
+                    <!--   入口显示区 -->
+                      <div class="col-md-6" style="width: 43%;">
+                        <div class="left-content">
+                          <div class="left-line"></div>  
+<!-- 时钟-->
+      <div id="time" style="font-size:19px;color: red;"></div>
+<!-- 时钟END-->
+                          <h2>入口<em>显示</em></h2>
+                          <p>空闲车位 <em id="ParkNum" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;车牌号 :<em id="carId" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;车辆类型: <em id="carTypes" style="color: red;"></em>
+                          </p>
+                          <div class="primary-button">
+                            <a href="#">进入识别</a>
+                          </div>
+                          <br>
+                        </div>
+                      </div>
+                      <!-- 中间显示区 -->
+                        <div class="col-md-6" style="width: 10px;height: 550px;background-color:none;">
+                        <div class="left-content" style="width: 10px;height: 550px;background-color:none;">
+                          <div class="left-line" style="width: 10px;height: 550px;background-color:none;"></div>      
+                        </div>
+                      </div>
+                   
+                   <!--   出口显示区 -->
+                     <div class="col-md-6" style="height: 550px;">
+                        <div class="left-content">
+                          <div class="left-line"></div>  
+<!-- 时钟-->
+      <div id="time2" style="font-size:19px;color: red;"></div>
+<!-- 时钟END-->
+                          <h2>出口<em>显示</em></h2>
+                          <p>空闲车位 <em id="ParkNum2" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;车牌号 :<em id="oCarId" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;车辆类型: <em id="oCarTypes" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;入库时间: <em id="oStarTime" style="color: red;"></em>
+                          <br>&nbsp;&nbsp;&nbsp;&nbsp;应缴金额: <em id="oCost" style="color: red;"></em>
+                          </p>
+                          <div class="primary-button" style="width: 390px;height: 300px">
+                            <a href="#">出口识别</a>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+      </div>
+    </section>
 <!-- -----------弹窗------------------>
-<!-- <div id="lightbox_1"> -->
-<!--     <img src="img/dao.gif" alt="#" class="lightbox-pic" data-role="lightbox" data-source="images/dao.gif" data-group="group-1" data-id="pic_1_2" data-caption="pic_1_2">  -->
-<!--   </div> -->
-<!--   <div id="lightbox_mask"></div> -->
-<!--   <div id="lightbox_popup"> -->
-<!--     <div class="pic-view"> -->
-<!--       <img src="img/dao.gif" alt="#" class="pic"> -->
-<!--     </div> -->
-<!--     <div class="btn-view"> -->
-<!--       <a href="#" class="btn btn-prev">←</a> -->
-<!--       <a href="#" class="btn btn-next">→</a> -->
-<!--       <a href="#" class="btn btn-close">×</a> -->
-<!--     </div> -->
-<!--     <div class="caption-view"> -->
-<!--       <p>pic1</p> -->
-<!--     </div> -->
-<!--   </div> -->
 <!-- ----------------------------->
-</div>
-</div>
 <script type="text/javascript">
 var source;
 if (!!window.EventSource) {
@@ -172,6 +145,14 @@ if (!!window.EventSource) {
           console.log("车辆出场");
           getParkNum();
        });
+       //出场
+       source.addEventListener('cango', function(e) {
+          var obj = eval('(' + e.data + ')');
+          if(obj.gOut=="success"){
+       	      alert("放行");
+          }
+          console.log("车辆出场");
+       });
        source.addEventListener('open', function(e) {
             console.log("连接打开.");
        }, false);
@@ -188,9 +169,21 @@ if (!!window.EventSource) {
 </script>
 </body>
 <script>
+//----------时钟------------------------------------------------
+document.getElementById('time').innerHTML = new Date().toLocaleString()
+                + ' 星期' + '日一二三四五六'.charAt(new Date().getDay());
+setInterval(
+"document.getElementById('time').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",
+1000);
+document.getElementById('time2').innerHTML = new Date().toLocaleString()
+                + ' 星期' + '日一二三四五六'.charAt(new Date().getDay());
+setInterval(
+"document.getElementById('time2').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",
+1000);
 $(document).ready(function(){
 	getParkNum();
 })
+//----------------------------------------------------------
 //入口屏幕清除信息
 function clearIn(){
 	setInterval(bb,10000);

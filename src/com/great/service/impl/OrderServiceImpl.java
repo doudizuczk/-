@@ -1,5 +1,7 @@
 package com.great.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,12 @@ public class OrderServiceImpl implements IOrderService {
 	public boolean addOrder(Order order) {
 		// TODO Auto-generated method stub
 		return orderMapper.addOrder(order)>0;
+	}
+
+	@Override
+	public List<Order> queryAllOrder(Order order) {
+		// TODO Auto-generated method stub
+		return orderMapper.queryAllOrder(order);
 	}
 
 }

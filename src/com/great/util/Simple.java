@@ -9,9 +9,9 @@ import org.json.JSONObject;
 import com.baidu.aip.ocr.AipOcr;
 
 public class Simple {
-	public static final String APP_ID = "15220247";
-	public static final String API_KEY = "nwDGwPU94m6aoufWZlqIqnlH";
-	public static final String SECRET_KEY = "O7zea5NDRp0DXbu1I8f2kysOefCG5Bnv";
+	public static final String APP_ID = "15293598";
+	public static final String API_KEY = "wAbWNzOZH9ZHSr3F5ukKn2ay";
+	public static final String SECRET_KEY = "0YBFIDILoHGDSgjU0NRLgaWUWZQzCQrD";
 
 	/*
 	 * public Map Simple(String ){ Map<String,Object> map = new HashMap<>();

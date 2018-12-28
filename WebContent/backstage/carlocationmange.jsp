@@ -20,13 +20,15 @@
 
 <body>
 	<form action="">
-		<label>车位号</label>
-		 <input type="text" name="carLocationId" id="carLocationId">
-		 <label>状态</label>
-		 <input type="text" name="stateName" id="stateName">
-		 <label>所属区域</label>
-		 <input type="text" name="area" id="area">
-		 <input type="button" value="查询" onclick="queryByCondition()">	
+	
+		 <button class="btn btn-default" type="button">车位号:</button>
+		 <input type="text" name="carLocationId" id="carLocationId" class="btn btn-default">
+		 <button class="btn btn-default" type="button">状态:</button>
+		 <input type="text" name="stateName" id="stateName" class="btn btn-default">
+		 <button class="btn btn-default" type="button" class="btn btn-default">所属区域:</button>
+		 <input type="text" name="area" id="area"  class="btn btn-default">
+		 <input type="button" value="查询" onclick="queryByCondition()" class="btn btn-default">	
+		 
 	</form>
 	<table class="table table-hover">
 	  <thead>
@@ -40,11 +42,17 @@
 	  <tbody id="aaa">
 	  </tbody>
 	</table>
-	<button type="button" class="btn btn-default" onclick="beforePage()" id="before">上一页</button>
-	<span id="sum"></span>
-	<button type="button" class="btn btn-default" onclick="nextPage()">下一页</button>
-	<input type="text" id="presentPage">
-	<button type="button" class="btn btn-default" onclick="turn()">跳转</button>
+<div style="width: 80%">
+    <div style="float: right;"> 	
+	<button type="button" class="btn btn-primary btn-sm" onclick="beforePage()" id="before">上一页</button>
+	<span id="sum" class="btn btn-default"></span>
+	<button type="button" class="btn btn-primary btn-sm" onclick="nextPage()">下一页</button>
+	
+	<input type="text" id="presentPage" class="btn btn-default" style="width: 15%;background-color:#FFFFFF;">
+	
+	<button type="button" class="btn btn-primary btn-sm" onclick="turn()">跳转</button>
+   </div>
+</div>
 </body>	
 	<script>
 		//获取到所有列表
@@ -60,7 +68,7 @@
 					var msg = "";
 					for(var i=0;i<data.list.length;i++){
 						var carLocation = data.list[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>禁用</button>&nbsp;<button onclick='delMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 					nowPage = data.pageNum;
@@ -129,7 +137,7 @@
 					var msg = "";
 					for(var i=0;i<data.length;i++){
 						var carLocation = data[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>禁用</button>&nbsp;<button onclick='delMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>启用</button></td></tr>";
 					}
 					$("#sum").html("当前页码 "+nowPage+"/总页码 "+allPage);
 					$("#aaa").html(msg);
@@ -153,7 +161,7 @@
 					var msg = "";
 					for(var i=0;i<data.length;i++){
 						var carLocation = data[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>禁用</button>&nbsp;<button onclick='delMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>启用</button></td></tr>";
 					}
 					$("#sum").html("当前页码 "+nowPage+"/总页码 "+allPage);
 					$("#aaa").html(msg);
@@ -177,7 +185,7 @@
 						var msg = "";
 						for(var i=0;i<data.length;i++){
 							var carLocation = data[i];
-							msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>啟用</button></td></tr>";
+							msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>禁用</button>&nbsp;<button onclick='delMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>启用</button></td></tr>";
 						}
 						$("#aaa").html(msg);
 					}
@@ -204,7 +212,7 @@
 					var msg = "";
 					for(var i=0;i<data.list.length;i++){
 						var carLocation = data.list[i];
-						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")'>禁用</button><button onclick='delMsg("+carLocation.carLocationId+")'>启用</button></td></tr>";
+						msg+="<tr><td>"+carLocation.carLocationId+"</td><td>"+carLocation.stateName+"</td> <td>"+carLocation.area+"</td><td><button onclick='updateMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>禁用</button>&nbsp;<button onclick='delMsg("+carLocation.carLocationId+")' class='btn btn-primary btn-sm'>启用</button></td></tr>";
 					}
 					$("#aaa").html(msg);
 				}

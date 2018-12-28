@@ -56,7 +56,7 @@ $(function(){
 			 <input type='date' class="form-control" id='endTime' />
 			 <span class="input-group-btn" style="display: none;">
 				<button class="btn btn-default" type="button">车牌号</button>
-			</span> <input type="text" class="form-control" id="carId" style="display: none;"> 
+			</span> <input type="text" class="form-control" id="carId" value="${requestScope.carId}" style="display: none;"> 
 			<span class="input-group-btn" style="display: none;">
 				<button class="btn btn-default" type="button" onclick="search()">搜索</button>
 			</span>

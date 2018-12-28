@@ -18,38 +18,48 @@ $().ready(function(){
 	$("#addAdminForm").validate({
    	 rules: {
    		name: {
-   	        required: true,
+   	        required: true
    	      },
    	   account: {
-   		required: true,
+   		required: true
    	      },
    	   password:{
-   		 required: true,
+   		 minlength: 6,
+   		 maxlength:20,
+   		 required: true
    	   },
    	adminPassword2:{
   		 required: true,
+         minlength: 6,
+         maxlength:20,
+        equalTo: "#password"
   	   },
   	 roleId:{
-  	  		 required: true,
-  	  	   },
-   	    },
+  	  		 required: true
+  	  	   }
+   	},
    	    
    	  messages: {
    		name: {
-   	        required: "请填写姓名",
+   	        required: "请填写姓名"
    	      },
    	   account: {
-   	        required: "请填写账号",
+   	        required: "请填写账号"
    	      },
-   	   adminPassword:{
-   		required:"请填写密码"
+   	   password:{
+   		required:"请填写密码",
+   		minlength:"最小长度不小于6",
+   	   	maxlength:"最大长度不大于20"
    	   },
-   	password:{
-      		required:"请确认密码"
+   	adminPassword2:{
+   			minlength:"最小长度不小于6",
+   			maxlength:"最大长度不大于20",
+      		required:"请确认密码",
+      		equalTo:"两次密码不一样"
       	   },
     	 roleId:{
        		required:"请确选择要添加的角色"
-       	   },
+       	   }
    	     },
    	  submitHandler: function(form) { addQueryAdminExist(); }
    })	
@@ -70,6 +80,7 @@ function createAdmin(){
 			success:function(data){
 				if(data==1){
 				window.alert("添加成功")
+				window.location="<%=request.getContextPath()%>/admin/adminList.action";
 				}
 			},
 			error:function(){
@@ -96,7 +107,7 @@ var path="<%=request.getContextPath()%>";
 		dataType:"json",
 		success:function(data){
 			if(data==1){
-			window.alert("账号已存在!");
+			$("#prompt").html("(账号已存在)");
 			}else{
 				createAdmin();
 			}
@@ -145,7 +156,7 @@ function starState(adminId,state){
 				</tr>
 				<tr>
 					<td>管理员账号：</td>
-					<td><input type="text" name="account" id="account" placeholder="请输入账号名称..."></td>
+					<td><input type="text" name="account" id="account" placeholder="请输入账号名称..."><label id="prompt"  class="label label-primary"></label></td>
 				</tr>
 				<tr>
 					<td>密码：</td>

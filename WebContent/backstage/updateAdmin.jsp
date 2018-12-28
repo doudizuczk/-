@@ -70,6 +70,7 @@ function createAdmin(){
 			success:function(data){
 				if(data==1){
 				window.alert("修改成功")
+				window.location="<%=request.getContextPath()%>/admin/adminList.action";
 				}
 			},
 			error:function(){
@@ -101,8 +102,8 @@ function createAdmin(){
 				<tr>
 				<td>选择要添加的角色：</td>
 					<td>
-					<select name="roleId" id="roleId">
-						<option value="${dates.adminMap.ROLE_ID}">${dates.adminMap.ROLE_NAME}</option>
+					<select name="roleId" id="roleId"   value="${dates.adminMap.ROLE_ID}">
+						<%-- <option value="${dates.adminMap.ROLE_ID}">${dates.adminMap.ROLE_NAME}</option> --%>
 						<c:forEach items="${dates.roleList}" var="role">
 							<option value="${role.ROLE_ID}">${role.ROLE_NAME}</option>
 						</c:forEach>

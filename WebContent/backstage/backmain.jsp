@@ -10,33 +10,23 @@
 <meta content="" name="description" />
 <meta content="" name="author" />
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<link href="<%=request.getContextPath()%>/media/css/bootstrap.min.css" rel="stylesheet"
-	type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/bootstrap-responsive.min.css" rel="stylesheet"
-	type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/font-awesome.min.css" rel="stylesheet"
-	type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath()%>/media/css/style-metro.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath()%>/media/css/style.css" rel="stylesheet" type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/style-responsive.css" rel="stylesheet"
-	type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/default.css" rel="stylesheet" type="text/css"
-	id="style_color" />
-<link href="<%=request.getContextPath()%>/media/css/uniform.default.css" rel="stylesheet"
-	type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/jquery.gritter.css" rel="stylesheet"
-	type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/daterangepicker.css" rel="stylesheet"
-	type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/style-responsive.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/default.css" rel="stylesheet" type="text/css" id="style_color" />
+<link href="<%=request.getContextPath()%>/media/css/uniform.default.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/jquery.gritter.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath()%>/media/css/fullcalendar.css" rel="stylesheet" type="text/css" />
-<link href="<%=request.getContextPath()%>/media/css/jqvmap.css" rel="stylesheet" type="text/css"
-	media="screen" />
-<link href="<%=request.getContextPath()%>/media/css/jquery.easy-pie-chart.css" rel="stylesheet"
-	type="text/css" media="screen" />
+<link href="<%=request.getContextPath()%>/media/css/jqvmap.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="<%=request.getContextPath()%>/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/media/image/favicon.ico" />
 </head>
 <body class="page-header-fixed">
-	<!-- 1====================================================================================================== -->
+	<!-- 1==grey==blue===default====light=====brown====================================================================================== -->
 	<div class="header navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
@@ -72,7 +62,7 @@
 							<ul class="sub-menu"> 
 						<c:forEach items="${menuList}" var="menutwo">
 							<c:if test="${menutwo.menuPid eq menu.menuId}">
-							<li><a href="<%=request.getContextPath()%>/${menutwo.menuUrl}" target="center">${menutwo.menuName}</a></li>
+							<li><a href="<%=request.getContextPath()%>/${menutwo.menuUrl}" target="center" onclick="changePageName('${menu.menuName}','${menutwo.menuName}')">${menutwo.menuName}</a></li>
 							</c:if>
 						</c:forEach>
 							</ul>
@@ -128,14 +118,16 @@
 							欢迎登陆 <small></small>
 						</h3>
 						<ul class="breadcrumb">
-							<li><i class="icon-home"></i> <a href="index.jsp">首页</a> <i
-								class="icon-angle-right"></i></li>
-							<li><a href="#">页面1</a></li>
+							<li><i class="icon-home"></i> <a href="index.jsp">首页</a>
+							 <i class="icon-angle-right"></i>
+							 </li><li><a href="" id="pageNameF">页面1</a></li>
+							 <li>><a href="" id="pageName">页面2</a></li>
 						</ul>
 					</div>
 					<!-- 导航栏END==================== -->
 					<!-- 显示区块==================== -->
-				    <iframe style="height: 600px;width: 100%" name="center" frameborder="no"></iframe>
+				    <iframe style="height: 600px;width: 100%" name="center" frameborder="no" src="<%=request.getContextPath()%>/center.jsp">
+				    </iframe>
 				</div>
 			</div>
 		</div>
@@ -190,5 +182,12 @@
 			Index.initDashboardDaterange();
 			Index.initIntro();
 		});
+	</script>
+	<script type="text/javascript">
+	//页面标题名称
+	function changePageName(pageNameF,pageName){
+		$("#pageNameF").text(pageNameF);
+		$("#pageName").text(pageName);
+	}
 	</script>
 </html>

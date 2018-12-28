@@ -35,13 +35,10 @@
 </head>
 <body>
 	<form  action="<%=request.getContextPath()%>/ruleHandler/ruleList.action" method="post" >
-<!-- 	    <label for="sTime">创建日期:</label> -->
 	    <button class="btn btn-default" type="button">创建日期:</button>
 	    <input type="date" id="sTime" name="sTime" value="${param.sTime}" class="btn btn-default" style="height:35px"/>
-<!-- 	    <label for="eTime">至</label> -->
 	    <button class="btn btn-default" type="button">至:</button>	
 	    <input type="date" id="eTime" name="eTime" value="${param.eTime}" class="btn btn-default" style="height:35px"/>
-<!-- 	    <label for="type">规则状态:</label> -->
 	      <button class="btn btn-default" type="button">规则状态:</button>	
 	    <select id="state" name="state" class="btn btn-default">
 	    	<option value="0" ${param.state==0?'selected':'' }>请选择</option>
@@ -49,7 +46,6 @@
 	    		<option value="${state.parmVal }" ${param.state==state.parmVal?'selected':'' }>${state.parmName }</option>
 	    	</c:forEach>
 	    </select>
-<!-- 	    <label for="ruleName"> 规则名称:</label> -->
 	     <button class="btn btn-default" type="button">规则名称:</button>	
 	    <input id="ruleName" name="ruleName" value="${param.ruleName}" class="btn btn-default"/>
 	    <button type="submit" class="btn btn-default">查询</button>
@@ -87,16 +83,16 @@
  			</tbody>
  		</table>
  	</form>
-<div style="width: 80%">
+	<div style="width: 80%">
          <div style="float: right;"> 	
-         <button id="first" name="first"  class="btn btn-primary btn-sm">首页</button>
-         <button id="prev" name="prev"  class="btn btn-primary btn-sm">上一页</button>
-         <button id="next" name="next"  class="btn btn-primary btn-sm">下一页</button>
-         <button id="end" name="end"  class="btn btn-primary btn-sm">末页</button>
-         <input id="goTxt" name="goTxt" type="text" class="btn btn-default btn-sm" style="width: 15%;background-color:#FFFFFF;"/>
-         <button id="go" name="go"  class="btn btn-primary btn-sm">跳转</button>
-     	 共<span>${requestScope.pageInfo.totalNum}</span>条&nbsp;当前页数：[<span id="curPage">${requestScope.pageInfo.curPage}</span>/<span id="tolPage">${requestScope.pageInfo.totalPage}</span>]
-     </div>
+	         <button id="first" name="first"  class="btn btn-primary btn-sm">首页</button>
+	         <button id="prev" name="prev"  class="btn btn-primary btn-sm">上一页</button>
+	         <button id="next" name="next"  class="btn btn-primary btn-sm">下一页</button>
+	         <button id="end" name="end"  class="btn btn-primary btn-sm">末页</button>
+	         <input id="goTxt" name="goTxt" type="text" class="btn btn-default btn-sm" style="width: 15%;background-color:#FFFFFF;"/>
+	         <button id="go" name="go"  class="btn btn-primary btn-sm">跳转</button>
+	     	 共<span>${requestScope.pageInfo.totalNum}</span>条&nbsp;当前页数：[<span id="curPage">${requestScope.pageInfo.curPage}</span>/<span id="tolPage">${requestScope.pageInfo.totalPage}</span>]
+    	 </div>
      </div>
 </body>
 <script>
