@@ -114,8 +114,8 @@ var path="<%=request.getContextPath()%>";
 				<tr>
 				<td>选择要添加的套餐类型：</td>
 					<td>
-				<select name="packType" id="packType">
-						<option value="">请选择类型...</option>
+				<select name="packType" id="packType" value="${dates.packMap.PARM_VAL}">
+						<%-- <option value="${dates.packMap.PARM_VAL}">${dates.packMap.PARM_NAME}</option> --%>
 					<c:forEach items="${dates.TypePack}" var="ttt">
 						<option value="${ttt.PARM_VAL}">${ttt.PARM_NAME}</option>
 					</c:forEach>
@@ -128,11 +128,11 @@ var path="<%=request.getContextPath()%>";
 				</tr>
 				<tr>
 					<td>套餐时长(月/30天)：</td>
-					<td><input type="text" name="packTime" id="packTime" value="${dates.packMap.PACK_TIME}"></td>
+					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" name="packTime" id="packTime" value="${dates.packMap.PACK_TIME}"></td>
 				</tr>
 				<tr>
 					<td>套餐费用(/元)：</td>
-					<td><input type="text" id="packCost" name="packCost" value="${dates.packMap.PACK_COST}"></td>
+					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" id="packCost" name="packCost" value="${dates.packMap.PACK_COST}"></td>
 				</tr>
 			</tbody>
 		 </table>

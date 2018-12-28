@@ -21,6 +21,7 @@ import com.github.pagehelper.PageHelper;
 import com.great.bean.Admin;
 import com.great.bean.Ower;
 import com.great.bean.PageInfo;
+import com.great.bean.Role;
 import com.great.service.IAdminService;
 import com.great.service.ICzkPersonalService;
 import com.great.service.IParmService;
@@ -53,6 +54,8 @@ public class CzkPersonalHandler {
 	//ModelAndView是一个容器，不可用ajax返回
 	public ModelAndView adminList(HttpServletRequest request) {//pageCurr不能为空，并初始化
 		ModelAndView mav = new ModelAndView();
+		Role role= new Role();
+		role.setRoleState(1);
 		List<Map<String,Object>> roleList = roleService.queryAllRoleList();//角色列表
 		Map<String, Object> dates=new HashMap<String, Object>();
 		dates.put("roleList", roleList);
