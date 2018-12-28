@@ -31,7 +31,6 @@
 			</thead>
 			<tbody id="info">
 			</tbody>
-		
 		</table>
 	</div>
 </body>
