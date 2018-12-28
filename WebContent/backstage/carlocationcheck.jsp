@@ -32,7 +32,7 @@
     <div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="<%=request.getContextPath()%>/carLocation/queryAreaNum.action"/>数据显示</a></li>
-            <li><a href="#">折线图统计</a></li>
+            <li><a href="<%=request.getContextPath()%>/carLocation/sendData.action">折线图统计</a></li>
         </ul>
     </div>
     </div>

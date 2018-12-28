@@ -3,8 +3,8 @@
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="com.great.mapper.CarLocationMapper">
 	
-	<!-- 模糊查询 -->
-	<select id="queryAll" parameterType="com.great.bean.CarLocation" resultType="com.great.bean.CarLocation">
+	
+	<!-- 模糊查询 --><select id="queryAll" parameterType="com.great.bean.CarLocation" resultType="com.great.bean.CarLocation">
 		select rk.PARK_ID "carLocationId",rm.PARM_NAME "stateName",rk.PARK_ZONE "area",to_char(PARK_CDATE,'YYYY-MM-DD') "cdate" 
 		from (select * from T_PARM
 		<where>
@@ -74,15 +74,14 @@
 		select t_car.car_id "carId",park_2did "twoId",ower_name "owerName",t_park.park_id "parkId",park_zone "area",park_x "xCoord",park_y "yCoord",car_color "color",dock_stime "iDate"
 		from t_dock ,t_car,t_park,t_ower
 		where  t_dock.car_id=t_car.car_id and t_dock.park_id=t_park.park_id and t_car.ower_id=t_ower.ower_id 
-		and t_dock.car_id=#{0} and t_dock.dock_state=1
-
+		and t_dock.car_id=#{0} and t_dock.dock_state=1 or t_dock.dock_state=3
 	</select>
 	<!-- 按车位的模型ID查找该车位的停开车辆信息 -->
 	<select id="getDetil" parameterType="int" resultType="com.great.bean.CarInfo">
 		select t_car.car_id "carId",park_2did "twoId",ower_name "owerName",t_park.park_id "parkId",park_zone "area",car_color "color",dock_stime "iDate",dock_picture "picture"
 		from t_dock ,t_car,t_park,t_ower
 		where  t_dock.car_id=t_car.car_id and t_dock.park_id=t_park.park_id and t_car.ower_id=t_ower.ower_id
-		and t_park.park_2did=#{0} and t_dock.dock_state=1
+		and t_park.park_2did=#{0} and t_dock.dock_state=1 or t_dock.dock_state=3
 	</select>
 	<!-- 给指定车位增加图片 -->
 	<update id="updateLink">
