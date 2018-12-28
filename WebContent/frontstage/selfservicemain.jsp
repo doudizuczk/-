@@ -144,7 +144,7 @@ function pay(cost,carId){
 	});
 }
 
-//开具发票
+//开具发票11
 function invoice(chargeId){
 	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
 }
