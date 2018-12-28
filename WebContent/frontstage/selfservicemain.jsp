@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<!-- 自助缴费主页面 -->
+<!-- 自助缴费主页面 linping-->
 <head>
 <meta charset="UTF-8">
 <title>自助服务</title>
