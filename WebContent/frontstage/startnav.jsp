@@ -66,15 +66,12 @@
   </div>
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
+
       <h1>智能停车场鸟瞰图</h1>
-      <div>
-      	<form>
-      		<input type="text" name="carId">
-      	</form>
-      </div>
-      <div class="tips-right">
-          <span class="tip1"></span>
-          <span class="tip2"></span>
+      <div css="tips-msg">
+          <div class="msg msg2">
+              <h4>模拟导航</h4>
+          </div>
       </div>
     </div>
   </nav>

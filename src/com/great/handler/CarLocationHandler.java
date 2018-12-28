@@ -51,7 +51,7 @@ public class CarLocationHandler {
 		PageInfo p = new PageInfo<>(list);
 		return p ;
 	}
-	//查询禁用车位
+	//查询禁用车位,跳转到鸟瞰图
 	@RequestMapping(value="/queryForbid.action")
 	public ModelAndView queryForbid() throws JsonProcessingException{
 		ModelAndView mav=new ModelAndView();
@@ -59,6 +59,17 @@ public class CarLocationHandler {
 		ObjectMapper o = new ObjectMapper();
 		mav.addObject("forbidList", o.writeValueAsString(list));
 		mav.setViewName("forward:/backstage/airscape.jsp");
+		return mav;
+		
+	}
+	//查询禁用车位,跳转到实时车位查看
+	@RequestMapping(value="/queryParkView.action")
+	public ModelAndView queryParkView() throws JsonProcessingException{
+		ModelAndView mav=new ModelAndView();
+		List<CarLocation> list=carLocationServiceImpl.queryForbid();
+		ObjectMapper o = new ObjectMapper();
+		mav.addObject("forbidList", o.writeValueAsString(list));
+		mav.setViewName("forward:/backstage/parkingview.jsp");
 		return mav;
 		
 	}
