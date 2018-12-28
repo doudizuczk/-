@@ -231,7 +231,6 @@ function packNameChange(){
 }
 
 
-	
 var path="<%=request.getContextPath()%>";
 function tranButton(){
 	if(vipcarPark==1){
@@ -249,6 +248,7 @@ function tranButton(){
 	console.log(PackTranPyte+"办理类型======套餐id"+$("#packId").val())//套餐类型
 	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
+	
 	var adminId =${sessionScope.loggingAdmin.adminId} 
 	$.ajax({
 		url:path+"/transact/confirmPay.action",
@@ -259,19 +259,17 @@ function tranButton(){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
-// 				location.reload();   //刷新页面 
+
 				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload()   //刷新页面
 				}
 			}
 			var str="缴费成功！此次编号："+data.map.seq;
@@ -315,9 +313,7 @@ function invoice(chargeId){
  					<th>可退金额</th>
  				</tr>
  			</thead>
-
  			<tbody id="packTbody"></tbody>
-
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>

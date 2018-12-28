@@ -28,6 +28,7 @@ function exportOrder(){
 }
 
 function exportOrder2(shift,createTime){
+	console.log(shift+","+createTime);
 	window.location.href="<%=request.getContextPath()%>/orderHandler/exportOrderExcel.action?shift="+shift+"&createTime="+createTime;
 }
 
@@ -89,7 +90,7 @@ function exportOrder2(shift,createTime){
  					<c:if test="${order.shift==2}"><td>中班</td></c:if>
  					<c:if test="${order.shift==3}"><td>晚班</td></c:if>
  					<td>${order.createTime}</td>
- 				    <td><input type="button" value="导出" onclick="exportOrder2(${order.shift},${order.createTime})" class="btn btn-primary btn-sm"></td>
+ 				    <td><input type="button" value="导出" onclick="exportOrder2(${order.shift},'${order.createTime}')" class="btn btn-primary btn-sm"></td>
  				</tr>
  				</c:forEach>
  			</tbody>

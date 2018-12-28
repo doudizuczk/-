@@ -49,16 +49,16 @@ public class AdminHandler {
 		ModelAndView mav = new ModelAndView();
 		String keyCode = (String) session.getAttribute("keyCode");
 		Admin temp = adminService.queryAdmin(admin);
-		//if (keyCode.toLowerCase().equals(code.toLowerCase())) {
+		if (keyCode.toLowerCase().equals(code.toLowerCase())) {
 			if (temp != null) {
 				session.setAttribute("loggingAdmin", temp);
 				return "1";
 			} else {
 				return "0";
 			}
-		//}else {
-		//	return "3";
-		//}
+		}else {
+			return "3";
+		}
 	}
 	
 	//CZK-菜单点击adminlist页面跳转
