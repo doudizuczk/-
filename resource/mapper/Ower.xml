@@ -74,7 +74,7 @@
 
 	
 	<select id="CarQueryOwer" parameterType="String" resultType="HashMap">
-		  select OWER_ACCOUNT,OWER_BALANCE  from T_Ower o ,t_car t where t.CAR_ID =#{0} and o.OWER_ID = t.OWER_ID
+		  select OWER_ACCOUNT,OWER_BALANCE  from T_Ower o ,t_car t where t.CAR_ID ='新QN9911' and o.OWER_ID = t.OWER_ID and o.OWER_ID>0
 	</select>
 
 

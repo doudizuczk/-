@@ -223,7 +223,7 @@ public class TransactHandler {
 		if(carPark!=0) {
 			//更改车位carPark状态 占用
 			Map<String, Object> map = new HashMap<>();
-			map.put("parkState", 2);
+			map.put("parkState", 3);
 			map.put("parkId", carPark);
 			int a = carLocationMapper.updateParkStateById(map);
 		}

@@ -104,6 +104,20 @@ public class TransactServiceImpl implements ITransactService {
 	//1.查询是否是临时车辆，2.临时车辆退现金，用户退余额。3.返回退费方式1=现金2=余额 。退费账户。退费金额
 	public int refundMoney(String carId,double money,int adminId) {//车牌.退款金额
 		// TODO Auto-generated method stub
+		//解除车位
+		TranSact tran = new TranSact();
+		tran.setCarId(carId);
+		tran.setTranState(1);
+		List<Map<String,Object>> ranList =transactMapper.CidQueryTransact(tran);
+		int parkId = Integer.parseInt(ranList.get(0).get("PARK_ID").toString());//车位id
+		if(parkId!=0) {
+			//解除车位占用
+			Map<String, Object> map = new HashMap<>();
+			map.put("parkState", 1);
+			map.put("parkId", parkId);
+			int a = carLocationMapper.updateParkStateById(map);
+		}
+		//--------------
 		int v = 0;
 		Map<String,Object> carMap =carMapper.carIdQueryCar(carId);//查车辆信息
 		if(carMap.containsKey("OWER_ID")==true) {
@@ -365,7 +379,7 @@ public class TransactServiceImpl implements ITransactService {
 			cha.setIsCash(2);
 			cha.setChargeId(seq);
 			chargeMapper.addCharge(cha);//插入收费表
-		}else if(payType==2) {
+		}else if(payType==2) {//现金
 			double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
 			prompt="现金办理成功，收取"+packCost+"元，套餐截止日期延期为"+updateTime+"";
 			Charge cha=new Charge();
@@ -376,6 +390,19 @@ public class TransactServiceImpl implements ITransactService {
 			cha.setCost(packCost);
 			cha.setType(3);
 			cha.setIsCash(1);
+			cha.setChargeId(seq);
+			chargeMapper.addCharge(cha);//插入收费表
+		}else if(payType==3) {//第三方支付
+			double packCost =Double.parseDouble( list.get(0).get("PACK_COST").toString());//获得套餐费用
+			prompt="第三方办理成功，收取"+packCost+"元，套餐截止日期延期为"+updateTime+"";
+			Charge cha=new Charge();
+			//插入收费记录id
+			seq=chargeMapper.getChargeSeq();
+			cha.setAdminId(adminId);
+			cha.setCarId(carId);
+			cha.setCost(packCost);
+			cha.setType(3);
+			cha.setIsCash(2);
 			cha.setChargeId(seq);
 			chargeMapper.addCharge(cha);//插入收费表
 		}
@@ -495,6 +522,41 @@ public class TransactServiceImpl implements ITransactService {
 				cha.setChargeId(seq);
 				chargeMapper.addCharge(cha);
 				prompt="现金更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元，现金扣除"+tranmoney2+"元。";
+			}
+		}else if(payType==3) {//第三方支付
+			if(money>packCost) {//退款足够抵套餐费
+				double tranmoney =money-packCost;//颓废-新套餐费用
+				refundState = this.refundMoney(carId,tranmoney,adminId);//车牌退费退费给账户余额，修改套餐办理状态
+				Charge cha=new Charge();
+				//插入收费记录id
+				seq=chargeMapper.getChargeSeq();
+				cha.setAdminId(adminId);
+				cha.setCarId(carId);
+				cha.setCost(tranmoney);
+				cha.setType(3);
+				cha.setIsCash(2);
+				cha.setChargeId(seq);
+				chargeMapper.addCharge(cha);//插入收费表
+				prompt="第三方支付，更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元剩余"+tranmoney+"元，第三方退款";
+			}else {
+				double tranmoney2 =packCost-money;//新套餐费用-原套餐剩余钱
+				refundState = this.refundMoney(carId,0,adminId);//车牌退费退费给账户余额，修改套餐办理状态
+				Map<String,Object> map = new HashMap<>();
+				map.put("owerId", owerId);//int
+				map.put("money", tranmoney2);//double
+				int a =owerMapper.updateOwerLessBalance(map);//扣钱
+				
+				Charge cha=new Charge();
+				//插入收费记录id
+				seq=chargeMapper.getChargeSeq();
+				cha.setAdminId(adminId);
+				cha.setCarId(carId);
+				cha.setCost(tranmoney2);
+				cha.setType(3);
+				cha.setIsCash(2);
+				cha.setChargeId(seq);
+				chargeMapper.addCharge(cha);
+				prompt="第三方支付，更改套餐办理成功！原套餐退费"+money+"元，新套餐"+packCost+"元，线上扣除"+tranmoney2+"元。";
 			}
 		}
 		int a=0;

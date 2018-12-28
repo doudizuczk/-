@@ -113,11 +113,11 @@ function yesbut(){
 	}
 	var path="<%=request.getContextPath()%>";
 	var money = transact.money
-	alert(money);
+	var adminId =${sessionScope.loggingAdmin.adminId} 
 		$.ajax({
 			type:"post",
 			url:path+"/transact/RefunndTransact.action",
-			data:{"carId":$("#carId").val(),"money":money},
+			data:{"carId":$("#carId").val(),"money":money,"adminId":adminId},
 			dataType:"json",
 			success:function(data){
 				if(data.refundState==1){
