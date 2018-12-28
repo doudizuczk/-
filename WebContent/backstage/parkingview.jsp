@@ -7,6 +7,8 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="UTF-8">
   <title>鸟瞰图</title>
+  <meta name="keywords" content="易景地图模拟导航,室内地图,三维地图引擎,三维地图制作,室内定位,易景地图,ESMap" />
+  <meta name="description" content="易景地图第三人称导航,易景室内三维地图引擎提供地图浏览、缩放、旋转、图层显隐等基础功能，支持自定义室内地图显示风格及样式，可自动绘制楼层热力图、散点图等专题地图，快速进行空间大数据分析展示。支持跨楼层精准的点到点之间的最短、最优路径计算，支持对路径结果进行导航和动画,并提供丰富的地图主题资源供二次开发调用。" />
   <link href="css/common.css" rel="stylesheet">
 </head>
 <style type="text/css">
@@ -70,21 +72,10 @@
       		<input type="text" name="carId">
       	</form>
       </div>
-      <div css="tips-msg">
-          <div class="msg msg2">
-              <h4>模拟导航</h4>
-              <div style="display: none">易景地图第三人称导航,易景室内三维地图引擎提供地图浏览、缩放、旋转、图层显隐等基础功能，支持自定义室内地图显示风格及样式，可自动绘制楼层热力图、散点图等专题地图，快速进行空间大数据分析展示。支持跨楼层精准的点到点之间的最短、最优路径计算，支持对路径结果进行导航和动画,并提供丰富的地图主题资源供二次开发调用。</div>
-          </div>
-      </div>
     </div>
   </nav>
   <div id="description">
     暂无导航提示信息
-  </div>
-  <div id="pannel">
-    <input type="button" class="btn btn-default btnclass" onclick="clearNavi()" value="清除" />
-    <input type="button" class="btn btn-default btnclass" onclick="startNavi1()" value="开始第一人称导航" />
-    <input type="button" class="btn btn-default btnclass" onclick="startNavi2()" value="开始第三人称导航" />
   </div>
   <div class="viewmode-floor btn-floor-vertical" data-toggle="buttons">
     <button id="btn2D" class="btn btn-default">2D</button>
@@ -148,6 +139,7 @@
     	console.log(forbidList);
     	for(var i=0;i<forbidList.length;i++){
     		var a=forbidList[i];
+    		console.log(a);
     		twoList.push(forbidList[i].twoId);
     		threeList.push(forbidList[i].threeId);
     	}
@@ -163,49 +155,6 @@
       var lastCoord = null;
       var curfnum = null;
       var h = 1;
-      //点击地图事件。开始选点开始后，点击地图一次为起点，第二次点击为终点
-      map.on('mapClickNode', function (event) {
-    	//点击房间模型，获取该车位车辆详情
-    	if(event.nodeType==esmap.ESNodeType.MODEL){
-    		var flag=false;//标志符
-    		var modelId;//获取到的房间id
-    		for(var i=0;i<twoList.length;i++){
-    			if(event.ID==twoList[i]){
-    				modelId=event.ID;
-    				flag=true;
-    			}
-    		}
-    		if(flag){
-    			$.ajax({
-    				type:"post",
-    				url:"<%=request.getContextPath()%>/carLocation/getDetil.action",
-    				dataType:"json",
-    				data:{"modelId":modelId},
-    				success:function(data){
-    					console.log(data);
-    					//成功后进入到图片添加界面
-    					if(data!=null&&data!=''){
-    						window.location.href="<%=request.getContextPath()%>/backstage/detilpages.jsp?carId="
-    								+data[0].carId+"&ower="+data[0].owerName+"&carLocationId="+data[0].parkId+"&area="+data[0].area+"&inTime="+data[0].iDate+"&picture="+data[0].picture;
-    					}
-    				}
-    			})
-    		}else{
-    			window.alert("此车位未停车！");
-    		}
-    
-    	}
-        if (event.nodeType == 4) {
-          curfnum = event.floor;
-          h = 1;
-          mapCoord = event.hitCoord;
-        }
-        if (event.nodeType == 5) {
-          curfnum = event.FloorNum;
-          h = event.data_.RoomHigh;
-          mapCoord = event.hitCoord;
-        }
-      })
       //为模型填充div添加点击事件
       container.onclick = function () {
         var fnum = curfnum;
