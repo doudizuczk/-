@@ -18,7 +18,7 @@
     <form>
     <table>
     <tr><td>
-	<input type="file" capture="camera" accept="image/*" id="photo" name="photo" class="form-control" onchange="viewImage(this)">
+	<input type="file" capture="camera" accept="image/*" id="photo" name="photo" class="form-control">
     </td>
     </tr>
     <tr>
@@ -38,7 +38,7 @@
 <script>
 //出场上传图片
 function updateGetOutPhoto(){
-	alert("上传图片");
+	alert("出场上传图片");
 	var Form = new FormData();
 	Form.append('img', document.getElementById("photo").files[0]);
 	$.ajax({
@@ -55,7 +55,7 @@ function updateGetOutPhoto(){
 }
 //上传图片
 function updatePhoto(){
-	alert("上传图片");
+	alert("入场上传图片");
 	var Form = new FormData();
 	Form.append('img', document.getElementById("photo").files[0]);
 	$.ajax({

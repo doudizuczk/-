@@ -29,9 +29,9 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css"
-	rel="stylesheet">
+<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
+<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" --%>
+<!-- 	rel="stylesheet"> -->
 	<script>
 	function comeBack(){
 		window.history.back();
@@ -44,12 +44,15 @@
 		<div class="ui-header-l fl w5">
 			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
 		</div>
-		<div class="ui-header-c fl f30 w59">缴费记录</div>
-		<div class="ui-header-r fr w5">
-			<i class="icon iconfont icon-phone"></i>
+		<div class="ui-header-c fl f30 w59">缴费记录
+		<input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-primary" style="height: 30px;float: right;" >
 		</div>
+<!-- 		<div class="ui-header-r fr w5"> -->
+<!-- 			<i class="icon iconfont icon-phone"></i> -->
+<!-- 		</div> -->
 	</header>
-	<input type="button" value="返回" onClick="comeBack()">
+<div style="width: 95%">
+		<div style="float: right;">	
 	<table class="table">
 	<tbody>
 	<tr>
@@ -66,6 +69,8 @@
 	</c:forEach>
 	</tbody>
 	</table>
+	</div>
+	</div>
 </body>
 <script>
 $("#addCar").click(function(){
@@ -90,5 +95,8 @@ function escBangDing(carIds){
 	});
 	}
 };
+function comeBack(){
+	window.history.back();
+}
 </script>
 </html>

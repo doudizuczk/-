@@ -4,17 +4,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="renderer" content="webkit" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0,uc-fitscreen=yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
 <title>套餐办理</title>
-<!--  --------------------------------------------------------->
-<!--  --------------------------------------------------------->
+<!--  -->
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/userstyle/css/miniMobile.css" />
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/userstyle/js/zepto.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/userstyle/js/miniMobile.js"></script>
+<!-- 字体图标 -->
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/userstyle/plugins/fonticon/iconfont.css" />
+<!-- animate.css -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+<!--  -->
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
-<script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
-<script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
-<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
+<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script> --%>
+<%-- <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script> --%>
 <script>
 $().ready(function(){
 	$("#packRefundForm").validate({
@@ -46,7 +64,7 @@ $().ready(function(){
        	        required: "请先选择支付方式",
        	      },
    	     },
-   	  submitHandler: function(form) { tranButton(); }
+   	  submitHandler: function(form) { CarIdSelectTransact(); }
    })	
 });
 var transact;//接收套餐正在使用的套餐和退费金额
@@ -82,7 +100,7 @@ var str ="";
 				  $("#PyteState").append("<option value='"+data.TypePack[i].PARM_VAL+"' >" + data.TypePack[i].PARM_NAME + "</option>");
 		    } 
 	    	if(data.owerState==1){
-			 	$("#oweract").html(""+data.owerMoney.OWER_ACCOUNT+""); //回填显示信息
+			 	$("#oweract").html("账户："+data.owerMoney.OWER_ACCOUNT+""); //回填显示信息
 				$("#owerMon").html(""+data.owerMoney.OWER_BALANCE+""); //回填显示信息
 				owerStates=1;
 	    	}else{
@@ -120,7 +138,6 @@ function check_licensePlate() {
     	 packNameChange(); 
      });
 })
-var vipcarPark = 0;
 var packList;
 function SelectTypeChange(){//根据类型回填所有套餐
 var path="<%=request.getContextPath()%>";
@@ -138,20 +155,12 @@ var path="<%=request.getContextPath()%>";
     	for (var i = 0; i < data.packList.length; i++) {
 			  $("#packId").append("<option value='"+data.packList[i].PACK_ID+"' >" + data.packList[i].PACK_NAME + "</option>");
 			           }
-    	if($("#PyteState").val()==2 ){//套餐类型为2=白名单
+    	if($("#PyteState").val()==2){//套餐类型为2=白名单
     		$("#carPark").empty();
 			 $("#carPark").append("<option value='0' >请选择车位...</option>");
-			 if(data.carLoc.length==0){
-				/*  $("#newBtn").html("(没有车位不可办理)"); //回填显示信息 */
-				vipcarPark=1;
-				alert("没有车位不可办理")
-			 }else{
     		for (var i = 0; i < data.carLoc.length; i++) {
   			  $("#carPark").append("<option value='"+data.carLoc[i].parkId+"' >VIP" + data.carLoc[i].parkId + "</option>");
   			           }
-			 }
-    	}else {//选择套餐类型为月缴套餐
-    		vipcarPark=0;
     	}
 		},
 		error:function(){
@@ -194,9 +203,6 @@ function packNameChange(){
  			}
  		 }else{
 	 		if(packId==transact.tran.PACK_ID){
-	 			if($("#PyteState").val()==2){//续费时清空车位
-	 				$("#carPark").empty();
-	 			}
 	 			console.log(packId+"=="+transact.tran.PACK_ID)
 				$("#packLabel").html("(续费)"); //回填显示信息
 	 			PackTranPyte=2;
@@ -231,15 +237,9 @@ function packNameChange(){
 	 		}
  		 }
 }
-
-
+	
 var path="<%=request.getContextPath()%>";
 function tranButton(){
-	if(vipcarPark==1){
-		alert("没有车位不可办理VIP套餐")
-		return;		
-	}
-	
 	if(PackTranPyte==1){//新办套餐
 		console.log("新办"+newPackAtt.PACK_NAME);
 	}else if(PackTranPyte==2){//续费
@@ -250,7 +250,6 @@ function tranButton(){
 	console.log(PackTranPyte+"办理类型======套餐id"+$("#packId").val())//套餐类型
 	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
-	
 	var adminId =${sessionScope.loggingAdmin.adminId} 
 	$.ajax({
 		url:path+"/transact/confirmPay.action",
@@ -262,16 +261,19 @@ function tranButton(){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
 
+				location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
+// 					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
+// 					location.reload()   //刷新页面
 				}
 			}
 			var str="缴费成功！此次编号："+data.map.seq;
@@ -295,15 +297,26 @@ function invoice(chargeId){
 }
 </style>
 </head>
-<body>
+<body class="pb12 fadeIn animated">
+<header
+		class="ui-header clearfix w75 h8 f46 pl3 pr3 color8 bg-color-primary t-c">
+		<div class="ui-header-l fl w5">
+			<a href="<%=request.getContextPath()%>/frontstage/user_main.jsp" class="icon color8 iconfont icon-home_light"></a>
+		</div>
+		<div class="ui-header-c fl f30 w59">套餐办理
+		<input type="button" value="返回" onClick="comeBack()" id="back" class="p2 mb4 btn radius5 btn-primary" style="height: 30px;float: right;" >
+		</div>
+<!-- 		<div class="ui-header-r fr w5"> -->
+<!-- 			<i class="icon iconfont icon-phone"></i> -->
+<!-- 		</div> -->
+	</header>
 <div id="trans">
-<h3>套餐办理页2</h3>
 	 <form id="packRefundForm">
-	 	<h5>输入套餐办理车牌号：</h5>
-			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..."> 
-		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="btn btn-primary">
-		 	<h5>套餐情况：</h5>
- 		<table class="table table-striped table-hover" >
+	 	<span class="p2 mb4 btn radius5 btn-warning">输入套餐办理车牌号：</span>
+			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..." class="p2 mb4 btn radius5 btn-success" style="background: white;color:#000000;"> 
+		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="p2 mb4 btn radius5 btn-success">
+		 	<span class="p2 mb4 btn radius5 btn-warning">套餐情况：</span>
+ 		   <table>
  			<thead>
  				<tr>
  					<th>套餐名称</th>
@@ -315,15 +328,16 @@ function invoice(chargeId){
  					<th>可退金额</th>
  				</tr>
  			</thead>
- 			<tbody id="packTbody"></tbody>
+ 			<tbody id="packTbody">
+ 			</tbody>
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>
- 		<h5>套餐类型</h5>
+ 		<span class="p2 mb4 btn radius5 btn-warning">套餐类型：</span>
  		<div>
 			<select name="PyteState" id="PyteState"></select>
  		</div>
- 		<h5>办理套餐</h5>
+ 		<span class="p2 mb4 btn radius5 btn-warning">办理套餐：</span>
  		<div>
 			<select name="packId" id="packId"></select>
 			<label id="packLabel"  class="label label-primary"></label>
@@ -338,7 +352,7 @@ function invoice(chargeId){
  			<tbody id="TransPack"></tbody>
 		</table>
 		
-		<h5>绑定账户</h5>
+		<span class="p2 mb4 btn radius5 btn-warning">绑定账户：</span>
 		<table class="table table-striped table-hover">
  				<tr>
 					<th>账户：<label id="oweract"  class="label label-primary"></label></th>
@@ -347,14 +361,21 @@ function invoice(chargeId){
 		 </table>
 		 <div id="RefundId"></div>
 		<div id="payId">
- 		<h5>结款方式：</h5>
+ 		<span class="p2 mb4 btn radius5 btn-warning">支付方式：</span>
  		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
 		<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
 		<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付
 		</div>
-
- 		<div><input type="submit" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary"></div>
+ 		<div style="width: 80%">
+ 		<input type="reset" value="重置" id="reBtn" class="p2 mb4 btn radius5 btn-primary">
+ 		<input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="p2 mb4 btn radius5 btn-primary" style="float: right;">
+ 		</div>
  	</form>
 </div>
 </body>
+<script type="text/javascript">
+function comeBack(){
+	window.history.back();
+}
+</script>
 </html>

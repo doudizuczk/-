@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<!-- 自助缴费主页面 -->
+<!-- 自助缴费主页面 linping-->
 <head>
 <meta charset="UTF-8">
 <title>自助服务</title>
@@ -144,7 +144,7 @@ function pay(cost,carId){
 	});
 }
 
-//开具发票
+//开具发票11
 function invoice(chargeId){
 	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
 }
