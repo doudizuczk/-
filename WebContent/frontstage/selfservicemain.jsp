@@ -31,7 +31,6 @@ $(function () {
 		$("#curCar").text($("#carId").val());
 		$("#show").html("");
 	});
-	
 });
 
 // 车辆信息
@@ -92,7 +91,6 @@ function carInfo(){
 function payment(){
 	$("#show").show();
 	$("#trans").hide();
-	
 	if($("#curCar").text()==null || $("#curCar").text()==''){
 		alert("输入车牌号为空！");
 		return;
@@ -101,7 +99,7 @@ function payment(){
 	$.ajax({
 		type : "post",
 		url : "<%=request.getContextPath()%>/chargeHander/payment.action",
-		data : {"carId" : $("#carId").val()},
+		data : {"carId" : $("#curCar").text()},
 		dataType : 'json',
 		success : function(data) {
 			console.log(data);
@@ -151,28 +149,26 @@ function invoice(chargeId){
 	window.location.href="<%=request.getContextPath()%>/chargeHander/exportCharge.action?chargeId="+chargeId;
 }
 
+
 //*******************************************以下为月缴办理********************************************/
-
-
 var transact;//接收套餐正在使用的套餐和退费金额
 var owerStates;//
 //车辆id查套餐
 function CarIdSelectTransact(){
-	
 $("#trans").show();
 $("#show").hide();
-
+	
 if($("#curCar").text()==null || $("#curCar").text()==''){
 	alert("输入车牌号为空！");
 	return;
 }
-
+	
 var path="<%=request.getContextPath()%>";
 var str ="";
 	$.ajax({
 		url:path+"/transact/CarIdSelectPack2.action",
 		type:"POST", 
-		data:{"carId":$("#curCar").val()},
+		data:{"carId":$("#carId").val()},
 		dataType:"json",
 		success:function(data){
 			if(data.rstState==1){
@@ -191,13 +187,12 @@ var str ="";
 				 $("#packState").html("没有正在使用的套餐"); //回填显示信息
 			}
 			$("#PyteState").empty();//局部刷新
-			
 			$("#PyteState").append("<option value='0' >请选择套餐类型...</option>");
 	    	for (var i = 0; i < data.TypePack.length; i++) {//回填套餐类型
 				  $("#PyteState").append("<option value='"+data.TypePack[i].PARM_VAL+"' >" + data.TypePack[i].PARM_NAME + "</option>");
 		    } 
 	    	if(data.owerState==1){
-			 	$("#oweract").html("账户："+data.owerMoney.OWER_ACCOUNT+""); //回填显示信息
+			 	$("#oweract").html(""+data.owerMoney.OWER_ACCOUNT+""); //回填显示信息
 				$("#owerMon").html(""+data.owerMoney.OWER_BALANCE+""); //回填显示信息
 				owerStates=1;
 	    	}else{
@@ -210,6 +205,17 @@ var str ="";
 		error:function(){
 		}
 	})
+}
+function check_licensePlate() {
+	
+	console.info("进入到车牌校验");
+	var licensePlate = $("#carId").val()
+	var re = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
+	if(licensePlate.search(re) == -1) {
+		alert("您输入的车牌号不合格！")
+	} else {
+		CarIdSelectTransact();
+	}
 }
 //打开页面加载改变事件判断
  $(document).ready(function(){
@@ -224,6 +230,7 @@ var str ="";
     	 packNameChange(); 
      });
 })
+var vipcarPark = 0;
 var packList;
 function SelectTypeChange(){//根据类型回填所有套餐
 var path="<%=request.getContextPath()%>";
@@ -234,18 +241,26 @@ var path="<%=request.getContextPath()%>";
 		dataType:"json",
 		success:function(data){
 			packList=data.packList;
-			console.log("成功！"+packList)
 			 $("#packId").empty();
+			$("#carPark").empty();//车位刷新
 			 $("#packId").append("<option value='0' >请选择要办理的套餐...</option>");
     	for (var i = 0; i < data.packList.length; i++) {
 			  $("#packId").append("<option value='"+data.packList[i].PACK_ID+"' >" + data.packList[i].PACK_NAME + "</option>");
 			           }
-    	if($("#PyteState").val()==2){//套餐类型为2=白名单
+    	if($("#PyteState").val()==2 ){//套餐类型为2=白名单
     		$("#carPark").empty();
 			 $("#carPark").append("<option value='0' >请选择车位...</option>");
+			 if(data.carLoc.length==0){
+				/*  $("#newBtn").html("(没有车位不可办理)"); //回填显示信息 */
+				vipcarPark=1;
+				alert("没有车位不可办理")
+			 }else{
     		for (var i = 0; i < data.carLoc.length; i++) {
   			  $("#carPark").append("<option value='"+data.carLoc[i].parkId+"' >VIP" + data.carLoc[i].parkId + "</option>");
   			           }
+			 }
+    	}else {//选择套餐类型为月缴套餐
+    		vipcarPark=0;
     	}
 		},
 		error:function(){
@@ -288,6 +303,9 @@ function packNameChange(){
  			}
  		 }else{
 	 		if(packId==transact.tran.PACK_ID){
+	 			if($("#PyteState").val()==2){//续费时清空车位
+	 				$("#carPark").empty();
+	 			}
 	 			console.log(packId+"=="+transact.tran.PACK_ID)
 				$("#packLabel").html("(续费)"); //回填显示信息
 	 			PackTranPyte=2;
@@ -310,7 +328,8 @@ function packNameChange(){
 	 	 			console.log("退费="+transact.money)//退费
 	 	 				if($("#owerMon").text()+transact.money<newPackAtt.PACK_COST){//判断余额是否不足--支付
 	 	 					$("#part1").attr("disabled", true);//余额支付不可选
-	 	 		    		$("#PayType").html("(【退费+余额="+$("#owerMon").text()+transact.money+"】余额不足)"); //回填显示信息
+	 	 					var mon = Number($("#owerMon").text())+Number(transact.money)
+	 	 		    		$("#PayType").html("(【退费+余额="+mon+"】余额不足)"); //回填显示信息
 	 	 				
 	 	 				}
 	 	 		}else{
@@ -322,9 +341,13 @@ function packNameChange(){
  		 }
 }
 
-	
+
 var path="<%=request.getContextPath()%>";
 function tranButton(){
+	if(vipcarPark==1){
+		alert("没有车位不可办理VIP套餐")
+		return;		
+	}
 	
 	if(PackTranPyte==1){//新办套餐
 		console.log("新办"+newPackAtt.PACK_NAME);
@@ -333,19 +356,18 @@ function tranButton(){
 	}else if(PackTranPyte==3){//更改
 		console.log("更改"+newPackAtt.PACK_NAME);
 	}
-	console.log(PackTranPyte+"办理类型======套餐id"+$("#packId").val())//套餐类型
-	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
-
+	var adminId =${sessionScope.loggingAdmin.adminId} 
 	$.ajax({
-		type:"post", 
-		url:"<%=request.getContextPath()%>/transact/confirmPay.action",
-		data:{"PackTranPyte":PackTranPyte,"payType":payType,"packId":$("#packId").val(),"carId":$("#carId").val(),"adminId":1,"carPark":$("#carPark").val()},
+		url:path+"/transact/confirmPay.action",
+		type:"POST", 
+		data:{"PackTranPyte":PackTranPyte,"payType":payType,"packId":$("#packId").val(),"carId":$("#carId").val(),"adminId":adminId,"carPark":$("#carPark").val()},
 		dataType:"json",
 		success:function(data){
 			if(PackTranPyte==1){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
+
 				}
 			}
 			if(PackTranPyte==2){
@@ -367,6 +389,8 @@ function tranButton(){
 	})
 }
 
+
+
 //*******************************************以下为反向寻车********************************************/
 //查询该车牌号所对应车辆的信息 
 function queryCar(){
@@ -381,7 +405,6 @@ function queryCar(){
 		data:{"carId":$("#curCar").text()},
 		dataType:"json",
 		success:function(data){
-			console.log(data);
 			var xCoords=data[0].xCoord;//车位模型的x周坐标
 			var yCoords=data[0].yCoord;//车位模型y轴坐标
 			var twoId=data[0].twoId;//车位模型的id
@@ -482,7 +505,7 @@ function queryCar(){
 			 </table>
 			 <div id="RefundId"></div>
 			<div id="payId">
-	 		<h5>支付方式：</h5>
+	 		<h5>结款方式：</h5>
 	 		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
 			<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
 			<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付

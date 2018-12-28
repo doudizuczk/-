@@ -50,7 +50,12 @@
 	            <mvc:exclude-mapping path="/validateCode/validateCode.action"/>
 	            <mvc:exclude-mapping path="/owerHandler/checkOwerAccount.action"/> 
 	            <mvc:exclude-mapping path="/owerHandler/owerRegister.action"/>
-	             <mvc:exclude-mapping path="/CheckCodeHandler/getMessageCode.action"/>
+	            <mvc:exclude-mapping path="/CheckCodeHandler/getMessageCode.action"/>
+	            <mvc:exclude-mapping path="/CheckCodeHandler/getMessageCode.action"/>
+	            <mvc:exclude-mapping path="/chargeHander/payment.action"/>
+	            <mvc:exclude-mapping path="/carHandler/carInfo.action"/>
+	            <mvc:exclude-mapping path="/transact/CarIdSelectPack2.action"/>
+	            <mvc:exclude-mapping path="/carLocation/queryCarInfo.action"/>
  	            <bean class="com.great.interceptor.LoginInterceptor"></bean>
 	        </mvc:interceptor> 
     	</mvc:interceptors>

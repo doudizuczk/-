@@ -190,7 +190,7 @@ public class TransactHandler {
 	//czk-确认支付后办理套餐
 	@RequestMapping(value = "/confirmPay.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public@ResponseBody Map<String,Object> confirmPay(HttpServletRequest request,int PackTranPyte,int payType
-			,int adminId,int packId,String carId,@RequestParam(value = "carPark", required = true, defaultValue = "0")int carPark) {
+			,@RequestParam(value = "adminId", required = true, defaultValue = "1")int adminId,int packId,String carId,@RequestParam(value = "carPark", required = true, defaultValue = "0")int carPark) {
 		carPark(carId,carPark);//更改车位状态方法
 		List<Map<String,Object>> y = carMapper.selectCarById(carId);
 		if(y.size()==0) {
