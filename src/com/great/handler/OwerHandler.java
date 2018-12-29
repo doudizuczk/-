@@ -352,9 +352,11 @@ public class OwerHandler {
 		List<Car> carList = owerService.carTypeneone(owerId);
 		List<Map<String, Object>> notesList = new ArrayList<>();
 		for (Car car : carList) {
-			Map map = new HashMap();
-			map = owerService.searchPayNotes(car);
-			notesList.add(map);
+			List<Map<String,Object>> map = new ArrayList<>();
+			List<Map<String, Object>> temp = owerService.searchPayNotes(car);
+			for (Map<String, Object> i : temp) {
+				notesList.add(i);
+			}
 		}
 		model.addObject("notesList", notesList);
 		model.setViewName("forward:/frontstage/mypaynotes.jsp");

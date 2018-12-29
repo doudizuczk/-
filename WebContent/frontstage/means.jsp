@@ -68,6 +68,14 @@
 					<input type="hidden" value="${mess.owerId}" id="owerId" name="owerId"></td>
 				</tr>
 				<tr>
+				<td>身份证号</td>
+				<td><input value="${mess.owerIdcard}" id="owerIdcard" readonly="readonly"></td>
+				</tr>
+				<tr>
+				<td>年龄</td>
+				<td><input value="${mess.owerAge}" id="owerAge" readonly="readonly"></td>
+				</tr>
+				<tr>
 					<td><input type="button" value="编辑资料" id="write" onClick="canwrite()" class="p2 mb4 btn radius5 btn-info"></td>
 					<td><input type="button" value="修改密码" id="changePwd" onClick="changePwd(${sessionScope.loginOwer.owerId})" class="p2 mb4 btn radius5 btn-info"></td>
 				</tr>

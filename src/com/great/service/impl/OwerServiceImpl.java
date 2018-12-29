@@ -84,7 +84,7 @@ public class OwerServiceImpl implements IOwerService {
 		}
 	}
 	@Override
-	public Map<String, Object> searchPayNotes(Car car) {
+	public List<Map<String, Object>> searchPayNotes(Car car) {
 		// TODO Auto-generated method stub
 		return owerMapper.searchPayNotes(car);
 	}

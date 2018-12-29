@@ -22,7 +22,7 @@ public interface OwerMapper {
 	public List<Car> carList(int owerId);//查询登录用户的车辆
 	public TranSact tranList(Car car);//根据车辆查车辆办的套餐
 	public int addMoney(int owerId,int balance);//用户充值余额
-	public Map<String,Object> searchPayNotes(Car car);//缴费记录
+	public List<Map<String, Object>> searchPayNotes(Car car);//缴费记录
 	public List<Car> carTypeneone(int owerId);//手机端查询非临时车辆缴费
 	public int updateOwerBalance(Map<String,Object> map);//退钱给用户余额
 	public int updatePwd(Ower ower);//修改密码

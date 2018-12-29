@@ -31,7 +31,8 @@ $(document).ready(function() {
 			<select class="selectpicker" data-live-search="false" id="stage">
 				<option value="">请选择</option>
 				<option value=1>启用</option>
-				<option value=2>禁用</option>
+				<option value=2>过期</option>
+				<option value=3>已退</option>
 			</select> 
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="button">车牌号</button>
