@@ -140,7 +140,7 @@ public class TransactHandler {
 	//==========================================================================================================================
 	//czk-2-套餐办理输入车牌查看返回套餐办理表数据
 	@RequestMapping(value = "/CarIdSelectPack2.action")
-	public@ResponseBody Map<String,Object> CarIdSelectPack(HttpServletRequest request ) {
+	public @ResponseBody Map<String,Object> CarIdSelectPack(HttpServletRequest request ) {
 		int rstState = 0;//是否有套餐
 		int owerState = 0;//车牌是否绑定用户
 		String money = "";
@@ -173,7 +173,7 @@ public class TransactHandler {
 	}
 	//czk-办理页套餐类型改变事件返回套餐列表
 	@RequestMapping(value = "/SelectTypeChange2.action")
-	public@ResponseBody Map<String,Object> SelectTypeChange2(HttpServletRequest request ) {//pageCurr不能为空，并初始化
+	public @ResponseBody Map<String,Object> SelectTypeChange2(HttpServletRequest request ) {//pageCurr不能为空，并初始化
 		Integer typeId = Integer.parseInt(request.getParameter("packType"));
 		Pack pack = new Pack();
 		pack.setPackType(typeId);

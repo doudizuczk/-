@@ -136,8 +136,10 @@ function backLogin(){
 				window.location="<%=request.getContextPath()%>/menuHandler/getLeftMenu.action";
 			}else if(data=="3"){
 				alert("验证码出错");
+				changeCode();
 			}else{
 				alert("账号密码出错");
+				changeCode();
 			}
 		}
 	});

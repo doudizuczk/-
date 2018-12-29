@@ -52,17 +52,15 @@
 		<div class="t-c f28 p6 color4 bg-color6">
 			<p>
 			<marquee onmouseout=this.start() onmouseover=this.stop() behavior="scroll" direction="up" width="850px" height="80px" SCROLLDELAY="320" >
+			<c:if test="${empty tranList}">
+				<h5>未查询到车辆套餐信息</h5>
+			</c:if>
+			<c:if test="${not empty tranList}">
 			<c:forEach items="${tranList}" var="tran">
-			<c:choose>
-			<c:when test="${tran.tranState ne 1}">
-				<h5>套餐逾期车辆${tran.carId}</h5>
-			</c:when>
-			<c:otherwise>
 				<h5>套餐内车辆 ${tran.carId}</h5>
 				<h5>套餐截止日期 ${tran.tranEtime}:00</h5>
-			</c:otherwise>
-			</c:choose>
 			</c:forEach>
+			</c:if>
 			</marquee>
 			</p>
 		</div>
@@ -100,7 +98,7 @@
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="<%=request.getContextPath()%>/frontstage/pack_Refund2.jsp" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
+				<a href="<%=request.getContextPath()%>/backstage/pack_Refund2.jsp" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
 					<p>套餐办理</p>
 				</a>
 			</div>
