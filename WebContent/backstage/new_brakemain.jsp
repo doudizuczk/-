@@ -59,9 +59,9 @@
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;车牌号 :<em id="carId" style="color: red;"></em>
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;车辆类型: <em id="carTypes" style="color: red;"></em>
                           </p>
-                          <div class="primary-button">
-                            <a href="#">进入识别</a>
-                          </div>
+<!--                           <div class="primary-button"> -->
+<!--                             <a href="#">进入识别</a> -->
+<!--                           </div> -->
                           <br>
                         </div>
                       </div>
@@ -86,9 +86,9 @@
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;入库时间: <em id="oStarTime" style="color: red;"></em>
                           <br>&nbsp;&nbsp;&nbsp;&nbsp;应缴金额: <em id="oCost" style="color: red;"></em>
                           </p>
-                          <div class="primary-button" style="width: 390px;height: 300px">
-                            <a href="#">出口识别</a>
-                          </div>
+<!--                           <div class="primary-button" style="width: 390px;height: 300px"> -->
+<!--                             <a href="#">出口识别</a> -->
+<!--                           </div> -->
                         </div>
                       </div>
                       

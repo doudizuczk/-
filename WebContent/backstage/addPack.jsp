@@ -123,15 +123,15 @@ var path="<%=request.getContextPath()%>";
 				</tr>
 				<tr>
 					<td>套餐名称：</td>
-					<td><input type="text" onkeyup="value=value.replace(/[\d]/g,'') "  name="packName" id="packName" placeholder="请输入套餐名称..."></td>
+					<td><input type="text" onkeyup="value=value.replace(/[\d]/g,'') "  name="packName" id="packName" placeholder="请输入套餐名称..." class="btn btn-default"></td>
 				</tr>
 				<tr>
 					<td>套餐时长(月/30天)：</td>
-					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" name="packTime"  id="packTime" placeholder="套餐时长（/月）..."></td>
+					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" name="packTime"  id="packTime" placeholder="套餐时长（/月）..." class="btn btn-default"></td>
 				</tr>
 				<tr>
 					<td>套餐费用(/元)：</td>
-					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" id="packCost" name="packCost" placeholder="请输套餐费用（/元）..."></td>
+					<td><input type="text" onkeyup="if(isNaN(value))execCommand('undo')" id="packCost" name="packCost" placeholder="请输套餐费用（/元）..." class="btn btn-default"></td>
 				</tr>
 				
 			</tbody>

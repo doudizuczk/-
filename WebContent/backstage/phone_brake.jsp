@@ -5,32 +5,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>html5调用摄像头拍照</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>调用摄像头拍照</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
+
+<style>
+
+</style>
 </head>
 <body>
-    <div style="height: 20%;width: 100%;margin: 0 auto;">
+    <div style="height: 50px;width: 80%;float: right;">
     <a></a>
     </div>
     <div style="height: 50px;width: 60%;margin: 0 auto;">
     <form>
     <table>
-    <tr><td>
-	<input type="file" capture="camera" accept="image/*" id="photo" name="photo" class="form-control">
-    </td>
+    <tr>
+    	<td>
+			<input type="file" capture="camera" accept="image/*" id="photo" name="photo" class="btn btn-default" style="width: 200px;">
+    	</td>
+    </tr>
+    <tr>
+    	<td>
+    	   <div style="height: 50px;"></div>
+    	</td>
     </tr>
     <tr>
     <td>
-	<button  type="button" onclick="updatePhoto()" class="btn btn-primary">入场</button><br><br>
+	<button  type="button" onclick="updatePhoto()" class="btn btn-primary">入场</button><button  type="button" onclick="updateGetOutPhoto()" class="btn btn-primary" style="float: right;">出库</button><br><br>
     </td>
     </tr>
-    <tr>
-    <td>
-	<button  type="button" onclick="updateGetOutPhoto()" class="btn btn-primary">出库</button><br>
-    </td>
-    </tr>
+<!--     <tr> -->
+<!--     <td> -->
+<!-- 	<button  type="button" onclick="updateGetOutPhoto()" class="btn btn-primary">出库</button><br> -->
+<!--     </td> -->
+<!--     </tr> -->
     </table>
 	</form>	
     </div>

@@ -9,8 +9,8 @@
 <!--  --------------------------------------------------------->
 <!--  --------------------------------------------------------->
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
 <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
@@ -297,10 +297,10 @@ function invoice(chargeId){
 </head>
 <body>
 <div id="trans">
-<h3>套餐办理页2</h3>
+<!-- <h3>套餐办理页2</h3> -->
 	 <form id="packRefundForm">
 	 	<h5>输入套餐办理车牌号：</h5>
-			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..."> 
+			<input type="text" name="carId" id="carId" placeholder="请输入车牌号..." class="btn btn-default"> 
 		 	<input type="button" value="查询" id="newBtn" onclick="check_licensePlate()" class="btn btn-primary">
 		 	<h5>套餐情况：</h5>
  		<table class="table table-striped table-hover" >
@@ -319,15 +319,17 @@ function invoice(chargeId){
  		</table>
  		
  		<label id="packState"  class="label label-primary"></label>
- 		<h5>套餐类型</h5>
+<!--  		<h5>套餐类型</h5> -->
  		<div>
-			<select name="PyteState" id="PyteState"></select>
+ 		<button class="btn btn-default" type="button">套餐类型:</button>
+			<select name="PyteState" id="PyteState" class="btn btn-default"></select>
  		</div>
- 		<h5>办理套餐</h5>
+<!--  		<h5>办理套餐</h5> -->
  		<div>
-			<select name="packId" id="packId"></select>
+ 		<button class="btn btn-default" type="button">办理套餐:</button>
+			<select name="packId" id="packId" class="btn btn-default"></select>
 			<label id="packLabel"  class="label label-primary"></label>
-			<select name="carPark" id="carPark" value="0"></select>
+			<select name="carPark" id="carPark" value="0" class="btn btn-default"></select>
  		</div>
  		
  		<table class="table table-striped table-hover">
@@ -347,13 +349,19 @@ function invoice(chargeId){
 		 </table>
 		 <div id="RefundId"></div>
 		<div id="payId">
- 		<h5>结款方式：</h5>
+<!--  		<h5>结款方式：</h5> -->
+ 		<button class="btn btn-default" type="button">结款方式：</button>
  		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
 		<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
 		<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付
 		</div>
 
- 		<div><input type="submit" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary"></div>
+ 		<div style="width: 60%">
+		<div style="float: right;">
+ 		<input type="reset" value="重置" id="reBtn" class="btn btn-primary" style="margin-right: 100px;">
+ 		<input type="submit" value="确认办理" id="newBtn" class="btn btn-primary">
+ 		</div>
+ 		</div>
  	</form>
 </div>
 </body>

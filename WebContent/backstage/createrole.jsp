@@ -70,9 +70,12 @@ margin-left: 150px;
 				</tr>
 			</tbody>
 		 </table>
-		 <div>
-		 	<input type="button" value="新增" id="newBtn" class="btn btn-primary" onClick="createMenu()"><input type="reset" value="重置" id="reBtn" class="btn btn-primary">
+		 <div style="width: 70%">
+		<div style="float: right;">
+		 	<input type="button" value="新增" id="newBtn" class="btn btn-primary" onClick="createMenu()" style="margin-right: 100px;width: 100px;">
+		 	<input type="reset" value="重置" id="reBtn" class="btn btn-primary" style="width: 100px;">
 		 <input type="button" value="返回" onClick="back()" id="comeback" class="btn btn-primary">
+		 </div>
 		 </div>
 	</form>
 </body>

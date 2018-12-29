@@ -233,6 +233,8 @@ if (!!window.EventSource) {
               $("#cCarTypes").val(t);
               $("#cCarId").val(d);
               $("#cCost").val(ct);
+              $("#carId").val(d);
+              $("#oCarId").val(d);
               m1.show();
               console.log("车辆出场");
        });
