@@ -27,12 +27,12 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
 <!--  -->
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script>
+<script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script>
 <%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
 <%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"> --%>
-<%-- <script src="<%=request.getContextPath()%>/js/jquery.validate.js"></script> --%>
-<%-- <script src="<%=request.getContextPath()%>/js/messages_zh.min.js"></script> --%>
-<%-- <script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script> --%>
-<%-- <script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script> --%>
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery.serializejson.min.js"></script>
 <script>
 $().ready(function(){
 	$("#packRefundForm").validate({
@@ -64,8 +64,8 @@ $().ready(function(){
        	        required: "请先选择支付方式",
        	      },
    	     },
-   	  submitHandler: function(form) { CarIdSelectTransact(); }
-   })	
+   	  submitHandler: function(form) { tranButton(); }
+   })
 });
 var transact;//接收套餐正在使用的套餐和退费金额
 var owerStates;//
@@ -100,7 +100,7 @@ var str ="";
 				  $("#PyteState").append("<option value='"+data.TypePack[i].PARM_VAL+"' >" + data.TypePack[i].PARM_NAME + "</option>");
 		    } 
 	    	if(data.owerState==1){
-			 	$("#oweract").html("账户："+data.owerMoney.OWER_ACCOUNT+""); //回填显示信息
+			 	$("#oweract").html(""+data.owerMoney.OWER_ACCOUNT+""); //回填显示信息
 				$("#owerMon").html(""+data.owerMoney.OWER_BALANCE+""); //回填显示信息
 				owerStates=1;
 	    	}else{
@@ -138,6 +138,7 @@ function check_licensePlate() {
     	 packNameChange(); 
      });
 })
+var vipcarPark = 0;
 var packList;
 function SelectTypeChange(){//根据类型回填所有套餐
 var path="<%=request.getContextPath()%>";
@@ -155,12 +156,20 @@ var path="<%=request.getContextPath()%>";
     	for (var i = 0; i < data.packList.length; i++) {
 			  $("#packId").append("<option value='"+data.packList[i].PACK_ID+"' >" + data.packList[i].PACK_NAME + "</option>");
 			           }
-    	if($("#PyteState").val()==2){//套餐类型为2=白名单
+    	if($("#PyteState").val()==2 ){//套餐类型为2=白名单
     		$("#carPark").empty();
 			 $("#carPark").append("<option value='0' >请选择车位...</option>");
+			 if(data.carLoc.length==0){
+				/*  $("#newBtn").html("(没有车位不可办理)"); //回填显示信息 */
+				vipcarPark=1;
+				alert("没有车位不可办理")
+			 }else{
     		for (var i = 0; i < data.carLoc.length; i++) {
   			  $("#carPark").append("<option value='"+data.carLoc[i].parkId+"' >VIP" + data.carLoc[i].parkId + "</option>");
   			           }
+			 }
+    	}else {//选择套餐类型为月缴套餐
+    		vipcarPark=0;
     	}
 		},
 		error:function(){
@@ -203,6 +212,9 @@ function packNameChange(){
  			}
  		 }else{
 	 		if(packId==transact.tran.PACK_ID){
+	 			if($("#PyteState").val()==2){//续费时清空车位
+	 				$("#carPark").empty();
+	 			}
 	 			console.log(packId+"=="+transact.tran.PACK_ID)
 				$("#packLabel").html("(续费)"); //回填显示信息
 	 			PackTranPyte=2;
@@ -237,9 +249,15 @@ function packNameChange(){
 	 		}
  		 }
 }
-	
+
+
 var path="<%=request.getContextPath()%>";
 function tranButton(){
+	if(vipcarPark==1){
+		alert("没有车位不可办理VIP套餐")
+		return;		
+	}
+	
 	if(PackTranPyte==1){//新办套餐
 		console.log("新办"+newPackAtt.PACK_NAME);
 	}else if(PackTranPyte==2){//续费
@@ -250,6 +268,7 @@ function tranButton(){
 	console.log(PackTranPyte+"办理类型======套餐id"+$("#packId").val())//套餐类型
 	console.log(jQuery("input[name='part']:checked").val())//支付方式
 	var payType = jQuery("input[name='part']:checked").val();
+	
 	var adminId =${sessionScope.loggingAdmin.adminId} 
 	$.ajax({
 		url:path+"/transact/confirmPay.action",
@@ -261,19 +280,16 @@ function tranButton(){
 				if(data.map.state==1){
 				alert(""+data.map.prompt+"");
 
-				location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==2){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload();   //刷新页面
 				}
 			}
 			if(PackTranPyte==3){
 				if(data.map.state==1){
 					alert(""+data.map.prompt+"");
-// 					location.reload()   //刷新页面
 				}
 			}
 			var str="缴费成功！此次编号："+data.map.seq;
