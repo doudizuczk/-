@@ -44,6 +44,7 @@ body { font-size: 62.5%; }
 			<th scope="col">B区</th>
 			<th scope="col">C区</th>
 			<th scope="col">D区</th>
+			<th scope="col">VIP区</th>
 		</tr>
 	</thead>
 	<tbody>

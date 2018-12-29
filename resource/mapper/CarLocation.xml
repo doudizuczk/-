@@ -39,16 +39,16 @@
 	</select>
 	<!--查询查询ABCD区空闲车位-->
 	<select id="queryFreeCount" resultType="java.lang.Integer">
-		select t.park_zone,decode(c2,null,0,c2) "freenum" from
+		select decode(c2,null,0,c2) "freenum" from
 		(select park_zone,count(0) c1 from t_park group by park_zone) t left join 
 		(select park_zone,count(0) c2 from t_park where park_state=1 group by park_zone) n
 		on t.park_zone=n.park_zone order by t.park_zone	
 	</select>
 	<!--查询查询ABCD区占用车位-->
 	<select id="queryUsedCount" resultType="java.lang.Integer">
-		select t.park_zone,decode(c2,null,0,c2) "usednum" from
+		select decode(c2,null,0,c2) "usednum" from
 		(select park_zone,count(0) c1 from t_park group by park_zone) t left join 
-		(select park_zone,count(0) c2 from t_park where park_state=2 group by park_zone) n
+		(select park_zone,count(0) c2 from t_park where park_state!=1 group by park_zone) n
 		on t.park_zone=n.park_zone order by t.park_zone
 	</select>
 	<!--查询总车位数，并分状态统计  -->
