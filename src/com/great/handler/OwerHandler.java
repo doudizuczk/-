@@ -307,8 +307,11 @@ public class OwerHandler {
 		for (Car car : carList) {
 			TranSact tran = new TranSact();
 			tran = owerService.tranList(car);
-			tranList.add(tran);
+			if(tran!=null) {
+				tranList.add(tran);
+			}
 		}
+		System.out.println(tranList.size());
 		model.addObject("tranList", tranList);
 		model.setViewName("forward:/frontstage/user_main.jsp");
 		return model;

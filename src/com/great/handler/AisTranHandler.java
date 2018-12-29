@@ -49,13 +49,13 @@ public class AisTranHandler {
 	@Qualifier("payMentServiceImpl")
 	private IPayMentService payMentService; 
 	
-	// @Scheduled(cron ="0 0/1 * ? * *" )//"0 53 21 * * ? *"     "0 15 10 ? * *"   "0 0 0 * * ?"  0 15 * ? * *  "0 5 23 * * ?"
+	@Scheduled(cron ="0 0/1 * ? * *" )//"0 53 21 * * ? *"     "0 15 10 ? * *"   "0 0 0 * * ?"  0 15 * ? * *  "0 5 23 * * ?"
 	public void beginAisTranSact() {
 		 SimpleDateFormat simpl=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		 Date date=new Date();
 		 Calendar currentTime = Calendar.getInstance();//前一个时间
 		 Calendar compareTime = Calendar.getInstance();//后一个时间
-		System.out.println(date+" 任务执行开始");
+		//System.out.println(date+" 任务执行开始");
 		try {
 			List<TranSact> tranList=aisTranService.queryAllTran();
 			String today=simpl.format(date);

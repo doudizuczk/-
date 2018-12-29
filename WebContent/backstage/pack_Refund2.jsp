@@ -47,7 +47,7 @@ $().ready(function(){
        	      },
    	     },
    	  submitHandler: function(form) { tranButton(); }
-   })	
+   })
 });
 var transact;//接收套餐正在使用的套餐和退费金额
 var owerStates;//

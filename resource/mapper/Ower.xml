@@ -52,7 +52,8 @@
 	</update>
 	
 	<select id="carList" parameterType="int" resultType="com.great.bean.Car">
-		select CAR_ID "carId",CAR_COLOR "carColor",to_char(CAR_CDATE,'YYYY-MM-DD') "carCdate",CAR_TYPE "carType" from T_CAR  where OWER_ID=#{_parameter} and CAR_STATE=1 
+		select a.CAR_ID "carId",a.CAR_COLOR "carColor",to_char(a.CAR_CDATE,'YYYY-MM-DD') "carCdate",a.CAR_TYPE "carType" from T_CAR a,T_TRANSACT b
+		 where a.OWER_ID=#{_parameter} and a.CAR_STATE=1  and a.CAR_ID=b.CAR_ID
 	</select>
 	
 	<select id="carTypeneone" parameterType="int" resultType="com.great.bean.Car">
@@ -61,7 +62,7 @@
 	
 	<select id="tranList" parameterType="com.great.bean.Car" resultType="com.great.bean.TranSact">
 		select TRAN_ID "tranId",PACK_ID "packId",CAR_ID "carId",PARK_ID "parkId",to_char(TRAN_STIME,'YYYY-MM-dd hh24:mm') "tranStime",to_char(TRAN_ETIME,'YYYY-MM-dd hh24:mm') "tranEtime" ,TRAN_STATE "tranState"
-		from T_TRANSACT  where CAR_ID='${carId}' 
+		from T_TRANSACT  where CAR_ID='${carId}' and TRAN_STATE=1
 	</select>
 
 	<update id="updateOwerBalance" parameterType="HashMap">
