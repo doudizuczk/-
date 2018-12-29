@@ -47,7 +47,8 @@
 	            <mvc:exclude-mapping path="/login/adminLogin.action"/> 
 	            <mvc:exclude-mapping path="/login/userLogin.action"/>
 	            <mvc:exclude-mapping path="/admin/login.action"/>
-	             <mvc:exclude-mapping path="/owerHandler/getOwerCarMess.action"/>
+
+	            <mvc:exclude-mapping path="/owerHandler/getOwerCarMess.action"/>
 	           
 
 	            <mvc:exclude-mapping path="/validateCode/validateCode.action"/>  
