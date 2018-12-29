@@ -51,7 +51,7 @@
 					</c:forEach>
 				</select>
 	            <input type="button" id="selsect"  value="查找"  onclick="queryNameAndzh()" class="btn btn-default">
-		        <input type="button" id="createPack"  value="新增套餐" class="btn btn-primary" style="float:right;">
+<!-- 		        <input type="button" id="createPack"  value="新增套餐" class="btn btn-primary" style="float:right;"> -->
 <%-- 				<select name="packType" id="packType">
 						<option value="">请选择状态...</option>
 					<c:forEach items="${dates.Type}" var="type">

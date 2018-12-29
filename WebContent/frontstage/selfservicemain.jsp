@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/carstyle/css/style.css" type="text/css" media="all">
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/carstyle/js/cufon-yui.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/carstyle/js/Copse_400.font.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/carstyle/js/jquery.nivo.slider.pack.js"></script>
@@ -51,6 +52,11 @@ function carInfo(){
 				console.log(data);
 				if (data.car != '' && data.car !=null) {
 					var str="";
+					
+					str+="<div style='height:60px;'>";
+					str+="</div>";
+					str+="<div style='width: 65%'>";
+					str+="<div style='float: right;'>";
 					str+="车牌号："+data.car.carId+"<br>";
 					str+="车辆颜色："+data.car.carColor+"<br>";
 					str+="车辆类型："+data.car.carTypeName+"<br>";
@@ -74,7 +80,8 @@ function carInfo(){
 					}else{
 						str+="套餐信息：未查询到办理套餐信息<br>";
 					}
-					
+					str+="</div>";
+					str+="</div>";
 					$("#show").html(str);
 				} else {
 					alert("查无该车辆信息");
@@ -105,12 +112,20 @@ function payment(){
 			console.log(data);
 			if (data != '') {
 				var str="";
+				str+="<div style='height:60px;'>";
+				str+="</div>";
+				str+="<div style='width: 65%'>";
+				str+="<div style='float: right;'>";
 				str+="车牌号："+data.carId+"<br>";
 				str+="入场时间："+data.startTime+"<br>";
 				str+="停车费："+data.cost+"元<br>";
 				if(data.cost!=0){
-					str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)'>立即缴费</button>";
+					str+="<button onclick='pay("+data.cost+",&quot;"+data.carId+"&quot;)' style='width: 100px;height: 30px;'>立即缴费</button>";
 				}
+				str+="</div>";
+				str+="</div>";
+				
+				
 				$("#show").html(str);
 			} else {
 				alert("缴费信息载入失败！请到柜台缴费");
@@ -173,6 +188,8 @@ var str ="";
 		success:function(data){
 			if(data.rstState==1){
 			transact=data;//正在使用的套餐
+			str+="<div style='width: 65%'>";
+			str+="<div style='float: right;'>";
 			str+="<tr>";
 				str+="<td>"+data.tran.PACK_NAME+"</td>";
 				str+="<td>"+data.tran.PACK_TIME+"</td>";
@@ -182,6 +199,8 @@ var str ="";
 				str+="<td>正在使用</td>";
 				str+="<td>"+data.money+"</td>"; 
 				str+="</tr>";
+				str+="</div>";
+				str+="</div>";
 			 $("#packTbody").html(str); //回填列表
 			}else{
 				 $("#packState").html("没有正在使用的套餐"); //回填显示信息
@@ -456,12 +475,19 @@ function queryCar(){
 			</div>
 		</div>
 	</div>
-	<div class="body3" style="height: 100%">
-		<div id="show" style="display: none;" class="body4"></div>
-		<div id="trans" style="display: none;" class="body4">
+	
+	<div class="body3" style="height: 100%;">
+		<div id="show" style="display: none;color:white;font-size: 20px;font-family:宋体;" class="body4"></div>
+		<div id="trans" style="display: none;color:white;font-size: 20px;font-family:宋体;" class="body4">
+		
+		 <div style="height:50px;">
+		 </div>
+		 
+		 <div style="width: 68%">
+		<div style="float: right;">
 			<form id="packRefundForm">
-			<h5>套餐情况：</h5>
-	 		<table class="table table-striped table-hover" >
+			<h5  style="color:white;">套餐情况：</h5>
+	 		<table class="table table-striped table-hover" style="color:white;">
 	 			<thead>
 	 				<tr>
 	 					<th>套餐名称</th>
@@ -488,7 +514,7 @@ function queryCar(){
 				<select name="carPark" id="carPark" value="0"></select>
 	 		</div>
 	 		
-	 		<table class="table table-striped table-hover">
+	 		<table class="table table-striped table-hover" style="color:white;">
 	 			<tr>
 					<th>套餐详情</th>
 					<th>时间价格</th>
@@ -497,7 +523,7 @@ function queryCar(){
 			</table>
 			
 			<h5>绑定账户</h5>
-			<table class="table table-striped table-hover">
+			<table class="table table-striped table-hover" style="color:white;">
 	 				<tr>
 						<th>账户：<label id="oweract"  class="label label-primary"></label></th>
 						<th>余额：<label id="owerMon"  class="label label-primary"></label></th>
@@ -506,13 +532,18 @@ function queryCar(){
 			 <div id="RefundId"></div>
 			<div id="payId">
 	 		<h5>结款方式：</h5>
-	 		<input name="part" id="part1" type="radio" value="1" style="width:20px"/>账户余额<label id="PayType"  class="label label-primary"></label>
-			<input name="part" id="part2" type="radio" value="2" style="width:20px"/>现金
-			<input name="part" id="part3" type="radio" value="3" style="width:20px"/>第三方支付
+	 		<input name="part" id="part1" type="radio" value="1" style="width:20px" style="color:white;"/>账户余额<label id="PayType"  class="label label-primary" style="color:white;"></label>
+			<input name="part" id="part2" type="radio" value="2" style="width:20px" style="color:white;"/>现金
+			<input name="part" id="part3" type="radio" value="3" style="width:20px" style="color:white;"/>第三方支付
 			 </div>
 	
-	 		<div><input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="btn btn-primary"><input type="reset" value="重置" id="reBtn" class="btn btn-primary"></div>
+	 		<div>
+	 		<input type="reset" value="重置" id="reBtn" class="btn btn-primary" style="margin-right: 100px;width: 100px;height: 30px;">
+	 		<input type="button" onclick="tranButton()" value="确认办理" id="newBtn" class="btn btn-default" style="width: 100px;height: 30px;">
+	 		</div>
 	 		</form>
+		</div>
+		</div>
 		</div>
 	</div>
 </body>

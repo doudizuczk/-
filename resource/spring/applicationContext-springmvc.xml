@@ -41,26 +41,35 @@
 	        <!--   拦截所有URL中包含/login/的请求-->
 	            <mvc:mapping path="/**"/>
 			<!--	排除 以下-->
-				<mvc:exclude-mapping path="/backstage/backlogin.jsp"/>
+						<mvc:exclude-mapping path="/backstage/backlogin.jsp"/>
 	            <mvc:exclude-mapping path="/frontstage/user_login.jsp"/>
 	            <mvc:exclude-mapping path="/owerHandler/owerLogin.action"/>
 	            <mvc:exclude-mapping path="/login/adminLogin.action"/> 
 	            <mvc:exclude-mapping path="/login/userLogin.action"/>
 	            <mvc:exclude-mapping path="/admin/login.action"/>
-	            <mvc:exclude-mapping path="/owerHandler/getOwerCarMess.action"/>
-	            <mvc:exclude-mapping path="/validateCode/validateCode.action"/>  
-	            <mvc:exclude-mapping path="/sse/updatePhoto.action"/>  
-	            <mvc:exclude-mapping path="/sse/updateGetOutPhoto.action"/>  
-	            <mvc:exclude-mapping path="/carBrakeHander/getParkNum.action"/>  
-	            <mvc:exclude-mapping path="/sse/goIn.action"/>  
+
+	             <mvc:exclude-mapping path="/owerHandler/getOwerCarMess.action"/>
 	            <mvc:exclude-mapping path="/owerHandler/owerRegister.action"/>  
 	            <mvc:exclude-mapping path="/owerHandler/checkOwerAccount.action"/>  
+	           
+
+
+
+	            <mvc:exclude-mapping path="/validateCode/validateCode.action"/>  
+	            
+	            <mvc:exclude-mapping path="/sse/updatePhoto.action"/>  
+	            <mvc:exclude-mapping path="/sse/updateGetOutPhoto.action"/>  
+	            <mvc:exclude-mapping path="/sse/goIn.action"/>  
+	            
+	            <mvc:exclude-mapping path="/carBrakeHander/getParkNum.action"/>  
 	            <mvc:exclude-mapping path="/CheckCodeHandler/getMessageCode.action"/>  
-	            <mvc:exclude-mapping path="/menuHandler/getLeftMenu.action"/> 
 	            <mvc:exclude-mapping path="/chargeHander/payment.action"/>
-	            <mvc:exclude-mapping path="/carHandler/carInfo.action"/>
-	            <mvc:exclude-mapping path="/transact/CarIdSelectPack2.action"/>
 	            <mvc:exclude-mapping path="/carLocation/queryCarInfo.action"/>
+	            <mvc:exclude-mapping path="/carHandler/carInfo.action"/>
+
+	            <mvc:exclude-mapping path="/menuHandler/getLeftMenu.action"/> 
+
+	            <mvc:exclude-mapping path="/transact/CarIdSelectPack2.action"/>
 
  	            <bean class="com.great.interceptor.LoginInterceptor"></bean>
 	        </mvc:interceptor> 
