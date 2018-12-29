@@ -98,7 +98,7 @@
 				</a>
 			</div>
 			<div class="col-3 h19">
-				<a href="<%=request.getContextPath()%>/backstage/pack_Refund2.jsp" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
+				<a href="<%=request.getContextPath()%>/frontstage/pack_Refund2.jsp" class="pt4 pb4"><i class="f50 color-info icon iconfont icon-font"></i>
 					<p>套餐办理</p>
 				</a>
 			</div>
