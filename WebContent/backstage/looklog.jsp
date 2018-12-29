@@ -75,7 +75,9 @@ function search(){
 				</c:forEach>
 			</tbody>
 		</table>
-	<div>
+ <div style="width: 68%">
+	<div style="float: right;">
+	 <div>
 		<input type="button" value="上一页" id="upPage" class="btn btn-primary">
 		<label id="myPage" class="btn btn-default">当前第${pageNum}页共${allNum}页 共${logCount}条</label>
 		<input type="button" value="下一页" id="nextPage" class="btn btn-primary">
@@ -86,6 +88,8 @@ function search(){
 			class="btn btn-primary" id="turnPage"> <input type="hidden"
 			value="${pageNum}" id="pageNum"><input type="hidden"
 			value="${allNum}" id="allNum">
+	</div>
+	</div>
 	</div>
 	</form>
 </body>

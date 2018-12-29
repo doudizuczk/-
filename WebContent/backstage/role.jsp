@@ -51,9 +51,10 @@ function search(){
 <body>
  	<form>
  		<div>
- 		<input type="button" class="btn btn-default" value="角色名称" id="btn1"><input id="roleName" name="roleName"  placeholder="角色名称..." value="${role.roleName}" >
+ 		<input type="button" class="btn btn-default" value="角色名称" id="btn1">
+ 		<input id="roleName" name="roleName"  placeholder="角色名称..." value="${role.roleName}" class="btn btn-default">
  		<input type="button" class="btn btn-default" value="角色状态" id="btn3">
- 		<select id="roleState" name="roleState">
+ 		<select id="roleState" name="roleState" class="btn btn-default">
  			<option value="0">请选择</option>
  			<option value="1">启用</option>
  			<option value="2">禁用</option>

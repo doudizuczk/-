@@ -12,8 +12,8 @@
 
 <title>车位配置</title>
 <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/brakestyle/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/brakestyle/js/bootstrap.min.js"></script>
 <!---->
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.my-modal.1.1.js"></script>
 <!--win风格-->
@@ -32,7 +32,9 @@
     <div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="<%=request.getContextPath()%>/carLocation/queryAreaNum.action"/>数据显示</a></li>
-            <li><a href="<%=request.getContextPath()%>/carLocation/sendData.action">折线图统计</a></li>
+        </ul>
+        <ul class="nav navbar-nav" style="float:right;">
+            <li><a href="<%=request.getContextPath()%>/carLocation/sendData.action" class="btn btn-primary" style="color: white;">柱状图统计</a></li>
         </ul>
     </div>
     </div>

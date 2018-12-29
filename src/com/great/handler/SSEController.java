@@ -3,6 +3,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -127,6 +128,7 @@ public class SSEController {
 	     }
 	}
 	  //入口显示动态：识别图片
+	    @Transactional(rollbackFor=Exception.class)
 		@RequestMapping(value ="/updatePhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 		public @ResponseBody Map<String,Object> updatePhoto(MultipartFile img){ 
 		      System.out.println("开始上传1");
@@ -260,7 +262,8 @@ public class SSEController {
 		}
 //-----------------------------车辆进场end-----------------------------------------------------------					
 //-----------------------------车辆出场star----------------------------------------------------------	
-		@RequestMapping(value ="/updateGetOutPhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	    @Transactional(rollbackFor=Exception.class)
+	    @RequestMapping(value ="/updateGetOutPhoto.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 		public @ResponseBody Map<String,Object> updateGetOutPhoto(MultipartFile img){
 			System.out.println("开始上传2");
 			Map<String,Object> m=new HashMap<>();
@@ -346,7 +349,8 @@ public class SSEController {
 		}
 //-----------------------------车辆出场end-----------------------------------------------------------	
 //手动进场------------------------------------------------------------------------------------
-		@RequestMapping(value ="/goInCar.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	    @Transactional(rollbackFor=Exception.class)
+	    @RequestMapping(value ="/goInCar.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 		public @ResponseBody Map<String,Object> goInCar(@RequestParam String carId){ 
 //-----------------------------车辆进场star-----------------------------------------------------------					
 					String c=carId;
@@ -469,7 +473,8 @@ public class SSEController {
 		}		
 		
 //手动出场-----------------------------------------------------------------------------------------
-		@RequestMapping(value ="/getOutCar.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	    @Transactional(rollbackFor=Exception.class)
+	    @RequestMapping(value ="/getOutCar.action",method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 		public @ResponseBody Map<String,Object> getOutCar(@RequestParam String carId){
 			Map<String,Object> m=new HashMap<>();
 		      String CARID =carId;
