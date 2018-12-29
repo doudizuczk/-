@@ -30,7 +30,7 @@
 	<div class="header navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<a class="brand" href=""> 后台管理系统</a> 
+				<a class="brand" href="">智慧停车</a> 
 				<ul class="nav pull-right">
 					<!-- 用户名属性=======================================================================================-->
 					<li class="dropdown user"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
