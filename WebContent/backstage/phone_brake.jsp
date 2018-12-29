@@ -41,7 +41,7 @@
 	<button  type="button" onclick="updatePhoto()" class="btn btn-primary">入场</button><button  type="button" onclick="updateGetOutPhoto()" class="btn btn-primary" style="float: right;">出库</button><br><br>
     </td>
     </tr>
-<!--     <tr> -->
+<!--1     <tr> -->
 <!--     <td> -->
 <!-- 	<button  type="button" onclick="updateGetOutPhoto()" class="btn btn-primary">出库</button><br> -->
 <!--     </td> -->
