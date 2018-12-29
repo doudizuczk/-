@@ -41,7 +41,7 @@
 	        <!--   拦截所有URL中包含/login/的请求-->
 	            <mvc:mapping path="/**"/>
 			<!--	排除 以下-->
-						<mvc:exclude-mapping path="/backstage/backlogin.jsp"/>
+				<mvc:exclude-mapping path="/backstage/backlogin.jsp"/>
 	            <mvc:exclude-mapping path="/frontstage/user_login.jsp"/>
 	            <mvc:exclude-mapping path="/owerHandler/owerLogin.action"/>
 	            <mvc:exclude-mapping path="/login/adminLogin.action"/> 

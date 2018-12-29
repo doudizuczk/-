@@ -165,7 +165,8 @@ public class CarLocationHandler {
 		if(count!=0) {
 			File file = new File(request.getRealPath("/images/"+dbName));
 			img.transferTo(file);
-			FileUtil.copyFile(file, new File("F:\\"+dbName));
+//			FileUtil.copyFile(file, new File("F:\\"+dbName));
+			FileUtil.copyFile(file, new File("C:\\Program Files (x86)\\"+dbName));
 		}
 		return count;
 	}
