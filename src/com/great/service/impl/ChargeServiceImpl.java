@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.great.bean.Charge;
 import com.great.bean.Dock;
@@ -54,6 +55,7 @@ public class ChargeServiceImpl implements IChargeService {
 	}
 	
 	//添加收费记录(返回值：收费id)
+	@Transactional
 	@Override
 	public int addCharge(Charge charge) {
 		// TODO Auto-generated method stub
@@ -124,8 +126,8 @@ public class ChargeServiceImpl implements IChargeService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return cost;
+		BigDecimal b = new BigDecimal(cost);
+		return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
 	//列表

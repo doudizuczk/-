@@ -42,7 +42,17 @@
       <url-pattern>*.action</url-pattern>
   </servlet-mapping>
   
-  
+<!--   https重定向 -->
+<!--   <security-constraint> -->
+<!--     <web-resource-collection> -->
+<!--         <web-resource-name>securedapp</web-resource-name> -->
+<!--         <url-pattern>/*</url-pattern> -->
+<!--     </web-resource-collection> -->
+<!--     <user-data-constraint> -->
+<!--         <transport-guarantee>CONFIDENTIAL</transport-guarantee> -->
+<!--         <transport-guarantee>NONE</transport-guarantee> -->
+<!--     </user-data-constraint> -->
+<!-- </security-constraint> -->
   
   
 </web-app>

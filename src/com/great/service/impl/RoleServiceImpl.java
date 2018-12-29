@@ -16,14 +16,14 @@ public class RoleServiceImpl implements IRoleService {
 	@Autowired
 	private RoleMapper RoleMapper;
 	
-	@Override//查询所有角色111111aaaaaaaa
+	@Override//查询所有角色
 	public List<Map<String, Object>> queryAllRoleList() {
 		// TODO Auto-generated method stub
 		List<Map<String, Object>> list = RoleMapper.queryAllRole();
 		return list;
 	}
 
-	@Override//1111111111111111111
+	@Override
 	public List<Map<String, Object>> queryRole(Role role) {
 		return RoleMapper.queryRole(role);
 	}

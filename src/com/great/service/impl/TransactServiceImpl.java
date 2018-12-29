@@ -99,7 +99,7 @@ public class TransactServiceImpl implements ITransactService {
 		String refund =df.format(ref);
 		return refund;
 	}
-
+	@Transactional
 	@Override//收费端<-----------------------------------------月缴退费--------------------------------------------------------------------------------->
 	//1.查询是否是临时车辆，2.临时车辆退现金，用户退余额。3.返回退费方式1=现金2=余额 。退费账户。退费金额
 	public int refundMoney(String carId,double money,int adminId) {//车牌.退款金额
@@ -147,6 +147,7 @@ public class TransactServiceImpl implements ITransactService {
 		return v;
 	}
 
+	@Transactional
 	@Override//<-------------------------------------------套餐办理主方法-------------------------------------------------------------------->
 	public Map<String, Object> carIdTransactPack(String carId, int packId) {
 		// TODO Auto-generated method stub
